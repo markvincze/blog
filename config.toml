@@ -1,7 +1,7 @@
-baseURL = "http://example.org/"
+baseURL = "https://blog.markvincze.com/"
 languageCode = "en-us"
-title = "My New Hugo Site"
-theme = "temple"
+title = "Mark Vincze"
+theme = "pupintor"
 
 # Enables Chroma-based syntax highlighting with theme "friendly"
 # See https://xyproto.github.io/splash/docs/ for other theme options
@@ -10,9 +10,9 @@ pygmentsStyle = "friendly"
 # highlight shortcodes
 pygmentsCodeFences = true
 
-[params]
+# [params]
   # Enables the topmenu, which pulls from categories
-  topmenu = "categories"
+  # topmenu = "categories"
 
 # Builds a list page for each category given
 [taxonomies]
@@ -20,12 +20,11 @@ pygmentsCodeFences = true
   category = "categories"
 
 [author]
-  name = "Temple Theme"
-  github = "github"
-  email = "your@email.com"
+  name = "Mark Vincze"
+  github = "markvincze"
+  email = "mrk.vincze@gmail.com"
   gaid = "Your Google Analytics ID"
-  twitter = "twitterID"
-  medium = "mediumUsername"
+  twitter = "mrkvincze"
 
 [permalinks]
   posts = "/:title"

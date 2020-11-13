@@ -1,9 +1,8 @@
 +++
 title = "Download artifacts from a latest GitHub release with bash and PowerShell"
-date = 2018-03-03T13:23:10+01:00
-draft = false
-tags = ["Getting started"]
-categories = []
+description = "Downloading artifacts for a particular GitHub release is easy, but to download artifacts from the latest release we need some extra steps in our scripts."
+date = "2016-07-09T22:45:38.0000000"
+tags = ["github", "bash", "powershell"]
 +++
 
 [Releases](https://help.github.com/articles/about-releases/) is an important feature of GitHub, with which we can publish packaged versions of our project.
@@ -47,7 +46,7 @@ Then we have to extract the value of the `tag_name` property, I used a regex for
 
 ```bash
 # The releases are returned in the format {"id":3622206,"tag_name":"hello-1.0.0.11",...}, we have to extract the tag_name.
-LATEST_VERSION=$(echo $LATEST_RELEASE | sed -e 's/.*"tag_name":"\\([^"]*\\)".*/\\1/')
+LATEST_VERSION=$(echo $LATEST_RELEASE | sed -e 's/.*"tag_name":"\([^"]*\)".*/\1/')
 ```
 
 Then we can build our download URL for a certain artifact.
