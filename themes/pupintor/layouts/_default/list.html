@@ -1,0 +1,20 @@
+{{ define "main" }}
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <h1 class="title is-3">{{ .Title }}</h1>
+
+{{ range .Pages.ByPublishDate.Reverse }}
+      <div>
+        <h1 class="title is-4 mb-2 mt-6"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h1>
+        {{ partial "date-and-tags.html" . }}
+        <p>
+          {{ .Description }}
+        </p>
+      </div>
+{{ end }}
+
+    </div>
+  </section>
+
+{{ end }}

@@ -10,7 +10,8 @@ pygmentsStyle = "friendly"
 # highlight shortcodes
 pygmentsCodeFences = true
 
-# [params]
+[params]
+  dateFormat = "Jan 2, 2006"
   # Enables the topmenu, which pulls from categories
   # topmenu = "categories"
 
