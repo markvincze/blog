@@ -1,5 +1,6 @@
 +++
 title = "Couchbase Server: tips for troubleshooting issues"
+slug = "couchbase-server-tips-for-troubleshooting-issues"
 description = "This blog post describes some quirks and issues with Couchbase Server which can make getting started with it more difficult and troublesome."
 date = "2016-01-10T15:45:00.0000000"
 tags = ["c#", ".net", "couchbase"]

@@ -1,5 +1,6 @@
 +++
 title = "Introducing Code Fragments extension in Visual Studio Code for managing snippets during presentations"
+slug = "introducing-code-fragments-extension-for-visual-studio-code"
 description = "Introducing a simple Visual Studio Code extension for saving pieces of code, and later easily insert them into source files, intended for coding demos."
 date = "2017-11-26T22:34:50.0000000"
 tags = ["visual studio", "visual studio code", "presenting"]

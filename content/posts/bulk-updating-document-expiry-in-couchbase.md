@@ -1,5 +1,6 @@
 +++
 title = "Bulk updating document expiry in Couchbase"
+slug = "bulk-updating-document-expiry-in-couchbase"
 description = "A simple approach to update the expiry of all the documents in a Couchbase bucket, using a view and a custom updater script."
 date = "2017-03-25T15:41:17.0000000"
 tags = ["couchbase"]

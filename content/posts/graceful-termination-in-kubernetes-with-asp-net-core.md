@@ -1,5 +1,6 @@
 +++
 title = "Graceful termination in Kubernetes with ASP.NET Core"
+slug = "graceful-termination-in-kubernetes-with-asp-net-core"
 description = "An overview of the challenges and solutions for implementing graceful termination when using ASP.NET Core in Kubernetes."
 date = "2019-01-06T16:56:05.0000000"
 tags = ["asp.net-core", "kubernetes"]

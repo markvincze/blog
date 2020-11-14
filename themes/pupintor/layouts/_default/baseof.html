@@ -5,14 +5,24 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ .Title }}</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
-  <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"> -->
+  <link rel="stylesheet" href="/styles/bulma.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.15.1/js/all.js"></script>
+  <script defer src="/scripts/scripts.js"></script>
 </head>
 
 <body>
-  <nav class="navbar" role="navigation" aria-label="main navigation">
-    <div class="navbar-menu">
-      <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+  <nav class="navbar container is-max-desktop" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+
+      <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+    <div id="navbarMenu" class="navbar-menu">
+      <div class="navbar-start">
         <a class="navbar-item" href="/">
           Home
         </a>
@@ -23,6 +33,23 @@
 
         <a class="navbar-item">
           Presentations
+        </a>
+      </div>
+      <div class="navbar-end pt-2 ml-2">
+        <a class="icon is-medium" href="https://twitter.com/mrkvincze">
+          <i class="fab fa-lg fa-twitter"></i>
+        </a>
+        <a class="icon is-medium">
+          <i class="fab fa-lg fa-github"></i>
+        </a>
+        <a class="icon is-medium">
+          <i class="fab fa-lg fa-stack-overflow"></i>
+        </a>
+        <a class="icon is-medium">
+          <i class="fab fa-lg fa-linkedin"></i>
+        </a>
+        <a class="icon is-medium">
+          <i class="fas fa-lg fa-rss"></i>
         </a>
       </div>
     </div>
@@ -41,7 +68,7 @@
 
   {{ block "main" . }}{{ end }}
 
-  <footer class="footer">
+  <footer class="footer py-6">
     <div class="content has-text-centered">
       <p>
         © 2020 <strong>Mark Vincze's</strong> coding blog. All rights reserved.

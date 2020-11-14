@@ -1,5 +1,6 @@
 +++
 title = "Two gotchas with scoped and singleton dependencies in ASP.NET Core"
+slug = "two-gotchas-with-scoped-and-singleton-dependencies-in-asp-net-core"
 description = "Two possible problems (and their solutions) we can run into when registering objects with various lifecycles with the DI container of ASP.NET Core."
 date = "2017-04-17T14:31:27.0000000"
 tags = ["c#", "asp.net-core", "dependency-injection"]

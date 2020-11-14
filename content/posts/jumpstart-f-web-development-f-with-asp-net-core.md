@@ -1,5 +1,6 @@
 +++
 title = "Jumpstart F# web development: F# with ASP.NET Core"
+slug = "jumpstart-f-web-development-f-with-asp-net-core"
 description = "An introduction to get started with web development in F#, using ASP.NET Core."
 date = "2017-02-26T20:25:14.0000000"
 tags = ["asp.net-core", "f#"]

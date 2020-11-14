@@ -1,5 +1,6 @@
 +++
 title = "Running ASP.NET Core in auto-scaling containers? Warm up!"
+slug = "running-asp-net-core-in-auto-scaling-containers-warm-up"
 description = "The first request to an ASP.NET Core API is always slow. This post shows a way how to warm up our application before deploying it to production."
 date = "2017-07-29T18:32:34.0000000"
 tags = ["web api", "asp.net-core", "kubernetes"]

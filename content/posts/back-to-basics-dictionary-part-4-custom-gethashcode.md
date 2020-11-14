@@ -1,5 +1,6 @@
 +++
 title = "Back to basics: Dictionary part 4, custom GetHashCode"
+slug = "back-to-basics-dictionary-part-4-custom-gethashcode"
 description = ""
 date = "2015-10-25T18:53:07.0000000"
 tags = ["c#", ".net", "basics", "computer science"]

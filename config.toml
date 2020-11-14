@@ -3,12 +3,8 @@ languageCode = "en-us"
 title = "Mark Vincze"
 theme = "pupintor"
 
-# Enables Chroma-based syntax highlighting with theme "friendly"
-# See https://xyproto.github.io/splash/docs/ for other theme options
-pygmentsStyle = "friendly"
-# If true, Chroma will highlight GitHub-style code fences in addition to
-# highlight shortcodes
-pygmentsCodeFences = true
+[markup.highlight]
+  style = "monokai"
 
 [params]
   dateFormat = "Jan 2, 2006"
@@ -28,4 +24,4 @@ pygmentsCodeFences = true
   twitter = "mrkvincze"
 
 [permalinks]
-  posts = "/:title"
+  posts = "/:filename"

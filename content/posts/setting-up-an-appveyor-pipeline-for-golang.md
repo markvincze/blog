@@ -1,5 +1,6 @@
 +++
 title = "Setting up an AppVeyor pipeline for Golang"
+slug = "setting-up-an-appveyor-pipeline-for-golang"
 description = "This post gives and Introduction to setting up a continuous delivery pipeline for a Golang-based project in AppVeyor."
 date = "2016-07-16T15:47:28.0000000"
 tags = ["golang", "appveyor"]

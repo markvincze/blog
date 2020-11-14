@@ -1,5 +1,6 @@
 +++
 title = "ASP.NET Core 1.0: hints to get started"
+slug = "getting-started-with-asp-net-core-1-0-tips-and-tricks"
 description = "Some random tips and tricks I have learnt during spending a couple of weeks with getting started with ASP.NET Core."
 date = "2016-02-14T16:30:58.0000000"
 tags = ["asp.net", "c#", ".net", ".net-core", "asp.net-core", "dnx"]

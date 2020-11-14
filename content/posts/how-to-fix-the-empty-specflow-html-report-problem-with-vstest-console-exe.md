@@ -1,5 +1,6 @@
 +++
 title = "How to fix the empty SpecFlow HTML report problem with vstest.console.exe"
+slug = "how-to-fix-the-empty-specflow-html-report-problem-with-vstest-console-exe"
 description = "The slightly changed TRX generation in vstest.console.exe causes SpecFlow to generate empty HTML reports. This can be fixed with a custom Logger."
 date = "2016-04-23T15:57:05.0000000"
 tags = ["specflow"]

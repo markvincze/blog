@@ -1,5 +1,6 @@
 +++
 title = "Setting up a Travis-CI pipeline for Golang"
+slug = "setting-up-a-travis-ci-pipeline-for-golang"
 description = "This post gives and Introduction to setting up a continuous delivery pipeline for a Golang-based project in Travis-CI."
 date = "2016-10-15T15:36:14.0000000"
 tags = ["golang", "travis"]

@@ -1,5 +1,6 @@
 +++
 title = "Jumpstart F# web development: F# with ASP.NET on classic .NET"
+slug = "jumpstart-f-web-development-f-with-asp-net-on-classic-net"
 description = "An introduction to get started with web development in F#, using ASP.NET on the classic .NET Framework."
 date = "2017-02-05T17:38:02.0000000"
 tags = ["asp.net", "web api", "f#"]

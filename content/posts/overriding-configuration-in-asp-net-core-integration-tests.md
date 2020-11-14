@@ -1,5 +1,6 @@
 +++
 title = "Overriding configuration in ASP.NET Core integration tests"
+slug = "overriding-configuration-in-asp-net-core-integration-tests"
 description = "This post gives an overview of the various ways to override configuration values in ASP.NET Core integration tests."
 date = "2020-02-24T23:25:09.0000000"
 tags = ["asp.net-core", "testing", "integration-testing"]

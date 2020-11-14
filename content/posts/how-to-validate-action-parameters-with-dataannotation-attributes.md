@@ -1,5 +1,6 @@
 +++
 title = "How to validate action parameters with DataAnnotation attributes?"
+slug = "how-to-validate-action-parameters-with-dataannotation-attributes"
 description = "A simple approach to evaluate DataAnnotation validation attributes not only on model properties, but on the action method parameters as well."
 date = "2016-02-28T14:23:00.0000000"
 tags = ["asp.net", "c#", ".net-core", "asp.net-core"]

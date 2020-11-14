@@ -1,5 +1,6 @@
 +++
 title = "Jumpstart F# web development: F# with Suave.IO on .NET Core"
+slug = "jumpstart-f-web-development-f-with-suave-io-on-net-core"
 description = "An introduction to get started with web development in F#, using the Suave web framework on .NET Core."
 date = "2017-03-12T12:51:45.0000000"
 tags = [".net-core", "f#", "suave"]

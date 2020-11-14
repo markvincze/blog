@@ -1,5 +1,6 @@
 +++
 title = "Download artifacts from a latest GitHub release with bash and PowerShell"
+slug = "download-artifacts-from-a-latest-github-release-in-sh-and-powershell"
 description = "Downloading artifacts for a particular GitHub release is easy, but to download artifacts from the latest release we need some extra steps in our scripts."
 date = "2016-07-09T22:45:38.0000000"
 tags = ["github", "bash", "powershell"]

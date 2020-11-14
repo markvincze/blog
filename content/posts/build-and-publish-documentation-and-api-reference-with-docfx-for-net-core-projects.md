@@ -1,5 +1,6 @@
 +++
 title = "Build and publish documentation and API reference with DocFx for .NET Core projects"
+slug = "build-and-publish-documentation-and-api-reference-with-docfx-for-net-core-projects"
 description = "This guide shows how to generate and publish API documentation for a .NET Core library, using DocFx, GitHub Pages and AppVeyor."
 date = "2017-11-17T00:00:34.0000000"
 tags = [".net-core", "appveyor", "docfx"]

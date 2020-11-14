@@ -1,5 +1,6 @@
 +++
 title = "Setting up Coveralls with OpenCover for a .NET Core project"
+slug = "setting-up-coveralls-for-a-net-core-project"
 description = "This post describes setting up coverage generation with OpenCover for a .NET Core project, and shows how the report can be uploaded to Coveralls."
 date = "2017-06-14T19:46:00.0000000"
 tags = [".net-core", "testing", "appveyor", "opencover", "coveralls"]

@@ -1,5 +1,6 @@
 +++
 title = "Automated, portable code style checking in .NET Core projects"
+slug = "automated-portable-code-style-checking-in-net-core-projects"
 description = "A quick introduction to setting up automated code style checking for .NET Core projects with StyleCopAnalyzers and editorconfig."
 date = "2018-07-08T15:48:55.0000000"
 tags = ["c#", ".net-core", "linting"]

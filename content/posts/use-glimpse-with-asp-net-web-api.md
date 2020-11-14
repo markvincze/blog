@@ -1,5 +1,6 @@
 +++
 title = "Use Glimpse with ASP.NET Web Api"
+slug = "use-glimpse-with-asp-net-web-api"
 description = "Glimpse is not fully supported for the Web Api, but it can still be a valuable tool."
 date = "2015-05-14T12:56:50.0000000"
 tags = ["asp.net", "mvc", "web api", "glimpse"]

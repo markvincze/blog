@@ -1,5 +1,6 @@
 +++
 title = "Troubleshooting high memory usage with ASP.NET Core on Kubernetes"
+slug = "troubleshooting-high-memory-usage-with-asp-net-core-on-kubernetes"
 description = "Chasing down why ASP.NET Core applications might use unreasonably much memory in Kubernetes, and how to it can be mitigated."
 date = "2017-08-17T21:15:39.0000000"
 tags = [".net-core", "asp.net-core", "kubernetes"]

@@ -1,5 +1,6 @@
 +++
 title = "NDC Oslo 2016 recap"
+slug = "ndc-oslo-2016-recap"
 description = "A summary of my experiences at NDC Oslo 2016, and excerpts from the sessions I found the most interesting."
 date = "2016-07-02T18:19:12.0000000"
 tags = ["ndc", "conference"]

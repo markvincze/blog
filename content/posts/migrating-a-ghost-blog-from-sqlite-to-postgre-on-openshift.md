@@ -1,5 +1,6 @@
 +++
 title = "Migrating a Ghost blog from SQLite to Postgre on OpenShift"
+slug = "migrating-a-ghost-blog-from-sqlite-to-postgre-on-openshift"
 description = "A guide about how to migrate a Ghost blog using SQLite to PostgreSQL running on Openshift."
 date = "2016-04-10T16:48:05.0000000"
 tags = ["ghost", "postgre", "sqlite", "openshift"]

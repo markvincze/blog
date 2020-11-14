@@ -1,5 +1,6 @@
 +++
 title = "A data model exercise in two languages, part 1: C#"
+slug = "a-data-model-exercise-in-two-languages-part-1-c"
 description = "A simple data model exercise illustrating some challenges we encounter when designing domain models in object oriented programming languages."
 date = "2017-05-04T19:29:25.0000000"
 tags = ["c#", "computer science", "f#"]

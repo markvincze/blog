@@ -1,5 +1,6 @@
 +++
 title = "Playing with the composition of the Kleisli category in C#"
+slug = "playing-with-the-composition-of-the-kleisli-category-in-c"
 description = "Taking a look at how the composition of the Kleisli category can be implemented in C#, and what are the limitations we have to face in type inference."
 date = "2017-04-19T21:27:16.0000000"
 tags = ["c#", "f#", "category-theory"]

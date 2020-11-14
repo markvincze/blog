@@ -1,5 +1,6 @@
 +++
 title = "Back to basics: Dictionary part 2, .NET implementation"
+slug = "back-to-basics-dictionary-part-2-net-implementation"
 description = "A look under the hood of Dictionary<TKey, TValue>, an overview of how the hash map data structure has been implemented in the .NET Framework."
 date = "2015-08-15T13:27:35.0000000"
 tags = ["c#", ".net", "basics", "computer science"]

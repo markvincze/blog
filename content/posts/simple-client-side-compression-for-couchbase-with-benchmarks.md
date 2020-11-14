@@ -1,5 +1,6 @@
 +++
 title = "Simple client-side compression for Couchbase - with benchmarks"
+slug = "simple-client-side-compression-for-couchbase-with-benchmarks"
 description = "Implementing client-side compression for Couchbase is pretty simple. In this post we take a look at what this costs us and how significant the benefits are."
 date = "2016-01-16T16:53:00.0000000"
 tags = ["c#", ".net", "couchbase"]

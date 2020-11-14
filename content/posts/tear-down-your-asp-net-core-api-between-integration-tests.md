@@ -1,5 +1,6 @@
 +++
 title = "Tear down your ASP.NET Core api between integration tests"
+slug = "tear-down-your-asp-net-core-api-between-integration-tests"
 description = "Static state in an ASP.NET Core application can cause problems when running subsequent integration tests. In this post we take a look at how to solve this."
 date = "2017-06-21T20:20:00.0000000"
 tags = ["c#", "couchbase", "asp.net-core", "testing", "integration-testing", "quartz.net"]
