@@ -16,12 +16,12 @@ theme = "pupintor"
   tag = "tags"
   category = "categories"
 
-[author]
-  name = "Mark Vincze"
-  github = "markvincze"
-  email = "mrk.vincze@gmail.com"
-  gaid = "Your Google Analytics ID"
-  twitter = "mrkvincze"
+# [author]
+#   name = "Mark Vincze"
+#   github = "markvincze"
+#   email = "mrk.vincze@gmail.com"
+#   gaid = "Your Google Analytics ID"
+#   twitter = "mrkvincze"
 
 [permalinks]
   posts = "/:filename"
