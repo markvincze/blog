@@ -4,6 +4,10 @@ branches:
   only:
   - master
 
+env:
+  global:
+    secure: "JJr1FObZGx5Q5FAjxSLFxFQOYUPuz06RbXPQPap6LzVq0bXw9m2uaylrFLqCGo/AyIkTHOl8HHu381GKxQMo38PqMPo+2oQoejBwQEwgpJVyw07/b1fQ+3oeyBi8dK99rKZ5qjxeZI132qJDHX0q+xjUh4KTOhIE90AhOOHlLfnsmBRUm1pZzxVhm6mWEh6rjKBr11xQ51x8yL/+9mVurT6F6nn1rF+6alsaNyFwDSkz/m2Ta/2aZooksURdsN1wQ93dBT6G+4cKAe1uJhd1OUOtbu87A+EpRSLfgpxEC64yvoeVylsBo+e08td4tdmZ2xQKo6SxiQqCwRcm1dG93cFXlMfrssmy5Pinw+tLHYSezRlZqqVuVKv5TQRIK/NFQZnvZ78UKAcpQAOugimNCfh5TD0YLkfFNtIbTvrk3HzdPen7QVy9WvbIrKzIcJuvVVTaEJxuA9epJXPwgvFrJaoGTqSihnGhXb5UCTpXLPdACx4RrTW931Rz/Ms8DYH49PBVZl8qrM5LH7DtgHNhaODQBWQYGsmFShOEBZuHvQ1vE8QQGAlKnlfRPrI/b7geGvN/k5VAzFAbyJKf37TZDSlVZ6ssnmuAVHqQyPf9m4KuYenhgz5mWxT8lD9IH/3WvrsATGUXmOdnleu5OyQ7xvCu4P0KObHmkZ++C66wyf8="
+
 install:
   - wget https://github.com/gohugoio/hugo/releases/download/v0.78.2/hugo_0.78.2_Linux-64bit.deb
   - sudo dpkg -i ./hugo_0.78.2_Linux-64bit.deb

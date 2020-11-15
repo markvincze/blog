@@ -12,7 +12,11 @@ rm -rf $TEMP_REPO_DIR
 mkdir $TEMP_REPO_DIR
 
 echo "Cloning the repo with the gh-pages branch"
-git clone https://github.com/markvincze/blog.git --branch gh-pages $TEMP_REPO_DIR
+git clone https://${GH_TOKEN}@github.com/markvincze/blog --branch gh-pages $TEMP_REPO_DIR
+if [ "$TRAVIS" == "true" ]; then
+    git config --global user.email "travis@travis-ci.org"
+    git config --global user.name "Travis"
+fi
 
 echo "Clear repo directory"
 cd $TEMP_REPO_DIR
