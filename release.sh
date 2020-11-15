@@ -23,7 +23,7 @@ cd $TEMP_REPO_DIR
 git rm -r *
 
 echo "Copy documentation into the repo"
-cp -r $SOURCE_DIR/public* .
+cp -r $SOURCE_DIR/public/* .
 
 echo "Push the new blog to the remote branch"
 git add . -A

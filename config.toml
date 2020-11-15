@@ -1,4 +1,5 @@
-baseURL = "https://blog.markvincze.com/"
+#baseURL = "https://blog.markvincze.com/"
+baseURL = "https://markvincze.github.io/blog/"
 languageCode = "en-us"
 title = "Mark Vincze"
 theme = "pupintor"
@@ -14,14 +15,7 @@ theme = "pupintor"
 # Builds a list page for each category given
 [taxonomies]
   tag = "tags"
-  category = "categories"
-
-# [author]
-#   name = "Mark Vincze"
-#   github = "markvincze"
-#   email = "mrk.vincze@gmail.com"
-#   gaid = "Your Google Analytics ID"
-#   twitter = "mrkvincze"
+  #category = "categories"
 
 [permalinks]
   posts = "/:filename"
