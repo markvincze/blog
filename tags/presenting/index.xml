@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>presenting on Mark Vincze</title>
+    <link>https://markvincze.github.io/blog/tags/presenting/</link>
+    <description>Recent content in presenting on Mark Vincze</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 26 Nov 2017 22:34:50 +0000</lastBuildDate><atom:link href="https://markvincze.github.io/blog/tags/presenting/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Introducing Code Fragments extension in Visual Studio Code for managing snippets during presentations</title>
+      <link>https://markvincze.github.io/blog/introducing-code-fragments-extension-for-visual-studio-code/</link>
+      <pubDate>Sun, 26 Nov 2017 22:34:50 +0000</pubDate>
+      
+      <guid>https://markvincze.github.io/blog/introducing-code-fragments-extension-for-visual-studio-code/</guid>
+      <description>Recently I started working on a simple Visual Studio Code extension I&amp;rsquo;d like to introduce in this post.
+Occasionally I do tech presentations, in which I usually like to do some live code demos. To make this smoother, Visual Studio has always had a really useful—although somewhat undocumented—feature, which makes it possible to save snippets of code, and easily insert them during the presentation, to save some typing.
+We can create such a &amp;ldquo;snippet&amp;rdquo; (not to be confused with actuala code snippets) by selecting a piece of code, and dropping it onto the Toolbox window.</description>
+    </item>
+    
+  </channel>
+</rss>

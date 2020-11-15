@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Running ASP.NET Core in auto-scaling containers? Warm up!</title>
+
+  
+  <link rel="stylesheet" href="/styles/bulma.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.15.1/js/all.js"></script>
+  <script defer src="/scripts/scripts.js"></script>
+  <link rel="icon" href="/favicon.png" type="image/png" />
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="The first request to an ASP.NET Core API is always slow. This post shows a way how to warm up our application before deploying it to production." />
+  <meta property="og:url" content="https://markvincze.github.io/blog/running-asp-net-core-in-auto-scaling-containers-warm-up/" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Running ASP.NET Core in auto-scaling containers? Warm up!" />
+  <meta property="og:description" content="The first request to an ASP.NET Core API is always slow. This post shows a way how to warm up our application before deploying it to production." />
+  
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@mrkvincze" />
+  <meta name="twitter:title" content="Running ASP.NET Core in auto-scaling containers? Warm up!" />
+  <meta name="twitter:description" content="The first request to an ASP.NET Core API is always slow. This post shows a way how to warm up our application before deploying it to production." />
+  
+
+</head>
+
+<body>
+  <div class="navbar-container">
+    <nav class="navbar container is-max-desktop" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+
+        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+      <div id="navbarMenu" class="navbar-menu">
+        <div class="navbar-start">
+          <a class="navbar-item" href="/">
+            Home
+          </a>
+
+          <a class="navbar-item" href="/posts">
+            Blog
+          </a>
+
+          <a class="navbar-item">
+            Presentations
+          </a>
+        </div>
+        <div class="navbar-end pt-2 ml-2">
+          <a class="icon is-medium" href="https://twitter.com/mrkvincze">
+            <i class="fab fa-lg fa-twitter"></i>
+          </a>
+          <a class="icon is-medium" href="https://www.github.com/markvincze">
+            <i class="fab fa-lg fa-github"></i>
+          </a>
+          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze">
+            <i class="fab fa-lg fa-stack-overflow"></i>
+          </a>
+          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze">
+            <i class="fab fa-lg fa-linkedin"></i>
+          </a>
+          <a class="icon is-medium" href="/index.xml">
+            <i class="fas fa-lg fa-rss"></i>
+          </a>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <a href="/">
+        <h1 class="title is-1">
+          Mark Vincze
+        </h1>
+      </a>
+      <h2 class="subtitle is-4">
+        Software Developer
+      </h2>
+    </div>
+  </div>
+
+  
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h1 class="title is-1">Running ASP.NET Core in auto-scaling containers? Warm up!</h1>
+    
+
+
+<p class="mb-3 is-vcentered">
+  <time class="has-text-grey" datetime="2017-07-29">Jul 29, 2017 &bull;</time>
+
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/web-api">web api</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/asp.net-core">asp.net-core</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/kubernetes">kubernetes</a>
+  
+
+</p>
+    <article class="content mt-6">
+      <p>ASP.NET Core APIs are not warmed up by default. This is easy to illustrate, let&rsquo;s scaffold a brand new empty api.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir warmuptest
+cd warmuptest
+dotnet new webapi
+dotnet restore
+dotnet run
+</code></pre></div><p>Then let&rsquo;s do two consecutive requests against the <code>/values</code> endpoint, and measure the response times. This is what we&rsquo;ll see.</p>
+<pre><code>$ curl -o /dev/null -s -w %{time_total}\\n http://localhost:5000/values
+0.594
+
+$ curl -o /dev/null -s -w %{time_total}\\n http://localhost:5000/values
+0.000
+
+$ curl -o /dev/null -s -w %{time_total}\\n http://localhost:5000/values
+0.000
+</code></pre><p>So you can see that the first request takes a disproportionately long time, around half a second, while the subsequent requests are much faster, they take a couple of milliseconds (for some requests <code>curl</code> reports <code>0.016</code> or <code>0.015</code>, and for some others, it says <code>0.000</code>, so I guess the measurement is not granular enough).</p>
+<p>I tried also to run the api with the flag <code>-c Release</code>, I also tried to publish <code>dotnet publish</code>, and I even tried to publish a self-contained exe (by adding the <code>RuntimeIdentifiers</code> to the csproj and using the <code>--runtime</code> flag with <code>dotnet publish</code>), but all of them had the same behavior.</p>
+<p>This can generally be an annoyance since the first request to our application will always be slightly slower.
+Still, if we have a monolithic application that we deploy to a server machine—let&rsquo;s say—once a day, we can probably live with this.</p>
+<p>On the other hand, if we have smaller APIs (I&rsquo;m trying to avoid using the term microservices ^^), and especially if we are running them in auto-scaling containers, for example in Kubernetes, this can become not just a slight annoyance, but a severe problem. Due to having many small APIs which we deploy often, we&rsquo;ll have more &ldquo;first requests&rdquo; than in a monolith, and if we are using auto-scaling, then this is going to happen not just after deployments, but every time our API is scaled out, or a container is recycled for any reason.</p>
+<p>And in more complex applications I encountered much worse first request response times, even more than 5 seconds. This resulted in having at least a handful of timeout errors in our logs every day.</p>
+<h1 id="the-cause-">The cause (?)</h1>
+<p>Let&rsquo;s get it out of the way: I don&rsquo;t know exactly what&rsquo;s causing the slowness of the first request.</p>
+<ul>
+<li>I suspected that the necessary assemblies were being loaded, so I added a piece of code to <code>Startup</code> which forced the loading of the assemblies, but that didn&rsquo;t help.</li>
+<li>JITting seemed to be another obvious offender. I was looking at forcing the JITting with <code>RuntimeHelpers.PrepareMethod</code>, but unfortunately that method is not available in .NET Core, so that wasn&rsquo;t an option.<br>
+We also looked at using <a href="https://github.com/dotnet/coreclr/blob/master/Documentation/building/crossgen.md">crossgen</a> to JIT the assembly at build time (thanks to my colleague, <a href="https://twitter.com/discosultan">Jaanus</a> for getting it to work and doing the test!), but that didn&rsquo;t help either.</li>
+</ul>
+<p>The only thing I can think of is that this caused by ASP.NET itself warming something up internally. I tried to set the log level to the most verbose but didn&rsquo;t get any message indicating what was going on. (The next step, of course, would be to grab the ASP.NET source and start measuring what&rsquo;s happening under the hood, but I haven&rsquo;t done that yet, especially since the 2.0 release is just around the corner, which might bring changes to the situation.)</p>
+<h1 id="a-solution">A solution</h1>
+<p>The only reliable solution I could find is not very scientific: after deployment, simply send a couple of warmup requests to the endpoints of the api. It&rsquo;s important to only send real traffic to the deployed instance (only add it to the load balancer, if we&rsquo;re using one) after the warmup is done so that our production system is not affected by the first slow requests.</p>
+<p>The way we can do this completely depends on what kind of hosting and deployment technique we are using. If we are using a script, which deploys the API to a server instance, and then adds it to the load balancer, then we&rsquo;ll simply have to do some warmup calls—for example with <code>curl</code>—between the deployment, and the load-balancer configuration.
+(If the deployment itself, and then enabling production traffic to the instance is not separated during our deployment, then we cannot do this, but in that case, we don&rsquo;t have zero-downtime deployments, so probably don&rsquo;t care that much about warming up anyway.)</p>
+<h2 id="warm-up-with-a-readiness-probe-in-kubernetes">Warm up with a readiness probe in Kubernetes</h2>
+<p>One specific setup I&rsquo;d like to show is the one when we use Kubernetes. That&rsquo;s the environment we&rsquo;re using to run our ASP.NET Core APIs at <a href="https://www.travix.com">Travix</a>, where I work.</p>
+<p>Kubernetes has the concept of a <a href="https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#define-readiness-probes">readiness probe</a>. The way it works is that a pod with a readiness probe will only get traffic once it&rsquo;s readiness probe has successfully returned a result. This is exactly what we need to do a warmup.</p>
+<p>In order to set this up, we&rsquo;ll need an endpoint in our application which will act as the readiness probe. We can implement this in a designated controller, in which we&rsquo;ll send a dummy request to our endpoint we want to exercise.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">using</span> System;
+<span style="color:#66d9ef">using</span> System.Net;
+<span style="color:#66d9ef">using</span> System.Net.Http;
+<span style="color:#66d9ef">using</span> System.Threading.Tasks;
+<span style="color:#66d9ef">using</span> Microsoft.AspNetCore.Mvc;
+
+<span style="color:#66d9ef">namespace</span> dotnettest.Controllers
+{
+<span style="color:#a6e22e">    [Route(&#34;[controller]</span><span style="color:#e6db74">&#34;)]
+</span><span style="color:#e6db74"></span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ReadyController</span> : Controller
+    {
+        <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">bool</span> isWarmedUp = <span style="color:#66d9ef">false</span>;
+
+        <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">string</span> GetFullUrl(<span style="color:#66d9ef">string</span> relativeUrl) =&gt;
+            <span style="color:#e6db74">$&#34;{Request.Scheme}://{Request.Host}{relativeUrl}&#34;</span>;
+
+        <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">async</span> Task Warmup()
+        {
+            <span style="color:#66d9ef">using</span> (<span style="color:#66d9ef">var</span> httpClient = <span style="color:#66d9ef">new</span> HttpClient())
+            {
+                <span style="color:#75715e">// Warm up the /values endpoint.
+</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">var</span> valuesUrl = GetFullUrl(Url.Action(<span style="color:#e6db74">&#34;Get&#34;</span>, <span style="color:#e6db74">&#34;Values&#34;</span>));
+                <span style="color:#66d9ef">await</span> httpClient.GetAsync(valuesUrl);
+
+                <span style="color:#75715e">// Here we could warm up some other endpoints too.
+</span><span style="color:#75715e"></span>            }
+
+            isWarmedUp = <span style="color:#66d9ef">true</span>;
+        }
+<span style="color:#a6e22e">
+</span><span style="color:#a6e22e">        [HttpGet, HttpHead]</span>
+        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">async</span> Task&lt;IActionResult&gt; Get()
+        {
+            <span style="color:#66d9ef">if</span> (!isWarmedUp)
+            {
+                <span style="color:#66d9ef">await</span> Warmup();
+            }
+
+            <span style="color:#66d9ef">return</span> Ok(<span style="color:#e6db74">&#34;API is ready!&#34;</span>);
+        }
+    }
+}
+</code></pre></div><p>(Note: I&rsquo;m aware that the implementation is not thread-safe, but the worst thing that can happen if we send two parallel requests to this endpoint is that we&rsquo;ll do the warmup multiple times, which I didn&rsquo;t consider to be a huge issue.)</p>
+<p>Now if we start the API, then send a request first to <code>/ready</code>, then to our actual endpoint, the first real API request will be fast.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ curl -o /dev/null -s -w %<span style="color:#f92672">{</span>time_total<span style="color:#f92672">}</span><span style="color:#ae81ff">\\</span>n http://localhost:5000/ready
+1.094
+
+$ curl -o /dev/null -s -w %<span style="color:#f92672">{</span>time_total<span style="color:#f92672">}</span><span style="color:#ae81ff">\\</span>n http://localhost:5000/values
+0.000
+</code></pre></div><p>The last step is to add the readiness probe to our <code>kubernetes.yaml</code> file.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">readinessProbe</span>:
+  <span style="color:#f92672">httpGet</span>:
+    <span style="color:#f92672">path</span>: <span style="color:#ae81ff">/ready</span>
+    <span style="color:#f92672">port</span>: <span style="color:#ae81ff">5000</span>
+  <span style="color:#f92672">initialDelaySeconds</span>: <span style="color:#ae81ff">10</span>
+  <span style="color:#f92672">timeoutSeconds</span>: <span style="color:#ae81ff">60</span>
+  <span style="color:#f92672">periodSeconds</span>: <span style="color:#ae81ff">60</span>
+</code></pre></div><p>This way Kubernetes will first send a request to <code>/ready</code>, and only start sending real traffic to our pod once that request is completed.</p>
+<h2 id="discover-our-endpoints-automatically">Discover our endpoints automatically</h2>
+<p>When doing this warmup for all of our various APIs, it became tedious to implement sending the actual requests since, in every API, the set of endpoints to warm up is different.</p>
+<p>To mitigate this, I implemented a simple <a href="https://github.com/markvincze/rest-api-helpers/blob/master/src/RestApiHelpers/Warmup/ApiWarmer.cs"><code>ApiWarmer</code></a>, which does the following.</p>
+<ul>
+<li>It discovers all the <code>Controller</code> types we have.</li>
+<li>Gets all the <code>GET</code> action methods of all the controllers.</li>
+<li>Sends a dummy request to all the endpoints.</li>
+</ul>
+<p>When sending the requests, it fills every input argument with a <code>default(T)</code> value, so for a string, it sends <code>&quot;&quot;</code>, for an int, it sends <code>0</code>, for a Guid, it sends <code>00000000-0000-0000-0000-000000000000</code>, etc.
+Now, this might be problematic in your use case, but in my experience, it&rsquo;s usually fine. It might result in some 404s if we pass in <code>0</code> as an identifier, or a 400 Bad Request if we send an empty Guid, but as long as the warm up works, that&rsquo;s fine.
+(Still, you&rsquo;ll have to verify if this is not a problem in your scenario, it can still be an issue for example if you&rsquo;re logging any <code>4xx</code> response, then this can mess up your statistics, etc.)</p>
+<p>In order to use the <code>ApiWarmer</code>, we have to set up the dependency in our <code>Startup</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">services.AddSingleton&lt;IApiWarmer, ApiWarmer&gt;();
+</code></pre></div><p>And instead of manually sending a request in <code>ReadyController</code>, use the <code>IApiWarmer</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">        <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">readonly</span> IServiceProvider serviceProvider;
+        <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">readonly</span> IApiWarmer apiWarmer;
+
+        <span style="color:#66d9ef">public</span> ReadyController(IServiceProvider serviceProvider, IApiWarmer apiWarmer)
+        {
+            <span style="color:#66d9ef">this</span>.serviceProvider = serviceProvider;
+            <span style="color:#66d9ef">this</span>.apiWarmer = apiWarmer;
+        }
+<span style="color:#a6e22e">
+</span><span style="color:#a6e22e">        [HttpGet, HttpHead]</span>
+        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">async</span> Task&lt;IActionResult&gt; Get()
+        {
+            <span style="color:#66d9ef">if</span> (!isWarmedUp)
+            {
+                <span style="color:#66d9ef">await</span> apiWarmer.WarmUp&lt;Startup&gt;(serviceProvider, Url, Request, <span style="color:#e6db74">&#34;Ready&#34;</span>);
+
+                isWarmedUp = <span style="color:#66d9ef">true</span>;
+            }
+
+            <span style="color:#66d9ef">return</span> Ok(<span style="color:#e6db74">&#34;API is ready!&#34;</span>);
+        }
+</code></pre></div><p>The last argument in the <code>WarmUp</code> call is the name of the controller from which we are initiating the warmup. This is important to pass in, otherwise, we might end up in an infinite loop of calls to <code>/ready</code>.</p>
+<p>The solution we&rsquo;ve seen is not super scientific, but it seems to work well in practice, so we can avoid getting random timeout errors on our first API requests.</p>
+<p>Did you find a more sophisticated way to do the warmup, or did you figure out what&rsquo;s the underlying cause of the first slow request? Any information is welcome in the comments! ;)</p>
+
+    </article>
+
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https:\/\/markvincze.github.io\/blog\/running-asp-net-core-in-auto-scaling-containers-warm-up\/';
+        
+        this.page.identifier = 'ghost-40';
+        
+      };
+      (function () { 
+        var d = document, s = d.createElement('script');
+        s.src = 'https://markvinczeblog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+
+
+  <footer class="footer py-6">
+    <div class="content has-text-centered">
+      <p>
+        © 2020 <strong>Mark Vincze</strong>. All rights reserved.<br />
+        Built with <a href="https://gohugo.io/">Hugo</a> and <a href="https://bulma.io/">Bulma</a>. 💙
+      </p>
+    </div>
+  </footer>
+
+</body>
+
+</html>

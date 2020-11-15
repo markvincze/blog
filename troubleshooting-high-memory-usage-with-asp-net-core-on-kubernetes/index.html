@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Troubleshooting high memory usage with ASP.NET Core on Kubernetes</title>
+
+  
+  <link rel="stylesheet" href="/styles/bulma.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.15.1/js/all.js"></script>
+  <script defer src="/scripts/scripts.js"></script>
+  <link rel="icon" href="/favicon.png" type="image/png" />
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Chasing down why ASP.NET Core applications might use unreasonably much memory in Kubernetes, and how to it can be mitigated." />
+  <meta property="og:url" content="https://markvincze.github.io/blog/troubleshooting-high-memory-usage-with-asp-net-core-on-kubernetes/" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Troubleshooting high memory usage with ASP.NET Core on Kubernetes" />
+  <meta property="og:description" content="Chasing down why ASP.NET Core applications might use unreasonably much memory in Kubernetes, and how to it can be mitigated." />
+  
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@mrkvincze" />
+  <meta name="twitter:title" content="Troubleshooting high memory usage with ASP.NET Core on Kubernetes" />
+  <meta name="twitter:description" content="Chasing down why ASP.NET Core applications might use unreasonably much memory in Kubernetes, and how to it can be mitigated." />
+  
+
+</head>
+
+<body>
+  <div class="navbar-container">
+    <nav class="navbar container is-max-desktop" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+
+        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+      <div id="navbarMenu" class="navbar-menu">
+        <div class="navbar-start">
+          <a class="navbar-item" href="/">
+            Home
+          </a>
+
+          <a class="navbar-item" href="/posts">
+            Blog
+          </a>
+
+          <a class="navbar-item">
+            Presentations
+          </a>
+        </div>
+        <div class="navbar-end pt-2 ml-2">
+          <a class="icon is-medium" href="https://twitter.com/mrkvincze">
+            <i class="fab fa-lg fa-twitter"></i>
+          </a>
+          <a class="icon is-medium" href="https://www.github.com/markvincze">
+            <i class="fab fa-lg fa-github"></i>
+          </a>
+          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze">
+            <i class="fab fa-lg fa-stack-overflow"></i>
+          </a>
+          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze">
+            <i class="fab fa-lg fa-linkedin"></i>
+          </a>
+          <a class="icon is-medium" href="/index.xml">
+            <i class="fas fa-lg fa-rss"></i>
+          </a>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <a href="/">
+        <h1 class="title is-1">
+          Mark Vincze
+        </h1>
+      </a>
+      <h2 class="subtitle is-4">
+        Software Developer
+      </h2>
+    </div>
+  </div>
+
+  
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h1 class="title is-1">Troubleshooting high memory usage with ASP.NET Core on Kubernetes</h1>
+    
+
+
+<p class="mb-3 is-vcentered">
+  <time class="has-text-grey" datetime="2017-08-17">Aug 17, 2017 &bull;</time>
+
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/.net-core">.net-core</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/asp.net-core">asp.net-core</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/kubernetes">kubernetes</a>
+  
+
+</p>
+    <article class="content mt-6">
+      <p>At work we are running several ASP.NET Core APIs on the hosted version of Kubernetes in the Google Cloud (GCE—Google Container Engine). In almost all of our components we noticed that they had unreasonably high memory usage. The resource limit for memory was set to 500MB, and still, many of our—relatively small—APIs were constantly being restarted by Kubernetes due to exceeding the memory limit.</p>
+<p>These graphs show the memory usage of two of our APIs, you can see that they keep increasing until they reach the memory limit, when Kubernetes restarts them.</p>
+<p><img src="/images/2017/08/increasing-memory-1.png" alt="Graph showing the increasing memory usage of two APIs."></p>
+<p>We automatically thought that our APIs had memory leaks, and spent quite a lot of time investigating the issue, checking the allocations with Visual Studio, creating memory dumps, but couldn&rsquo;t find anything.</p>
+<p>We also tried various different ways to reproduce the problem in our development environment.</p>
+<ul>
+<li>in dev configuration in VS</li>
+<li>on Windows with a production build</li>
+<li>on Ubuntu with a production build</li>
+<li>in Docker, using the actual production image</li>
+</ul>
+<p>But none of these environments produced the same high (&gt;500MB) memory consumption, they increased until 100-150MB, and then stopped.</p>
+<p>In the meantime, just to mitigate the continuous restarts of our containers we increased the memory limit from 500MB to 1000MB, which led to an interesting find. After increasing the limit, the memory usage of the containers looked like this.</p>
+<p><img src="/images/2017/08/memory-1G.png" alt="Memory usage after increasing the limit to 1000MB."></p>
+<p>The memory usage didn&rsquo;t increase infinitely any more (as I thought before), but it capped at around 600MB, and this number seemed to be pretty consistent between different container instances and restarts.</p>
+<p>This was a pretty clear indication that we are not actually leaking, but simply a lot of memory is being allocated without any of it getting released. So I started looking into what .NET thinks its memory limit is when running in Kubernetes.</p>
+<p>Kubernetes runs the applications in Docker images, and with Docker the container receives the memory limit through the <code>--memory</code> flag of the <code>docker run</code> command. So I was wondering that maybe Kubernetes is not passing in any memory limit, and the .NET process thinks that the machine has a lot of available memory.<br>
+This is not the case, we can find the contrary in <a href="https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/">the documentation</a>.</p>
+<blockquote>
+<p>The <code>spec.containers[].resources.limits.memory</code> is converted to an integer, and used as the value of the <code>--memory</code> flag in the docker run command.</p>
+</blockquote>
+<p>So this seemed to be another dead end. I also tried to run the API in Docker on my machine and pass in various limits in the <code>--memory</code> flag, but a) I couldn&rsquo;t reproduce the ~600MB memory usage, it stayed at ~150MB and b) also didn&rsquo;t observe the container running over its limit, even if I specified a lower value than 150MB, the container stayed exactly under the limit.</p>
+<p>Earlier I also posted about this problem on Github under one of the memory leak issues related to Kestrel, and at this point, Tim Seaward sent an interesting <a href="https://github.com/aspnet/KestrelHttpServer/issues/1260#issuecomment-321664920">suggestion</a> about checking what&rsquo;s the CPU Core count reported to my application on the various environments, since that can affect the memory usage a great deal.</p>
+<p>I tried printing <code>Environment.ProcessorCount</code> on all environments, and I saw the following values.</p>
+<ul>
+<li>On my machine, just doing dotnet run, the value was <code>4</code>.</li>
+<li>On my machine, with Docker, it was <code>1</code>.</li>
+<li>On Google Cloud Kubernetes it was <code>8</code>.</li>
+</ul>
+<p>This can finally give an explanation, because the CPU count greatly affects the amount of memory .NET will use with Server GC, as it&rsquo;s explained in the same issue by Ben Adams and Tim Seaward. The more CPU counts we have, the higher amount of memory we&rsquo;ll end up using. (It&rsquo;s still not 100% clear to me what&rsquo;s the exact relationship between the type of GC, the number of cores, and the amount of memory a .NET application will hold on a given server, though <a href="https://docs.microsoft.com/en-us/dotnet/standard/garbage-collection/fundamentals">this post</a> contains some information.)</p>
+<p>The suggestion was to switch from Server GC to Workstation GC, which optimizes for lower memory usage. The switch can be done by adding this flag to our csproj file.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml">  <span style="color:#f92672">&lt;PropertyGroup&gt;</span> 
+    <span style="color:#f92672">&lt;ServerGarbageCollection&gt;</span>false<span style="color:#f92672">&lt;/ServerGarbageCollection&gt;</span>
+  <span style="color:#f92672">&lt;/PropertyGroup&gt;</span>
+</code></pre></div><p>Doing this change and redeploying the API resulted in the following graph (the blue line shows the new deployment).</p>
+<p><img src="/images/2017/08/memory-workstation.png" alt="Memory usage after switching to Workstation GC."></p>
+<p>Workstation GC made the application be much more conservative in terms of memory usage, and decreased the average from ~600 MB to ~100-150MB. Supposedly Workstation GC can do this by sacrificing some of the performance and throughput that Server GC can provide, but so far I didn&rsquo;t notice any degradation in speed or throughput, although this is not a particularly performance-critical API.</p>
+<p>The important takeaway from this story is that the exact environment (OS, available memory, number of CPU cores) is crucial when troubleshooting memory issues because they can affect the .NET GC a great deal. And since there are many awesome folks in the .NET community happy to help, never hesitate to ask a question if you get stuck. ;)</p>
+
+    </article>
+
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https:\/\/markvincze.github.io\/blog\/troubleshooting-high-memory-usage-with-asp-net-core-on-kubernetes\/';
+        
+        this.page.identifier = 'ghost-41';
+        
+      };
+      (function () { 
+        var d = document, s = d.createElement('script');
+        s.src = 'https://markvinczeblog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+
+
+  <footer class="footer py-6">
+    <div class="content has-text-centered">
+      <p>
+        © 2020 <strong>Mark Vincze</strong>. All rights reserved.<br />
+        Built with <a href="https://gohugo.io/">Hugo</a> and <a href="https://bulma.io/">Bulma</a>. 💙
+      </p>
+    </div>
+  </footer>
+
+</body>
+
+</html>

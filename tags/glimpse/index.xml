@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>glimpse on Mark Vincze</title>
+    <link>https://markvincze.github.io/blog/tags/glimpse/</link>
+    <description>Recent content in glimpse on Mark Vincze</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 14 May 2015 12:56:50 +0000</lastBuildDate><atom:link href="https://markvincze.github.io/blog/tags/glimpse/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Use Glimpse with ASP.NET Web Api</title>
+      <link>https://markvincze.github.io/blog/use-glimpse-with-asp-net-web-api/</link>
+      <pubDate>Thu, 14 May 2015 12:56:50 +0000</pubDate>
+      
+      <guid>https://markvincze.github.io/blog/use-glimpse-with-asp-net-web-api/</guid>
+      <description>Glimpse is a wonderful tool for getting an insight into the mechanisms happening in an ASP.NET application. It inspects every request processed by our app, and displays its UI either embedded into our web site, or on a standalone page at a different URL.
+The current version of Glimpse (1.9.2 at the time of writing this) only has proper support for ASP.NET Web Forms and MVC, and not for the Web Api.</description>
+    </item>
+    
+  </channel>
+</rss>

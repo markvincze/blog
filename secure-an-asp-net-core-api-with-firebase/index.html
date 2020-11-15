@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Secure an ASP.NET Core api with Firebase</title>
+
+  
+  <link rel="stylesheet" href="/styles/bulma.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.15.1/js/all.js"></script>
+  <script defer src="/scripts/scripts.js"></script>
+  <link rel="icon" href="/favicon.png" type="image/png" />
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="How to secure an ASP.NET Core application with Firebase Authentication by verifying the access tokens in the Authorization header." />
+  <meta property="og:url" content="https://markvincze.github.io/blog/secure-an-asp-net-core-api-with-firebase/" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Secure an ASP.NET Core api with Firebase" />
+  <meta property="og:description" content="How to secure an ASP.NET Core application with Firebase Authentication by verifying the access tokens in the Authorization header." />
+  
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@mrkvincze" />
+  <meta name="twitter:title" content="Secure an ASP.NET Core api with Firebase" />
+  <meta name="twitter:description" content="How to secure an ASP.NET Core application with Firebase Authentication by verifying the access tokens in the Authorization header." />
+  
+
+</head>
+
+<body>
+  <div class="navbar-container">
+    <nav class="navbar container is-max-desktop" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+
+        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+      <div id="navbarMenu" class="navbar-menu">
+        <div class="navbar-start">
+          <a class="navbar-item" href="/">
+            Home
+          </a>
+
+          <a class="navbar-item" href="/posts">
+            Blog
+          </a>
+
+          <a class="navbar-item">
+            Presentations
+          </a>
+        </div>
+        <div class="navbar-end pt-2 ml-2">
+          <a class="icon is-medium" href="https://twitter.com/mrkvincze">
+            <i class="fab fa-lg fa-twitter"></i>
+          </a>
+          <a class="icon is-medium" href="https://www.github.com/markvincze">
+            <i class="fab fa-lg fa-github"></i>
+          </a>
+          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze">
+            <i class="fab fa-lg fa-stack-overflow"></i>
+          </a>
+          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze">
+            <i class="fab fa-lg fa-linkedin"></i>
+          </a>
+          <a class="icon is-medium" href="/index.xml">
+            <i class="fas fa-lg fa-rss"></i>
+          </a>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <a href="/">
+        <h1 class="title is-1">
+          Mark Vincze
+        </h1>
+      </a>
+      <h2 class="subtitle is-4">
+        Software Developer
+      </h2>
+    </div>
+  </div>
+
+  
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h1 class="title is-1">Secure an ASP.NET Core api with Firebase</h1>
+    
+
+
+<p class="mb-3 is-vcentered">
+  <time class="has-text-grey" datetime="2017-08-22">Aug 22, 2017 &bull;</time>
+
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/asp.net-core">asp.net-core</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/security">security</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/firebase">firebase</a>
+  
+
+</p>
+    <article class="content mt-6">
+      <h1 id="introduction">Introduction</h1>
+<p><strong>Update</strong>: Updated the code samples according to the changes introduced in .NET 2.0.</p>
+<p><a href="https://firebase.google.com/">Firebase</a> is an application development framework and infrastructure provided by Google. It offers a handful of services, like Storage, Analytics, Notifications and Hosting, mainly targeted to mobile application developers.</p>
+<p>At first I was a bit confused by Firebase, since its functionality seems to overlap with Google&rsquo;s generic cloud environment, the Google Cloud Platform, which has—among many other things—similar features.<br>
+There are questions about the relation between them in many forums, so I&rsquo;m not the only one who was puzzled by this.</p>
+<p>It seems that Google simply tries to differentiate between two separate offerings, where Google Cloud Platform (GCP) is the core infrastructure, providing many different lower level building blocks.<br>
+On the other hand, Firebase (which is mostly built on top of GCP under the hood) is a simpler framework offering fewer, higher level services.</p>
+<p>To me it makes sense to build a higher level, easier to understand framework on top of GCP, since the number of different services offered in the Cloud Platform can be somewhat overwhelming, if all we want is a couple of simple api endpoints for our mobile application.</p>
+<p><img src="/images/2016/12/gcp-services.png" alt="Offerings of the Google Cloud Platform"></p>
+<p>And of course it&rsquo;s not only the Google cloud which has this sort of &ldquo;feature creep&rdquo;—Azure and Amazon AWS have the same problem. I find the the service overview page of AWS the scariest :).</p>
+<p><img src="/images/2016/12/aws-services.png" alt="Offerings of Amazon AWS"></p>
+<h2 id="authentication">Authentication</h2>
+<p>The only Firebase service I&rsquo;m going to focus on in this post is <a href="https://firebase.google.com/docs/auth/">Authentication</a>. It supports multiple authentication providers, you can use a custom email/password combination, you can hook in your own user store, or you can use third-party providers, like Google, Facebook or Twitter accounts. Then, in your application you can handle authentication with all these providers in a unified way.</p>
+<p>In this post what I&rsquo;m going to describe is not how to implement the sign-in part, that&rsquo;s well documented on the <a href="https://firebase.google.com/docs/auth/">Firebase site</a>, it has official SDK support for Android, iOS and web applications.</p>
+<p>The scenario I&rsquo;ll write about is when you want to secure your ASP.NET Core api to be only accessed by already logged in users. A typical scenario is a single-page web application, or a mobile app, in which the sign-in is already implemented with Firebase, so the application already received a JWT access token (called the ID token). This token can be verified in our service by a standard JWT library, which is luckily already available in ASP.NET Core.</p>
+<h1 id="configuring-aspnet">Configuring ASP.NET</h1>
+<p>We can use the package <a href="https://www.nuget.org/packages/Microsoft.AspNetCore.Authentication.JwtBearer/">Microsoft.AspNetCore.Authentication.JwtBearer</a> to secure our api with Firebase. This package includes a middleware for automatically verifying JWT tokens coming in the <code>Authorization</code> header from the client on every request.</p>
+<p>I couldn&rsquo;t find any documentation about using this specifically with Firebase. Most of the blog posts about setting up this middleware were targeted for the scenario in which our api knows the symmetric key used by the authentication provider, and gets it from some form of secure configuration parameter.</p>
+<p>In my case the scenario was different. I didn&rsquo;t want to create a new token, I just wanted to verify an existing token issued by Firebase.<br>
+In order just to verify an id token, we only have to know the public part of the asymmetric key being used to sign the token. And since the public key is not a secret, we won&rsquo;t need secure configuration, the key is published through a public endpoint of our Firebase service.</p>
+<p>Since the JwtBearer middleware supports a <a href="https://github.com/AzureAD/azure-activedirectory-identitymodel-extensions-for-dotnet/blob/master/src/Microsoft.IdentityModel.Tokens/TokenValidationParameters.cs">wide range of options</a> to be set, it took some experimenting before I managed to find the set of options that work with the tokens issued by Firebase.</p>
+<h2 id="set-up-the-middleware">Set up the middleware</h2>
+<p>In order to verify the token in the <code>Authorization</code> header on every request, we need to add some code to our <code>Startup</code> class to wire up the authentication middleware.</p>
+<p>The way to do this changed with the 2.0 version of ASP.NET Core, in the following sections we&rsquo;ll see an example of the setup for both versions.</p>
+<h3 id="net-20">.NET 2.0</h3>
+<p>In our <code>ConfigureServices</code> method we need to register the services necessary to handle authentication, and to specify the parameters of our Firebase project.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">services
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =&gt;
+    {
+        options.Authority = <span style="color:#e6db74">&#34;https://securetoken.google.com/my-firebase-project&#34;</span>;
+        options.TokenValidationParameters = <span style="color:#66d9ef">new</span> TokenValidationParameters
+        {
+            ValidateIssuer = <span style="color:#66d9ef">true</span>,
+            ValidIssuer = <span style="color:#e6db74">&#34;https://securetoken.google.com/my-firebase-project&#34;</span>,
+            ValidateAudience = <span style="color:#66d9ef">true</span>,
+            ValidAudience = <span style="color:#e6db74">&#34;my-firebase-project&#34;</span>,
+            ValidateLifetime = <span style="color:#66d9ef">true</span>
+        };
+    });
+</code></pre></div><p>Then in our <code>Configure</code> method we have to do one simple call to register the actual middleware that will handle the authentication.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">app.UseAuthentication();
+</code></pre></div><h3 id="net-1x">.NET 1.X</h3>
+<p>In .NET 1.X the whole setup happens in the <code>Configure</code> method, we have to call the <code>UseJwtBearerAuthentication</code> extension method to wire up the middleware, and pass in the parameters of our Firebase project.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">app.UseJwtBearerAuthentication(<span style="color:#66d9ef">new</span> JwtBearerOptions
+{
+    AutomaticAuthenticate = <span style="color:#66d9ef">true</span>,
+    Authority = <span style="color:#e6db74">&#34;https://securetoken.google.com/my-firebase-project&#34;</span>,
+    TokenValidationParameters = <span style="color:#66d9ef">new</span> TokenValidationParameters
+    {
+        ValidateIssuer = <span style="color:#66d9ef">true</span>,
+        ValidIssuer = <span style="color:#e6db74">&#34;https://securetoken.google.com/my-firebase-project&#34;</span>,
+        ValidateAudience = <span style="color:#66d9ef">true</span>,
+        ValidAudience = <span style="color:#e6db74">&#34;my-firebase-project&#34;</span>,
+        ValidateLifetime = <span style="color:#66d9ef">true</span>
+    }
+});
+</code></pre></div><h3 id="what-does-it-do">What does it do?</h3>
+<p>In the code samples, <code>my-firebase-project</code> is your project ID in Firebase.<br>
+The middleware is going to verify the <code>Authorization</code> header on every request, check if it is signed with the correct private key, and verify if it contains the specified issuer and audience, so that it was issued specifically by our Firebase project. (The <a href="https://firebase.google.com/docs/auth/admin/verify-id-tokens">Firebase documentation</a> also describes what has to be done if we would want to implement this verification ourselves.)</p>
+<p>If the verification is successful, it is going to store the user information together with all its claims in <code>HttpContext.User</code>, and <code>HttpContext.User.Identity.IsAuthenticated</code> will be true.</p>
+<p>How to proceed after this is up to you: you can either use the built-in <code>Authorize</code> header on your controllers. If you put <code>[Authorize]</code> on top of a controller or an action, ASP.NET will return a 401 response if the request doesn&rsquo;t have a valid token in the <code>Authorization</code> header.<br>
+Or you can implement your own code that does some custom verification based on <code>HttpContext.User</code>.</p>
+<h3 id="gotcha">Gotcha</h3>
+<p>As Valeriy points out in the comments, you have to make sure to add the Jwt authentication middleware to the pipeline earlier than the MVC routing pipeline, so have the line <code>app.UseAuthentication</code> (or <code>app.UseJwtBearerAuthentication(...)</code> in case of .NET 1.X) before <code>app.UseMvc()</code>. Or if you use any kind of other middleware which does authorization based on <code>HttpContext.User</code>, that has to come in the pipeline after the authentication middleware.
+This is important because what the authentication middleware does is that it checks the value of the <code>Authorization</code> header, and based on that it populates <code>HttpContext.User</code>. And that&rsquo;s what the <code>Authorize</code> filter is using, so populating this data has to happen before the Mvc routing middleware executes, otherwise the authorization will always fail.</p>
+<h3 id="update-how-does-token-signing-work">Update: How does token signing work?</h3>
+<p>There was some interesting discussion in the comments and in <a href="https://stackoverflow.com/questions/42336950/firebase-authentication-jwt-with-net-core/42410233">this SO question</a>, so I added this section to clarify how the token signing works.</p>
+<p>The following diagram illustrates the (simplified) architecture and flow of using Firebase for authentication from an ASP.NET application.</p>
+<p><img src="/images/2017/02/firebase-auth-architecture-small-1.png" alt="Diagram illustrating the architecture and flow of using Firebase for authentication from an ASP.NET application."></p>
+<p>During signing in and accessing a secure endpoint, the following steps are involved.</p>
+<ol>
+<li>When our application starts up (and then later also periodically) the <code>JwtBearerMiddleware</code> calls <code>https://securetoken.google.com/my-firebase-project/.well-known/openid-configuration</code> (you can see more details in the <a href="https://github.com/aspnet/Security/blob/22d2fe99c6fd9806b36025399a217a3a8b4e50f4/src/Microsoft.AspNetCore.Authentication.JwtBearer/JwtBearerMiddleware.cs#L81">Source code</a>). From there, it navigates to <code>https://www.googleapis.com/service_accounts/v1/jwk/securetoken@system.gserviceaccount.com</code>, where the current public keys of Google are accessible.
+It&rsquo;s important that when we&rsquo;re using a public key asymmetric cryptosystem, the <em>public key is not kept as a secret</em>, but it is published in plain sight. That&rsquo;s what all the clients will be able to use to verify if something was signed by the private key (which is really a secret, and only the owner can have access to it).</li>
+<li>A client signs in using their credential through Firebase. Firebase supports a variety of identity providers, it doesn&rsquo;t matter which one the user is using (Facebook, Google, Twitter, etc.).</li>
+<li>If the signin was successful, then Firebase constructs a JWT token for the client. A crucial part of this token is that <strong>it&rsquo;s signed using the private key of the key pair</strong>. In contrast to the public key, the private key is never exposed publicly, it is kept as a secret inside Google&rsquo;s infrastructure. If a private key gets compromised, that means that any attacker having access to it is able to create valid JWT tokens.</li>
+<li>The client receives the JWT token.</li>
+<li>The client calls a secure endpoint on our Api, and puts the token in the <code>Authorization</code> header.
+At this point the <code>JwtBearerMiddleware</code> in the pipeline checks this token, and verifies if it&rsquo;s valid (if it was signed with Google&rsquo;s private key). The important thing to realize here is that in order to do the verification, our Api <em>does not need to have access to the private key</em>. Only the public key is necessary to do that. After verification, the middleware populates <code>HttpContext.User</code>, and <code>HttpContext.User.Identity.IsAuthenticated</code> accordingly.</li>
+</ol>
+<p>You can find an even simpler description of this concept on the <a href="https://en.wikipedia.org/wiki/RSA_(cryptosystem)#Signing_messages">RSA Wikipedia page</a>.</p>
+
+    </article>
+
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https:\/\/markvincze.github.io\/blog\/secure-an-asp-net-core-api-with-firebase\/';
+        
+        this.page.identifier = 'ghost-28';
+        
+      };
+      (function () { 
+        var d = document, s = d.createElement('script');
+        s.src = 'https://markvinczeblog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+
+
+  <footer class="footer py-6">
+    <div class="content has-text-centered">
+      <p>
+        © 2020 <strong>Mark Vincze</strong>. All rights reserved.<br />
+        Built with <a href="https://gohugo.io/">Hugo</a> and <a href="https://bulma.io/">Bulma</a>. 💙
+      </p>
+    </div>
+  </footer>
+
+</body>
+
+</html>

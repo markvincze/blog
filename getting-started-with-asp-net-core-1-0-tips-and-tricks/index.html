@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>ASP.NET Core 1.0: hints to get started</title>
+
+  
+  <link rel="stylesheet" href="/styles/bulma.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.15.1/js/all.js"></script>
+  <script defer src="/scripts/scripts.js"></script>
+  <link rel="icon" href="/favicon.png" type="image/png" />
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Some random tips and tricks I have learnt during spending a couple of weeks with getting started with ASP.NET Core." />
+  <meta property="og:url" content="https://markvincze.github.io/blog/getting-started-with-asp-net-core-1-0-tips-and-tricks/" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="ASP.NET Core 1.0: hints to get started" />
+  <meta property="og:description" content="Some random tips and tricks I have learnt during spending a couple of weeks with getting started with ASP.NET Core." />
+  
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@mrkvincze" />
+  <meta name="twitter:title" content="ASP.NET Core 1.0: hints to get started" />
+  <meta name="twitter:description" content="Some random tips and tricks I have learnt during spending a couple of weeks with getting started with ASP.NET Core." />
+  
+
+</head>
+
+<body>
+  <div class="navbar-container">
+    <nav class="navbar container is-max-desktop" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+
+        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+      <div id="navbarMenu" class="navbar-menu">
+        <div class="navbar-start">
+          <a class="navbar-item" href="/">
+            Home
+          </a>
+
+          <a class="navbar-item" href="/posts">
+            Blog
+          </a>
+
+          <a class="navbar-item">
+            Presentations
+          </a>
+        </div>
+        <div class="navbar-end pt-2 ml-2">
+          <a class="icon is-medium" href="https://twitter.com/mrkvincze">
+            <i class="fab fa-lg fa-twitter"></i>
+          </a>
+          <a class="icon is-medium" href="https://www.github.com/markvincze">
+            <i class="fab fa-lg fa-github"></i>
+          </a>
+          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze">
+            <i class="fab fa-lg fa-stack-overflow"></i>
+          </a>
+          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze">
+            <i class="fab fa-lg fa-linkedin"></i>
+          </a>
+          <a class="icon is-medium" href="/index.xml">
+            <i class="fas fa-lg fa-rss"></i>
+          </a>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <a href="/">
+        <h1 class="title is-1">
+          Mark Vincze
+        </h1>
+      </a>
+      <h2 class="subtitle is-4">
+        Software Developer
+      </h2>
+    </div>
+  </div>
+
+  
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h1 class="title is-1">ASP.NET Core 1.0: hints to get started</h1>
+    
+
+
+<p class="mb-3 is-vcentered">
+  <time class="has-text-grey" datetime="2016-02-14">Feb 14, 2016 &bull;</time>
+
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/asp.net">asp.net</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/c">c#</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/.net">.net</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/.net-core">.net-core</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/asp.net-core">asp.net-core</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/dnx">dnx</a>
+  
+
+</p>
+    <article class="content mt-6">
+      <p>I recently started working on implementing a Web Api application using ASP.NET Core 1.0, running it on Linux with the CoreCLR.</p>
+<p>There have been many changes introduced in this new version of ASP.NET, and there are also differences in how we are running and deploying applications using CoreCLR, so I&rsquo;m going to document a couple of things you might encounter if you get started with using this new ecosystem.</p>
+<h2 id="version-numbers">Version numbers</h2>
+<p>It is quite easy to get lost in the sea of different products and version numbers. In the following table I&rsquo;ll try to summarize the ones related to ASP.NET in the existing and the upcoming release.</p>
+<!-- raw HTML omitted -->
+<p>One thing to keep in mind is that Core 1.0 of ASP.NET and EF shouldn&rsquo;t necessarily be considered as the the latest updates to which everybody should update. The reasoning behind the 1.0 version number is that these are new, standalone technologies which will live alongside the existing ASP.NET 4.6 and EF 6 releases.</p>
+<p>The reason for this is that they have been reimplemented in a cross-platform way using .NET Core 1.0, so they are less mature, and not as full-featured as their existing counterparts. Thus, if somebody does not need to target Linux, they might be better off sticking to the older versions, since for the time being those are more reliable, and have more features and wider support.</p>
+<h2 id="api-changes">Api changes</h2>
+<p>ASP.NET Core 1.0 is a rewrite of the ASP.NET platform, so many of the Apis changed. If you find out that one of your favorite framework classes or methods has disappeared, don&rsquo;t worry. Usually, the same functionality still exists, it just has been moved or renamed.</p>
+<p>If you can&rsquo;t find something, simply googling for the method or class name can often help. And because the development is being done in the open, you can also search in the source code on <a href="https://github.com/aspnet">Github</a> to find a particular feature.</p>
+<p>If you want to figure out the NuGet package in which a certain framework class resides, you can use the great <a href="http://packagesearch.azurewebsites.net/">Reverse package search</a> tool.</p>
+<h3 id="mvc-vs-web-api">MVC vs Web Api</h3>
+<p>One of the reasons for the Api changes is that the distinction between Web Api and MVC will cease to exist, and from now on they are unified in a single framework called <strong>MVC</strong>, of which version 6 will be the current release.</p>
+<p>I&rsquo;m really happy about this change, there will be no more distinction between the types we need to use to implement MVC and Web Api controllers.</p>
+<p>In the previous version we had to use different base classes for the different controllers, <code>Controller</code> was the base class for MVC, and <code>ApiController</code> was the one for Web Api. Similarly, we needed to use two different classes for other aspects too, for example the base class of an action filter had to be <code>System.Web.MVC.ActionFilterAttribute</code> for MVC, and <code>System.Web.Http.Filters.ActionFilterAttribute</code> for Web Api. Now all these classes are unified.</p>
+<p>This makes it much easier and less confusing to mix and match the two, and have endpoints in a single application (or even in the same Controller) returning HTML content and Json or XML data.</p>
+<h2 id="introducing-projectjson">Introducing project.json</h2>
+<p>One of the new concepts introduced in ASP.NET Core 1.0 is the new project file format, project.json, which is a more human-friendly project file with Json format we can use instead of the csproj file.</p>
+<p>The main reason to introduce this is to make development more friendly on Linux and Mac, where we don&rsquo;t have the rich support of Visual Studio, but only text editors, with different level of support for .NET development, but still very far from what VS provides on Windows.</p>
+<p>Still, this is a very welcomed change on Windows too, it makes editing our project details easier and quicker. You can read about its format in more detail on the <a href="http://docs.asp.net/en/latest/conceptual-overview/understanding-aspnet5-apps.html#the-project-json-file">ASP.NET Documentation</a> site.</p>
+<h3 id="nuget-packages-in-the-projectjson">NuGet packages in the project.json</h3>
+<p>Another change related to the new project file format is that in projects using the new project.json we don&rsquo;t need to have a separate packages.config file to specify the necessary NuGet packages any more. Rather, they are pulled in from the project.json. In your project description, you can specify the dependencies of your project in the <code>dependencies</code> collection:</p>
+<pre><code>&quot;dependencies&quot;: {
+    &quot;EntityFramework.Commands&quot;: &quot;7.0.0-rc1-final&quot;,
+    &quot;EntityFramework.MicrosoftSqlServer&quot;: &quot;7.0.0-rc1-final&quot;,
+    &quot;MyOtherProjectInTheSolution&quot;: &quot;&quot;
+}
+</code></pre>
+<p>An entry in the <code>dependencies</code> can be either a reference to another project in the solution, or a reference to a NuGet package, so finally the references to packages don&rsquo;t live in two different places.</p>
+<p>Previously I had many problems (and I&rsquo;m sure lots of other people did) with NuGet package references living in two different places: the package to download was specified in packages.config, and the actual binary be references was specified in the csproj file. And they could really easily get out of sync, especially in large solution, where we ended up referencing different versions of the same package.</p>
+<p>The fact that all the indirectly needed NuGet packages (packages referenced by some of the packages we need) were all separate entries in our list of references just made this more complicated and unstable.</p>
+<p>With the new project.json these only live in a single place, so the version numbers will always be in sync, and the other advantage is that we only need to specify the top-level package we need, and all the indirect dependencies will be automatically pulled in.</p>
+<p>And when we start typing in a reference in the project file, we get autocomplete support for both the package names and versions. I know that the NuGet Package Manager window was also redesigned, but since I started working on this new project, I didn&rsquo;t have to open it even once.</p>
+<h2 id="unit-testing">Unit testing</h2>
+<p>The support for unit testing is changing too. The library currently supporting .NET Core is XUnit, but NUnit support is also in the works. I don&rsquo;t know what the plan with MSTest is, but given that it&rsquo;s a Visual Studio specific testing library, I don&rsquo;t think it&rsquo;ll be supported for DNX-based projects.</p>
+<p>In the <a href="http://docs.asp.net/en/latest/testing/unit-testing.html">ASP.NET Documentation</a> you can find a guide about how to create a test project, write some unit tests, and run them either in Visual Studio, or from the command line. (As far as I know, ReSharper is not able to run the unit tests in a DNX project, but the support for that is also in the works.)</p>
+<h3 id="mocking">Mocking</h3>
+<p>The other frameworks you are used to might not be available yet for .NET Core.<br>
+The thing I desperately need and probably wouldn&rsquo;t be able to comfortable write unit tests without is a mocking framework.</p>
+<p>As far as I know, the major mocking frameworks out there haven&rsquo;t been fully ported to .NET Core yet. The one I could find is called <a href="https://www.nuget.org/packages/LightMock.vNext/">LightMock.vNext</a>, but it seems to have much fewer features than what I&rsquo;m used to in Moq.</p>
+<p>In other .NET projects I use <a href="https://github.com/moq/moq4">Moq</a> as a mocking frameworks, so I was happy to find out there is a already a working version of Moq developed by the ASP.NET team. I have been using version <code>4.4.0-beta8</code> without any problems so far.</p>
+<pre><code>&quot;dependencies&quot;: {
+  &quot;moq.netcore&quot;: &quot;4.4.0-beta8&quot;,
+  ...
+}
+</code></pre>
+<p>To be able to have this reference, there is one extra thing we have to do. We have to create a NuGet.config file in our solution folder, and add another NuGet feed, which publishes development packages coming from the ASP.NET team:</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;configuration&gt;
+  &lt;packageSources&gt;
+    &lt;add key=&quot;AspNetVNext&quot; value=&quot;https://www.myget.org/F/aspnetcidev/api/v3/index.json&quot; /&gt;
+    &lt;add key=&quot;NuGet&quot; value=&quot;https://api.nuget.org/v3/index.json&quot; /&gt;
+  &lt;/packageSources&gt;
+&lt;/configuration&gt;
+</code></pre>
+<p>(Source: I found this information on <a href="http://stackoverflow.com/questions/27918305/mocking-framework-for-asp-net-core-5-0">Stack Overflow</a>, thanks Lukasz Pyrzyk!)</p>
+<h4 id="api-changes-1">Api changes</h4>
+<p>The Api changes can greatly affect how we are mocking certain aspects of an MVC controller. Some properties which used to have setters don&rsquo;t have one any more, so instead of simply setting them to a mock object, we have to go through some extra hoops to stub them.</p>
+<p>For example we can replace the Response object with a mock using the following code:</p>
+<pre><code>var sut = new MyController();
+
+var responseMock = new Mock&lt;HttpResponse&gt;();
+
+var httpContextMock = new Mock&lt;HttpContext&gt;();
+httpContextMock.SetupGet(a =&gt; a.Response).Returns(responseMock.Object);
+
+sut.ActionContext = new ActionContext()
+{
+    HttpContext = httpContextMock.Object
+};
+</code></pre>
+<h2 id="command-line">Command line</h2>
+<p>Building projects, running applications and executing unit tests are all possible with the new command-line tools. Again, this is essential to support development on platforms where Visual Studio is not available.</p>
+<p>But even on Windows, where VS is available, the command line tools can prove to be very convenient.<br>
+The thing I like the most about the command line tools is <a href="https://github.com/aspnet/dnx-watch">dnx-watch</a>. You can install it by issuing the following command:</p>
+<pre><code>dnu commands install Microsoft.Dnx.Watcher
+</code></pre>
+<p>Then you can execute any dnx command specified for your project by typing</p>
+<pre><code>dnx-watch web
+</code></pre>
+<p>or</p>
+<pre><code>dnx-watch test
+</code></pre>
+<p>and dnx-watch will restart and execute the command every time any of the files in your solution changes. This is a great way to keep a fresh version of your site running all the time, or to automatically execute all your unit tests on every code change.</p>
+<p>The command line I use on Windows is <a href="http://cmder.net/">cmder</a>. One of my favorite features is being able to split the terminal window vertically or horizontally. <br>
+The setup I started using after a while is to split terminal into 3 parts:</p>
+<ul>
+<li>Left: use <code>git</code> and the occasional <code>dnu</code> commands like <code>restore</code> and <code>build</code>.</li>
+<li>Top-right: constantly run <code>dnx-watch web</code> to always host the latest version of the site.</li>
+<li>Top-left: constantly run <code>dnx-watch test</code> to execute my unit test suite on every change.</li>
+</ul>
+<p><img src="/images/2016/02/asp-net-core-cmder.png" alt="Screeshot illustrating cmder used with an ASP.NET Core project"></p>
+<p>If you are using the built-in command line in Windows, I can really recommend <a href="http://cmder.net/">cmder</a>, it&rsquo;s a great improvement with features like syntax-highlighting, better text-selection with mouse, CTRL+C and CTRL+V support, and many more.</p>
+<h1 id="conclusion">Conclusion</h1>
+<p>No real conclusion here, this post ended up being quite random :). I&rsquo;ve probably written about some stuff which is not essential for everybody, and I&rsquo;m sure there are some others which might be much more important for someone else. However, these are the ones which were at the forefront of my thoughts.</p>
+<p>I might revisit this topic in a later post as I learn more and more about ASP.NET Core.</p>
+
+    </article>
+
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https:\/\/markvincze.github.io\/blog\/getting-started-with-asp-net-core-1-0-tips-and-tricks\/';
+        
+        this.page.identifier = 'ghost-12';
+        
+      };
+      (function () { 
+        var d = document, s = d.createElement('script');
+        s.src = 'https://markvinczeblog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+
+
+  <footer class="footer py-6">
+    <div class="content has-text-centered">
+      <p>
+        © 2020 <strong>Mark Vincze</strong>. All rights reserved.<br />
+        Built with <a href="https://gohugo.io/">Hugo</a> and <a href="https://bulma.io/">Bulma</a>. 💙
+      </p>
+    </div>
+  </footer>
+
+</body>
+
+</html>

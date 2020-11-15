@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>varnish on Mark Vincze</title>
+    <link>https://markvincze.github.io/blog/tags/varnish/</link>
+    <description>Recent content in varnish on Mark Vincze</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 28 Jul 2018 19:12:24 +0000</lastBuildDate><atom:link href="https://markvincze.github.io/blog/tags/varnish/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>How to gracefully fall back to cache on 5xx responses with Varnish</title>
+      <link>https://markvincze.github.io/blog/how-to-gracefully-fall-back-to-cache-on-5xx-responses-with-varnish/</link>
+      <pubDate>Sat, 28 Jul 2018 19:12:24 +0000</pubDate>
+      
+      <guid>https://markvincze.github.io/blog/how-to-gracefully-fall-back-to-cache-on-5xx-responses-with-varnish/</guid>
+      <description>Introduction Varnish is a widely used reverse proxy and HTTP accelerator. It sits in front of an HTTP service, and caches the responses to improve the response times observed by the clients, and possibly to reduce the load on the upstream backend service.
+Besides bringing performance improvements, Varnish can be also useful for shielding the clients from any outage of the backend service, since if the upstream is temporarily out of service, Varnish can keep serving the cached content, so the clients don&amp;rsquo;t have to notice anything (if the data they need is already present in the cache).</description>
+    </item>
+    
+  </channel>
+</rss>

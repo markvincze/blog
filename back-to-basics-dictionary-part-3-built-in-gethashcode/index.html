@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Back to basics: Dictionary part 3, built-in GetHashCode</title>
+
+  
+  <link rel="stylesheet" href="/styles/bulma.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.15.1/js/all.js"></script>
+  <script defer src="/scripts/scripts.js"></script>
+  <link rel="icon" href="/favicon.png" type="image/png" />
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="GetHashCode plays an important part in the implementation of a hash map. We should be familiar with it when using a custom type as a Dictionary key." />
+  <meta property="og:url" content="https://markvincze.github.io/blog/back-to-basics-dictionary-part-3-built-in-gethashcode/" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Back to basics: Dictionary part 3, built-in GetHashCode" />
+  <meta property="og:description" content="GetHashCode plays an important part in the implementation of a hash map. We should be familiar with it when using a custom type as a Dictionary key." />
+  
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@mrkvincze" />
+  <meta name="twitter:title" content="Back to basics: Dictionary part 3, built-in GetHashCode" />
+  <meta name="twitter:description" content="GetHashCode plays an important part in the implementation of a hash map. We should be familiar with it when using a custom type as a Dictionary key." />
+  
+
+</head>
+
+<body>
+  <div class="navbar-container">
+    <nav class="navbar container is-max-desktop" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+
+        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+      <div id="navbarMenu" class="navbar-menu">
+        <div class="navbar-start">
+          <a class="navbar-item" href="/">
+            Home
+          </a>
+
+          <a class="navbar-item" href="/posts">
+            Blog
+          </a>
+
+          <a class="navbar-item">
+            Presentations
+          </a>
+        </div>
+        <div class="navbar-end pt-2 ml-2">
+          <a class="icon is-medium" href="https://twitter.com/mrkvincze">
+            <i class="fab fa-lg fa-twitter"></i>
+          </a>
+          <a class="icon is-medium" href="https://www.github.com/markvincze">
+            <i class="fab fa-lg fa-github"></i>
+          </a>
+          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze">
+            <i class="fab fa-lg fa-stack-overflow"></i>
+          </a>
+          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze">
+            <i class="fab fa-lg fa-linkedin"></i>
+          </a>
+          <a class="icon is-medium" href="/index.xml">
+            <i class="fas fa-lg fa-rss"></i>
+          </a>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <a href="/">
+        <h1 class="title is-1">
+          Mark Vincze
+        </h1>
+      </a>
+      <h2 class="subtitle is-4">
+        Software Developer
+      </h2>
+    </div>
+  </div>
+
+  
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h1 class="title is-1">Back to basics: Dictionary part 3, built-in GetHashCode</h1>
+    
+
+
+<p class="mb-3 is-vcentered">
+  <time class="has-text-grey" datetime="2015-08-29">Aug 29, 2015 &bull;</time>
+
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/c">c#</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/.net">.net</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/basics">basics</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/computer-science">computer science</a>
+  
+
+</p>
+    <article class="content mt-6">
+      <p><strong>Posts in this series</strong>:</p>
+<ol>
+<li><a href="/back-to-basics-dictionary-part-1">Part 1: Hash tables</a></li>
+<li><a href="/back-to-basics-dictionary-part-2-net-implementation">Part 2: .NET implementation</a></li>
+<li><a href="/back-to-basics-dictionary-part-3-built-in-gethashcode">Part 3: Built-in GetHashCode</a></li>
+<li><a href="/back-to-basics-dictionary-part-4-custom-gethashcode">Part 4: Custom GetHashCode</a></li>
+</ol>
+<h1 id="introduction">Introduction</h1>
+<p>In the previous two posts we looked at the basic concepts behind the hash map data structure, and checked out how it is implemented in the Dictionary class of the .NET Framework.
+Today we&rsquo;ll take a look at a very important mechanism behind the Dictionary class: the <code>GetHashCode</code> method, and the way its built-in implementation works.</p>
+<h1 id="gethashcode">GetHashCode</h1>
+<p><a href="https://msdn.microsoft.com/en-us/library/system.object.gethashcode(v=vs.110).aspx">GetHashCode</a> is a built-in method in the .NET Framework defined on the Object class, thereby making every built-in or custom type inherit it. I usually feel there is quite a lot of misunderstanding around the purpose and the proper usage of this method.
+It serves as a default, simple way to use a hash function to generate a hash value for an object. The sole purpose of this method is to use it in the implementation of a hash map, as <a href="http://blogs.msdn.com/b/ericlippert/archive/2011/02/28/guidelines-and-rules-for-gethashcode.aspx">Eric Lippert</a> states:</p>
+<blockquote>
+<p>&ldquo;It is by design useful for only one thing: putting an object in a hash table. Hence the name.&rdquo;</p>
+</blockquote>
+<p>In the Dictionary class, the GetHashCode method is used to get a hash value for a key in order to determine the bucket in which the entry has to be stored.</p>
+<h2 id="built-in-implementation">Built-in implementation</h2>
+<p>The method is defined on the Object class of the Base Class Library, and it has a default implementation, so we can ask for the hash value of any object.
+The built-in implementation of the method is different for reference types and value types. Here is a summary about how they work, based on the <a href="https://msdn.microsoft.com/en-us/library/system.object.gethashcode(v=vs.110).aspx">documentation</a>.</p>
+<h3 id="reference-types">Reference types</h3>
+<p>The hash code of a reference type object is calculated based on its reference, and not its value, with the <a href="https://msdn.microsoft.com/en-us/library/system.runtime.compilerservices.runtimehelpers.gethashcode(v=vs.110).aspx">RuntimeHelpers.GetHashCode</a> method. What this means is that the value of the hash code does not depend on the values of the object&rsquo;s fields at all. This can be confusing, imagine that you implement the following class to be used as a key.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TestRefKey</span>
+{
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">readonly</span> <span style="color:#66d9ef">int</span> Key;
+
+    <span style="color:#66d9ef">public</span> TestRefKey(<span style="color:#66d9ef">int</span> key)
+    {
+        Key = key;
+    }
+}
+</code></pre></div><p>You store an item in a Dictionary with such a key, then you create the <em>same</em> key and try to get the item from the Dictionary, yet it will not be found.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">var</span> dict = <span style="color:#66d9ef">new</span> Dictionary&lt;TestRefKey, <span style="color:#66d9ef">string</span>&gt;();
+<span style="color:#66d9ef">var</span> key1 = <span style="color:#66d9ef">new</span> TestRefKey(<span style="color:#ae81ff">5</span>);
+dict.Add(key1, <span style="color:#e6db74">&#34;hello&#34;</span>);
+<span style="color:#66d9ef">var</span> key2 = <span style="color:#66d9ef">new</span> TestRefKey(<span style="color:#ae81ff">5</span>);
+<span style="color:#66d9ef">var</span> item = dict[key2]; <span style="color:#75715e">// This throws a KeyNotFoundException.
+</span></code></pre></div><p>In the above example, because the two keys are different objects, even if their internal &ldquo;state&rdquo; is the same, we won&rsquo;t find the object we stored, because the hash code of the reference type object is calculated based on the object&rsquo;s reference, rather than its value.
+If you would like to use a custom reference type as a Dictionary key, you should override its <code>Equals</code> and <code>GetHashCode</code> methods, and make the implementation based on the fields you want to make part of the hash key.
+For the above class, the following is a correct implementation.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">GoodTestRefKey</span>
+{
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">readonly</span> <span style="color:#66d9ef">int</span> Key;
+
+    <span style="color:#66d9ef">public</span> GoodTestRefKey(<span style="color:#66d9ef">int</span> key)
+    {
+        Key = key;
+    }
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">int</span> GetHashCode()
+    {
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>.Key.GetHashCode();
+    }
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">bool</span> Equals(<span style="color:#66d9ef">object</span> obj)
+    {
+        <span style="color:#66d9ef">if</span> (obj == <span style="color:#66d9ef">null</span> || GetType() != obj.GetType())
+            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>;
+
+        <span style="color:#66d9ef">var</span> other = (GoodTestRefKey) obj;
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>.Key == other.Key;
+    }
+}
+</code></pre></div><p>This way our <code>GoodTestRefKey</code> will have <em>value-type semantics</em> in terms of its hash code and equality, and using it as a Dictionary-key will work properly.</p>
+<h4 id="the-equality-operator">(The equality operator)</h4>
+<p>As a sidenote: the recommendations about whether you should override the <code>==</code> operator as well are a bit unclear. You can either</p>
+<ul>
+<li>Don&rsquo;t override the <code>==</code> operator, so it will still make a reference comparison, but that way you have to be careful about when to use <code>Equals</code> and <code>==</code>.</li>
+<li>Override <code>==</code> as well, so both comparisons will execute our custom implementation.</li>
+</ul>
+<p>The <a href="https://msdn.microsoft.com/en-us/library/vstudio/336aedhh(v=vs.100).aspx">official guide</a> states</p>
+<blockquote>
+<p>&ldquo;Most reference types should not overload the equality operator, even if they override <strong>Equals</strong>. However, if you are implementing a reference type that is intended to have value semantics, such as a complex number type, you should override the equality operator.&rdquo;</p>
+</blockquote>
+<p>I find this advice a bit strange, since if I wanted a type to have value semantics, I would implement it as a struct. A type like the above <code>GoodTestRefKey</code> would also be more idiomatic as a struct in my opinion, I only implemented it as a class now for the sake of the example. (Then again, it only contains an integer, so in this specific case a simple int could&rsquo;ve been used as the Dictionary key as well.)</p>
+<h4 id="built-in-reference-types">Built-in reference types</h4>
+<p>We&rsquo;ve seen that the default implementation of the GetHashCode and Equality methods are based on the object&rsquo;s reference for a reference type. However, this is not necessarily true for built-in .NET types, they might have custom implementation. A typical example is <code>System.String</code>, of which the <code>Equals</code> and <code>GetHashCode</code> is based on the actual characters of the string and they don&rsquo;t depend on the reference, so using strings as Dictionary keys is safe to do.</p>
+<h3 id="value-types">Value types:</h3>
+<p>If the <code>GetHashCode</code> is not overridden for a value type, then the <a href="https://msdn.microsoft.com/en-us/library/system.valuetype.gethashcode(v=vs.110).aspx">ValueType.GetHashCode</a> method will be called, which looks up all the fields with reflection, and calculates a hash code based on their values. This implicates that value type objects with the same field values will have the same hash code by default, so they are safe to be used as Dictionary keys.
+It&rsquo;s important to keep in mind that the default implementation takes into account <strong>all</strong> fields in the struct, so a difference in any of the fields will mean a difference in the hash code as well. If we want to have only a subset of the fields affecting the hash code, we should implement a custom <code>GetHashCode</code> method, which I will look at in the next post.</p>
+<h2 id="gotcha-mutable-reference-type-as-a-key">Gotcha: mutable reference type as a key</h2>
+<p>In the sample code I implemented the <code>GoodTestRefKey</code> to be immutable. This is very important when we intend to use a reference type as a key, otherwise the following scenario can happen:</p>
+<ol>
+<li>We create the key object and set its state.</li>
+<li>Add an entry to the Dictionary with the key. The Dictionary will get the hash code of the object and store the entry in the appropriate bucket.</li>
+<li>We change the state of the key object. This causes the key&rsquo;s hash code to change as well, but the entry will stay in the same bucket inside the Dictionary, so from now on it will probably be in an incorrect bucket.</li>
+<li>Now the entry is in &ldquo;limbo&rdquo;, if we try to look it up by the modified key, we won&rsquo;t find it, because the lookup will look in the wrong bucket. On the other hand, if we try to look it up with a key with the original state, the entry won&rsquo;t be found either, since the equality comparison with the modified key will return false.</li>
+</ol>
+<p>I will illustrate the situation with the little WPF client created for the last post. I removed the <code>readonly</code> keyword from the key&rsquo;s field to make it mutable.
+It&rsquo;s a very nice touch that Visual Studio displays a warning if we do this:
+<img src="/images/2015/08/vs-warning.png" alt="Visual Studio warning us about using a mutable field in GetHashCode">
+(After writing this I realized it isn&rsquo;t VS, but rather ReSharper, so the kudos goes to JetBrains instead of Microsoft in this case :).)</p>
+<p>I added an entry to a Dictionary with such a key:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">var</span> key = <span style="color:#66d9ef">new</span> GoodTestRefKey(<span style="color:#ae81ff">3</span>);
+<span style="color:#66d9ef">var</span> dictWithMutableKey = <span style="color:#66d9ef">new</span> Dictionary&lt;GoodTestRefKey, <span style="color:#66d9ef">string</span>&gt;(<span style="color:#ae81ff">5</span>) { { key, <span style="color:#e6db74">&#34;Hello!&#34;</span> } };
+</code></pre></div><p>If we display the state of the Dictionary, we see that everything is good, the hash code of the key is 3, and the entry is in the proper bucket:</p>
+<p><img src="/images/2015/08/before-mutate.png" alt="State of the Dictionary before mutation"></p>
+<p>If we mutate the state of the key object</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">key.Key = <span style="color:#ae81ff">4</span>;
+</code></pre></div><p>And visualize the Dictionary again</p>
+<p><img src="/images/2015/08/after-mutate.png" alt="The state of the Dictionary after mutating the key"></p>
+<p>You see that the Key&rsquo;s value was changed to <strong>4</strong>, it&rsquo;s hash code <em>is</em> 4, however, it&rsquo;s still in the bucket at the index <strong>3</strong>. (Note that the Dictionary separately stores the hash code, which still has the original value.)</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">var</span> key = <span style="color:#66d9ef">new</span> GoodTestRefKey(<span style="color:#ae81ff">3</span>);
+<span style="color:#66d9ef">var</span> dictWithMutableKey = <span style="color:#66d9ef">new</span> Dictionary&lt;GoodTestRefKey, <span style="color:#66d9ef">string</span>&gt;(<span style="color:#ae81ff">5</span>) { { key, <span style="color:#e6db74">&#34;Hello!&#34;</span> } };
+
+key.Key = <span style="color:#ae81ff">4</span>;
+
+<span style="color:#66d9ef">var</span> obj1 = dictWithMutableKey[key]; <span style="color:#75715e">// KeyNotFoundException
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">var</span> obj3 = dictWithMutableKey[<span style="color:#66d9ef">new</span> GoodTestRefKey(<span style="color:#ae81ff">3</span>)]; <span style="color:#75715e">// KeyNotFoundException
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">var</span> obj2 = dictWithMutableKey[<span style="color:#66d9ef">new</span> GoodTestRefKey(<span style="color:#ae81ff">4</span>)]; <span style="color:#75715e">// KeyNotFoundException
+</span></code></pre></div><p>If we mutate the key object, we won&rsquo;t be able to retrieve our entry with any of the above approaches.</p>
+<ol>
+<li>In the first case we will look for the item in a different bucket.</li>
+<li>In the second approach we will look at the right bucket, but the equality-comparison of the keys will fail, since they are different.</li>
+<li>Same as the first case.</li>
+</ol>
+<p>But even if one of these approaches managed to retrieve our entry, this situation should be generally avoided.</p>
+<p>The rule of thumb to follow in order to avoid this is to only use immutable objects as keys. (Or at least the fields which take part in the hash code generation and the equality comparison should be immutable.)</p>
+<p>In the <a href="/back-to-basics-dictionary-part-4-custom-gethashcode">next post</a> I&rsquo;ll take a look at what to consider when implementing a custom <code>GetHashCode</code> method either for a reference or a value type.</p>
+
+    </article>
+
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https:\/\/markvincze.github.io\/blog\/back-to-basics-dictionary-part-3-built-in-gethashcode\/';
+        
+        this.page.identifier = 'ghost-8';
+        
+      };
+      (function () { 
+        var d = document, s = d.createElement('script');
+        s.src = 'https://markvinczeblog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+
+
+  <footer class="footer py-6">
+    <div class="content has-text-centered">
+      <p>
+        © 2020 <strong>Mark Vincze</strong>. All rights reserved.<br />
+        Built with <a href="https://gohugo.io/">Hugo</a> and <a href="https://bulma.io/">Bulma</a>. 💙
+      </p>
+    </div>
+  </footer>
+
+</body>
+
+</html>

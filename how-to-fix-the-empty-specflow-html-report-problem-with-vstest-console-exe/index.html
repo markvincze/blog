@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>How to fix the empty SpecFlow HTML report problem with vstest.console.exe</title>
+
+  
+  <link rel="stylesheet" href="/styles/bulma.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.15.1/js/all.js"></script>
+  <script defer src="/scripts/scripts.js"></script>
+  <link rel="icon" href="/favicon.png" type="image/png" />
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="The slightly changed TRX generation in vstest.console.exe causes SpecFlow to generate empty HTML reports. This can be fixed with a custom Logger." />
+  <meta property="og:url" content="https://markvincze.github.io/blog/how-to-fix-the-empty-specflow-html-report-problem-with-vstest-console-exe/" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="How to fix the empty SpecFlow HTML report problem with vstest.console.exe" />
+  <meta property="og:description" content="The slightly changed TRX generation in vstest.console.exe causes SpecFlow to generate empty HTML reports. This can be fixed with a custom Logger." />
+  
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@mrkvincze" />
+  <meta name="twitter:title" content="How to fix the empty SpecFlow HTML report problem with vstest.console.exe" />
+  <meta name="twitter:description" content="The slightly changed TRX generation in vstest.console.exe causes SpecFlow to generate empty HTML reports. This can be fixed with a custom Logger." />
+  
+
+</head>
+
+<body>
+  <div class="navbar-container">
+    <nav class="navbar container is-max-desktop" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+
+        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+      <div id="navbarMenu" class="navbar-menu">
+        <div class="navbar-start">
+          <a class="navbar-item" href="/">
+            Home
+          </a>
+
+          <a class="navbar-item" href="/posts">
+            Blog
+          </a>
+
+          <a class="navbar-item">
+            Presentations
+          </a>
+        </div>
+        <div class="navbar-end pt-2 ml-2">
+          <a class="icon is-medium" href="https://twitter.com/mrkvincze">
+            <i class="fab fa-lg fa-twitter"></i>
+          </a>
+          <a class="icon is-medium" href="https://www.github.com/markvincze">
+            <i class="fab fa-lg fa-github"></i>
+          </a>
+          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze">
+            <i class="fab fa-lg fa-stack-overflow"></i>
+          </a>
+          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze">
+            <i class="fab fa-lg fa-linkedin"></i>
+          </a>
+          <a class="icon is-medium" href="/index.xml">
+            <i class="fas fa-lg fa-rss"></i>
+          </a>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <a href="/">
+        <h1 class="title is-1">
+          Mark Vincze
+        </h1>
+      </a>
+      <h2 class="subtitle is-4">
+        Software Developer
+      </h2>
+    </div>
+  </div>
+
+  
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h1 class="title is-1">How to fix the empty SpecFlow HTML report problem with vstest.console.exe</h1>
+    
+
+
+<p class="mb-3 is-vcentered">
+  <time class="has-text-grey" datetime="2016-04-23">Apr 23, 2016 &bull;</time>
+
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/specflow">specflow</a>
+  
+
+</p>
+    <article class="content mt-6">
+      <h2 id="introduction">Introduction</h2>
+<p>There are multiple ways to run an MsTest test suite from the command line. The older, now deprecated tool is <code>mstest.exe</code>. It executes the test suite and produces an output in an XML-based format called TRX.<br>
+Other tools, including the SpecFlow HTML report generation build upon that TRX format.</p>
+<p>The newer, current way to execute the unit tests in a project is <code>vstest.console.exe</code>. This new tool has a pluggable logging system, it supports specifying different &ldquo;loggers&rdquo;, which can produce different outputs.<br>
+One of the built-in loggers is called <code>trx</code>, which is supposed to produce the output in the same format as mstest.exe did.</p>
+<p>The problem with this TRX logger is that it produces a slightly different output than mstest.exe, which beaks the SpecFlow report generation. If you try to generate an HTML report from the new TRX file, the report will be empty, all the test names and descriptions will be missing.</p>
+<p><img src="/images/2016/04/empty-specflow-report.png" alt="Empty SpecFlow HTML report."></p>
+<h2 id="the-problem">The problem</h2>
+<p>The issue was discussed in the a <a href="https://github.com/techtalk/SpecFlow/issues/278">GitHub issue</a> in the SpecFlow repository. Paul Rohorzka identified the differences between the two TRX outputs causing the problems with the report:</p>
+<blockquote>
+<ol>
+<li><code>//TestRun/TestDefinitions/UnitTest/TestMethod/@className</code> renders not the fully qualified name, but just the namespace.<br>
+Effect for report generation: <strong>No relevant textual output at all</strong></li>
+</ol>
+</blockquote>
+<blockquote>
+<ol start="2">
+<li>The <code>TestDescriptionAttribute</code> is not rendered, but should be in <code>//TestRun/TestDefinitions/UnitTest/Description</code>.<br>
+Effect for report generation: <strong>No scenario titles</strong></li>
+</ol>
+</blockquote>
+<blockquote>
+<ol start="3">
+<li><code>TestPropertyAttributes</code> are not rendered, but should be in <code>//TestRun/TestDefinitions/UnitTest/Properties</code>.<br>
+Effect for report generation: <strong>No feature titles</strong></li>
+</ol>
+</blockquote>
+<h2 id="the-solution">The solution</h2>
+<p>Luckily thanks to the pluggable nature of the <code>vstest.console.exe</code> logging, it&rsquo;s possible to hook in a custom Logger implementation when executing the test suite.</p>
+<p>In order to do this we need to implement the interface <code>Microsoft.VisualStudio.TestPlatform.ObjectModel.Client.ITestLogger</code>, where we can implement our fully custom code generating the output (instructions to get started can be found <a href="https://blogs.msdn.microsoft.com/vikramagrawal/2012/07/26/writing-loggers-for-command-line-test-runner-vstest-console-exe/">here</a>).</p>
+<p>Then the compiled assembly should be copied into <code>C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\CommonExtensions\Microsoft\TestWindow\Extensions</code> so that <code>vstest.console.exe</code> can pick it up.<br>
+The last thing to do is to specify that we want to use that particular logger. That can be done with the <code>Logger</code> parameter of the test runner. Example:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vstest.console.exe ... /Logger:MyCustomLogger
+</code></pre></div><p>The name of the logger has to be equal to the value specified in the <code>FriendlyName</code> attribute on our implementation class.</p>
+<p>I implemented a custom logger called <code>MsTestTrxLogger</code> in which I replicated to format of the old <code>mstest.exe</code>. I tried to make it generate an output as close to the original as possible, but I had to make some assumptions. A <a href="https://blogs.msdn.microsoft.com/dhopton/2008/06/13/helpful-internals-of-trx-and-vsmdi-files/">post</a> by Dominic Hopton about TRX internals helped in filling in some of the details.</p>
+<p>I uploaded the solution with instructions about how to use it to this <a href="https://github.com/markvincze/MsTestTrxLogger">GitHub repository</a>.</p>
+<p>It was an interesting experience to to reverse engineer the <code>mstest.exe</code> output and try to replicate that using the data model provided by <code>Microsoft.VisualStudio.TestPlatform.ObjectModel</code>, and it&rsquo;s nice to see that with some tinkering we can fully customize the output of <code>vstest.console.exe</code>.</p>
+<p>So far it&rsquo;s working perfectly with the SpecFlow report of a test suite containing ~300 tests. However, due to the assumptions I had to make, it might now work perfectly in every situation. So issue reports (or pull requests :)) are welcome if you find any problems.</p>
+
+    </article>
+
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https:\/\/markvincze.github.io\/blog\/how-to-fix-the-empty-specflow-html-report-problem-with-vstest-console-exe\/';
+        
+        this.page.identifier = 'ghost-19';
+        
+      };
+      (function () { 
+        var d = document, s = d.createElement('script');
+        s.src = 'https://markvinczeblog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+
+
+  <footer class="footer py-6">
+    <div class="content has-text-centered">
+      <p>
+        © 2020 <strong>Mark Vincze</strong>. All rights reserved.<br />
+        Built with <a href="https://gohugo.io/">Hugo</a> and <a href="https://bulma.io/">Bulma</a>. 💙
+      </p>
+    </div>
+  </footer>
+
+</body>
+
+</html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Download artifacts from a latest GitHub release with bash and PowerShell</title>
+
+  
+  <link rel="stylesheet" href="/styles/bulma.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.15.1/js/all.js"></script>
+  <script defer src="/scripts/scripts.js"></script>
+  <link rel="icon" href="/favicon.png" type="image/png" />
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Downloading artifacts for a particular GitHub release is easy, but to download artifacts from the latest release we need some extra steps in our scripts." />
+  <meta property="og:url" content="https://markvincze.github.io/blog/download-artifacts-from-a-latest-github-release-in-sh-and-powershell/" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Download artifacts from a latest GitHub release with bash and PowerShell" />
+  <meta property="og:description" content="Downloading artifacts for a particular GitHub release is easy, but to download artifacts from the latest release we need some extra steps in our scripts." />
+  
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@mrkvincze" />
+  <meta name="twitter:title" content="Download artifacts from a latest GitHub release with bash and PowerShell" />
+  <meta name="twitter:description" content="Downloading artifacts for a particular GitHub release is easy, but to download artifacts from the latest release we need some extra steps in our scripts." />
+  
+
+</head>
+
+<body>
+  <div class="navbar-container">
+    <nav class="navbar container is-max-desktop" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+
+        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+      <div id="navbarMenu" class="navbar-menu">
+        <div class="navbar-start">
+          <a class="navbar-item" href="/">
+            Home
+          </a>
+
+          <a class="navbar-item" href="/posts">
+            Blog
+          </a>
+
+          <a class="navbar-item">
+            Presentations
+          </a>
+        </div>
+        <div class="navbar-end pt-2 ml-2">
+          <a class="icon is-medium" href="https://twitter.com/mrkvincze">
+            <i class="fab fa-lg fa-twitter"></i>
+          </a>
+          <a class="icon is-medium" href="https://www.github.com/markvincze">
+            <i class="fab fa-lg fa-github"></i>
+          </a>
+          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze">
+            <i class="fab fa-lg fa-stack-overflow"></i>
+          </a>
+          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze">
+            <i class="fab fa-lg fa-linkedin"></i>
+          </a>
+          <a class="icon is-medium" href="/index.xml">
+            <i class="fas fa-lg fa-rss"></i>
+          </a>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <a href="/">
+        <h1 class="title is-1">
+          Mark Vincze
+        </h1>
+      </a>
+      <h2 class="subtitle is-4">
+        Software Developer
+      </h2>
+    </div>
+  </div>
+
+  
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h1 class="title is-1">Download artifacts from a latest GitHub release with bash and PowerShell</h1>
+    
+
+
+<p class="mb-3 is-vcentered">
+  <time class="has-text-grey" datetime="2016-07-09">Jul 9, 2016 &bull;</time>
+
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/github">github</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/bash">bash</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/powershell">powershell</a>
+  
+
+</p>
+    <article class="content mt-6">
+      <p><a href="https://help.github.com/articles/about-releases/">Releases</a> is an important feature of GitHub, with which we can publish packaged versions of our project.</p>
+<p>The source code of our repository is packaged with every release, and we also have the possibility to upload some artifacts alongside, for example the binaries or executables that we&rsquo;ve built.</p>
+<p>Lately I&rsquo;ve been working on an <a href="https://github.com/Travix-International/Travix.Core.Adk">application</a> for which the releases are published on GitHub, and I wanted to create an install script which always downloads the latest release.</p>
+<p>It turned out that downloading the artifacts for a specific version is easy, we can simply build an URL with the version number to access the artifact. However, there is no direct URL to download artifacts from the <em>latest</em> release, so we need a bit of logic in our scripts to do that.</p>
+<h2 id="link-structure">Link structure</h2>
+<p>We can access a particular release with a URL like <code>https://github.com/account/project/releases/tag/project-1.0.5</code>. (The part after <code>tag/</code> is the what we specified when we created the release.)</p>
+<p>Artifacts from this particular release can be downloaded with the URL <code>https://github.com/account/project/releases/download/project-1.0.5/myArtifact.zip</code>.</p>
+<p>And there is this URL, which which always takes us to the latest release of a project: <code>https://github.com/account/project/releases/latest</code>.<br>
+It seemed logical that there should also be a way to also download artifacts from the latest release, so I <a href="http://stackoverflow.com/questions/38283074/is-there-a-way-to-download-an-artifact-from-the-latest-release-on-github">asked around</a>, but it turns out, there is no URL available to do that directly.</p>
+<h2 id="getting-the-latest-tag">Getting the latest tag</h2>
+<p>As it&rsquo;s pointed out in the above SO answer, we can send a GET request to the URL <code>https://github.com/account/project/releases/latest</code> and set the <code>Accept</code> header to <code>application/json</code> (without this we get back the HTML page), we get information about the latest release in the following format.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{<span style="color:#f92672">&#34;id&#34;</span>:<span style="color:#ae81ff">3622206</span>,<span style="color:#f92672">&#34;tag_name&#34;</span>:<span style="color:#e6db74">&#34;project-1.0.5&#34;</span>}
+</code></pre></div><p>This is the information we want, now we can use this in our scripts to determine the latest version and build our download links.</p>
+<h2 id="use-the-version-in-scripts">Use the version in scripts</h2>
+<h3 id="shell-script">Shell script</h3>
+<p>We can get the information about the latest release with <code>curl</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">LATEST_RELEASE<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>curl -L -s -H <span style="color:#e6db74">&#39;Accept: application/json&#39;</span> https://github.com/account/project/releases/latest<span style="color:#66d9ef">)</span>
+</code></pre></div><p>Then we have to extract the value of the <code>tag_name</code> property, I used a regex for this with <code>sed</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># The releases are returned in the format {&#34;id&#34;:3622206,&#34;tag_name&#34;:&#34;hello-1.0.0.11&#34;,...}, we have to extract the tag_name.</span>
+LATEST_VERSION<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>echo $LATEST_RELEASE | sed -e <span style="color:#e6db74">&#39;s/.*&#34;tag_name&#34;:&#34;\([^&#34;]*\)&#34;.*/\1/&#39;</span><span style="color:#66d9ef">)</span>
+</code></pre></div><p>Then we can build our download URL for a certain artifact.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ARTIFACT_URL<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://github.com/account/project/releases/download/</span>$LATEST_VERSION<span style="color:#e6db74">/myArtifact.zip&#34;</span>
+</code></pre></div><h3 id="powershell">PowerShell</h3>
+<p>The latest release can be retrieved with <code>Invoke-WebRequest</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">$latestRelease = Invoke-WebRequest https<span style="color:#960050;background-color:#1e0010">:</span>//github.com/account/project/releases/latest -Headers @{<span style="color:#e6db74">&#34;Accept&#34;</span>=<span style="color:#e6db74">&#34;application/json&#34;</span>}
+</code></pre></div><p>Then we have to extract the value of the <code>tag_name</code> property. Since PowerShell has built-in support for parsing Json, we don&rsquo;t have to use a regex.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#75715e"># The releases are returned in the format {&#34;id&#34;:3622206,&#34;tag_name&#34;:&#34;hello-1.0.0.11&#34;,...}, we have to extract the tag_name.</span>
+$json = $latestRelease.Content | ConvertFrom-Json
+$latestVersion = $json.tag_name
+</code></pre></div><p>Then we can build our download URL for a certain artifact.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">$url = <span style="color:#e6db74">&#34;https://github.com/account/project/releases/download/$latestVersion/myArtifact.zip&#34;</span>
+</code></pre></div>
+    </article>
+
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https:\/\/markvincze.github.io\/blog\/download-artifacts-from-a-latest-github-release-in-sh-and-powershell\/';
+        
+        this.page.identifier = 'ghost-23';
+        
+      };
+      (function () { 
+        var d = document, s = d.createElement('script');
+        s.src = 'https://markvinczeblog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+
+
+  <footer class="footer py-6">
+    <div class="content has-text-centered">
+      <p>
+        © 2020 <strong>Mark Vincze</strong>. All rights reserved.<br />
+        Built with <a href="https://gohugo.io/">Hugo</a> and <a href="https://bulma.io/">Bulma</a>. 💙
+      </p>
+    </div>
+  </footer>
+
+</body>
+
+</html>

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Back to basics: Dictionary part 2, .NET implementation</title>
+
+  
+  <link rel="stylesheet" href="/styles/bulma.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.15.1/js/all.js"></script>
+  <script defer src="/scripts/scripts.js"></script>
+  <link rel="icon" href="/favicon.png" type="image/png" />
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A look under the hood of Dictionary&lt;TKey, TValue&gt;, an overview of how the hash map data structure has been implemented in the .NET Framework." />
+  <meta property="og:url" content="https://markvincze.github.io/blog/back-to-basics-dictionary-part-2-net-implementation/" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Back to basics: Dictionary part 2, .NET implementation" />
+  <meta property="og:description" content="A look under the hood of Dictionary&lt;TKey, TValue&gt;, an overview of how the hash map data structure has been implemented in the .NET Framework." />
+  
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@mrkvincze" />
+  <meta name="twitter:title" content="Back to basics: Dictionary part 2, .NET implementation" />
+  <meta name="twitter:description" content="A look under the hood of Dictionary&lt;TKey, TValue&gt;, an overview of how the hash map data structure has been implemented in the .NET Framework." />
+  
+
+</head>
+
+<body>
+  <div class="navbar-container">
+    <nav class="navbar container is-max-desktop" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+
+        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+      <div id="navbarMenu" class="navbar-menu">
+        <div class="navbar-start">
+          <a class="navbar-item" href="/">
+            Home
+          </a>
+
+          <a class="navbar-item" href="/posts">
+            Blog
+          </a>
+
+          <a class="navbar-item">
+            Presentations
+          </a>
+        </div>
+        <div class="navbar-end pt-2 ml-2">
+          <a class="icon is-medium" href="https://twitter.com/mrkvincze">
+            <i class="fab fa-lg fa-twitter"></i>
+          </a>
+          <a class="icon is-medium" href="https://www.github.com/markvincze">
+            <i class="fab fa-lg fa-github"></i>
+          </a>
+          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze">
+            <i class="fab fa-lg fa-stack-overflow"></i>
+          </a>
+          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze">
+            <i class="fab fa-lg fa-linkedin"></i>
+          </a>
+          <a class="icon is-medium" href="/index.xml">
+            <i class="fas fa-lg fa-rss"></i>
+          </a>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <a href="/">
+        <h1 class="title is-1">
+          Mark Vincze
+        </h1>
+      </a>
+      <h2 class="subtitle is-4">
+        Software Developer
+      </h2>
+    </div>
+  </div>
+
+  
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h1 class="title is-1">Back to basics: Dictionary part 2, .NET implementation</h1>
+    
+
+
+<p class="mb-3 is-vcentered">
+  <time class="has-text-grey" datetime="2015-08-15">Aug 15, 2015 &bull;</time>
+
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/c">c#</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/.net">.net</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/basics">basics</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/computer-science">computer science</a>
+  
+
+</p>
+    <article class="content mt-6">
+      <p><strong>Posts in this series</strong>:</p>
+<ol>
+<li><a href="/back-to-basics-dictionary-part-1">Part 1: Hash tables</a></li>
+<li><a href="/back-to-basics-dictionary-part-2-net-implementation">Part 2: .NET implementation</a></li>
+<li><a href="/back-to-basics-dictionary-part-3-built-in-gethashcode">Part 3: Built-in GetHashCode</a></li>
+<li><a href="/back-to-basics-dictionary-part-4-custom-gethashcode">Part 4: Custom GetHashCode</a></li>
+</ol>
+<h1 id="introduction">Introduction</h1>
+<p><a href="http://blog.markvincze.com/back-to-basics-dictionary-part-1/">Last time</a> we saw an overview about the basic concepts behind a hash map.</p>
+<p>In this post we will take a look at the .NET Dictionary class, and see what type of hash map it is and how the different mechanisms have been implemented in C#.</p>
+<p>In order to investigate, I used the <a href="http://referencesource.microsoft.com/">Reference source</a> published by Microsoft, which contains the code base of the .NET Framework, in which we can look under the hood of the <a href="http://referencesource.microsoft.com/#mscorlib/system/collections/generic/dictionary.cs,998e5f475d87f454">System.Collections.Generic.Dictionary</a> class.</p>
+<p>#Data model</p>
+<p>Every object stored in the dictionary is represented by an instance of the Entry struct:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Entry</span>
+{
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">int</span> hashCode;
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">int</span> next;
+    <span style="color:#66d9ef">public</span> TKey key;
+    <span style="color:#66d9ef">public</span> TValue <span style="color:#66d9ef">value</span>;
+}
+</code></pre></div><p>The roles of the <code>hashCode</code>, <code>key</code> and <code>value</code> fields store the core pieces of data every entry has, the key and the value of the entry, and the hash code calculated for the key. The field <code>next</code> plays a role  in the implementation of collision resolution (see later).
+Every entry lives in an array of Entry objects, which is a field of the Dictionary class:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">private</span> Entry[] entries;
+</code></pre></div><p>This can be a bit confusing, but this array is <strong>not</strong> the list of buckets we looked at previously. The key and the hash of the key have no relation with the index at which an entry is stored in the <code>entries</code> array, it is rather incidental.</p>
+<p>The buckets of the hash map are stored in a separate array:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span>[] buckets;
+</code></pre></div><p>This is a simple array of integers, where every value in this array points to an index in the <code>entries</code> array, at which index the <em>first</em> entry of that bucket is stored. I write first, because a bucket can contain more than one elements in case of a hash collision, since the .NET Dictionary uses a variant of the technique called <em>chaining</em> to resolve collisions, which we looked at in the <a href="http://blog.markvincze.com/back-to-basics-dictionary-part-1/#separatechaining">previous post</a>.</p>
+<h2 id="some-observations">Some observations</h2>
+<ul>
+<li>When using the hash of a key, we want to map the hash to an index in the <code>buckets</code> array, which we do by  calculating the remainder of the key divided by the number of buckets. Because we need an index, we want to avoid having negative values, so in many places the code calculates the logical bitwise AND of the hash and the value <code>0x7FFFFFFF</code>, thereby eliminating all negative values.</li>
+<li>When a collision happens and two entries fall into the same bucket, they will be chained together using the <code>next</code> field of the Entry. It will point to the next entry, and it has the value -1 if the entry is the last in the chain.</li>
+<li>Until we don&rsquo;t remove any elements, the <code>entries</code> array will be consecutively filled with elements from the 0 index, any new items will be added at <code>count</code> position.<br>
+When we remove an element, we create a &ldquo;hole&rdquo; in this array. This hole will be pointed to by the field <code>freeList</code>, and the number of free holes will be represented by <code>freeCount</code>. These free entries will be chained together with the <code>Entry.next</code> field, similarly to how collided entries are chained together.</li>
+</ul>
+<h2 id="inserting-items">Inserting items</h2>
+<p>The following code fragment shows how the Dictionary handles insertions (simplified, comments by me):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> Insert(TKey key, TValue <span style="color:#66d9ef">value</span>, <span style="color:#66d9ef">bool</span> <span style="color:#66d9ef">add</span>)
+{
+    <span style="color:#75715e">// Calculate the hash code of the key, eliminate negative values.
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> hashCode = comparer.GetHashCode(key) &amp; <span style="color:#ae81ff">0</span>x7FFFFFFF;
+
+    <span style="color:#75715e">// Calculate the remainder of the hashCode divided by the number of buckets.
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// This is the usual way of narrowing the value set of the hash code to the set of possible bucket indices.
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> targetBucket = hashCode % buckets.Length;
+
+    <span style="color:#75715e">// Look at all the entries in the target bucket. The next field of the entry points to the next entry in the chain, in case of collision.
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// If there are no more items in the chain, its value is -1.
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// If we find the key in the dictionary, we update the associated value and return.
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i = buckets[targetBucket]; i &gt;= <span style="color:#ae81ff">0</span>; i = entries[i].next) {
+        <span style="color:#66d9ef">if</span> (entries[i].hashCode == hashCode &amp;&amp; comparer.Equals(entries[i].key, key)) {
+            entries[i].<span style="color:#66d9ef">value</span> = <span style="color:#66d9ef">value</span>;
+            version++;
+            <span style="color:#66d9ef">return</span>;
+        }
+    }
+
+    <span style="color:#66d9ef">int</span> index;
+    <span style="color:#66d9ef">if</span> (freeCount &gt; <span style="color:#ae81ff">0</span>) {
+        <span style="color:#75715e">// There is a &#34;hole&#34; in the entries array, because something has been removed.
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// The first empty place is pointed to by freeList, we insert our entry there.
+</span><span style="color:#75715e"></span>        index = freeList;
+        freeList = entries[index].next;
+        freeCount--;
+    }
+    <span style="color:#66d9ef">else</span> {
+        <span style="color:#75715e">// There are no &#34;holes&#34; in the entries array.
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (count == entries.Length)
+        {
+            <span style="color:#75715e">// The dictionary is full, we need to increase its size by calling Resize.
+</span><span style="color:#75715e"></span>            <span style="color:#75715e">// (After Resize, it&#39;s guaranteed that there are no holes in the array.)
+</span><span style="color:#75715e"></span>            Resize();
+            targetBucket = hashCode % buckets.Length;
+        }
+
+        <span style="color:#75715e">// We can simply take the next consecutive place in the entries array.
+</span><span style="color:#75715e"></span>        index = count;
+        count++;
+    }
+
+    <span style="color:#75715e">// Setting the fields of the entry 
+</span><span style="color:#75715e"></span>    entries[index].hashCode = hashCode;
+    entries[index].next = buckets[targetBucket]; <span style="color:#75715e">// If the bucket already contained an item, it will be the next in the collision resolution chain.
+</span><span style="color:#75715e"></span>    entries[index].key = key;
+    entries[index].<span style="color:#66d9ef">value</span> = <span style="color:#66d9ef">value</span>;
+    buckets[targetBucket] = index; <span style="color:#75715e">// The bucket will point to this entry from now on.
+</span><span style="color:#75715e"></span>}
+</code></pre></div><h1 id="illustration">Illustration</h1>
+<p>I created a small class library and GUI app for two purposes:</p>
+<ul>
+<li>Dive into and extract the internal state of a Dictionary instance using Reflection</li>
+<li>Visualize the hash map in a neat diagram</li>
+</ul>
+<p>(You can find the source code for the lib and the tool in my <a href="https://github.com/markvincze/dictionary-edu">GitHub repo</a>, sorry for the ugly WPF code, <a href="https://vimeo.com/37913054#t=23m10s">&ldquo;MVVM, you must be kidding&rdquo;</a> :))</p>
+<p>The tool displays the buckets array, which contains indices which point to records in the entries array, and shows the details of the actual entries.</p>
+<p>I created a helper class which represents a book with an author and a title. We will use the author as a key to store the books in the dictionary. First I&rsquo;ll add two books to the dictionary. Luckily the hashes of the keys from these two books will not collide:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">var</span> book1 = <span style="color:#66d9ef">new</span> Book(<span style="color:#e6db74">&#34;J.R.R. Tolkien&#34;</span>, <span style="color:#e6db74">&#34;The Lord of the Rings&#34;</span>);
+<span style="color:#66d9ef">var</span> book2 = <span style="color:#66d9ef">new</span> Book(<span style="color:#e6db74">&#34;Patrick Rothfuss&#34;</span>, <span style="color:#e6db74">&#34;Name of the Wind&#34;</span>);
+
+<span style="color:#66d9ef">var</span> dict = <span style="color:#66d9ef">new</span> Dictionary&lt;<span style="color:#66d9ef">string</span>, Book&gt;(<span style="color:#ae81ff">5</span>)
+{
+    { book1.Author, book1 },
+    { book2.Author, book2 },
+};
+</code></pre></div><p>With these two items, the internal structure of the Dictionary looks like this.
+<img src="/images/2015/08/nocollision-1.png" alt="This is how a Dictionary looks with no collisions">
+You can see that the entries are in the buckets designated by their hashcodes, while the Entries array is filled up consecutively.</p>
+<p>Now we insert a third element of which the remainder of its key hash will collide with an existing entry in the dictionary.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">var</span> book3 = <span style="color:#66d9ef">new</span> Book(<span style="color:#e6db74">&#34;Frank Herbert&#34;</span>, <span style="color:#e6db74">&#34;Dune&#34;</span>);
+</code></pre></div><p>We can see that the elements falling in the same bucket are chained together, with the Next field of the entry pointing to the next entry in the chain.</p>
+<p><img src="/images/2015/08/collision-1.png" alt="Two collided items chained together in the same bucket."></p>
+<p>We can say that the .NET Dictionary implementation conceptually uses chaining as its collision resolution method, but it doesn&rsquo;t use a separate data structure (like a linked list) to store the items in the chain, it rather stores every entry in the same array.</p>
+<p>Now we add some more elements to the dictionary, then remove two of them.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">var</span> book1 = <span style="color:#66d9ef">new</span> Book(<span style="color:#e6db74">&#34;J.R.R. Tolkien&#34;</span>, <span style="color:#e6db74">&#34;The Lord of the Rings&#34;</span>);
+<span style="color:#66d9ef">var</span> book2 = <span style="color:#66d9ef">new</span> Book(<span style="color:#e6db74">&#34;Patrick Rothfuss&#34;</span>, <span style="color:#e6db74">&#34;Name of the Wind&#34;</span>);
+<span style="color:#66d9ef">var</span> book3 = <span style="color:#66d9ef">new</span> Book(<span style="color:#e6db74">&#34;Frank Herbert&#34;</span>, <span style="color:#e6db74">&#34;Dune&#34;</span>);
+<span style="color:#66d9ef">var</span> book4 = <span style="color:#66d9ef">new</span> Book(<span style="color:#e6db74">&#34;Iain M. Banks&#34;</span>, <span style="color:#e6db74">&#34;Consider Phlebas&#34;</span>);
+<span style="color:#66d9ef">var</span> book5 = <span style="color:#66d9ef">new</span> Book(<span style="color:#e6db74">&#34;Isaac Asimov&#34;</span>, <span style="color:#e6db74">&#34;Foundation&#34;</span>);
+<span style="color:#66d9ef">var</span> book6 = <span style="color:#66d9ef">new</span> Book(<span style="color:#e6db74">&#34;Arthur Clarke&#34;</span>, <span style="color:#e6db74">&#34;2001: Space Odyssey&#34;</span>);
+
+<span style="color:#66d9ef">var</span> dict = <span style="color:#66d9ef">new</span> Dictionary&lt;<span style="color:#66d9ef">string</span>, Book&gt;(<span style="color:#ae81ff">5</span>)
+{
+    { book1.Author, book1},
+    { book2.Author, book2},
+    { book3.Author, book3},
+    { book4.Author, book3},
+    { book5.Author, book3},
+    { book6.Author, book3},
+
+};
+
+dict.Remove(book2.Author);
+dict.Remove(book5.Author);
+</code></pre></div><p>After this, we can see, that the &ldquo;holes&rdquo; in the dictionary will be chained together the same way as collided entries are chained.</p>
+<p><img src="/images/2015/08/removed-entries-1.png" alt="Holes chained together in the dictionary."></p>
+<p>And in the code fragment above we saw that when we insert items, we always try to fill these holes first, and then use up the free slots at the end of the array.</p>
+<h1 id="summary">Summary</h1>
+<p>With this we got an overview about how a dictionary works. There are other important aspects, like the <a href="http://referencesource.microsoft.com/#mscorlib/system/collections/generic/dictionary.cs,bcd13bb775d408f1">lookup</a> itself, or <a href="http://referencesource.microsoft.com/#mscorlib/system/collections/generic/dictionary.cs,3b9a0882313262cd">resizing</a> the dictionary in case there is no more free space in the array, but I&rsquo;ll leave it up to you to discover. With the above introduction, the code should be rather straightforward to read.</p>
+<p>In the <a href="/back-to-basics-dictionary-part-3-built-in-gethashcode">next part</a> I&rsquo;ll look at how the hash code of the keys are calculated, and what are the pitfalls we have to watch out for when choosing a type to use as a key.</p>
+
+    </article>
+
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https:\/\/markvincze.github.io\/blog\/back-to-basics-dictionary-part-2-net-implementation\/';
+        
+        this.page.identifier = 'ghost-6';
+        
+      };
+      (function () { 
+        var d = document, s = d.createElement('script');
+        s.src = 'https://markvinczeblog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+
+
+  <footer class="footer py-6">
+    <div class="content has-text-centered">
+      <p>
+        © 2020 <strong>Mark Vincze</strong>. All rights reserved.<br />
+        Built with <a href="https://gohugo.io/">Hugo</a> and <a href="https://bulma.io/">Bulma</a>. 💙
+      </p>
+    </div>
+  </footer>
+
+</body>
+
+</html>

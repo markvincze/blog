@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Use Glimpse with ASP.NET Web Api</title>
+
+  
+  <link rel="stylesheet" href="/styles/bulma.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.15.1/js/all.js"></script>
+  <script defer src="/scripts/scripts.js"></script>
+  <link rel="icon" href="/favicon.png" type="image/png" />
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Glimpse is not fully supported for the Web Api, but it can still be a valuable tool." />
+  <meta property="og:url" content="https://markvincze.github.io/blog/use-glimpse-with-asp-net-web-api/" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Use Glimpse with ASP.NET Web Api" />
+  <meta property="og:description" content="Glimpse is not fully supported for the Web Api, but it can still be a valuable tool." />
+  
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@mrkvincze" />
+  <meta name="twitter:title" content="Use Glimpse with ASP.NET Web Api" />
+  <meta name="twitter:description" content="Glimpse is not fully supported for the Web Api, but it can still be a valuable tool." />
+  
+
+</head>
+
+<body>
+  <div class="navbar-container">
+    <nav class="navbar container is-max-desktop" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+
+        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+      <div id="navbarMenu" class="navbar-menu">
+        <div class="navbar-start">
+          <a class="navbar-item" href="/">
+            Home
+          </a>
+
+          <a class="navbar-item" href="/posts">
+            Blog
+          </a>
+
+          <a class="navbar-item">
+            Presentations
+          </a>
+        </div>
+        <div class="navbar-end pt-2 ml-2">
+          <a class="icon is-medium" href="https://twitter.com/mrkvincze">
+            <i class="fab fa-lg fa-twitter"></i>
+          </a>
+          <a class="icon is-medium" href="https://www.github.com/markvincze">
+            <i class="fab fa-lg fa-github"></i>
+          </a>
+          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze">
+            <i class="fab fa-lg fa-stack-overflow"></i>
+          </a>
+          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze">
+            <i class="fab fa-lg fa-linkedin"></i>
+          </a>
+          <a class="icon is-medium" href="/index.xml">
+            <i class="fas fa-lg fa-rss"></i>
+          </a>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <a href="/">
+        <h1 class="title is-1">
+          Mark Vincze
+        </h1>
+      </a>
+      <h2 class="subtitle is-4">
+        Software Developer
+      </h2>
+    </div>
+  </div>
+
+  
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h1 class="title is-1">Use Glimpse with ASP.NET Web Api</h1>
+    
+
+
+<p class="mb-3 is-vcentered">
+  <time class="has-text-grey" datetime="2015-05-14">May 14, 2015 &bull;</time>
+
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/asp.net">asp.net</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/mvc">mvc</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/web-api">web api</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/glimpse">glimpse</a>
+  
+
+</p>
+    <article class="content mt-6">
+      <p>Glimpse is a wonderful tool for getting an insight into the mechanisms happening in an ASP.NET application. It inspects every request processed by our app, and displays its UI either embedded into our web site, or on a standalone page at a different URL.</p>
+<p><img src="/images/2015/05/1example-1.png" alt="Example of the Glimpse UI"></p>
+<p>The current version of Glimpse (1.9.2 at the time of writing this) only has proper support for ASP.NET Web Forms and MVC, and not for the Web Api.
+In this post I&rsquo;m going to look at how can we use Glimpse for the Web Api, what are the features which works for Web Api as well, and what is missing.</p>
+<p>#Getting Started</p>
+<p>I am going to get started by creating an ASP.NET web project that contains both MVC and Web Api elements, and see how well Glimpse performs out of the box.
+I created a new project by checking both MVC and Web Api in the project creation wizard.</p>
+<p><img src="/images/2015/05/20createproject.png" alt="Creating a new ASP.NET project with both MVC and Web Api support."></p>
+<p>##Creating a test application</p>
+<p>In order to be able to try out Glimpse, I created a simple web application with both an MVC and a Web Api controller, that can return a list of guitars stored in the database of an instrument shop.</p>
+<p>###Data model</p>
+<p>For the the data model I used Entity Framework Code First with LocalDB to store some sample data. EF is no longer distributed with the .NET Framework, but rather published in a NuGet package. We can install it with the following command.</p>
+<pre><code>Install-Package EntityFramework
+</code></pre>
+<p>The following data model will represent manufacturers and models of guitars sold in a guitar shop:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">namespace</span> GlimpseTest.Models
+{
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Guitar</span>
+    {
+        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">int</span> GuitarId { <span style="color:#66d9ef">get</span>; <span style="color:#66d9ef">set</span>; }
+
+        <span style="color:#66d9ef">public</span> GuitarType Type { <span style="color:#66d9ef">get</span>; <span style="color:#66d9ef">set</span>; }
+<span style="color:#a6e22e">
+</span><span style="color:#a6e22e">        [JsonIgnore]</span>
+        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">virtual</span> Manufacturer Manufacturer { <span style="color:#66d9ef">get</span>; <span style="color:#66d9ef">set</span>; }
+
+        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">string</span> Name { <span style="color:#66d9ef">get</span>; <span style="color:#66d9ef">set</span>; }
+
+        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">string</span> Material { <span style="color:#66d9ef">get</span>; <span style="color:#66d9ef">set</span>; }
+
+        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">decimal</span> Price { <span style="color:#66d9ef">get</span>; <span style="color:#66d9ef">set</span>; }
+    }
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Manufacturer</span>
+    {
+        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">int</span> ManufacturerId { <span style="color:#66d9ef">get</span>; <span style="color:#66d9ef">set</span>; }
+
+        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">string</span> Name { <span style="color:#66d9ef">get</span>; <span style="color:#66d9ef">set</span>; }
+
+        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">virtual</span> IList&lt;Guitar&gt; Models { <span style="color:#66d9ef">get</span>; <span style="color:#66d9ef">set</span>; }
+    }
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">enum</span> GuitarType
+    {
+        Classical,
+        Acoustic,
+        Electric,
+        Bass
+    }
+}
+</code></pre></div><p>I created the database context with EF code first and implemented a configuration class to seed the database with some test data.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">namespace</span> GlimpseTest.Models
+{
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">GuitarShopContext</span> : DbContext
+    {
+        <span style="color:#66d9ef">public</span> GuitarShopContext() : <span style="color:#66d9ef">base</span>(<span style="color:#e6db74">&#34;GuitarShopContext&#34;</span>)
+        {
+        }
+
+        <span style="color:#66d9ef">public</span> DbSet&lt;Guitar&gt; Guitars { <span style="color:#66d9ef">get</span>; <span style="color:#66d9ef">set</span>; }
+
+        <span style="color:#66d9ef">public</span> DbSet&lt;Manufacturer&gt; Manufacturers { <span style="color:#66d9ef">get</span>; <span style="color:#66d9ef">set</span>; }
+    }
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">AlwaysDropAndCreateInitializer</span> : DropCreateDatabaseAlways&lt;GuitarShopContext&gt;
+    {
+        <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">void</span> Seed(GuitarShopContext context)
+        {
+            <span style="color:#66d9ef">base</span>.Seed(context);
+
+            <span style="color:#66d9ef">var</span> yamaha = <span style="color:#66d9ef">new</span> Manufacturer
+            {
+                Name = <span style="color:#e6db74">&#34;Yamaha&#34;</span>,
+                Models = <span style="color:#66d9ef">new</span> List&lt;Guitar&gt;
+                {
+                    <span style="color:#66d9ef">new</span> Guitar
+                    {
+                        Name = <span style="color:#e6db74">&#34;C40&#34;</span>,
+                        Material = <span style="color:#e6db74">&#34;Spruce&#34;</span>,
+                        Type = GuitarType.Classical
+                    },
+                    <span style="color:#66d9ef">new</span> Guitar
+                    {
+                        Name = <span style="color:#e6db74">&#34;FS700S&#34;</span>,
+                        Material = <span style="color:#e6db74">&#34;Rosewood&#34;</span>,
+                        Type = GuitarType.Acoustic
+                    }
+                }
+            };
+
+            <span style="color:#66d9ef">var</span> gibson = <span style="color:#66d9ef">new</span> Manufacturer
+            {
+                Name = <span style="color:#e6db74">&#34;Gibson&#34;</span>,
+                Models = <span style="color:#66d9ef">new</span> List&lt;Guitar&gt;
+                {
+                    <span style="color:#66d9ef">new</span> Guitar
+                    {
+                        Name = <span style="color:#e6db74">&#34;ES-175&#34;</span>,
+                        Material = <span style="color:#e6db74">&#34;Maple&#34;</span>,
+                        Type = GuitarType.Electric
+                    }
+                }
+            };
+
+            context.Manufacturers.Add(yamaha);
+            context.Manufacturers.Add(gibson);
+        }
+    }
+}
+</code></pre></div><p>We need to configure the database initializer in our Application_Start method class in the Global.asax.cs.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">Database.SetInitializer(<span style="color:#66d9ef">new</span> AlwaysDropAndCreateInitializer());
+</code></pre></div><p>The last thing to do in order to make our data model work is to configure a connection string to the database. I used LocalDB for testing.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;connectionStrings&gt;</span>
+  <span style="color:#f92672">&lt;add</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;GuitarShopContext&#34;</span> <span style="color:#a6e22e">providerName=</span><span style="color:#e6db74">&#34;System.Data.SqlClient&#34;</span> <span style="color:#a6e22e">connectionString=</span><span style="color:#e6db74">&#34;Data Source=(localdb)\v11.0;Initial Catalog=GuitarShop;Integrated Security=True&#34;</span> <span style="color:#f92672">/&gt;</span>
+<span style="color:#f92672">&lt;/connectionStrings&gt;</span>
+</code></pre></div><p>###Controllers</p>
+<p>To be able to test Glimpse in its merits, we need to create some controllers as well. I implemented basically the same functionality in both an MVC and a Web Api controller.</p>
+<h4 id="mvc">MVC</h4>
+<p>The controller has a single action, that returns the list of manufacturers and guitars stored in the database. The controller action does two things.</p>
+<ul>
+<li>Loads the data from the database</li>
+<li>Imitates a service call to an external service to fetch the prices of the models</li>
+</ul>
+<p>The controller:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">namespace</span> GlimpseTest.Controllers
+{
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">GuitarController</span> : Controller
+    {
+        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">async</span> Task&lt;ActionResult&gt; Index()
+        {
+            <span style="color:#66d9ef">using</span> (<span style="color:#66d9ef">var</span> ctx = <span style="color:#66d9ef">new</span> GuitarShopContext())
+            {
+                <span style="color:#66d9ef">var</span> manufacturers = <span style="color:#66d9ef">await</span> ctx.Manufacturers.Include(<span style="color:#e6db74">&#34;Models&#34;</span>).ToListAsync();
+
+                <span style="color:#66d9ef">await</span> <span style="color:#66d9ef">this</span>.LoadPrices(manufacturers.SelectMany(m =&gt; m.Models));
+
+                <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>.View(manufacturers);
+            }
+        }
+
+        <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">async</span> Task LoadPrices(IEnumerable&lt;Guitar&gt; guitars)
+        {
+            Random rnd = <span style="color:#66d9ef">new</span> Random();
+            <span style="color:#66d9ef">foreach</span> (<span style="color:#66d9ef">var</span> guitar <span style="color:#66d9ef">in</span> guitars)
+            {
+                guitar.Price = rnd.Next(<span style="color:#ae81ff">100</span>, <span style="color:#ae81ff">500</span>);
+            }
+
+            <span style="color:#66d9ef">await</span> Task.Delay(<span style="color:#ae81ff">500</span>);
+        }
+    }
+}
+</code></pre></div><p>The views consists of two parts. Views\Shared\DisplayTemplates\Guitars.cshtml contains the view for displaying a list of guitars.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">@model IEnumerable&lt;<span style="color:#f92672">GlimpseTest.Models.Guitar</span>&gt;
+
+&lt;<span style="color:#f92672">table</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;table&#34;</span>&gt;
+    &lt;<span style="color:#f92672">tr</span>&gt;
+        &lt;<span style="color:#f92672">th</span>&gt;
+            @Html.DisplayNameFor(model =&gt; model.Name)
+        &lt;/<span style="color:#f92672">th</span>&gt;
+        &lt;<span style="color:#f92672">th</span>&gt;
+            @Html.DisplayNameFor(model =&gt; model.Material)
+        &lt;/<span style="color:#f92672">th</span>&gt;
+        &lt;<span style="color:#f92672">th</span>&gt;
+            @Html.DisplayNameFor(model =&gt; model.Price)
+        &lt;/<span style="color:#f92672">th</span>&gt;
+    &lt;/<span style="color:#f92672">tr</span>&gt;
+
+@foreach (var item in Model) {
+    &lt;<span style="color:#f92672">tr</span>&gt;
+        &lt;<span style="color:#f92672">td</span>&gt;
+            @Html.DisplayFor(modelItem =&gt; item.Name)
+        &lt;/<span style="color:#f92672">td</span>&gt;
+        &lt;<span style="color:#f92672">td</span>&gt;
+            @Html.DisplayFor(modelItem =&gt; item.Material)
+        &lt;/<span style="color:#f92672">td</span>&gt;
+        &lt;<span style="color:#f92672">td</span>&gt;
+            @Html.DisplayFor(modelItem =&gt; item.Price)
+        &lt;/<span style="color:#f92672">td</span>&gt;
+    &lt;/<span style="color:#f92672">tr</span>&gt;
+}
+
+&lt;/<span style="color:#f92672">table</span>&gt;
+</code></pre></div><p>View\Guitar\Index.cshtml is the main view for this action.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">@model IEnumerable&lt;<span style="color:#f92672">GlimpseTest.Models.Manufacturer</span>&gt;
+
+@{
+    ViewBag.Title = &#34;Index&#34;;
+}
+
+&lt;<span style="color:#f92672">h2</span>&gt;Guitars&lt;/<span style="color:#f92672">h2</span>&gt;
+
+&lt;<span style="color:#f92672">div</span>&gt;
+    @foreach (var manufacturer in Model)
+    {
+        &lt;<span style="color:#f92672">h4</span>&gt;
+            @Html.DisplayFor(modelItem =&gt; manufacturer.Name)
+        &lt;/<span style="color:#f92672">h4</span>&gt;
+
+        @Html.Partial(&#34;~/Views/Shared/DisplayTemplates/Guitars.cshtml&#34;, manufacturer.Models);
+    }
+&lt;/<span style="color:#f92672">div</span>&gt;
+</code></pre></div><p>####Web Api</p>
+<p>The Web Api controller is very similar, but it has a different base class and method signature:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">namespace</span> GlimpseTest.Controllers
+{
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">GuitarApiController</span> : ApiController
+    {
+        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">async</span> Task&lt;IHttpActionResult&gt; Get()
+        {
+            <span style="color:#66d9ef">using</span> (<span style="color:#66d9ef">var</span> ctx = <span style="color:#66d9ef">new</span> GuitarShopContext())
+            {
+                <span style="color:#66d9ef">var</span> manufacturers = <span style="color:#66d9ef">await</span> ctx.Manufacturers.Include(<span style="color:#e6db74">&#34;Models&#34;</span>).ToListAsync();
+
+                <span style="color:#66d9ef">await</span> <span style="color:#66d9ef">this</span>.LoadPrices(manufacturers.SelectMany(m =&gt; m.Models));
+
+                <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>.Ok(manufacturers);
+            }
+        }
+
+        <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">async</span> Task LoadPrices(IEnumerable&lt;Guitar&gt; guitars)
+        {
+            Random rnd = <span style="color:#66d9ef">new</span> Random();
+            <span style="color:#66d9ef">foreach</span> (<span style="color:#66d9ef">var</span> guitar <span style="color:#66d9ef">in</span> guitars)
+            {
+                guitar.Price = rnd.Next(<span style="color:#ae81ff">100</span>, <span style="color:#ae81ff">500</span>);
+            }
+
+            <span style="color:#66d9ef">await</span> Task.Delay(<span style="color:#ae81ff">500</span>);
+        }
+    }
+}
+</code></pre></div><p>The Web Api controller returns the data in Json directly, so it does not have a corresponding view.
+One convenient thing to do is to make the Json formatter be the only formatter, so we can open endpoints in our browser without having to specify the Accept header. In order to do this, we have to insert the following piece of code in the start of the Register method in our WebApiConfig class:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#75715e">// Web API configuration and services
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">var</span> jsonFormatter = config.Formatters.JsonFormatter;
+config.Formatters.Clear();
+config.Formatters.Add(jsonFormatter);
+</code></pre></div><p>This code removes every formatter, except the Json one.</p>
+<p>##Installing Glimpse</p>
+<p>Installing Glimpse is merely adding a NuGet package to our ASP.NET project. For using with the latest version of MVC, Glimpse can be added with the following command from the Package Manager Console:</p>
+<pre><code>Install-Package Glimpse.Mvc5
+</code></pre>
+<p>Sadly, there is no official package for Web Api yet. Official Web Api support is supposed to come with version 2 of Glimpse, but no estimated release date has been announce. (However, there is active work going on in this area: <a href="https://github.com/Glimpse/Glimpse/issues/715">https://github.com/Glimpse/Glimpse/issues/715</a>)</p>
+<p>###Using Glimpse with MVC
+After installing Glimpse this way, we can start using it immediately. To enable Glimpse, go to the url /Glimpse.axd, and click on Turn Glimpse On.</p>
+<p><img src="/images/2015/05/25turnonglimpse.png" alt="Turn Glimpse on"></p>
+<p>If we navigate to the index of our guitar controller, we should see the Glimpse plugin showing up on the bottom of the page, where we can see a summary of the information recorded during the request.</p>
+<p><img src="/images/2015/05/30glimpseinitial-1.png" alt="Default view of the Glimpse plugin."></p>
+<p>If we click on the g button in the bottom right hand corner, the full view of Glimpse is opened, where we find several tabs showing different kinds of data collected about the request:</p>
+<p><img src="/images/2015/05/40glimpsefull.png" alt="Full view of the Glimpse plugin."></p>
+<p>Because MVC is officially supported, these tabs all work very well out of the box: we can see the order of different events on the Execution tabs, the Routes tab shows information about the routes taken into consideration, and the Timeline tab displays timing information about the different phases of the request processing.
+One thing that&rsquo;s missing but we would expect to see is insight into the SQL commands being executed during the request. This is not recorded out of the box, but luckily, there is a package that does just this. The package for simple ADO.NET is Glimpse.ADO, but we are using Entity Framework, which needs a different package, Glimpse.EF6 (for Entity Framework version six). We can install it with the following command.</p>
+<pre><code>Install-Package Glimpse.EF6
+</code></pre>
+<p>After installing the package, we will have an additional SQL tab, on which we can see all the SQL queries executed during the request.</p>
+<p><img src="/images/2015/05/50glimpseef.png" alt="Glimpse showing SQL queries with the Glimpse.EF6 package."></p>
+<p>So we can see that with ASP.NET MVC, Glimpse works very well out of the box without any special customization.</p>
+<p>###Using Glimpse with Web Api
+Let&rsquo;s try our Web Api controller by opening it in the browser.</p>
+<p><img src="/images/2015/05/60jsonapi.png" alt="Opening a Web Api action in the browser."></p>
+<p>Hmm, when we send a request for a Web Api action, instead of a web page, we get back the result in its raw form, serialized to Json. So there is no place for the Glimpse plugin to get embedded into. How can we use Glimpse in this situation then?</p>
+<p>####Standalone Glimpse page
+In order to be able to use Glimpse independently from the web page itself, it also supports a standalone view, that can also be accessed from its /Glimpse.axd configuration page.</p>
+<p><img src="/images/2015/05/70standaloneglimpse-1.png" alt="Opening the standalone Glimpse page."></p>
+<p>On this page we can see a list of all the requests coming to our application, let them be MVC or Web Api requests.</p>
+<p><img src="/images/2015/05/80standaloneglimpse.png" alt="The standalone Glimpse page."></p>
+<p>When we click on the Inspect link, we can view the information collected on the different tabs the same way we did with the embedded plugin. However, when we inspect a Web Api request, we can see that the following tabs are showing no information: Execution, Metadata, Routes, Views. In addition to that, the Timeline tab doesn&rsquo;t show any Web Api-related information, only the events related to Entity Framework.</p>
+<p>These are the things that should be supported in the upcoming version of Glimpse, probably the unification of the MVC and Web Api data model in ASP.NET 5 will make this simpler.</p>
+<p>###How to improve?</p>
+<p>There are at least two features which work just as well with Web Api as MVC: Tracing and custom Timeline messages.</p>
+<p>####Tracing</p>
+<p>Tracing is very easy to use with Glimpse. Any standard .NET trace message will be captured by Glimpse and displayed on the Trace tab.
+The big advantage of browsing your trace messages with Glimpse is that it shows the trace messages in the context of a single request, so you don&rsquo;t have to filter your whole log in order to correlate the entries with a specific request.
+If we add some trace messages to our application</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">Trace.Write(<span style="color:#e6db74">&#34;Loading manufacturers from the database.&#34;</span>);
+...
+Trace.Write(<span style="color:#e6db74">&#34;Getting price information&#34;</span>);
+</code></pre></div><p>They will show up in the Trace tab.</p>
+<p><img src="/images/2015/05/90tracing.png" alt="Custom Trace messages."></p>
+<p>####Custom timeline messages</p>
+<p>The timeline tab is a great tool to see timing information and to analyze how long different parts of the request processing take. With Web Api the information displayed out of the box on the Timeline tab is rather limited.
+It is possible to extend it with custom events, however, this is not as trivial as emitting trace messages.</p>
+<p>There is no simple way in the public Glimpse API to emit our own Timeline events, we have to implement a couple of helper classes containing the necessary boilerplate code.</p>
+<p>Let&rsquo;s add a code file called GlimpseTimeline.cs to our project and implement a couple of classes and methods in the Glimpse.Core namespace.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">using</span> System;
+<span style="color:#66d9ef">using</span> Glimpse.Core.Extensibility;
+<span style="color:#66d9ef">using</span> Glimpse.Core.Framework;
+<span style="color:#66d9ef">using</span> Glimpse.Core.Message;
+
+<span style="color:#66d9ef">namespace</span> Glimpse.Core
+{
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TimelineMessage</span> : ITimelineMessage
+    {
+        <span style="color:#66d9ef">public</span> TimelineMessage()
+        {
+            Id = Guid.NewGuid();
+        }
+
+        <span style="color:#66d9ef">public</span> Guid Id { <span style="color:#66d9ef">get</span>; <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">set</span>; }
+        <span style="color:#66d9ef">public</span> TimeSpan Offset { <span style="color:#66d9ef">get</span>; <span style="color:#66d9ef">set</span>; }
+        <span style="color:#66d9ef">public</span> TimeSpan Duration { <span style="color:#66d9ef">get</span>; <span style="color:#66d9ef">set</span>; }
+        <span style="color:#66d9ef">public</span> DateTime StartTime { <span style="color:#66d9ef">get</span>; <span style="color:#66d9ef">set</span>; }
+        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">string</span> EventName { <span style="color:#66d9ef">get</span>; <span style="color:#66d9ef">set</span>; }
+        <span style="color:#66d9ef">public</span> TimelineCategoryItem EventCategory { <span style="color:#66d9ef">get</span>; <span style="color:#66d9ef">set</span>; }
+        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">string</span> EventSubText { <span style="color:#66d9ef">get</span>; <span style="color:#66d9ef">set</span>; }
+    }
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">GlimpseTimeline</span>
+    {
+        <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">readonly</span> TimelineCategoryItem DefaultCategory = <span style="color:#66d9ef">new</span> TimelineCategoryItem(<span style="color:#e6db74">&#34;User&#34;</span>, <span style="color:#e6db74">&#34;green&#34;</span>, <span style="color:#e6db74">&#34;blue&#34;</span>);
+
+        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> OngoingCapture Capture(<span style="color:#66d9ef">string</span> eventName)
+        {
+            <span style="color:#66d9ef">return</span> Capture(eventName, <span style="color:#66d9ef">null</span>, DefaultCategory, <span style="color:#66d9ef">new</span> TimelineMessage());
+        }
+
+        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> OngoingCapture Capture(<span style="color:#66d9ef">string</span> eventName, <span style="color:#66d9ef">string</span> eventSubText)
+        {
+            <span style="color:#66d9ef">return</span> Capture(eventName, eventSubText, DefaultCategory, <span style="color:#66d9ef">new</span> TimelineMessage());
+        }
+
+        <span style="color:#66d9ef">internal</span> <span style="color:#66d9ef">static</span> OngoingCapture Capture(<span style="color:#66d9ef">string</span> eventName, TimelineCategoryItem category)
+        {
+            <span style="color:#66d9ef">return</span> Capture(eventName, <span style="color:#66d9ef">null</span>, category, <span style="color:#66d9ef">new</span> TimelineMessage());
+        }
+
+        <span style="color:#66d9ef">internal</span> <span style="color:#66d9ef">static</span> OngoingCapture Capture(<span style="color:#66d9ef">string</span> eventName, TimelineCategoryItem category, ITimelineMessage message)
+        {
+            <span style="color:#66d9ef">return</span> Capture(eventName, <span style="color:#66d9ef">null</span>, category, message);
+        }
+
+        <span style="color:#66d9ef">internal</span> <span style="color:#66d9ef">static</span> OngoingCapture Capture(<span style="color:#66d9ef">string</span> eventName, ITimelineMessage message)
+        {
+            <span style="color:#66d9ef">return</span> Capture(eventName, <span style="color:#66d9ef">null</span>, DefaultCategory, message);
+        }
+
+        <span style="color:#66d9ef">internal</span> <span style="color:#66d9ef">static</span> OngoingCapture Capture(<span style="color:#66d9ef">string</span> eventName, <span style="color:#66d9ef">string</span> eventSubText, TimelineCategoryItem category, ITimelineMessage message)
+        {
+            <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">string</span>.IsNullOrEmpty(eventName))
+            {
+                <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> ArgumentNullException(<span style="color:#e6db74">&#34;eventName&#34;</span>);
+            }
+
+<span style="color:#75715e">#pragma warning disable 618
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">var</span> executionTimer = GlimpseConfiguration.GetConfiguredTimerStrategy()();
+            <span style="color:#66d9ef">var</span> messageBroker = GlimpseConfiguration.GetConfiguredMessageBroker();
+<span style="color:#75715e">#pragma warning restore 618
+</span><span style="color:#75715e"></span>
+            <span style="color:#66d9ef">if</span> (executionTimer == <span style="color:#66d9ef">null</span> || messageBroker == <span style="color:#66d9ef">null</span>)
+            {
+                <span style="color:#66d9ef">return</span> OngoingCapture.Empty();
+            }
+
+            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> OngoingCapture(executionTimer, messageBroker, eventName, eventSubText, category, message);
+        }
+
+        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> CaptureMoment(<span style="color:#66d9ef">string</span> eventName)
+        {
+            CaptureMoment(eventName, <span style="color:#66d9ef">null</span>, DefaultCategory, <span style="color:#66d9ef">new</span> TimelineMessage());
+        }
+
+        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> CaptureMoment(<span style="color:#66d9ef">string</span> eventName, <span style="color:#66d9ef">string</span> eventSubText)
+        {
+            CaptureMoment(eventName, eventSubText, DefaultCategory, <span style="color:#66d9ef">new</span> TimelineMessage());
+        }
+
+        <span style="color:#66d9ef">internal</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> CaptureMoment(<span style="color:#66d9ef">string</span> eventName, TimelineCategoryItem category)
+        {
+            CaptureMoment(eventName, <span style="color:#66d9ef">null</span>, category, <span style="color:#66d9ef">new</span> TimelineMessage());
+        }
+
+        <span style="color:#66d9ef">internal</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> CaptureMoment(<span style="color:#66d9ef">string</span> eventName, TimelineCategoryItem category, ITimelineMessage message)
+        {
+            CaptureMoment(eventName, <span style="color:#66d9ef">null</span>, category, message);
+        }
+
+        <span style="color:#66d9ef">internal</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> CaptureMoment(<span style="color:#66d9ef">string</span> eventName, ITimelineMessage message)
+        {
+            CaptureMoment(eventName, <span style="color:#66d9ef">null</span>, DefaultCategory, message);
+        }
+
+        <span style="color:#66d9ef">internal</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> CaptureMoment(<span style="color:#66d9ef">string</span> eventName, <span style="color:#66d9ef">string</span> eventSubText, TimelineCategoryItem category, ITimelineMessage message)
+        {
+            <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">string</span>.IsNullOrEmpty(eventName))
+            {
+                <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> ArgumentNullException(<span style="color:#e6db74">&#34;eventName&#34;</span>);
+            }
+
+<span style="color:#75715e">#pragma warning disable 618
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">var</span> executionTimer = GlimpseConfiguration.GetConfiguredTimerStrategy()();
+            <span style="color:#66d9ef">var</span> messageBroker = GlimpseConfiguration.GetConfiguredMessageBroker();
+<span style="color:#75715e">#pragma warning restore 618
+</span><span style="color:#75715e"></span>
+            <span style="color:#66d9ef">if</span> (executionTimer == <span style="color:#66d9ef">null</span> || messageBroker == <span style="color:#66d9ef">null</span>)
+            {
+                <span style="color:#66d9ef">return</span>;
+            }
+
+            message
+                .AsTimelineMessage(eventName, category, eventSubText)
+                .AsTimedMessage(executionTimer.Point());
+
+            messageBroker.Publish(message);
+        }
+
+        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">OngoingCapture</span> : IDisposable
+        {
+            <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> OngoingCapture Empty()
+            {
+                <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> NullOngoingCapture();
+            }
+
+            <span style="color:#66d9ef">private</span> OngoingCapture()
+            {
+            }
+
+            <span style="color:#66d9ef">public</span> OngoingCapture(IExecutionTimer executionTimer, IMessageBroker messageBroker, <span style="color:#66d9ef">string</span> eventName, <span style="color:#66d9ef">string</span> eventSubText, TimelineCategoryItem category, ITimelineMessage message)
+            {
+                Offset = executionTimer.Start();
+                ExecutionTimer = executionTimer;
+                Message = message.AsTimelineMessage(eventName, category, eventSubText);
+                MessageBroker = messageBroker;
+            }
+
+            <span style="color:#66d9ef">private</span> ITimelineMessage Message { <span style="color:#66d9ef">get</span>; <span style="color:#66d9ef">set</span>; }
+
+            <span style="color:#66d9ef">private</span> TimeSpan Offset { <span style="color:#66d9ef">get</span>; <span style="color:#66d9ef">set</span>; }
+
+            <span style="color:#66d9ef">private</span> IExecutionTimer ExecutionTimer { <span style="color:#66d9ef">get</span>; <span style="color:#66d9ef">set</span>; }
+
+            <span style="color:#66d9ef">private</span> IMessageBroker MessageBroker { <span style="color:#66d9ef">get</span>; <span style="color:#66d9ef">set</span>; }
+
+            <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">void</span> Stop()
+            {
+                <span style="color:#66d9ef">var</span> timerResult = ExecutionTimer.Stop(Offset);
+
+                MessageBroker.Publish(Message.AsTimedMessage(timerResult));
+            }
+
+            <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> Dispose()
+            {
+                Stop();
+            }
+
+            <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">NullOngoingCapture</span> : OngoingCapture
+            {
+                <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">void</span> Stop()
+                {
+                }
+            }
+        }
+    }
+}
+</code></pre></div><p>(There are several slightly different versions of this code around on the internet, I took this version from the following gist: <a href="https://gist.github.com/johnjuuljensen/776e61b720c2a7e5b6ef">https://gist.github.com/johnjuuljensen/776e61b720c2a7e5b6ef</a>)</p>
+<p>With this helper logic we can add our own timing events to our controller.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">using</span> Glimpse.Core;
+...
+List&lt;Manufacturer&gt; manufacturers;
+<span style="color:#66d9ef">using</span> (GlimpseTimeline.Capture(<span style="color:#e6db74">&#34;Loading from DB&#34;</span>))
+{
+    manufacturers = <span style="color:#66d9ef">await</span> ctx.Manufacturers.Include(<span style="color:#e6db74">&#34;Models&#34;</span>).ToListAsync();
+}
+
+<span style="color:#66d9ef">using</span> (GlimpseTimeline.Capture(<span style="color:#e6db74">&#34;Fetching product prices&#34;</span>))
+{
+    <span style="color:#66d9ef">await</span> <span style="color:#66d9ef">this</span>.LoadPrices(manufacturers.SelectMany(m =&gt; m.Models));
+}
+</code></pre></div><p>Our custom timeline events will show up in the timeline tab.</p>
+<p><img src="/images/2015/05/100timeline.png" alt="Custom Timeline events."></p>
+<p>If you&rsquo;d like to take a look at it, you can find the whole source code on <a href="https://github.com/markvincze/glimpse-web-api">GitHub</a>.
+#Conclusion
+We&rsquo;ve seen that setting up Glimpse for the Web Api is just as easy as using it with MVC, however, the feature set supported is much more limited. Still, Glimpse can be a very useful tool to analyze what&rsquo;s going on under the hood in a Web Api application as well.</p>
+
+    </article>
+
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https:\/\/markvincze.github.io\/blog\/use-glimpse-with-asp-net-web-api\/';
+        
+        this.page.identifier = 'ghost-3';
+        
+      };
+      (function () { 
+        var d = document, s = d.createElement('script');
+        s.src = 'https://markvinczeblog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+
+
+  <footer class="footer py-6">
+    <div class="content has-text-centered">
+      <p>
+        © 2020 <strong>Mark Vincze</strong>. All rights reserved.<br />
+        Built with <a href="https://gohugo.io/">Hugo</a> and <a href="https://bulma.io/">Bulma</a>. 💙
+      </p>
+    </div>
+  </footer>
+
+</body>
+
+</html>

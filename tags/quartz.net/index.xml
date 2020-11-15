@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>quartz.net on Mark Vincze</title>
+    <link>https://markvincze.github.io/blog/tags/quartz.net/</link>
+    <description>Recent content in quartz.net on Mark Vincze</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 21 Jun 2017 20:20:00 +0000</lastBuildDate><atom:link href="https://markvincze.github.io/blog/tags/quartz.net/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Tear down your ASP.NET Core api between integration tests</title>
+      <link>https://markvincze.github.io/blog/tear-down-your-asp-net-core-api-between-integration-tests/</link>
+      <pubDate>Wed, 21 Jun 2017 20:20:00 +0000</pubDate>
+      
+      <guid>https://markvincze.github.io/blog/tear-down-your-asp-net-core-api-between-integration-tests/</guid>
+      <description>The way to write integration tests for ASP.NET applications has been made much easier with the advent of ASP.NET Core. This is mainly due to the programming model becoming super modular, which means that it is really easy to spin up an instance of our whole web application for testing purposes and start sending HTTP requests to it from a simple unit test.
+The following code illustrates a unit test method, which starts up an ASP.</description>
+    </item>
+    
+  </channel>
+</rss>

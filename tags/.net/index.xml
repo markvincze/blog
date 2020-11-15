@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>.net on Mark Vincze</title>
+    <link>https://markvincze.github.io/blog/tags/.net/</link>
+    <description>Recent content in .net on Mark Vincze</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 11 Feb 2017 15:12:50 +0000</lastBuildDate><atom:link href="https://markvincze.github.io/blog/tags/.net/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Jumpstart F# web development: F# with Suave.IO on classic .NET</title>
+      <link>https://markvincze.github.io/blog/jumpstart-f-web-development-f-with-suave-io-on-classic-net/</link>
+      <pubDate>Sat, 11 Feb 2017 15:12:50 +0000</pubDate>
+      
+      <guid>https://markvincze.github.io/blog/jumpstart-f-web-development-f-with-suave-io-on-classic-net/</guid>
+      <description>In the second part of the series we take a look at how we can develop a web application using Sauve on the classic .NET Framework.
+Suave is a lightweight web framework and server, which was implemented in F# from the ground up with functional programming in mind, using constructs which fit the F# word nicely, so we won&amp;rsquo;t have to create .NET classes or use inheritence and state mutation to configure our application (as we had to do with ASP.</description>
+    </item>
+    
+    <item>
+      <title>Stubbing service dependencies in .NET using Stubbery</title>
+      <link>https://markvincze.github.io/blog/stubbing-service-dependencies-in-net-using-stubbery/</link>
+      <pubDate>Sun, 12 Jun 2016 15:27:28 +0000</pubDate>
+      
+      <guid>https://markvincze.github.io/blog/stubbing-service-dependencies-in-net-using-stubbery/</guid>
+      <description>Introduction When writing integration tests for a service (especially if we are running a long, end-to-end test), it often causes a problem that the external dependencies of our service fail.
+Let&amp;rsquo;s say we have a service handling customer payments and the actual payments are handled by an external provider.
+Very often, we cannot use the actual production system of our external dependency. For example, when we want to test payments, we cannot make real purchases every time we run our integration test suite.</description>
+    </item>
+    
+    <item>
+      <title>ASP.NET Core 1.0: hints to get started</title>
+      <link>https://markvincze.github.io/blog/getting-started-with-asp-net-core-1-0-tips-and-tricks/</link>
+      <pubDate>Sun, 14 Feb 2016 16:30:58 +0000</pubDate>
+      
+      <guid>https://markvincze.github.io/blog/getting-started-with-asp-net-core-1-0-tips-and-tricks/</guid>
+      <description>I recently started working on implementing a Web Api application using ASP.NET Core 1.0, running it on Linux with the CoreCLR.
+There have been many changes introduced in this new version of ASP.NET, and there are also differences in how we are running and deploying applications using CoreCLR, so I&amp;rsquo;m going to document a couple of things you might encounter if you get started with using this new ecosystem.
+Version numbers It is quite easy to get lost in the sea of different products and version numbers.</description>
+    </item>
+    
+    <item>
+      <title>Simple client-side compression for Couchbase - with benchmarks</title>
+      <link>https://markvincze.github.io/blog/simple-client-side-compression-for-couchbase-with-benchmarks/</link>
+      <pubDate>Sat, 16 Jan 2016 16:53:00 +0000</pubDate>
+      
+      <guid>https://markvincze.github.io/blog/simple-client-side-compression-for-couchbase-with-benchmarks/</guid>
+      <description>Introduction In the last post I described the quirks and problems I encountered during getting started with using Couchbase Server in a production environment.
+When we are storing complex objects, by default the .NET Couchbase SDK uses Json.NET serialization. It is possible to create indices and views on this Json structure, and execute custom queries to filter our documents based on their Json property values. I guess in this scenario we can think of Couchbase as a NoSQL Document-store.</description>
+    </item>
+    
+    <item>
+      <title>Couchbase Server: tips for troubleshooting issues</title>
+      <link>https://markvincze.github.io/blog/couchbase-server-tips-for-troubleshooting-issues/</link>
+      <pubDate>Sun, 10 Jan 2016 15:45:00 +0000</pubDate>
+      
+      <guid>https://markvincze.github.io/blog/couchbase-server-tips-for-troubleshooting-issues/</guid>
+      <description>Recently at work we started using Couchbase Server to replace a rather outdated caching solution in our architecture. This was the first time I had to use Couchbase and its .NET SDK, and I have encountered a couple of issues along the way.
+This post is a recollection of the problems we faced. (If you are interested in a &amp;ldquo;getting started&amp;rdquo; tutorial, I recommend reading the official documentation of the .</description>
+    </item>
+    
+    <item>
+      <title>Back to basics: Dictionary part 4, custom GetHashCode</title>
+      <link>https://markvincze.github.io/blog/back-to-basics-dictionary-part-4-custom-gethashcode/</link>
+      <pubDate>Sun, 25 Oct 2015 18:53:07 +0000</pubDate>
+      
+      <guid>https://markvincze.github.io/blog/back-to-basics-dictionary-part-4-custom-gethashcode/</guid>
+      <description>Posts in this series:
+ Part 1: Hash tables Part 2: .NET implementation Part 3: Built-in GetHashCode Part 4: Custom GetHashCode  General guidelines This is the last part in the series about the Dictionary class and the GetHashCode method. In this post we&amp;rsquo;ll take a look at what to look out for when implementing a custom GetHashCode method. In the previous post we&amp;rsquo;ve seen how the built-in GetHashCode works.</description>
+    </item>
+    
+    <item>
+      <title>Back to basics: Dictionary part 3, built-in GetHashCode</title>
+      <link>https://markvincze.github.io/blog/back-to-basics-dictionary-part-3-built-in-gethashcode/</link>
+      <pubDate>Sat, 29 Aug 2015 14:02:09 +0000</pubDate>
+      
+      <guid>https://markvincze.github.io/blog/back-to-basics-dictionary-part-3-built-in-gethashcode/</guid>
+      <description>Posts in this series:
+ Part 1: Hash tables Part 2: .NET implementation Part 3: Built-in GetHashCode Part 4: Custom GetHashCode  Introduction In the previous two posts we looked at the basic concepts behind the hash map data structure, and checked out how it is implemented in the Dictionary class of the .NET Framework. Today we&amp;rsquo;ll take a look at a very important mechanism behind the Dictionary class: the GetHashCode method, and the way its built-in implementation works.</description>
+    </item>
+    
+    <item>
+      <title>Back to basics: Dictionary part 2, .NET implementation</title>
+      <link>https://markvincze.github.io/blog/back-to-basics-dictionary-part-2-net-implementation/</link>
+      <pubDate>Sat, 15 Aug 2015 13:27:35 +0000</pubDate>
+      
+      <guid>https://markvincze.github.io/blog/back-to-basics-dictionary-part-2-net-implementation/</guid>
+      <description>Posts in this series:
+ Part 1: Hash tables Part 2: .NET implementation Part 3: Built-in GetHashCode Part 4: Custom GetHashCode  Introduction Last time we saw an overview about the basic concepts behind a hash map.
+In this post we will take a look at the .NET Dictionary class, and see what type of hash map it is and how the different mechanisms have been implemented in C#.
+In order to investigate, I used the Reference source published by Microsoft, which contains the code base of the .</description>
+    </item>
+    
+    <item>
+      <title>Back to basics: Dictionary part 1, hash tables</title>
+      <link>https://markvincze.github.io/blog/back-to-basics-dictionary-part-1/</link>
+      <pubDate>Sat, 25 Jul 2015 13:37:04 +0000</pubDate>
+      
+      <guid>https://markvincze.github.io/blog/back-to-basics-dictionary-part-1/</guid>
+      <description>Posts in this series:
+ Part 1: Hash tables Part 2: .NET implementation Part 3: Built-in GetHashCode Part 4: Custom GetHashCode  Introduction Recently I came across a situation in which I should have known the details about how a .NET Dictionary (and hashmaps in general) worked under the hood. I realized that my knowledge about this topic was a bit rusty, so I decided I&amp;rsquo;d refresh my memories and look into this topic.</description>
+    </item>
+    
+    <item>
+      <title>How to store state during SpecFlow tests?</title>
+      <link>https://markvincze.github.io/blog/how-to-store-state-during-specflow-tests/</link>
+      <pubDate>Sat, 06 Jun 2015 19:19:58 +0000</pubDate>
+      
+      <guid>https://markvincze.github.io/blog/how-to-store-state-during-specflow-tests/</guid>
+      <description>#Introduction SpecFlow is an implementation of the Gherkin language for the .NET Framework. SpecFlow is to .NET what Cucumber is for the JavaScript ecosystem. It is a way to write tests in a DSL that is easily readable (and maybe writable) by not just developers, but also the business. A simple example from the Cucumber web site (which is also generated when a new SpecFlow feature is added in Visual Studio) is the following:</description>
+    </item>
+    
+  </channel>
+</rss>

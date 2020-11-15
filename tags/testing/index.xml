@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>testing on Mark Vincze</title>
+    <link>https://markvincze.github.io/blog/tags/testing/</link>
+    <description>Recent content in testing on Mark Vincze</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 24 Feb 2020 23:25:09 +0000</lastBuildDate><atom:link href="https://markvincze.github.io/blog/tags/testing/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Overriding configuration in ASP.NET Core integration tests</title>
+      <link>https://markvincze.github.io/blog/overriding-configuration-in-asp-net-core-integration-tests/</link>
+      <pubDate>Mon, 24 Feb 2020 23:25:09 +0000</pubDate>
+      
+      <guid>https://markvincze.github.io/blog/overriding-configuration-in-asp-net-core-integration-tests/</guid>
+      <description>The pluggable and modular nature of ASP.NET Core made integration testing a much more accessible and convenient tool than it was in classic .NET. We can spin up our whole application with the full ASP.NET middleware pipeline in-process, with a couple of lines of code, and send HTTP requests to it for testing purposes.
+During the integration test, we often want to use different application configuration than what we have in the appsettings.</description>
+    </item>
+    
+    <item>
+      <title>Tear down your ASP.NET Core api between integration tests</title>
+      <link>https://markvincze.github.io/blog/tear-down-your-asp-net-core-api-between-integration-tests/</link>
+      <pubDate>Wed, 21 Jun 2017 20:20:00 +0000</pubDate>
+      
+      <guid>https://markvincze.github.io/blog/tear-down-your-asp-net-core-api-between-integration-tests/</guid>
+      <description>The way to write integration tests for ASP.NET applications has been made much easier with the advent of ASP.NET Core. This is mainly due to the programming model becoming super modular, which means that it is really easy to spin up an instance of our whole web application for testing purposes and start sending HTTP requests to it from a simple unit test.
+The following code illustrates a unit test method, which starts up an ASP.</description>
+    </item>
+    
+    <item>
+      <title>Setting up Coveralls with OpenCover for a .NET Core project</title>
+      <link>https://markvincze.github.io/blog/setting-up-coveralls-for-a-net-core-project/</link>
+      <pubDate>Wed, 14 Jun 2017 19:46:00 +0000</pubDate>
+      
+      <guid>https://markvincze.github.io/blog/setting-up-coveralls-for-a-net-core-project/</guid>
+      <description>Update: The original version of this post was written when the dotnet toolchain was built on top of the project.json based project structure. Since then the project.json was deprecated, and .NET Core moved to a csproj-based approach.
+Because the project.json was completely deprecated, I decided not to write a new post, but simply adjust this one to work with the new toolchain (as of writing, that is dotnet 1.1).
+Unit test coverage is an interesting metric.</description>
+    </item>
+    
+    <item>
+      <title>Stubbing service dependencies in .NET using Stubbery</title>
+      <link>https://markvincze.github.io/blog/stubbing-service-dependencies-in-net-using-stubbery/</link>
+      <pubDate>Sun, 12 Jun 2016 15:27:28 +0000</pubDate>
+      
+      <guid>https://markvincze.github.io/blog/stubbing-service-dependencies-in-net-using-stubbery/</guid>
+      <description>Introduction When writing integration tests for a service (especially if we are running a long, end-to-end test), it often causes a problem that the external dependencies of our service fail.
+Let&amp;rsquo;s say we have a service handling customer payments and the actual payments are handled by an external provider.
+Very often, we cannot use the actual production system of our external dependency. For example, when we want to test payments, we cannot make real purchases every time we run our integration test suite.</description>
+    </item>
+    
+  </channel>
+</rss>

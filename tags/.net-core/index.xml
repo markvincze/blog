@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>.net-core on Mark Vincze</title>
+    <link>https://markvincze.github.io/blog/tags/.net-core/</link>
+    <description>Recent content in .net-core on Mark Vincze</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 08 Jul 2018 15:48:55 +0000</lastBuildDate><atom:link href="https://markvincze.github.io/blog/tags/.net-core/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Automated, portable code style checking in .NET Core projects</title>
+      <link>https://markvincze.github.io/blog/automated-portable-code-style-checking-in-net-core-projects/</link>
+      <pubDate>Sun, 08 Jul 2018 15:48:55 +0000</pubDate>
+      
+      <guid>https://markvincze.github.io/blog/automated-portable-code-style-checking-in-net-core-projects/</guid>
+      <description>I haven&amp;rsquo;t been using automated code style checking in .NET before. I sporadically experimented with StyleCop, FxCop, or the code style rules of ReSharper, but never ended up using them extensively, or introducing and distributing a maintained configuration in the organization I was working in.
+Recently having worked on JavaScript and TypeScript projects, I really started to appreciate how straightforward and established the process of linting is in those communities: it seems to be almost universal that every project in the JS and TS ecosystem is using eslint and tslint respectively, and the way to specify the linting rules is very straightforward.</description>
+    </item>
+    
+    <item>
+      <title>Build and publish documentation and API reference with DocFx for .NET Core projects</title>
+      <link>https://markvincze.github.io/blog/build-and-publish-documentation-and-api-reference-with-docfx-for-net-core-projects/</link>
+      <pubDate>Fri, 17 Nov 2017 00:00:34 +0000</pubDate>
+      
+      <guid>https://markvincze.github.io/blog/build-and-publish-documentation-and-api-reference-with-docfx-for-net-core-projects/</guid>
+      <description>DocFx is an open source tool for generating documentation and API reference, and it has great support for .NET Core projects.
+DocFx can be slightly intimidating first, because it has a really wide set of features, and the default scaffolded configuration contains quite a lot of files, which at first sight can look a bit complex.
+With this post I&amp;rsquo;d like to give a guide about what is a minimal configuration you need if you want to set up documentation for a .</description>
+    </item>
+    
+    <item>
+      <title>Troubleshooting high memory usage with ASP.NET Core on Kubernetes</title>
+      <link>https://markvincze.github.io/blog/troubleshooting-high-memory-usage-with-asp-net-core-on-kubernetes/</link>
+      <pubDate>Thu, 17 Aug 2017 21:15:39 +0000</pubDate>
+      
+      <guid>https://markvincze.github.io/blog/troubleshooting-high-memory-usage-with-asp-net-core-on-kubernetes/</guid>
+      <description>At work we are running several ASP.NET Core APIs on the hosted version of Kubernetes in the Google Cloud (GCE—Google Container Engine). In almost all of our components we noticed that they had unreasonably high memory usage. The resource limit for memory was set to 500MB, and still, many of our—relatively small—APIs were constantly being restarted by Kubernetes due to exceeding the memory limit.
+These graphs show the memory usage of two of our APIs, you can see that they keep increasing until they reach the memory limit, when Kubernetes restarts them.</description>
+    </item>
+    
+    <item>
+      <title>Setting up Coveralls with OpenCover for a .NET Core project</title>
+      <link>https://markvincze.github.io/blog/setting-up-coveralls-for-a-net-core-project/</link>
+      <pubDate>Wed, 14 Jun 2017 19:46:00 +0000</pubDate>
+      
+      <guid>https://markvincze.github.io/blog/setting-up-coveralls-for-a-net-core-project/</guid>
+      <description>Update: The original version of this post was written when the dotnet toolchain was built on top of the project.json based project structure. Since then the project.json was deprecated, and .NET Core moved to a csproj-based approach.
+Because the project.json was completely deprecated, I decided not to write a new post, but simply adjust this one to work with the new toolchain (as of writing, that is dotnet 1.1).
+Unit test coverage is an interesting metric.</description>
+    </item>
+    
+    <item>
+      <title>Jumpstart F# web development: F# with Suave.IO on .NET Core</title>
+      <link>https://markvincze.github.io/blog/jumpstart-f-web-development-f-with-suave-io-on-net-core/</link>
+      <pubDate>Sun, 12 Mar 2017 12:51:45 +0000</pubDate>
+      
+      <guid>https://markvincze.github.io/blog/jumpstart-f-web-development-f-with-suave-io-on-net-core/</guid>
+      <description>In a previous post we&amp;rsquo;ve seen how we can create a simple web application with Suave on the full .NET Framework. In the last post of the series we&amp;rsquo;ll take a look at how we can do the same thing on .NET Core.
+This is gonna be a short post, since there are no real gotchas in this scenario, it&amp;rsquo;s really easy to set everything up.
+Note: In this post I will use the new csproj-based .</description>
+    </item>
+    
+    <item>
+      <title>Stubbing service dependencies in .NET using Stubbery</title>
+      <link>https://markvincze.github.io/blog/stubbing-service-dependencies-in-net-using-stubbery/</link>
+      <pubDate>Sun, 12 Jun 2016 15:27:28 +0000</pubDate>
+      
+      <guid>https://markvincze.github.io/blog/stubbing-service-dependencies-in-net-using-stubbery/</guid>
+      <description>Introduction When writing integration tests for a service (especially if we are running a long, end-to-end test), it often causes a problem that the external dependencies of our service fail.
+Let&amp;rsquo;s say we have a service handling customer payments and the actual payments are handled by an external provider.
+Very often, we cannot use the actual production system of our external dependency. For example, when we want to test payments, we cannot make real purchases every time we run our integration test suite.</description>
+    </item>
+    
+    <item>
+      <title>How to validate action parameters with DataAnnotation attributes?</title>
+      <link>https://markvincze.github.io/blog/how-to-validate-action-parameters-with-dataannotation-attributes/</link>
+      <pubDate>Sun, 28 Feb 2016 14:23:00 +0000</pubDate>
+      
+      <guid>https://markvincze.github.io/blog/how-to-validate-action-parameters-with-dataannotation-attributes/</guid>
+      <description>Model validation in MVC In both MVC and Web Api we can use the attributes provided in the System.ComponentModel.DataAnnotations namespace to specify validation rules for our models.
+Let&amp;rsquo;s say we have a controller action with the following signature, accepting a single parameter populated from the request body.
+public IActionResult Post([FromBody]Product product); And we decorated our Product type with the following validation attributes (example taken from the official ASP.NET documentation).
+public class Product { public int Id { get; set; } [Required] public string Name { get; set; } public decimal Price { get; set; } [Range(0, 999)] public double Weight { get; set; } } When we call our endpoint by posting a product object in the body of our request, the framework is going to evaluate our validation attributes during the model binding process, and save its result (with possibly errors) in the ModelState property of our controller.</description>
+    </item>
+    
+    <item>
+      <title>ASP.NET Core 1.0: hints to get started</title>
+      <link>https://markvincze.github.io/blog/getting-started-with-asp-net-core-1-0-tips-and-tricks/</link>
+      <pubDate>Sun, 14 Feb 2016 16:30:58 +0000</pubDate>
+      
+      <guid>https://markvincze.github.io/blog/getting-started-with-asp-net-core-1-0-tips-and-tricks/</guid>
+      <description>I recently started working on implementing a Web Api application using ASP.NET Core 1.0, running it on Linux with the CoreCLR.
+There have been many changes introduced in this new version of ASP.NET, and there are also differences in how we are running and deploying applications using CoreCLR, so I&amp;rsquo;m going to document a couple of things you might encounter if you get started with using this new ecosystem.
+Version numbers It is quite easy to get lost in the sea of different products and version numbers.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Jumpstart F# web development: F# with Suave.IO on classic .NET</title>
+
+  
+  <link rel="stylesheet" href="/styles/bulma.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.15.1/js/all.js"></script>
+  <script defer src="/scripts/scripts.js"></script>
+  <link rel="icon" href="/favicon.png" type="image/png" />
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="An introduction to get started with web development in F#, using Suave.IO on the classic .NET Framework." />
+  <meta property="og:url" content="https://markvincze.github.io/blog/jumpstart-f-web-development-f-with-suave-io-on-classic-net/" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Jumpstart F# web development: F# with Suave.IO on classic .NET" />
+  <meta property="og:description" content="An introduction to get started with web development in F#, using Suave.IO on the classic .NET Framework." />
+  
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@mrkvincze" />
+  <meta name="twitter:title" content="Jumpstart F# web development: F# with Suave.IO on classic .NET" />
+  <meta name="twitter:description" content="An introduction to get started with web development in F#, using Suave.IO on the classic .NET Framework." />
+  
+
+</head>
+
+<body>
+  <div class="navbar-container">
+    <nav class="navbar container is-max-desktop" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+
+        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+      <div id="navbarMenu" class="navbar-menu">
+        <div class="navbar-start">
+          <a class="navbar-item" href="/">
+            Home
+          </a>
+
+          <a class="navbar-item" href="/posts">
+            Blog
+          </a>
+
+          <a class="navbar-item">
+            Presentations
+          </a>
+        </div>
+        <div class="navbar-end pt-2 ml-2">
+          <a class="icon is-medium" href="https://twitter.com/mrkvincze">
+            <i class="fab fa-lg fa-twitter"></i>
+          </a>
+          <a class="icon is-medium" href="https://www.github.com/markvincze">
+            <i class="fab fa-lg fa-github"></i>
+          </a>
+          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze">
+            <i class="fab fa-lg fa-stack-overflow"></i>
+          </a>
+          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze">
+            <i class="fab fa-lg fa-linkedin"></i>
+          </a>
+          <a class="icon is-medium" href="/index.xml">
+            <i class="fas fa-lg fa-rss"></i>
+          </a>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <a href="/">
+        <h1 class="title is-1">
+          Mark Vincze
+        </h1>
+      </a>
+      <h2 class="subtitle is-4">
+        Software Developer
+      </h2>
+    </div>
+  </div>
+
+  
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h1 class="title is-1">Jumpstart F# web development: F# with Suave.IO on classic .NET</h1>
+    
+
+
+<p class="mb-3 is-vcentered">
+  <time class="has-text-grey" datetime="2017-02-11">Feb 11, 2017 &bull;</time>
+
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/.net">.net</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/f">f#</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/suave">suave</a>
+  
+
+</p>
+    <article class="content mt-6">
+      <p>In the second part of <a href="/series-jumpstart-f-web-development">the series</a> we take a look at how we can develop a web application using Sauve on the classic .NET Framework.</p>
+<p><img src="/images/2017/02/suave-logo.png" alt="Suave logo"></p>
+<p><a href="https://suave.io/">Suave</a> is a lightweight web framework and server, which was implemented in F# from the ground up with functional programming in mind, using constructs which fit the F# word nicely, so we won&rsquo;t have to create .NET classes or use inheritence and state mutation to configure our application (as we had to do with ASP.NET).</p>
+<p>And based on its logo, you can already tell it&rsquo;s more hipster and cool to use Suave than anything else ;).</p>
+<h1 id="create-a-new-project-with-visual-studio">Create a new project with Visual Studio</h1>
+<p>I mentioned that Suave is not just a framework, but also a web <em>server</em> in one library. This means that we don&rsquo;t need another server, like IIS to start up our application, so we don&rsquo;t need any special Visual Studio integration either.</p>
+<p>Thus we can go ahead and simply create a new F# Console application, which, by default contains a <code>Program.fs</code> file with the following content.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fsharp" data-lang="fsharp"><span style="color:#f92672">[&lt;</span>EntryPoint<span style="color:#f92672">&gt;]</span>
+<span style="color:#66d9ef">let</span> main argv <span style="color:#f92672">=</span>
+    printfn <span style="color:#e6db74">&#34;%A&#34;</span> argv
+    0 <span style="color:#75715e">// return an integer exit code
+</span></code></pre></div><p>We have to add the <code>Suave</code> nuget package to our project (by typing <code>Install-Package Suave</code> into the Package Manager Console, or using the GUI).</p>
+<p>Then we can implement a basic web application by replacing the default <code>main</code> function with the following code.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fsharp" data-lang="fsharp"><span style="color:#66d9ef">open</span> Suave
+
+<span style="color:#f92672">[&lt;</span>EntryPoint<span style="color:#f92672">&gt;]</span>
+<span style="color:#66d9ef">let</span> main argv <span style="color:#f92672">=</span> 
+    startWebServer defaultConfig <span style="color:#f92672">(</span>Successful.OK <span style="color:#e6db74">&#34;Hello from Suave!&#34;</span><span style="color:#f92672">)</span>
+    0
+</code></pre></div><p>Or we can implement something more complicated by handling some different http methods and routes.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fsharp" data-lang="fsharp"><span style="color:#66d9ef">let</span> app <span style="color:#f92672">=</span>
+    choose
+        <span style="color:#f92672">[</span> GET <span style="color:#f92672">&gt;=&gt;</span> choose
+            <span style="color:#f92672">[</span> path <span style="color:#e6db74">&#34;/status&#34;</span> <span style="color:#f92672">&gt;=&gt;</span> OK <span style="color:#e6db74">&#34;Service is UP&#34;</span>
+              path <span style="color:#e6db74">&#34;/hello&#34;</span> <span style="color:#f92672">&gt;=&gt;</span> OK <span style="color:#e6db74">&#34;Hello World!&#34;</span> <span style="color:#f92672">]</span>
+          POST <span style="color:#f92672">&gt;=&gt;</span> OK <span style="color:#e6db74">&#34;This was a POST&#34;</span> <span style="color:#f92672">]</span>
+
+<span style="color:#f92672">[&lt;</span>EntryPoint<span style="color:#f92672">&gt;]</span>
+<span style="color:#66d9ef">let</span> main argv <span style="color:#f92672">=</span> 
+    startWebServer defaultConfig app
+    0 <span style="color:#75715e">// return an integer exit code
+</span></code></pre></div><p>The cool thing about Suave that it&rsquo;s programming model fits the functional constructs snugly, so it feels much more like a first-class citizen in the F# world than ASP.NET.<br>
+Functions and the composability features of F# really shine when setting up our routes and the various endpoints of our web application, and a complicated app can be described with surprisingly little, terse code.</p>
+<p>You can read much more about Suave&rsquo;s capabilities on the <a href="https://suave.io/">official site</a>.</p>
+<h1 id="without-vs-embrace-the-open-tools">Without VS: embrace the open tools</h1>
+<p>Since we don&rsquo;t need intricate Visual Studio integration to start up our web server, it&rsquo;s also an option to develop completely without VS, which comes especially handy if we want to work on a Mac with Mono (which is also supported by F# and Suave).</p>
+<p>In order to do this we can utilize two open source tools.</p>
+<ul>
+<li><a href="https://fsprojects.github.io/Paket/">Paket</a>: A dependency manager for .NET and Mono, which is easy to use from the command line, and supports using Nuget too as the source of our dependencies.</li>
+<li><a href="http://fsharp.github.io/FAKE/">Fake</a>: &ldquo;Make for F&rdquo;, a scriptable, CLI-friendly build automation tool for F#.</li>
+</ul>
+<p>With these tools it&rsquo;s relatively easy to set up a project with a couple of scripts, which is completely usable from the terminal without Visual Studio.</p>
+<p>You can find a minimal example of this setup in my <a href="https://github.com/markvincze/jumpstart-suave">jumpstart-suave</a> repository. It contains the following elements.</p>
+<ul>
+<li>build.cmd: The main startup script, it does the following steps.
+<ol>
+<li>If it&rsquo;s not present yet, it installs paket.</li>
+<li>If we don&rsquo;t have a <code>paket.lock</code> file (we don&rsquo;t have the actual package versions fixed, and haven&rsquo;t discovered the transitive dependencies), installs all the packages.</li>
+<li>Restores the actual packages.</li>
+<li>Starts up our main script by calling <code>FAKE</code>.</li>
+</ol>
+</li>
+<li>build.fsx: Defines the <code>&quot;run&quot;</code> default target, which simply starts up the Suave web application (the same way we did in our VS Console project).</li>
+<li>app.fsx: The implementation of our main <code>app</code> function, which in this example returns the same 200 OK for every request.</li>
+<li>paket.dependencies: Specifies the external packages we want to install with Paket.</li>
+<li>paket.lock: The fixed down versions of all our direct and transitive dependencies. (This file is normally also commited to source control.)</li>
+</ul>
+<p>(I based this solution on a <a href="https://github.com/tpetricek/suave-xplat-gettingstarted">more complicated repo</a> set up by Tomas Petricek, which also includes automatic reloading in case of a file change, and deployment to Azure and Heroku.)</p>
+<p>This is a completely self-contained example, simply executing <code>build.cmd</code> will download all the dependencies, build the project and start up our webserver, straight from the command line.</p>
+<h1 id="conclusion">Conclusion</h1>
+<p>With these examples we can see that Suave is a cool, lightweight and fun to use web framework, which fits really nicely into the functional F# world. And because the web server is also part of the library, and we have some CLI tools to install our dependencies and build the project, we can even do the whole development flow without Visual Studio.</p>
+<p>Whether to use Suave or ASP.NET is not a trivial question though. If we start a greenfield development project, I&rsquo;d probably give Suave a go, just because it is more suitable for functional programming, but if we are migrating an existing ASP.NET application to F#, or we depend on existing libraries which are ASP.NET-specific, we might be better off sticking to Microsoft&rsquo;s framework.</p>
+<p>In the next post of <a href="/series-jumpstart-f-web-development">this series</a> we&rsquo;ll move from the classic .NET Framework to .NET Core, and take a look at how we can use F# with ASP.NET there.</p>
+
+    </article>
+
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https:\/\/markvincze.github.io\/blog\/jumpstart-f-web-development-f-with-suave-io-on-classic-net\/';
+        
+        this.page.identifier = 'ghost-31';
+        
+      };
+      (function () { 
+        var d = document, s = d.createElement('script');
+        s.src = 'https://markvinczeblog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+
+
+  <footer class="footer py-6">
+    <div class="content has-text-centered">
+      <p>
+        © 2020 <strong>Mark Vincze</strong>. All rights reserved.<br />
+        Built with <a href="https://gohugo.io/">Hugo</a> and <a href="https://bulma.io/">Bulma</a>. 💙
+      </p>
+    </div>
+  </footer>
+
+</body>
+
+</html>

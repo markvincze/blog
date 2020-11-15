@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>A data model exercise in two languages, part 2: F#</title>
+
+  
+  <link rel="stylesheet" href="/styles/bulma.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.15.1/js/all.js"></script>
+  <script defer src="/scripts/scripts.js"></script>
+  <link rel="icon" href="/favicon.png" type="image/png" />
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Second part of an exercise illustrating how F# can provide an elegant solution to some of the challenges we face when designing data models in OO languages." />
+  <meta property="og:url" content="https://markvincze.github.io/blog/a-data-model-exercise-in-two-languages-part-2-f/" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="A data model exercise in two languages, part 2: F#" />
+  <meta property="og:description" content="Second part of an exercise illustrating how F# can provide an elegant solution to some of the challenges we face when designing data models in OO languages." />
+  
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@mrkvincze" />
+  <meta name="twitter:title" content="A data model exercise in two languages, part 2: F#" />
+  <meta name="twitter:description" content="Second part of an exercise illustrating how F# can provide an elegant solution to some of the challenges we face when designing data models in OO languages." />
+  
+
+</head>
+
+<body>
+  <div class="navbar-container">
+    <nav class="navbar container is-max-desktop" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+
+        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+      <div id="navbarMenu" class="navbar-menu">
+        <div class="navbar-start">
+          <a class="navbar-item" href="/">
+            Home
+          </a>
+
+          <a class="navbar-item" href="/posts">
+            Blog
+          </a>
+
+          <a class="navbar-item">
+            Presentations
+          </a>
+        </div>
+        <div class="navbar-end pt-2 ml-2">
+          <a class="icon is-medium" href="https://twitter.com/mrkvincze">
+            <i class="fab fa-lg fa-twitter"></i>
+          </a>
+          <a class="icon is-medium" href="https://www.github.com/markvincze">
+            <i class="fab fa-lg fa-github"></i>
+          </a>
+          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze">
+            <i class="fab fa-lg fa-stack-overflow"></i>
+          </a>
+          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze">
+            <i class="fab fa-lg fa-linkedin"></i>
+          </a>
+          <a class="icon is-medium" href="/index.xml">
+            <i class="fas fa-lg fa-rss"></i>
+          </a>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <a href="/">
+        <h1 class="title is-1">
+          Mark Vincze
+        </h1>
+      </a>
+      <h2 class="subtitle is-4">
+        Software Developer
+      </h2>
+    </div>
+  </div>
+
+  
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h1 class="title is-1">A data model exercise in two languages, part 2: F#</h1>
+    
+
+
+<p class="mb-3 is-vcentered">
+  <time class="has-text-grey" datetime="2017-05-22">May 22, 2017 &bull;</time>
+
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/c">c#</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/computer-science">computer science</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/f">f#</a>
+  
+
+</p>
+    <article class="content mt-6">
+      <h1 id="introduction">Introduction</h1>
+<p>In <a href="/a-data-model-exercise-in-two-languages-part-1-c">the previous post</a> I took a look at a data modelling exercise in C#, I designed a data model to represent a card in the <a href="https://en.wikipedia.org/wiki/Standard_52-card_deck">standard 52-card deck</a>.</p>
+<p>We saw some of the problems we face when designing data models in an object oriented language, particularly the lack of ability to express that a certain object can have a value of multiple different types, but it can have a value of only one of those types at any one time (a card is <em>either</em> a value card, a face card, or a joker).<br>
+We can get around these limitations by implementing custom validation logic that forces us to create only valid instances of a given class, but it can leave us wondering why cannot the type system help us express our intention more clearly.</p>
+<p>In this post we&rsquo;ll see how we can desing the same data model in F#, and how some constructs of functional programming can mitigate some of these limitations.</p>
+<h1 id="the-task">The task</h1>
+<p>We will solve the same assignment: design a data model to represent a card in the standard 52-card deck.<br>
+You can find a detailed description of the exercise in the <a href="">previous post</a>.</p>
+<h1 id="data-types-in-f35">Data types in F#</h1>
+<p>Since I expect most readers to be less experienced in F# than C#, I&rsquo;ll give a brief introduction to the basic data types of F#, to have a baseline for any further discussion.</p>
+<h2 id="record-types">Record types</h2>
+<p>Records are the basic data types we can use to model a complex entity with multiple fields. We can think about them as immutable structs, which only have public fields, and don&rsquo;t have behavior. (Technically we can define member methods on records, but it&rsquo;s not an idiomatic thing to do in F#.)</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fsharp" data-lang="fsharp"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Customer</span> <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>
+    Id <span style="color:#f92672">:</span> int
+    Name <span style="color:#f92672">:</span> <span style="color:#66d9ef">string</span>
+    Email <span style="color:#f92672">:</span> <span style="color:#66d9ef">string</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>We can create an instance of a record with the following syntax.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fsharp" data-lang="fsharp"><span style="color:#66d9ef">let</span> cust <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>
+    Id <span style="color:#f92672">=</span> 5<span style="color:#f92672">,</span>
+    Name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Jane Smith&#34;</span>
+    Email <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;jsmith@acme.com&#34;</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>Two interesting things to note:</p>
+<ul>
+<li>We don&rsquo;t have to specify the type. If it is unambiguous, the compiler will infer the proper type for our value.</li>
+<li>It is mandatory to specify every field of the record. If we skip one, we receive a build error. This is a great thing to ensure that we update every place depending on our type when we add a new field, and to keep a strong coherence among the fields of any record type.</li>
+</ul>
+<p>More info in <a href="https://docs.microsoft.com/en-us/dotnet/articles/fsharp/language-reference/records">the docs</a>.</p>
+<h1 id="tuple">Tuple</h1>
+<p>Similarly to other functional programming languages, F# provides convenient syntax and support for using tuples. We can create a tuple of multiple values simply by listing them between parens, separating them with commas.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fsharp" data-lang="fsharp"><span style="color:#66d9ef">let</span> point <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>1<span style="color:#f92672">.</span>5<span style="color:#f92672">,</span> 4<span style="color:#f92672">.</span>3<span style="color:#f92672">)</span>
+<span style="color:#66d9ef">let</span> personWithAge <span style="color:#f92672">=</span> <span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Jane Smith&#34;</span><span style="color:#f92672">,</span> 25<span style="color:#f92672">)</span>
+</code></pre></div><p>F# also supports pattern matching with tuples (which is again a typical feature of FP languages, and to some extent it also arrived in JavaScript in the form of <a href="https://developer.mozilla.org/nl/docs/Web/JavaScript/Reference/Operatoren/Destructuring_assignment">destructuring</a>):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fsharp" data-lang="fsharp"><span style="color:#66d9ef">let</span> x<span style="color:#f92672">,</span> y <span style="color:#f92672">=</span> point
+</code></pre></div><p>We can also specify tuples in type declarations, where if we want to define a tuple of 3 elements, we can use the following syntax.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fsharp" data-lang="fsharp"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">MyTuple</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">string</span> <span style="color:#f92672">*</span> int <span style="color:#f92672">*</span> Customer
+</code></pre></div><h1 id="discriminated-union">Discriminated union</h1>
+<p>This is another basic F# data type which will be particularly interesting in our exercise. Its name is a bit scary at first, but the concept is very simple.</p>
+<p>At first sight a discriminated union looks like an <code>enum</code> in C#, for example we can define a logging level with it.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fsharp" data-lang="fsharp"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">LoggingLevel</span> <span style="color:#f92672">=</span>
+<span style="color:#f92672">|</span> Debug
+<span style="color:#f92672">|</span> Info
+<span style="color:#f92672">|</span> Error
+</code></pre></div><p>However, a discriminated union is more than this. Every case we define (which is called a <em>named case</em>) can also have a value associated to it, and the different cases can have different values.<br>
+An idiomatic example from the official documentation.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fsharp" data-lang="fsharp"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Shape</span> <span style="color:#f92672">=</span>
+<span style="color:#f92672">|</span> Rectangle <span style="color:#66d9ef">of</span> width <span style="color:#f92672">:</span> <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span> length <span style="color:#f92672">:</span> <span style="color:#66d9ef">float</span>
+<span style="color:#f92672">|</span> Circle <span style="color:#66d9ef">of</span> radius <span style="color:#f92672">:</span> <span style="color:#66d9ef">float</span>
+</code></pre></div><p>(Note that we can also see here the syntax for specifying a tuple type.)<br>
+Then we can construct a value of the different cases by specifying the case name.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fsharp" data-lang="fsharp"><span style="color:#66d9ef">let</span> rect <span style="color:#f92672">=</span> Rectangle <span style="color:#f92672">(</span>length <span style="color:#f92672">=</span> 2<span style="color:#f92672">.</span>3<span style="color:#f92672">,</span> width <span style="color:#f92672">=</span> 10<span style="color:#f92672">.</span>0<span style="color:#f92672">)</span>
+<span style="color:#66d9ef">let</span> circ <span style="color:#f92672">=</span> Circle <span style="color:#f92672">(</span>2<span style="color:#f92672">.</span>0<span style="color:#f92672">)</span>
+</code></pre></div><p>And when we actually want to use a value with a discriminated union type, we can use pattern matching to handle the different cases.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fsharp" data-lang="fsharp"><span style="color:#66d9ef">let</span> calculateArea shape <span style="color:#f92672">=</span>
+    <span style="color:#66d9ef">match</span> shape <span style="color:#66d9ef">with</span>
+    <span style="color:#f92672">|</span> Rectangle <span style="color:#f92672">(</span>w<span style="color:#f92672">,</span> l<span style="color:#f92672">)</span> <span style="color:#f92672">-&gt;</span> w <span style="color:#f92672">*</span> l
+    <span style="color:#f92672">|</span> Circle r <span style="color:#f92672">-&gt;</span> r <span style="color:#f92672">*</span> r <span style="color:#f92672">*</span> 3<span style="color:#f92672">.</span>14
+</code></pre></div><p>We can think of discriminated unions as a way to achieve static, compile-time polymorphism. (Static, because all the cases of the union are defined in one place, and there is no way to extend the union with other cases from the outside, as opposed to OO inheritance. We could try to model this behavior in OO by defining an abstract base class, and creating some sealed derived types. But even this could not prevent the users of our library to introduce additional derived types in the same hierarchy.)</p>
+<p>One of the nice benefits of having <em>all</em> the cases of the union defined in one place is that the compiler can check if we always cover all the cases everywhere we are doing pattern matching on a certain union type, which is extremely handy when we introduce a new case, so the compiler can remind us to update all the places in our codebase which are using the union.<br>
+For example if we introduce a new <code>Square</code> case for our <code>Shape</code> union, we&rsquo;ll get this nice warning message.</p>
+<p><img src="/images/2017/05/fsharp-union-match-warning.png" alt="The F# compiler displaying a warning when we don&rsquo;t handle every case of a discriminated union in pattern matching."></p>
+<h1 id="implementation">Implementation</h1>
+<p>In order to implement the card data model in F#, we can start the same way we did in C#, by defining the types representing the various suits and faces. In C# we used an enum for this purpose, in F# we can use discriminated unions.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fsharp" data-lang="fsharp"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Suit</span> <span style="color:#f92672">=</span>
+<span style="color:#f92672">|</span> Hearts
+<span style="color:#f92672">|</span> Spades
+<span style="color:#f92672">|</span> Clubs
+<span style="color:#f92672">|</span> Diamonds
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Face</span> <span style="color:#f92672">=</span>
+<span style="color:#f92672">|</span> Jack
+<span style="color:#f92672">|</span> Queen
+<span style="color:#f92672">|</span> King
+<span style="color:#f92672">|</span> Ace
+</code></pre></div><p>The next step is to create the actual data type which will represent a card from the deck. Remember: what we want to express is that the card is <em>either</em> one of these options.</p>
+<ul>
+<li>A value card with a suit and a number value.</li>
+<li>A face card with a suit and a face.</li>
+<li>A joker.</li>
+</ul>
+<p>This is exactly the kind of concept we can clearly express using a discriminated union.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fsharp" data-lang="fsharp"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Card</span> <span style="color:#f92672">=</span>
+<span style="color:#f92672">|</span> FaceCard <span style="color:#66d9ef">of</span> Suit <span style="color:#f92672">*</span> Face
+<span style="color:#f92672">|</span> ValueCard <span style="color:#66d9ef">of</span> Suit <span style="color:#f92672">*</span> int
+<span style="color:#f92672">|</span> Joker
+</code></pre></div><p>We can create some actual values of this type with the following sytax.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fsharp" data-lang="fsharp"><span style="color:#66d9ef">let</span> jackOfHearts <span style="color:#f92672">=</span> FaceCard <span style="color:#f92672">(</span>Hearts<span style="color:#f92672">,</span> Jack<span style="color:#f92672">)</span>
+<span style="color:#66d9ef">let</span> threeOfClubs <span style="color:#f92672">=</span> ValueCard <span style="color:#f92672">(</span>Clubs<span style="color:#f92672">,</span> 3<span style="color:#f92672">)</span>
+<span style="color:#66d9ef">let</span> joker <span style="color:#f92672">=</span> Joker
+</code></pre></div><p>Some things to notice:</p>
+<ul>
+<li>There is no way to create a value which is &ldquo;both&rdquo; a face and a value card (or a joker). Every value falls exactly into one of the cases.</li>
+<li>The definition of the discriminated union forces us to provide the necessary input when we create a value, namely, the suit and face in case of a face card, the suit and the value in case of a value card, and nothing in case of a joker. (And there is no way to provide or set &ldquo;more&rdquo; data then what the specific case of the union needs.)</li>
+</ul>
+<p>So with the 4 lines of code defining the <code>Card</code> union we achieved the same goal as what we did in C# with the following implementation.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Card</span>
+{
+    <span style="color:#66d9ef">public</span> Suit Suit { <span style="color:#66d9ef">get</span>; }
+
+    <span style="color:#66d9ef">public</span> Face? Face { <span style="color:#66d9ef">get</span>; }
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">int?</span> Value { <span style="color:#66d9ef">get</span>; }
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">bool</span> IsJoker { <span style="color:#66d9ef">get</span>; }
+
+    <span style="color:#66d9ef">private</span> Card(Suit suit, Face? face, <span style="color:#66d9ef">int?</span> <span style="color:#66d9ef">value</span>, <span style="color:#66d9ef">bool</span> isJoker)
+    {
+        Suit = suit;
+        Face = face;
+        Value = <span style="color:#66d9ef">value</span>;
+        IsJoker = isJoker;
+    }
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> Card CreateFace(Suit suit, Face face)
+    {
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> Card(suit, face, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">false</span>);
+    }
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> Card CreateValue(Suit suit, <span style="color:#66d9ef">int</span> <span style="color:#66d9ef">value</span>)
+    {
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> Card(suit, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">value</span>, <span style="color:#66d9ef">false</span>);
+    }
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> Card CreateJoker()
+    {
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> Card(<span style="color:#66d9ef">default</span>(Suit), <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">true</span>);
+    }
+}
+</code></pre></div><p>This illustrates how powerful and concise construct a disciminated union can be, and since I got familiar with it, I miss it every day when doing OO development in C#.</p>
+<p>Finally let&rsquo;s take a look at what it looks like if we want to actually process a value of this type, for example if we want to implement the <a href="https://en.wikipedia.org/wiki/Rummy#Scoring">score calculation</a> of the card game Rummy. Here we can see the pattern matching syntax again.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fsharp" data-lang="fsharp"><span style="color:#66d9ef">let</span> calculateValue card <span style="color:#f92672">=</span>
+    <span style="color:#66d9ef">match</span> card <span style="color:#66d9ef">with</span>
+    <span style="color:#f92672">|</span> Joker <span style="color:#f92672">-&gt;</span> 0
+    <span style="color:#f92672">|</span> FaceCard <span style="color:#f92672">(</span>Spades<span style="color:#f92672">,</span> Queen<span style="color:#f92672">)</span> <span style="color:#f92672">-&gt;</span> 40
+    <span style="color:#f92672">|</span> FaceCard <span style="color:#f92672">(_,</span> Ace<span style="color:#f92672">)</span> <span style="color:#f92672">-&gt;</span> 15
+    <span style="color:#f92672">|</span> FaceCard <span style="color:#f92672">(_,</span> <span style="color:#f92672">_)</span> <span style="color:#f92672">-&gt;</span> 10
+    <span style="color:#f92672">|</span> ValueCard <span style="color:#f92672">(_,</span> 10<span style="color:#f92672">)</span> <span style="color:#f92672">-&gt;</span> 10
+    <span style="color:#f92672">|</span> <span style="color:#f92672">_</span> <span style="color:#f92672">-&gt;</span> 5
+</code></pre></div><p>And this is how we can call this function with a value we created.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fsharp" data-lang="fsharp"><span style="color:#66d9ef">let</span> jackOfHearts <span style="color:#f92672">=</span> FaceCard <span style="color:#f92672">(</span>Hearts<span style="color:#f92672">,</span> Jack<span style="color:#f92672">)</span>
+
+<span style="color:#75715e">// The value of rummyScore will be 10.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">let</span> rummyScore <span style="color:#f92672">=</span> calculateValue jackOfHearts
+</code></pre></div><p>With this exercise I wanted to illustrate how the type system and the language features of F# can help us express some constructs which are inconvenient to model in object oriented languages. Particularly the discriminated union is a data type that I really recommend for every developer to get familiar with (of which the only downside is that we&rsquo;ll be constantly wishing we had this feature in every language :)).</p>
+<p>At first sight this example might seem a bit specific, but these scenarios pop up in every day work much more than we&rsquo;d expect. Let&rsquo;s look at a couple example.</p>
+<p>The result of an operation that might not found the result, or return an error.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fsharp" data-lang="fsharp"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">OperationResult</span> <span style="color:#f92672">=</span>
+<span style="color:#f92672">|</span> Success <span style="color:#66d9ef">of</span> data <span style="color:#f92672">:</span> Data
+<span style="color:#f92672">|</span> NotFound
+<span style="color:#f92672">|</span> Error <span style="color:#66d9ef">of</span> errorMessage <span style="color:#f92672">:</span> <span style="color:#66d9ef">string</span>
+</code></pre></div><p>An HTTP request, which is either a GET (having only a URL) or a POST (having a URL and a body).</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fsharp" data-lang="fsharp"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">HttpRequest</span> <span style="color:#f92672">=</span>
+<span style="color:#f92672">|</span> Get <span style="color:#66d9ef">of</span> url <span style="color:#f92672">:</span> <span style="color:#66d9ef">string</span>
+<span style="color:#f92672">|</span> Post <span style="color:#66d9ef">of</span> url <span style="color:#f92672">:</span> <span style="color:#66d9ef">string</span> <span style="color:#f92672">*</span> body <span style="color:#f92672">:</span> <span style="color:#66d9ef">byte</span> array
+</code></pre></div><p>A data type representing credentials, either with username and password, or a certificate.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fsharp" data-lang="fsharp"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Credentials</span> <span style="color:#f92672">=</span> 
+<span style="color:#f92672">|</span> UserPass <span style="color:#66d9ef">of</span> user <span style="color:#f92672">:</span> <span style="color:#66d9ef">string</span> <span style="color:#f92672">*</span> password <span style="color:#f92672">:</span> <span style="color:#66d9ef">string</span>
+<span style="color:#f92672">|</span> Certificate <span style="color:#66d9ef">of</span> certFilePath <span style="color:#f92672">:</span> <span style="color:#66d9ef">string</span>
+<span style="color:#f92672">|</span> None
+</code></pre></div><p>Learning about these functional programming features greatly changed how I think about data models and interface design in my everyday work (programmign in OO languages).<br>
+With this post I wanted to give a brief introduction to these constructs. I hope these examples will provide motivation to get familiar with F# and functional programming.</p>
+
+    </article>
+
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https:\/\/markvincze.github.io\/blog\/a-data-model-exercise-in-two-languages-part-2-f\/';
+        
+        this.page.identifier = 'ghost-38';
+        
+      };
+      (function () { 
+        var d = document, s = d.createElement('script');
+        s.src = 'https://markvinczeblog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+
+
+  <footer class="footer py-6">
+    <div class="content has-text-centered">
+      <p>
+        © 2020 <strong>Mark Vincze</strong>. All rights reserved.<br />
+        Built with <a href="https://gohugo.io/">Hugo</a> and <a href="https://bulma.io/">Bulma</a>. 💙
+      </p>
+    </div>
+  </footer>
+
+</body>
+
+</html>

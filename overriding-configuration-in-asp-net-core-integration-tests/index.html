@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Overriding configuration in ASP.NET Core integration tests</title>
+
+  
+  <link rel="stylesheet" href="/styles/bulma.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.15.1/js/all.js"></script>
+  <script defer src="/scripts/scripts.js"></script>
+  <link rel="icon" href="/favicon.png" type="image/png" />
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="This post gives an overview of the various ways to override configuration values in ASP.NET Core integration tests." />
+  <meta property="og:url" content="https://markvincze.github.io/blog/overriding-configuration-in-asp-net-core-integration-tests/" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Overriding configuration in ASP.NET Core integration tests" />
+  <meta property="og:description" content="This post gives an overview of the various ways to override configuration values in ASP.NET Core integration tests." />
+  
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@mrkvincze" />
+  <meta name="twitter:title" content="Overriding configuration in ASP.NET Core integration tests" />
+  <meta name="twitter:description" content="This post gives an overview of the various ways to override configuration values in ASP.NET Core integration tests." />
+  
+
+</head>
+
+<body>
+  <div class="navbar-container">
+    <nav class="navbar container is-max-desktop" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+
+        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+      <div id="navbarMenu" class="navbar-menu">
+        <div class="navbar-start">
+          <a class="navbar-item" href="/">
+            Home
+          </a>
+
+          <a class="navbar-item" href="/posts">
+            Blog
+          </a>
+
+          <a class="navbar-item">
+            Presentations
+          </a>
+        </div>
+        <div class="navbar-end pt-2 ml-2">
+          <a class="icon is-medium" href="https://twitter.com/mrkvincze">
+            <i class="fab fa-lg fa-twitter"></i>
+          </a>
+          <a class="icon is-medium" href="https://www.github.com/markvincze">
+            <i class="fab fa-lg fa-github"></i>
+          </a>
+          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze">
+            <i class="fab fa-lg fa-stack-overflow"></i>
+          </a>
+          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze">
+            <i class="fab fa-lg fa-linkedin"></i>
+          </a>
+          <a class="icon is-medium" href="/index.xml">
+            <i class="fas fa-lg fa-rss"></i>
+          </a>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <a href="/">
+        <h1 class="title is-1">
+          Mark Vincze
+        </h1>
+      </a>
+      <h2 class="subtitle is-4">
+        Software Developer
+      </h2>
+    </div>
+  </div>
+
+  
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h1 class="title is-1">Overriding configuration in ASP.NET Core integration tests</h1>
+    
+
+
+<p class="mb-3 is-vcentered">
+  <time class="has-text-grey" datetime="2020-02-24">Feb 24, 2020 &bull;</time>
+
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/asp.net-core">asp.net-core</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/testing">testing</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/integration-testing">integration-testing</a>
+  
+
+</p>
+    <article class="content mt-6">
+      <p>The pluggable and modular nature of ASP.NET Core made integration testing a much more accessible and convenient tool than it was in classic .NET. We can spin up our whole application with the full ASP.NET middleware pipeline in-process, with a couple of lines of code, and send HTTP requests to it for testing purposes.</p>
+<p>During the integration test, we often want to use different application configuration than what we have in the <code>appsettings.json</code> in our repository, which is usually tailored for local development. In the integration test, we might want to do the following.</p>
+<ul>
+<li>Connect to a different database.</li>
+<li>Replace the URL of an upstream dependency with a mock or stub.</li>
+<li>Disable certain features which might not be needed, or don&rsquo;t work in the test environment.</li>
+</ul>
+<p>There are various different ways to override the configuration for the duration of our integration tests. The approaches have different caveats you have to look out for, which I always tend to forget, and have to look up in old projects. Hence I decided to write this down in a post for future reference.</p>
+<h1 id="the-project-setup">The project setup</h1>
+<p>First I&rsquo;m going to quickly describe what my project setup looks like. For the web and the test project setup I&rsquo;m mostly following the patterns provided by the built-in <code>dotnet</code> CLI templates, so you won&rsquo;t see anything surprising here. I tend to prefer trimming down the default generated skeletons even further, to contain only the minimal amount of necessary setup code.</p>
+<h2 id="the-web-project">The web project</h2>
+<p>In this example I&rsquo;ll show a very basic and simple project setup for an MVC application, which will have one Json API endpoint. The integration testing strategy would be the same for more complicated projects as well, even the ones also containing HTML endpoints and <code>cshtml</code> files.</p>
+<p>In the <code>Program</code> class I like using an empty new <code>HostBuilder()</code> instance instead of the built-in <code>Host.CreateDefaultBuilder(args)</code> helper, just in order to have all the setup code explicitly visible in the repository. But the testing approach shown here works the same way if you&rsquo;re using <code>Host.CreateDefaultBuilder(args)</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Program</span>
+    {
+        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> Main(<span style="color:#66d9ef">string</span>[] args)
+        {
+            CreateHostBuilder(args).Build().Run();
+        }
+
+        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> IHostBuilder CreateHostBuilder(<span style="color:#66d9ef">string</span>[] args) =&gt;
+            <span style="color:#66d9ef">new</span> HostBuilder()
+                .ConfigureAppConfiguration((context, config) =&gt;
+                {
+                    config
+                        .AddJsonFile(<span style="color:#e6db74">&#34;appsettings.json&#34;</span>)
+                        .AddEnvironmentVariables();
+                })
+                .ConfigureWebHostDefaults(webBuilder =&gt;
+                {
+                    webBuilder
+                        .UseStartup&lt;Startup&gt;()
+                        .UseUrls(<span style="color:#e6db74">$&#34;http://*:5000/&#34;</span>);
+                });
+    }
+</code></pre></div><p>The <code>Startup</code> is a very minimal MVC setup. The only additional configuration is registering the options type <code>DemoOptions</code>, which I&rsquo;ll use to demonstrate the overriding of the configuration.</p>
+<p><em>(In this post I&rsquo;m not covering the details of using the Options pattern for configuration, you can find the details <a href="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/options">in the documentation</a>.)</em></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Startup</span>
+    {
+        <span style="color:#66d9ef">public</span> Startup(IConfiguration configuration)
+        {
+            <span style="color:#66d9ef">this</span>.configuration = configuration;
+        }
+
+        <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">readonly</span> IConfiguration configuration;
+
+        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> ConfigureServices(IServiceCollection services)
+        {
+            services.Configure&lt;DemoOptions&gt;(configuration.GetSection(<span style="color:#e6db74">&#34;Demo&#34;</span>));
+
+            services.AddRouting();
+            services.AddControllers();
+        }
+
+        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            app.UseRouting();
+            app.UseEndpoints(opt =&gt;
+            {
+                opt.MapControllers();
+            });
+        }
+    }
+</code></pre></div><p>This is an MVC setup, but the testing approach would work the same way if we were using Endpoint routing, or just custom middlewares.</p>
+<p>The <code>DemoOptions</code> type used to demonstrate the Options pattern is a simple POCO with one property.</p>
+<pre><code>    public class DemoOptions
+    {
+        public string OptionsConfigProperty { get; set; }
+    }
+</code></pre><p>Given that overriding the configuration in the tests will be different for values that we bind to an Options type, and for values that we access directly via the <code>IConfiguration</code>, we have one example for both in the <code>appsettings.json</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+  <span style="color:#f92672">&#34;Demo&#34;</span>: {
+    <span style="color:#f92672">&#34;OptionsConfigProperty&#34;</span>: <span style="color:#e6db74">&#34;OptionsConfigProperty_Default&#34;</span>
+  },
+  <span style="color:#f92672">&#34;RawConfigProperty&#34;</span>: <span style="color:#e6db74">&#34;RawConfigProperty_Default&#34;</span>
+}
+</code></pre></div><p>And we have one controller with a single endpoint, in which we retrieve and return these configuration values, just so that we can test how they are overridden.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#a6e22e">    [Route(&#34;[controller]</span><span style="color:#e6db74">&#34;)]
+</span><span style="color:#e6db74"></span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">DemoController</span> : Controller
+    {
+        <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">readonly</span> IOptions&lt;DemoOptions&gt; demoOptions;
+
+        <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">readonly</span> IConfiguration configurationRoot;
+
+        <span style="color:#66d9ef">public</span> DemoController(IOptions&lt;DemoOptions&gt; demoOptions, IConfiguration configurationRoot)
+        {
+            <span style="color:#66d9ef">this</span>.demoOptions = demoOptions;
+            <span style="color:#66d9ef">this</span>.configurationRoot = configurationRoot;
+        }
+<span style="color:#a6e22e">
+</span><span style="color:#a6e22e">        [HttpGet]</span>
+        <span style="color:#66d9ef">public</span> IActionResult Get()
+        {
+            <span style="color:#66d9ef">return</span> Ok(
+                <span style="color:#66d9ef">new</span>
+                {
+                    OptionsConfigProperty = demoOptions.Value.OptionsConfigProperty,
+                    RawConfigProperty = configurationRoot[<span style="color:#e6db74">&#34;RawConfigProperty&#34;</span>]
+                });
+        }
+    }
+</code></pre></div><p>If we call our <code>/demo</code> endpoint, it returns the values of the configuration properties we&rsquo;ve set in the <code>appsettings.json</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+    <span style="color:#f92672">&#34;optionsConfigProperty&#34;</span>: <span style="color:#e6db74">&#34;OptionsConfigProperty_Default&#34;</span>,
+    <span style="color:#f92672">&#34;rawConfigProperty&#34;</span>: <span style="color:#e6db74">&#34;RawConfigProperty_Default&#34;</span>
+}
+</code></pre></div><h2 id="the-integration-test-project">The integration test project</h2>
+<p>The details of integration testing with ASP.NET Core can be found <a href="https://docs.microsoft.com/en-us/aspnet/core/test/integration-tests">in the documentation</a>. Here I&rsquo;ll show only the parts relevant for this post.</p>
+<p>In most approaches (except when using a dedicated <code>appsettings.json</code> file in our test project) I&rsquo;ll use the <code>WebApplicationFactory&lt;T&gt;</code> helper provided by the <code>Microsoft.AspNetCore.Mvc.Testing</code> package to start our application under test. With this approach a basic test looks like this.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SimpleTest</span>
+    {
+        <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">readonly</span> WebApplicationFactory&lt;Startup&gt; factory = <span style="color:#66d9ef">new</span> WebApplicationFactory&lt;Startup&gt;();
+<span style="color:#a6e22e">
+</span><span style="color:#a6e22e">        [Fact]</span>
+        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">async</span> Task SimpleTestCase()
+        {
+            <span style="color:#66d9ef">var</span> client = factory.CreateClient();
+
+            <span style="color:#66d9ef">var</span> response = <span style="color:#66d9ef">await</span> client.GetAsync(<span style="color:#e6db74">&#34;/example&#34;</span>);
+
+            <span style="color:#75715e">// Do the verifications
+</span><span style="color:#75715e"></span>        }
+    }
+</code></pre></div><p>In some of the approaches I&rsquo;ll show you we&rsquo;ll need to customize the factory with some extra calls on the <code>IWebHostBuilder</code> (and this is useful for other purposes as well, for example injecting some mocked services into DI). One important capability is the <code>ConfigureTestServices</code> extension method, with which we can register an extra lambda in which we can further customize the setup of our we application, and the extension makes it sure that our lambda will run <em>after</em> the <code>Startup.ConfigureServices()</code> method has been executed.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SimpleTest</span>
+{
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">readonly</span> WebApplicationFactory&lt;Startup&gt; factory;
+
+    <span style="color:#66d9ef">public</span> SimpleTest()
+    {
+        factory = <span style="color:#66d9ef">new</span> WebApplicationFactory&lt;Startup&gt;().WithWebHostBuilder(builder =&gt;
+        {
+            builder.ConfigureTestServices(services =&gt;
+            {
+                <span style="color:#75715e">// We can further customize our application setup here.
+</span><span style="color:#75715e"></span>            });
+        });
+    }
+<span style="color:#a6e22e">
+</span><span style="color:#a6e22e">    [Fact]</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">async</span> Task SimpleTestCase()
+    {
+        <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>    }
+}
+</code></pre></div><p>If we want to do the same customization in multiple places, we can also create a custom derived factory type, and use it everywhere.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CustomWebApplicationFactory</span>&lt;TStartup&gt; : WebApplicationFactory&lt;TStartup&gt; <span style="color:#66d9ef">where</span> TStartup : <span style="color:#66d9ef">class</span>
+{
+    <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">void</span> ConfigureWebHost(IWebHostBuilder builder)
+    {
+        builder.ConfigureTestServices(services =&gt; 
+        {
+            <span style="color:#75715e">// We can further customize our application setup here.
+</span><span style="color:#75715e"></span>        });
+    }
+}
+
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SimpleTest</span>
+{
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">readonly</span> CustomWebApplicationFactory&lt;Startup&gt; factory = <span style="color:#66d9ef">new</span> CustomWebApplicationFactory&lt;Startup&gt;();
+<span style="color:#a6e22e">
+</span><span style="color:#a6e22e">    [Fact]</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">async</span> Task SimpleTestCase()
+    {
+        <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>    }
+}
+</code></pre></div><h1 id="overriding-our-configuration">Overriding our configuration</h1>
+<p>Now comes the main part of the post, where I&rsquo;ll show the various approaches to override our configuration values for the execution of the integration tests.</p>
+<h2 id="override-the-property-of-an-options-type">Override the property of an Options type</h2>
+<p>Changing the value of a property on a configuration type using the Options pattern is very straightforward. We can add an extra <code>Configure()</code> call to the lambda we&rsquo;re passing to <code>ConfigureTestServices()</code>, where we set the property to the desired new value.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">OverrideOptionsProperty</span>
+    {
+        <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">readonly</span> WebApplicationFactory&lt;Startup&gt; factory;
+
+        <span style="color:#66d9ef">public</span> OverrideOptionsProperty()
+        {
+            factory = <span style="color:#66d9ef">new</span> WebApplicationFactory&lt;Startup&gt;().WithWebHostBuilder(builder =&gt;
+            {
+                builder.ConfigureTestServices(services =&gt;
+                {
+                    services.Configure&lt;DemoOptions&gt;(opts =&gt;
+                    {
+                        opts.OptionsConfigProperty = <span style="color:#e6db74">&#34;OverriddenValue&#34;</span>;
+                    });
+                });
+            });
+        }
+<span style="color:#a6e22e">
+</span><span style="color:#a6e22e">        [Fact]</span>
+        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">async</span> Task TestCase()
+        {
+            <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>        }
+    }
+</code></pre></div><p>This is a very preferable approach, because it&rsquo;s simple and straightforward. And another benefit is that we&rsquo;re setting the actual property of our POCO in a lambda, so we&rsquo;re not depending on having to specify the name of the overridden property in a string, in which we could make a typo without the compiler being able to verify it (which will be the case for all other approaches).<br>
+But this can only be used if the configuration we want to override is used with the Options pattern, and not when the configuration value is accessed directly via <code>IConfiguration</code>.<br>
+This is another reason to prefer using the Options pattern whenever possible.</p>
+<p>The other 3 approaches shown here will all work for the case when we access our configuration value directly via <code>IConfiguration</code>.</p>
+<h2 id="add-an-additional-in-memory-collection">Add an additional in-memory collection</h2>
+<p>When we customize the setup of our application, we can register an extra in-memory collection on our configuration builder, which will be applied on top of all the configured providers, so we can use this to override any value.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">OverridePropertyWithInMemoryCollection</span>
+    {
+        <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">readonly</span> WebApplicationFactory&lt;Startup&gt; factory;
+
+        <span style="color:#66d9ef">public</span> OverridePropertyWithInMemoryCollection()
+        {
+            factory = <span style="color:#66d9ef">new</span> WebApplicationFactory&lt;Startup&gt;().WithWebHostBuilder(builder =&gt;
+                {
+                    builder.ConfigureAppConfiguration((context, configBuilder) =&gt;
+                    {
+                        configBuilder.AddInMemoryCollection(
+                            <span style="color:#66d9ef">new</span> Dictionary&lt;<span style="color:#66d9ef">string</span>, <span style="color:#66d9ef">string</span>&gt;
+                            {
+<span style="color:#a6e22e">                                [&#34;RawConfigProperty&#34;]</span> = <span style="color:#e6db74">&#34;OverriddenValue&#34;</span>
+                            });
+                    });
+                });
+        }
+<span style="color:#a6e22e">
+</span><span style="color:#a6e22e">        [Fact]</span>
+        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">async</span> Task TestCase()
+        {
+            <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>        }
+    }
+</code></pre></div><h2 id="set-the-config-values-via-environment-variables">Set the config values via environment variables</h2>
+<p>If we use the default configuration setup with the <code>WebApplicationFactory&lt;T&gt;</code>, then the environment variable based configuration provider is registered in our configuration pipeline by default. This means that we can easily override configuration values by setting environment variables.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">OverridePropertyWithEnvVar</span> : IDisposable
+    {
+        <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">readonly</span> WebApplicationFactory&lt;Startup&gt; factory;
+
+        <span style="color:#66d9ef">public</span> OverridePropertyWithEnvVar()
+        {
+            Environment.SetEnvironmentVariable(<span style="color:#e6db74">&#34;RawConfigProperty&#34;</span>, <span style="color:#e6db74">&#34;OverriddenValue&#34;</span>);
+            factory = <span style="color:#66d9ef">new</span> WebApplicationFactory&lt;Startup&gt;();
+        }
+<span style="color:#a6e22e">
+</span><span style="color:#a6e22e">        [Fact]</span>
+        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">async</span> Task TestCase()
+        {
+            <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>        }
+        
+        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> Dispose()
+        {
+            Environment.SetEnvironmentVariable(<span style="color:#e6db74">&#34;RawConfigProperty&#34;</span>, <span style="color:#e6db74">&#34;&#34;</span>);
+            factory?.Dispose();
+        }
+    }
+</code></pre></div><p>An important gotcha is that you have to implement <code>IDisposable</code>, and clear the environment variable after the test ran, otherwise it could affect subsequent tests.<br>
+And in order for this to be reliable, we have to disable parallel test execution, otherwise tests running at the same time could affect each other. In xUnit, we can disable parallel execution by adding the following attribute to our test project.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#a6e22e">[assembly: CollectionBehavior(DisableTestParallelization = true)]</span>
+</code></pre></div><h2 id="add-a-dedicated-appsettingsjson-to-our-test-project">Add a dedicated <code>appsettings.json</code> to our test project</h2>
+<p>The last approach I am going to show is adding a dedicated <code>appsettings.json</code> file to our test project, in which we can freely customize the configuration.<br>
+We have to set the file&rsquo;s Build Action to be Content, and set the &ldquo;Copy to Output Directory&rdquo; to &ldquo;Copy if newer&rdquo;.</p>
+<p>One important thing is that with this approach we cannot use the <code>WebApplicationFactory&lt;T&gt;</code> helper, because that conveniently sets the <a href="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/?view=aspnetcore-3.1&amp;tabs=windows#content-root">content root path</a> to the Web project folder. Which is usually preferable, but in this case it would cause our custom <code>appsettings.json</code> file to not being picked up.</p>
+<p>Thus we have to use the lower-level <code>TestServer</code> class, which doesn&rsquo;t adjust the content root path.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">OverridePropertyWithAppsettingsJson</span>
+    {
+        <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">readonly</span> TestServer testServer;
+
+        <span style="color:#66d9ef">public</span> OverridePropertyWithAppsettingsJson()
+        {
+            testServer = <span style="color:#66d9ef">new</span> TestServer(<span style="color:#66d9ef">new</span> WebHostBuilder()
+                .ConfigureAppConfiguration((context, builder) =&gt;
+                {
+                    builder.AddJsonFile(<span style="color:#e6db74">&#34;appsettings.json&#34;</span>);
+                })
+                .UseStartup&lt;Startup&gt;());
+        }
+<span style="color:#a6e22e">
+</span><span style="color:#a6e22e">        [Fact]</span>
+        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">async</span> Task TestCase()
+        {
+            <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>        }
+    }
+</code></pre></div><h1 id="summary">Summary</h1>
+<p>In this post we&rsquo;ve seen some different ways to override configuration values in our integration tests.<br>
+My preferred approach is the first one, customizing the property of our Options type with an extra <code>Configure&lt;TOptions&gt;()</code> call. But this can only be applied if we use the Options pattern.<br>
+Otherwise I&rsquo;d recommend registering the extra in-memory collection—simply because the other two approaches have some extra quirks we&rsquo;ll have to work around.</p>
+<p>I&rsquo;ve uploaded a full sample illustrating all the 4 approaches to <a href="https://github.com/markvincze/AspNetCoreIntegrationTestConfig">this repository</a>.</p>
+<p>In my experience integration testing in ASP.NET Core is a great and versatile tool to protect ourselves against bugs and regression issues, so I highly recommend using it, especially given how easy and convenient it became in Core compared to classic ASP.NET. And I hope this post will help with further customizing your tests, and making them even more reliable.</p>
+
+    </article>
+
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https:\/\/markvincze.github.io\/blog\/overriding-configuration-in-asp-net-core-integration-tests\/';
+        
+        this.page.identifier = 'ghost-5e545aeea26b5f5ce4856c6a';
+        
+      };
+      (function () { 
+        var d = document, s = d.createElement('script');
+        s.src = 'https://markvinczeblog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+
+
+  <footer class="footer py-6">
+    <div class="content has-text-centered">
+      <p>
+        © 2020 <strong>Mark Vincze</strong>. All rights reserved.<br />
+        Built with <a href="https://gohugo.io/">Hugo</a> and <a href="https://bulma.io/">Bulma</a>. 💙
+      </p>
+    </div>
+  </footer>
+
+</body>
+
+</html>

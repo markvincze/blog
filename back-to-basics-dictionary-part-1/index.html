@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Back to basics: Dictionary part 1, hash tables</title>
+
+  
+  <link rel="stylesheet" href="/styles/bulma.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.15.1/js/all.js"></script>
+  <script defer src="/scripts/scripts.js"></script>
+  <link rel="icon" href="/favicon.png" type="image/png" />
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="An introduction to how a hash table works, which is the foundation of the key-value stores implemented in many environments." />
+  <meta property="og:url" content="https://markvincze.github.io/blog/back-to-basics-dictionary-part-1/" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Back to basics: Dictionary part 1, hash tables" />
+  <meta property="og:description" content="An introduction to how a hash table works, which is the foundation of the key-value stores implemented in many environments." />
+  
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@mrkvincze" />
+  <meta name="twitter:title" content="Back to basics: Dictionary part 1, hash tables" />
+  <meta name="twitter:description" content="An introduction to how a hash table works, which is the foundation of the key-value stores implemented in many environments." />
+  
+
+</head>
+
+<body>
+  <div class="navbar-container">
+    <nav class="navbar container is-max-desktop" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+
+        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+      <div id="navbarMenu" class="navbar-menu">
+        <div class="navbar-start">
+          <a class="navbar-item" href="/">
+            Home
+          </a>
+
+          <a class="navbar-item" href="/posts">
+            Blog
+          </a>
+
+          <a class="navbar-item">
+            Presentations
+          </a>
+        </div>
+        <div class="navbar-end pt-2 ml-2">
+          <a class="icon is-medium" href="https://twitter.com/mrkvincze">
+            <i class="fab fa-lg fa-twitter"></i>
+          </a>
+          <a class="icon is-medium" href="https://www.github.com/markvincze">
+            <i class="fab fa-lg fa-github"></i>
+          </a>
+          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze">
+            <i class="fab fa-lg fa-stack-overflow"></i>
+          </a>
+          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze">
+            <i class="fab fa-lg fa-linkedin"></i>
+          </a>
+          <a class="icon is-medium" href="/index.xml">
+            <i class="fas fa-lg fa-rss"></i>
+          </a>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <a href="/">
+        <h1 class="title is-1">
+          Mark Vincze
+        </h1>
+      </a>
+      <h2 class="subtitle is-4">
+        Software Developer
+      </h2>
+    </div>
+  </div>
+
+  
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h1 class="title is-1">Back to basics: Dictionary part 1, hash tables</h1>
+    
+
+
+<p class="mb-3 is-vcentered">
+  <time class="has-text-grey" datetime="2015-07-25">Jul 25, 2015 &bull;</time>
+
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/c">c#</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/.net">.net</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/basics">basics</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/computer-science">computer science</a>
+  
+
+</p>
+    <article class="content mt-6">
+      <p><strong>Posts in this series</strong>:</p>
+<ol>
+<li><a href="/back-to-basics-dictionary-part-1">Part 1: Hash tables</a></li>
+<li><a href="/back-to-basics-dictionary-part-2-net-implementation">Part 2: .NET implementation</a></li>
+<li><a href="/back-to-basics-dictionary-part-3-built-in-gethashcode">Part 3: Built-in GetHashCode</a></li>
+<li><a href="/back-to-basics-dictionary-part-4-custom-gethashcode">Part 4: Custom GetHashCode</a></li>
+</ol>
+<h1 id="introduction">Introduction</h1>
+<p>Recently I came across a situation in which I should have known the details about how a .NET Dictionary (and hashmaps in general) worked under the hood.
+I realized that my knowledge about this topic was a bit rusty, so I decided I&rsquo;d refresh my memories and look into this topic.
+In the first part of these posts we&rsquo;ll take a quick look into how a hash map works in general, and how those concepts are implemented in the .NET framework.</p>
+<h1 id="hash-tables">Hash tables</h1>
+<p>A hash table (or hash map) is a data structure implementing one of the most fundamental containers: the associative array (1). The associative array is a structure, which maps keys to values. The basic operation of such a container is the <em>lookup</em>, which - as the name suggests - looks up a value based on its key.
+The hash map is implemented in a way to make this lookup operation as quick as possible, ideally needing only a constant amount of time.</p>
+<h2 id="mechanisms">Mechanisms</h2>
+<p>I&rsquo;ll quickly introduce the most important mechanisms of the kind of hash map which is implemented in .NET.
+The hash table contains a list of <em>buckets</em>, and in those buckets it stores one or more <em>values</em>. A <em>hash function</em> is used to compute an <em>index</em> based on the <em>key</em>. When we insert an item into our container, it will be added to the bucket designated by the calculated index.
+Likewise, when we are doing a lookup by the key, we can also calculate this index, and we will know the bucket in which we have to look for our item.
+Ideally, the hash function will assign each key to a unique bucket, so that all buckets contain only a single element. This would mean that our lookup operation is really constant in its run-time, since it has to calculate the hash, and then it has to get the first (and only) item from the appropriate bucket.</p>
+<p>The following image illustrates such a container, which stores some books, where the key is the title of the book (assuming that all the books we&rsquo;d like to store in this case have unique titles).</p>
+<p><img src="/images/2015/07/Basic-hash-map.png" alt="Structure of a basic hash map"></p>
+<p>But it is possible that the hash function generates an identical hash for two different keys, so most hash table designs assume that collisions can and will happen.
+When a collision happen, we will store more than a single element in a bucket, which will affect the time needed to do a lookup. In order to make the lookup fast, have to keep the ratio of the number of items and the number of buckets in our container low. This number is an essential property of a hash map, and is usually called the <em>load factor</em>.</p>
+<h2 id="handling-collisions">Handling collisions</h2>
+<p>One of the most important concepts in the implementation of a hash map is the way how we handle when two different keys end up having the same hash value, thus their index will point to the same bucket.
+There are many different approaches, but arguably two of them are the most prominent.</p>
+<h3 id="separate-chaining">Separate chaining</h3>
+<p>When using separate chaining, each bucket is handled independently, they all store a list of some kind with all the items having that same key. In this structure, the time needed to find an item is the time needed to calculate the index based on the key, plus the time needed to find the item in the list.
+Because of this, ideally most of the lists should contain zero or one item, and some of them two or maybe three, but not many more. This way, the time needed for a lookup can be kept low. However, in order to achieve this, the load factor cannot be too high, so we have to adjust the number of buckets to the number of items being stored.
+The following image illustrates a hash map using separate chaining to handle a collision.</p>
+<p><img src="/images/2015/07/Hash-map-sep-chaining.png" alt="Separate chaining with one collision"></p>
+<p>In order to do separate chaining, every bucket should contain a list of items. This can be implemented in various ways, probably the simplest is to store a linked list in every bucket.</p>
+<h3 id="open-addressing">Open addressing</h3>
+<p>In open addressing, the bucket list is simply an array of items, and all the items are stored in this array. This means that if we want to insert an item, but the bucket of the item&rsquo;s key is already filled, we have to store the item in another bucket.
+In order to find this &ldquo;another&rdquo; bucket to use, a so called <em>probe sequence</em> is used, which defines how we find the alternative position for our item. The simplest of such probe sequences is the linear probing, in which we simply start looking at the buckets following the originally designated position, until we find a free slot.</p>
+<p><img src="/images/2015/07/Hash-map-open-addressing.png" alt="Open addressing with one collision"></p>
+<p>When we are doing a lookup, if the item in the designated bucket has a different key than what we were looking for, we have to continue looking in the buckets according to the probe sequence until we either find our item, or find an empty bucket (which means that the item is not in the hash map).</p>
+<h2 id="additional-details">Additional details</h2>
+<p>The above summary was very brief and left out many important details. If you are interested in more information about this topic, a good starting point is the <a href="https://en.wikipedia.org/wiki/Hash_table">Hash table</a> Wikipedia article (on which most parts of this introduction are based).</p>
+<h1 id="next-up">Next up</h1>
+<p>In the <a href="/back-to-basics-dictionary-part-2-net-implementation">next post</a> I&rsquo;ll look at how these concepts are implemented in the Dictionary class of the .NET framework.</p>
+
+    </article>
+
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https:\/\/markvincze.github.io\/blog\/back-to-basics-dictionary-part-1\/';
+        
+        this.page.identifier = 'ghost-5';
+        
+      };
+      (function () { 
+        var d = document, s = d.createElement('script');
+        s.src = 'https://markvinczeblog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+
+
+  <footer class="footer py-6">
+    <div class="content has-text-centered">
+      <p>
+        © 2020 <strong>Mark Vincze</strong>. All rights reserved.<br />
+        Built with <a href="https://gohugo.io/">Hugo</a> and <a href="https://bulma.io/">Bulma</a>. 💙
+      </p>
+    </div>
+  </footer>
+
+</body>
+
+</html>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>dnx on Mark Vincze</title>
+    <link>https://markvincze.github.io/blog/tags/dnx/</link>
+    <description>Recent content in dnx on Mark Vincze</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 14 Feb 2016 16:30:58 +0000</lastBuildDate><atom:link href="https://markvincze.github.io/blog/tags/dnx/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ASP.NET Core 1.0: hints to get started</title>
+      <link>https://markvincze.github.io/blog/getting-started-with-asp-net-core-1-0-tips-and-tricks/</link>
+      <pubDate>Sun, 14 Feb 2016 16:30:58 +0000</pubDate>
+      
+      <guid>https://markvincze.github.io/blog/getting-started-with-asp-net-core-1-0-tips-and-tricks/</guid>
+      <description>I recently started working on implementing a Web Api application using ASP.NET Core 1.0, running it on Linux with the CoreCLR.
+There have been many changes introduced in this new version of ASP.NET, and there are also differences in how we are running and deploying applications using CoreCLR, so I&amp;rsquo;m going to document a couple of things you might encounter if you get started with using this new ecosystem.
+Version numbers It is quite easy to get lost in the sea of different products and version numbers.</description>
+    </item>
+    
+  </channel>
+</rss>

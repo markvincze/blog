@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Matching route templates manually in ASP.NET Core</title>
+
+  
+  <link rel="stylesheet" href="/styles/bulma.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.15.1/js/all.js"></script>
+  <script defer src="/scripts/scripts.js"></script>
+  <link rel="icon" href="/favicon.png" type="image/png" />
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="It can come handy to manually match a request path to route templates, and extract the arguments. This post describes how it can be done with ASP.NET Core." />
+  <meta property="og:url" content="https://markvincze.github.io/blog/matching-route-templates-manually-in-asp-net-core/" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Matching route templates manually in ASP.NET Core" />
+  <meta property="og:description" content="It can come handy to manually match a request path to route templates, and extract the arguments. This post describes how it can be done with ASP.NET Core." />
+  
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@mrkvincze" />
+  <meta name="twitter:title" content="Matching route templates manually in ASP.NET Core" />
+  <meta name="twitter:description" content="It can come handy to manually match a request path to route templates, and extract the arguments. This post describes how it can be done with ASP.NET Core." />
+  
+
+</head>
+
+<body>
+  <div class="navbar-container">
+    <nav class="navbar container is-max-desktop" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+
+        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+      <div id="navbarMenu" class="navbar-menu">
+        <div class="navbar-start">
+          <a class="navbar-item" href="/">
+            Home
+          </a>
+
+          <a class="navbar-item" href="/posts">
+            Blog
+          </a>
+
+          <a class="navbar-item">
+            Presentations
+          </a>
+        </div>
+        <div class="navbar-end pt-2 ml-2">
+          <a class="icon is-medium" href="https://twitter.com/mrkvincze">
+            <i class="fab fa-lg fa-twitter"></i>
+          </a>
+          <a class="icon is-medium" href="https://www.github.com/markvincze">
+            <i class="fab fa-lg fa-github"></i>
+          </a>
+          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze">
+            <i class="fab fa-lg fa-stack-overflow"></i>
+          </a>
+          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze">
+            <i class="fab fa-lg fa-linkedin"></i>
+          </a>
+          <a class="icon is-medium" href="/index.xml">
+            <i class="fas fa-lg fa-rss"></i>
+          </a>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <a href="/">
+        <h1 class="title is-1">
+          Mark Vincze
+        </h1>
+      </a>
+      <h2 class="subtitle is-4">
+        Software Developer
+      </h2>
+    </div>
+  </div>
+
+  
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h1 class="title is-1">Matching route templates manually in ASP.NET Core</h1>
+    
+
+
+<p class="mb-3 is-vcentered">
+  <time class="has-text-grey" datetime="2016-06-18">Jun 18, 2016 &bull;</time>
+
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/asp.net">asp.net</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/mvc">mvc</a>
+  
+
+</p>
+    <article class="content mt-6">
+      <p>We can use routing in ASP.NET to define paths on which we want to respond to HTTP requests. In ASP.NET Core we have two common ways to specify routing in our application.</p>
+<p>We can use the <code>Route</code> attribute on the action methods:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#a6e22e">[HttpGet(&#34;test/{myParam}&#34;]</span>
+<span style="color:#66d9ef">public</span> IActionResult Get(<span style="color:#66d9ef">int</span> myParam)
+{
+    <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>}
+</code></pre></div><p>Or if we don&rsquo;t want to use MVC, we can directly set up some responses in our <code>Startup</code> class by creating a <code>RouteBuilder</code> and adding it to the pipeline with the <code>UseRouter</code> method.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">RouteBuilder builder = <span style="color:#66d9ef">new</span> RouteBuilder(app);
+
+builder.MapVerb(
+    HttpMethod.Get.Method,
+    <span style="color:#e6db74">&#34;test/{myParam}&#34;</span>,
+    <span style="color:#66d9ef">async</span> context =&gt;
+    {
+        <span style="color:#66d9ef">var</span> arg = context.GetRouteData().Values[<span style="color:#e6db74">&#34;myParam&#34;</span>];
+
+        <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>    });
+
+app.UseRouter(builder.Build());
+</code></pre></div><h2 id="using-route-matching-manually">Using route matching manually</h2>
+<p>In usual development the methods above are enough, since most often we&rsquo;ll use MVC to implement our application. On the other hand sometimes it can be handy if we&rsquo;re able to manually match a URL path to a template and extract the arguments.</p>
+<p>Recently I needed to do this in the <a href="https://github.com/markvincze/Stubbery">Stubbery</a> library, to set up stubbed replies for various request paths.</p>
+<p>I looked around in the ASP.NET Routing codebase quite a while in an attempt to figure out how the routing worked internally and whether the classes doing the template matching are  <code>public</code>, so I can use them in my code.</p>
+<h3 id="tldr-version">TLDR version</h3>
+<p>You can manually do the template matching and extract the route arguments with this <a href="https://github.com/markvincze/Stubbery/blob/master/src/Stubbery/RequestMatching/RouteMatcher.cs">little helper class</a>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">RouteMatcher</span>
+{
+    <span style="color:#66d9ef">public</span> RouteValueDictionary Match(<span style="color:#66d9ef">string</span> routeTemplate, <span style="color:#66d9ef">string</span> requestPath)
+    {
+        <span style="color:#66d9ef">var</span> template = TemplateParser.Parse(routeTemplate);
+
+        <span style="color:#66d9ef">var</span> matcher = <span style="color:#66d9ef">new</span> TemplateMatcher(template, GetDefaults(template));
+
+        <span style="color:#66d9ef">var</span> values = matcher.Match(requestPath);
+
+        <span style="color:#66d9ef">return</span> values;
+    }
+
+    <span style="color:#75715e">// This method extracts the default argument values from the template.
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> RouteValueDictionary GetDefaults(RouteTemplate parsedTemplate)
+    {
+        <span style="color:#66d9ef">var</span> result = <span style="color:#66d9ef">new</span> RouteValueDictionary();
+
+        <span style="color:#66d9ef">foreach</span> (<span style="color:#66d9ef">var</span> parameter <span style="color:#66d9ef">in</span> parsedTemplate.Parameters)
+        {
+            <span style="color:#66d9ef">if</span> (parameter.DefaultValue != <span style="color:#66d9ef">null</span>)
+            {
+                result.Add(parameter.Name, parameter.DefaultValue);
+            }
+        }
+
+        <span style="color:#66d9ef">return</span> result;
+    }
+}
+</code></pre></div><p>Fortunately, the necessary framework classes (<code>TemplateParser</code> and <code>TemplateMatcher</code>) are public.</p>
+<h3 id="some-more-detail">Some more detail</h3>
+<p>There are quite a handful of classes participating in the routing process, I needed to debug the code and step over the different calls to wrap my head around them. On a high level this is what happening during setting up our routes.</p>
+<p><img src="/images/2016/06/aspnet-routing.png" alt="Set up routing in ASP.NET"></p>
+<p>When we specify a route by calling <code>RouteBuilder.MapVerb</code> a new <code>Route</code> is created, and added to the builder&rsquo;s collection. The <code>Route</code> object has a delegate to the handler processing the request and producing the response.
+If we use <code>UseMvc</code>, then the routes are automatically created based on the action methods we have (this is done by a method called <code>CreateAttributeMegaRoute</code> :)), and then <code>UseRouter</code> is called.</p>
+<p>When we call the <code>UseRouter</code> extension method, a middleware is registered called <code>RouterMiddleware</code>, to which a <code>RouteCollection</code> is passed with the configured routes.</p>
+<p>This middleware is added to the pipeline, and its <code>Invoke</code> method is called during request processing. This method checks if any of the route templates match, and then calls the appropriate handler.</p>
+<p>At this point it wasn&rsquo;t much more work to find the classes doing the actual route matching and extract them into my own codebase.</p>
+
+    </article>
+
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https:\/\/markvincze.github.io\/blog\/matching-route-templates-manually-in-asp-net-core\/';
+        
+        this.page.identifier = 'ghost-21';
+        
+      };
+      (function () { 
+        var d = document, s = d.createElement('script');
+        s.src = 'https://markvinczeblog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+
+
+  <footer class="footer py-6">
+    <div class="content has-text-centered">
+      <p>
+        © 2020 <strong>Mark Vincze</strong>. All rights reserved.<br />
+        Built with <a href="https://gohugo.io/">Hugo</a> and <a href="https://bulma.io/">Bulma</a>. 💙
+      </p>
+    </div>
+  </footer>
+
+</body>
+
+</html>
