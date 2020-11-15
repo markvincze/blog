@@ -1,5 +1,5 @@
 #!/bin/sh
-set -e
+set -ev
 
 echo "Run the hugo build"
 hugo
