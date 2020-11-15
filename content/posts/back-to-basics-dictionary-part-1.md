@@ -4,6 +4,7 @@ slug = "back-to-basics-dictionary-part-1"
 description = "An introduction to how a hash table works, which is the foundation of the key-value stores implemented in many environments."
 date = "2015-07-25T13:37:04.0000000"
 tags = ["c#", ".net", "basics", "computer science"]
+ghostCommentId = "ghost-5"
 +++
 
 **Posts in this series**:

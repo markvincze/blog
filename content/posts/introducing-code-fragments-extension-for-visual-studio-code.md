@@ -4,6 +4,7 @@ slug = "introducing-code-fragments-extension-for-visual-studio-code"
 description = "Introducing a simple Visual Studio Code extension for saving pieces of code, and later easily insert them into source files, intended for coding demos."
 date = "2017-11-26T22:34:50.0000000"
 tags = ["visual studio", "visual studio code", "presenting"]
+ghostCommentId = "ghost-5a1b336219ac3b1e3f6dd297"
 +++
 
 Recently I started working on a simple Visual Studio Code extension I'd like to introduce in this post.

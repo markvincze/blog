@@ -4,6 +4,7 @@ slug = "setting-up-coveralls-for-a-net-core-project"
 description = "This post describes setting up coverage generation with OpenCover for a .NET Core project, and shows how the report can be uploaded to Coveralls."
 date = "2017-06-14T19:46:00.0000000"
 tags = [".net-core", "testing", "appveyor", "opencover", "coveralls"]
+ghostCommentId = "ghost-27"
 +++
 
 **Update**: The original version of this post was written when the `dotnet` toolchain was built on top of the `project.json` based project structure. Since then the `project.json` was deprecated, and .NET Core moved to a `csproj`-based approach.  

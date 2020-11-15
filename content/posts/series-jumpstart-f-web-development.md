@@ -4,6 +4,7 @@ slug = "series-jumpstart-f-web-development"
 description = "Instructions to get started with F# web development using either ASP.NET or Suave.IO, targeting the .NET Framework or .NET Core."
 date = "2017-02-05T17:35:00.0000000"
 tags = ["asp.net", "f#", "suave"]
+ghostCommentId = "ghost-29"
 +++
 
 <img src="/content/images/2017/02/fsharp-logo-1.png" style="float: left; max-width: 40%; position: static; webkit-transform: translateX(0%); ms-transform: translateX(0%); transform: translateX(0%);" /> F# is a functional first general purpose programming language targeting the .NET Framework. Since .NET is a framework commonly used for web development (most often with C# and ASP.NET). And if we would like to do web development on the .NET framework in a more functional style, using F# is the logical choice.

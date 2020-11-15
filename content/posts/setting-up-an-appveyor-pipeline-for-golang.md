@@ -4,6 +4,7 @@ slug = "setting-up-an-appveyor-pipeline-for-golang"
 description = "This post gives and Introduction to setting up a continuous delivery pipeline for a Golang-based project in AppVeyor."
 date = "2016-07-16T15:47:28.0000000"
 tags = ["golang", "appveyor"]
+ghostCommentId = "ghost-24"
 +++
 
 Recently at my day job I have been working on a [Golang-based application](https://github.com/Travix-International/Travix.Core.Adk), for which I wanted to set up an automated CD pipeline for building and releasing. Our application is a command line tool, so the release part is basically copying and uploading the binaries to a specified location.

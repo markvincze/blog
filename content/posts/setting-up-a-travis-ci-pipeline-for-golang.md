@@ -4,6 +4,7 @@ slug = "setting-up-a-travis-ci-pipeline-for-golang"
 description = "This post gives and Introduction to setting up a continuous delivery pipeline for a Golang-based project in Travis-CI."
 date = "2016-10-15T15:36:14.0000000"
 tags = ["golang", "travis"]
+ghostCommentId = "ghost-25"
 +++
 
 In the [previous post](/setting-up-an-appveyor-pipeline-for-golang) we looked at how we can set up a pipeline in AppVeyor for building and releasing a Golang application. Recently I made some changes to the project I'm working on, which [prevents the it to be cross-compiled on a Windows build agent](https://github.com/rjeczalik/notify/issues/108). After the change I was able to properly do the build only on an OSX machine.

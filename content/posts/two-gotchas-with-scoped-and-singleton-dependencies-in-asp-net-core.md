@@ -4,6 +4,7 @@ slug = "two-gotchas-with-scoped-and-singleton-dependencies-in-asp-net-core"
 description = "Two possible problems (and their solutions) we can run into when registering objects with various lifecycles with the DI container of ASP.NET Core."
 date = "2017-04-17T14:31:27.0000000"
 tags = ["c#", "asp.net-core", "dependency-injection"]
+ghostCommentId = "ghost-35"
 +++
 
 With ASP.NET Core a new built-in lightweight Dependency Injection framework was introduced in the `Microsoft.Extensions.DependencyInjection` package, thus in ASP.NET Core applications we don't necessarily need an external library such as Ninject or Unity to do DI, we can simply use the built-in package (which—although being framework-agnostic—plays really nicely with ASP.NET Core).

@@ -4,6 +4,7 @@ slug = "ndc-oslo-2016-recap"
 description = "A summary of my experiences at NDC Oslo 2016, and excerpts from the sessions I found the most interesting."
 date = "2016-07-02T18:19:12.0000000"
 tags = ["ndc", "conference"]
+ghostCommentId = "ghost-22"
 +++
 
 In the beginning of June I was lucky enough to be able to travel to the [NDC conference in Oslo](http://ndcoslo.com). (Hats off to my employer [Travix](http://travix.com) for providing the budget!)

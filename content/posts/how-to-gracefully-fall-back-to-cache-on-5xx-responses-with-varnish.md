@@ -4,6 +4,7 @@ slug = "how-to-gracefully-fall-back-to-cache-on-5xx-responses-with-varnish"
 description = "Varnish can gracefully fall  back to cached values in case our backend is down. This post describes how we can handle 5xx errors this way."
 date = "2018-07-28T19:12:24.0000000"
 tags = ["varnish"]
+ghostCommentId = "ghost-5b5c8545e67a0c102087288f"
 +++
 
 # Introduction

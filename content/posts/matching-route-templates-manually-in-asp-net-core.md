@@ -4,6 +4,7 @@ slug = "matching-route-templates-manually-in-asp-net-core"
 description = "It can come handy to manually match a request path to route templates, and extract the arguments. This post describes how it can be done with ASP.NET Core."
 date = "2016-06-18T21:17:15.0000000"
 tags = ["asp.net", "mvc"]
+ghostCommentId = "ghost-21"
 +++
 
 We can use routing in ASP.NET to define paths on which we want to respond to HTTP requests. In ASP.NET Core we have two common ways to specify routing in our application.

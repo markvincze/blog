@@ -4,6 +4,7 @@ slug = "jumpstart-f-web-development-f-with-suave-io-on-classic-net"
 description = "An introduction to get started with web development in F#, using Suave.IO on the classic .NET Framework."
 date = "2017-02-11T15:12:50.0000000"
 tags = [".net", "f#", "suave"]
+ghostCommentId = "ghost-31"
 +++
 
 In the second part of [the series](/series-jumpstart-f-web-development) we take a look at how we can develop a web application using Sauve on the classic .NET Framework.

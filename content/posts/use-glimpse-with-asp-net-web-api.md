@@ -4,6 +4,7 @@ slug = "use-glimpse-with-asp-net-web-api"
 description = "Glimpse is not fully supported for the Web Api, but it can still be a valuable tool."
 date = "2015-05-14T12:56:50.0000000"
 tags = ["asp.net", "mvc", "web api", "glimpse"]
+ghostCommentId = "ghost-3"
 +++
 
 Glimpse is a wonderful tool for getting an insight into the mechanisms happening in an ASP.NET application. It inspects every request processed by our app, and displays its UI either embedded into our web site, or on a standalone page at a different URL.

@@ -4,6 +4,7 @@ slug = "how-to-store-state-during-specflow-tests"
 description = "There are different ways to store state during SpecFlow tests, and all of them have benefits and drawbacks."
 date = "2015-06-06T19:19:58.0000000"
 tags = ["visual studio", "specflow", "c#", ".net"]
+ghostCommentId = "ghost-4"
 +++
 
 #Introduction

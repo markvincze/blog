@@ -4,6 +4,7 @@ slug = "attach-to-process-shortcut-in-visual-studio"
 description = "How to create a shortcut in Visual Studio to attach the debugger to a specific process."
 date = "2015-04-26T12:21:19.0000000"
 tags = ["visual studio", "debug", "tooling", "visual commander"]
+ghostCommentId = "ghost-2"
 +++
 
 It's a very useful feature of Visual Studio that besides starting an application for debugging, we can attach the debugger to already running processes as well.

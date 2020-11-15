@@ -4,6 +4,7 @@ slug = "shadow-mirroring-with-envoy"
 description = "An overview of implementing shadow mirroring with Envoy, to safely test a service with real production traffic without affecting the end clients."
 date = "2019-04-11T20:44:50.0000000"
 tags = ["envoy"]
+ghostCommentId = "ghost-5cafa655a26b5f5ce4856bf4"
 +++
 
 # Introduction

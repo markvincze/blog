@@ -4,6 +4,7 @@ slug = "a-data-model-exercise-in-two-languages-part-2-f"
 description = "Second part of an exercise illustrating how F# can provide an elegant solution to some of the challenges we face when designing data models in OO languages."
 date = "2017-05-22T19:56:14.0000000"
 tags = ["c#", "computer science", "f#"]
+ghostCommentId = "ghost-38"
 +++
 
 # Introduction

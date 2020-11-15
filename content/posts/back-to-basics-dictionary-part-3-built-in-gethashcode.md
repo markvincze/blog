@@ -4,6 +4,7 @@ slug = "back-to-basics-dictionary-part-3-built-in-gethashcode"
 description = "GetHashCode plays an important part in the implementation of a hash map. We should be familiar with it when using a custom type as a Dictionary key."
 date = "2015-08-29T14:02:09.0000000"
 tags = ["c#", ".net", "basics", "computer science"]
+ghostCommentId = "ghost-8"
 +++
 
 **Posts in this series**:

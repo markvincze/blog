@@ -4,6 +4,7 @@ slug = "stubbing-service-dependencies-in-net-using-stubbery"
 description = "Stubbery is a library for creating and running Api stubs in .NET. The post shows how it can be used to stub service dependencies during integration tests."
 date = "2016-06-12T15:27:28.0000000"
 tags = ["asp.net", ".net", ".net-core", "asp.net-core", "testing", "integration-testing"]
+ghostCommentId = "ghost-20"
 +++
 
 # Introduction

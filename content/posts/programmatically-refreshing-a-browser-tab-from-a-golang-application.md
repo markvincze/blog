@@ -4,6 +4,7 @@ slug = "programmatically-refreshing-a-browser-tab-from-a-golang-application"
 description = "Programmatically refreshing a browser tab from an application can be done with a WebSocket connection. This post describes how to achieve this in Golang."
 date = "2016-10-30T14:39:59.0000000"
 tags = ["golang", "websocket", "livereload"]
+ghostCommentId = "ghost-26"
 +++
 
 # Introduction

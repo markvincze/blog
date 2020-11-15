@@ -4,6 +4,7 @@ slug = "jumpstart-f-web-development-f-with-asp-net-on-classic-net"
 description = "An introduction to get started with web development in F#, using ASP.NET on the classic .NET Framework."
 date = "2017-02-05T17:38:02.0000000"
 tags = ["asp.net", "web api", "f#"]
+ghostCommentId = "ghost-30"
 +++
 
 The first part of my [series](/series-jumpstart-f-web-development) about jumstarting F# web development takes a look at probably the most straightforward-looking approach: write F# code using ASP.NET on the classic (full) .NET Framework. (If you're not familiar with the distinction between the full .NET and .NET Core, you can [read about it here](https://docs.microsoft.com/en-us/dotnet/articles/standard/choosing-core-framework-server).)

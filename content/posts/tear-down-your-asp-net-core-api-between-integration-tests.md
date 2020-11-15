@@ -4,6 +4,7 @@ slug = "tear-down-your-asp-net-core-api-between-integration-tests"
 description = "Static state in an ASP.NET Core application can cause problems when running subsequent integration tests. In this post we take a look at how to solve this."
 date = "2017-06-21T20:20:00.0000000"
 tags = ["c#", "couchbase", "asp.net-core", "testing", "integration-testing", "quartz.net"]
+ghostCommentId = "ghost-39"
 +++
 
 The way to write integration tests for ASP.NET applications has been made much easier with the advent of ASP.NET Core. This is mainly due to the programming model becoming super modular, which means that it is really easy to spin up an instance of our whole web application for testing purposes and start sending HTTP requests to it from a simple unit test.

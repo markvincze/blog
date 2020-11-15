@@ -4,6 +4,7 @@ slug = "graceful-termination-in-kubernetes-with-asp-net-core"
 description = "An overview of the challenges and solutions for implementing graceful termination when using ASP.NET Core in Kubernetes."
 date = "2019-01-06T16:56:05.0000000"
 tags = ["asp.net-core", "kubernetes"]
+ghostCommentId = "ghost-5c32318aa26b5f5ce4856be0"
 +++
 
 Using a container-orchestration technology like Kubernetes, running applications in small containers, and scaling out horizontally rather than scaling a single machine up has numerous benefits, such as flexible allocation of the raw resources among different services, being able to precisely adjust the number of instances we're running according to the volume of traffic we're receiving, and forcing us to run our applications in immutable containers, thereby making our releases repeatable, thus easier to reason about.

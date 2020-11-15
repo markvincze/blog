@@ -4,6 +4,7 @@ slug = "getting-started-with-asp-net-core-1-0-tips-and-tricks"
 description = "Some random tips and tricks I have learnt during spending a couple of weeks with getting started with ASP.NET Core."
 date = "2016-02-14T16:30:58.0000000"
 tags = ["asp.net", "c#", ".net", ".net-core", "asp.net-core", "dnx"]
+ghostCommentId = "ghost-12"
 +++
 
 I recently started working on implementing a Web Api application using ASP.NET Core 1.0, running it on Linux with the CoreCLR.

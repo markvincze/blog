@@ -4,6 +4,7 @@ slug = "download-artifacts-from-a-latest-github-release-in-sh-and-powershell"
 description = "Downloading artifacts for a particular GitHub release is easy, but to download artifacts from the latest release we need some extra steps in our scripts."
 date = "2016-07-09T22:45:38.0000000"
 tags = ["github", "bash", "powershell"]
+ghostCommentId = "ghost-23"
 +++
 
 [Releases](https://help.github.com/articles/about-releases/) is an important feature of GitHub, with which we can publish packaged versions of our project.

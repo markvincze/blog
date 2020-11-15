@@ -4,6 +4,7 @@ slug = "jumpstart-f-web-development-f-with-suave-io-on-net-core"
 description = "An introduction to get started with web development in F#, using the Suave web framework on .NET Core."
 date = "2017-03-12T12:51:45.0000000"
 tags = [".net-core", "f#", "suave"]
+ghostCommentId = "ghost-33"
 +++
 
 In a [previous post](/jumpstart-f-web-development-f-with-suave-io-on-classic-net/) we've seen how we can create a simple web application with Suave on the full .NET Framework.

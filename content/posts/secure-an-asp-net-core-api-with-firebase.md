@@ -1,9 +1,10 @@
 +++
 title = "Secure an ASP.NET Core api with Firebase"
-slug = "secure-an-asp-net-core-api-with-firebase"
+#slug = "secure-an-asp-net-core-api-with-firebase"
 description = "How to secure an ASP.NET Core application with Firebase Authentication by verifying the access tokens in the Authorization header."
 date = "2017-08-22T19:00:00.0000000"
 tags = ["asp.net-core", "security", "firebase"]
+#ghostCommentId = "ghost-28"
 +++
 
 # Introduction

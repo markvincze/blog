@@ -4,6 +4,7 @@ slug = "jumpstart-f-web-development-f-with-asp-net-core"
 description = "An introduction to get started with web development in F#, using ASP.NET Core."
 date = "2017-02-26T20:25:14.0000000"
 tags = ["asp.net-core", "f#"]
+ghostCommentId = "ghost-32"
 +++
 
 In this third part of the [series](/series-jumpstart-f-web-development) we'll look at how we can get started with developing an ASP.NET Core application using F#. This scenario is pretty straightforward, there are no extra hoops to jump over. In this post I'll describe the steps necessary to create a new ASP.NET application.

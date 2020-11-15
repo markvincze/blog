@@ -4,6 +4,7 @@ slug = "overriding-configuration-in-asp-net-core-integration-tests"
 description = "This post gives an overview of the various ways to override configuration values in ASP.NET Core integration tests."
 date = "2020-02-24T23:25:09.0000000"
 tags = ["asp.net-core", "testing", "integration-testing"]
+ghostCommentId = "ghost-5e545aeea26b5f5ce4856c6a"
 +++
 
 The pluggable and modular nature of ASP.NET Core made integration testing a much more accessible and convenient tool than it was in classic .NET. We can spin up our whole application with the full ASP.NET middleware pipeline in-process, with a couple of lines of code, and send HTTP requests to it for testing purposes.

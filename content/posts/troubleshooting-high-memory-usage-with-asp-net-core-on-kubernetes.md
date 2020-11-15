@@ -4,6 +4,7 @@ slug = "troubleshooting-high-memory-usage-with-asp-net-core-on-kubernetes"
 description = "Chasing down why ASP.NET Core applications might use unreasonably much memory in Kubernetes, and how to it can be mitigated."
 date = "2017-08-17T21:15:39.0000000"
 tags = [".net-core", "asp.net-core", "kubernetes"]
+ghostCommentId = "ghost-41"
 +++
 
 At work we are running several ASP.NET Core APIs on the hosted version of Kubernetes in the Google Cloud (GCE—Google Container Engine). In almost all of our components we noticed that they had unreasonably high memory usage. The resource limit for memory was set to 500MB, and still, many of our—relatively small—APIs were constantly being restarted by Kubernetes due to exceeding the memory limit.

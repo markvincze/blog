@@ -4,6 +4,7 @@ slug = "migrating-a-ghost-blog-from-sqlite-to-postgre-on-openshift"
 description = "A guide about how to migrate a Ghost blog using SQLite to PostgreSQL running on Openshift."
 date = "2016-04-10T16:48:05.0000000"
 tags = ["ghost", "postgre", "sqlite", "openshift"]
+ghostCommentId = "ghost-18"
 +++
 
 When I started this blog, I wanted to use the [Ghost](https://ghost.org/) blogging platform. I was looking for a free solution for hosting it, and I didn't mind a little tinkering in order to get it running.  

@@ -4,6 +4,7 @@ slug = "automated-portable-code-style-checking-in-net-core-projects"
 description = "A quick introduction to setting up automated code style checking for .NET Core projects with StyleCopAnalyzers and editorconfig."
 date = "2018-07-08T15:48:55.0000000"
 tags = ["c#", ".net-core", "linting"]
+ghostCommentId = "ghost-5b422ffe19ac3b1e3f6dd2b1"
 +++
 
 I haven't been using automated code style checking in .NET before. I sporadically experimented with StyleCop, FxCop, or the code style rules of ReSharper, but never ended up using them extensively, or introducing and distributing a maintained configuration in the organization I was working in.
