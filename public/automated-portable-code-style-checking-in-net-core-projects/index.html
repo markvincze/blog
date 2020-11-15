@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Automated, portable code style checking in .NET Core projects</title>
+
+  
+  <link rel="stylesheet" href="/styles/bulma.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.15.1/js/all.js"></script>
+  <script defer src="/scripts/scripts.js"></script>
+  <link rel="icon" href="/favicon.png" type="image/png" />
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A quick introduction to setting up automated code style checking for .NET Core projects with StyleCopAnalyzers and editorconfig." />
+  <meta property="og:url" content="https://blog.markvincze.com/automated-portable-code-style-checking-in-net-core-projects/" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Automated, portable code style checking in .NET Core projects" />
+  <meta property="og:description" content="A quick introduction to setting up automated code style checking for .NET Core projects with StyleCopAnalyzers and editorconfig." />
+  
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@mrkvincze" />
+  <meta name="twitter:title" content="Automated, portable code style checking in .NET Core projects" />
+  <meta name="twitter:description" content="A quick introduction to setting up automated code style checking for .NET Core projects with StyleCopAnalyzers and editorconfig." />
+  
+
+</head>
+
+<body>
+  <div class="navbar-container">
+    <nav class="navbar container is-max-desktop" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+
+        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+      <div id="navbarMenu" class="navbar-menu">
+        <div class="navbar-start">
+          <a class="navbar-item" href="/">
+            Home
+          </a>
+
+          <a class="navbar-item" href="/posts">
+            Blog
+          </a>
+
+          <a class="navbar-item">
+            Presentations
+          </a>
+        </div>
+        <div class="navbar-end pt-2 ml-2">
+          <a class="icon is-medium" href="https://twitter.com/mrkvincze">
+            <i class="fab fa-lg fa-twitter"></i>
+          </a>
+          <a class="icon is-medium" href="https://www.github.com/markvincze">
+            <i class="fab fa-lg fa-github"></i>
+          </a>
+          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze">
+            <i class="fab fa-lg fa-stack-overflow"></i>
+          </a>
+          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze">
+            <i class="fab fa-lg fa-linkedin"></i>
+          </a>
+          <a class="icon is-medium" href="/index.xml">
+            <i class="fas fa-lg fa-rss"></i>
+          </a>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <a href="/">
+        <h1 class="title is-1">
+          Mark Vincze
+        </h1>
+      </a>
+      <h2 class="subtitle is-4">
+        Software Developer
+      </h2>
+    </div>
+  </div>
+
+  
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h1 class="title is-1">Automated, portable code style checking in .NET Core projects</h1>
+    
+
+
+<p class="mb-3 is-vcentered">
+  <time class="has-text-grey" datetime="2018-07-08">Jul 8, 2018 &bull;</time>
+
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://blog.markvincze.com/tags/c">c#</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://blog.markvincze.com/tags/.net-core">.net-core</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://blog.markvincze.com/tags/linting">linting</a>
+  
+
+</p>
+    <article class="content mt-6">
+      <p>I haven&rsquo;t been using automated code style checking in .NET before. I sporadically experimented with StyleCop, FxCop, or the code style rules of ReSharper, but never ended up using them extensively, or introducing and distributing a maintained configuration in the organization I was working in.</p>
+<p>Recently having worked on JavaScript and TypeScript projects, I really started to appreciate how straightforward and established the process of linting is in those communities: it seems to be almost universal that every project in the JS and TS ecosystem is using <code>eslint</code> and <code>tslint</code> respectively, and the way to specify the linting rules is very straightforward.</p>
+<p>So I decided to take a look at the options available today to do linting for .NET Core (mainly C#) projects. My preferences were the following.</p>
+<ul>
+<li>Be able to customize the linting rules, and distribute that configuration to be used in every project in our organization.</li>
+<li>Preferably have integration for both Visual Studio and Visual Studio Code.</li>
+<li>Besides IDE integration, be able to also execute it in our CI-builds, and make the build fail if there are linting errors.</li>
+<li>Related to the above, be able to run it in the terminal not just on Windows, but also on Linux and Mac.</li>
+</ul>
+<p>ReSharper provides the linting capability and the distributable configuration, but the IDE-integration is only there if you&rsquo;re using the ReSharper extension in Visual Studio, and it doesn&rsquo;t work in VSCode. Because of this I ruled ReSharper out. It can still be a viable option if everyone on your project is using VS with ReSharper, but I wanted to choose method that I can use both at work and in my open source projects.</p>
+<p>Other than ReSharper, the two tools I found were <a href="https://github.com/DotNetAnalyzers/StyleCopAnalyzers">StyleCopAnalyzers</a>, and <a href="https://docs.microsoft.com/en-us/visualstudio/ide/create-portable-custom-editor-options">editorconfig</a>.</p>
+<p>I could not manage to set up editorconfig in a way that it was reliably working, on the other hand, StyleCopAnalyzers was working fairly well, although not yet delivering all the above points.<br>
+The rest of the post will be about setting up and configuring StyleCopAnalyzers for your project, and in the end I&rsquo;ll include some details about my experience with editorconfig too.</p>
+<p>To be able to test these tools, I created a sample project where I intentionally made some code style violations that I would want the linters to warn about. I uploaded the code <a href="https://github.com/markvincze/CodeStyleCheckSample">here</a>, where I created two branches, <a href="https://github.com/markvincze/CodeStyleCheckSample/tree/stylecopanalyzers"><code>stylecopanalyzers</code></a> and <a href="https://github.com/markvincze/CodeStyleCheckSample/tree/editorconfig"><code>editorconfig</code></a> for the setup of the two tools.</p>
+<h1 id="adding-stylecopanalyzers-to-your-project">Adding StyleCopAnalyzers to your project</h1>
+<p>Including StyleCopAnalyzers in your project is very simple, it&rsquo;s basically just adding the reference to its Nuget package. You can do this from the terminal with <code>dotnet</code>.</p>
+<pre><code>dotnet add package StyleCop.Analyzers
+</code></pre><p>After this, if you try to build your project, you&rsquo;ll immediately receive the violations in the form of compiler warnings.</p>
+<pre><code>$ dotnet build
+Microsoft (R) Build Engine version 15.7.179.6572 for .NET Core
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+  Restore completed in 33.08 ms for C:\Workspaces\Github\CodeStyleCheckSample\src\CodeStyleCheckSample\CodeStyleCheckSample.csproj.
+MyClass.cs(20,13): warning SA1000: The keyword 'if' must be followed by a space. [C:\Workspaces\Github\CodeStyleCheckSample\src\CodeStyleCheckSample\CodeStyleCheckSample.csproj]
+MyClass.cs(8,23): warning SA1401: Field must be private [C:\Workspaces\Github\CodeStyleCheckSample\src\CodeStyleCheckSample\CodeStyleCheckSample.csproj]
+...
+</code></pre><p>Or, if we add the <code>&lt;TreatWarningsAsErrors&gt;true&lt;/TreatWarningsAsErrors&gt;</code> flag to our project file, these will be actual errors instead of just warnings. This is what I would generally suggest to do from the start, otherwise it&rsquo;s very easy to pile up hundreds or thousands of warnings in a large code base, which is daunting to clean up later. (This can typically be the situation when we want to introduce linting to an existing legacy project.)</p>
+<p>The linting producing errors by the <code>dotnet build</code> command makes it very easy to wire this into our CI-build, since the build errors will make our CI-build fail too, so we don&rsquo;t need to do anything else.</p>
+<p>The errors also nicely show up in Visual Studio, where we can even quickly fix them with Roslyn quick fixes.</p>
+<p><img src="/images/2018/07/error-in-vs.png" alt="Linting errors showing up in Visual Studio"></p>
+<p>Unfortunately, at this moment, Visual Studio Code does not support displaying the errors coming from Roslyn analyzers, as mentioned in <a href="https://github.com/DotNetAnalyzers/StyleCopAnalyzers/issues/2739#issuecomment-403258345">this comment</a>. Thus StyleCopAnalyzers today is the most ideal if we are using Visual Studio. If we&rsquo;re using VSCode, we&rsquo;ll have to rely on the build errors produced by <code>dotnet build</code> instead of the IDE-integration.</p>
+<h1 id="customizing-the-linting-rules">Customizing the linting rules</h1>
+<p>When using <code>eslint</code> and <code>tslint</code>, we can customize the linting rules by creating an <code>.eslintrc</code> or <code>tslint.json</code> file, respectively, where we can change both the violation severity, and also customize how some of the rules work (for example whether to enforce single quotes, double quotes, or accept both for string literals).</p>
+<p>We can do similar customization with StyleCopAnalyzers, but the situation is a bit more complicated. There are two different configuration files we can use for different purposes.</p>
+<h2 id="turn-rules-on-and-off">Turn rules on and off</h2>
+<p>In order to select which rules we even want to validate in the first place, we have to use a <strong>Code analysis rule set file</strong>, which has a format utilized by other analyzers, for example the built-in analyer in VS.<br>
+We can turn off some of the rules we don&rsquo;t need by adding the following XML file (we can choose its name) to the project.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34;?&gt;</span>
+<span style="color:#f92672">&lt;RuleSet</span> <span style="color:#a6e22e">Name=</span><span style="color:#e6db74">&#34;Sample rule set&#34;</span> <span style="color:#a6e22e">Description=</span><span style="color:#e6db74">&#34;Sample rule set illustrating customizing StyleCopAnalyzer rule severity&#34;</span> <span style="color:#a6e22e">ToolsVersion=</span><span style="color:#e6db74">&#34;14.0&#34;</span><span style="color:#f92672">&gt;</span>
+  <span style="color:#f92672">&lt;Rules</span> <span style="color:#a6e22e">AnalyzerId=</span><span style="color:#e6db74">&#34;StyleCop.Analyzers&#34;</span> <span style="color:#a6e22e">RuleNamespace=</span><span style="color:#e6db74">&#34;StyleCop.Analyzers&#34;</span><span style="color:#f92672">&gt;</span>
+    <span style="color:#f92672">&lt;Rule</span> <span style="color:#a6e22e">Id=</span><span style="color:#e6db74">&#34;SA1200&#34;</span> <span style="color:#a6e22e">Action=</span><span style="color:#e6db74">&#34;None&#34;</span> <span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;Rule</span> <span style="color:#a6e22e">Id=</span><span style="color:#e6db74">&#34;SA1633&#34;</span> <span style="color:#a6e22e">Action=</span><span style="color:#e6db74">&#34;None&#34;</span> <span style="color:#f92672">/&gt;</span>
+  <span style="color:#f92672">&lt;/Rules&gt;</span>
+<span style="color:#f92672">&lt;/RuleSet&gt;</span>
+</code></pre></div><p>In the <code>&lt;Rule&gt;</code> element we have to specify the ID of the specific linting rule, and set the <code>Action</code> property to either <code>None</code>, <code>Info</code>, <code>Warning</code> or <code>Error</code>. To figure out the codes of the individual rules, we can find them in the output we get from the <code>dotnet</code> CLI.<br>
+And we have to specify the name of our file in the <code>CodeAnalysisRuleSet</code> property in the project file.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml">    <span style="color:#f92672">&lt;CodeAnalysisRuleSet&gt;</span>SampleRuleSet.ruleset<span style="color:#f92672">&lt;/CodeAnalysisRuleSet&gt;</span>
+</code></pre></div><p>(One strange thing about the ruleset file is that if I try to open it in VS, instead of opening the XML in the text editor, it opens the built-in GUI for editing <code>ruleset</code> files, which simply doesn&rsquo;t work for me at all, it doesn&rsquo;t display any of the rules. However, I prefer editing the XML content by hand anyway, so I didn&rsquo;t investigate further about this problem.)</p>
+<h2 id="further-customize-certain-rules">Further customize certain rules</h2>
+<p>In order to fine-tune the behavior of certain rules, we can add a <code>stylecop.json</code> file to our project, and <a href="https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/EnableConfiguration.md">add the following item</a> to the project file:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml">  <span style="color:#f92672">&lt;ItemGroup&gt;</span>
+    <span style="color:#f92672">&lt;AdditionalFiles</span> <span style="color:#a6e22e">Include=</span><span style="color:#e6db74">&#34;stylecop.json&#34;</span> <span style="color:#f92672">/&gt;</span>
+  <span style="color:#f92672">&lt;/ItemGroup&gt;</span>
+</code></pre></div><p>This is a small example, in which I&rsquo;m forbidding having a new line at the end of our source files.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+  <span style="color:#f92672">&#34;$schema&#34;</span>: <span style="color:#e6db74">&#34;https://raw.githubusercontent.com/DotNetAnalyzers/StyleCopAnalyzers/master/StyleCop.Analyzers/StyleCop.Analyzers/Settings/stylecop.schema.json&#34;</span>,
+  <span style="color:#f92672">&#34;settings&#34;</span>: {
+    <span style="color:#f92672">&#34;layoutRules&#34;</span>: {
+      <span style="color:#f92672">&#34;newlineAtEndOfFile&#34;</span>: <span style="color:#e6db74">&#34;omit&#34;</span>
+    }
+  }
+}
+</code></pre></div><p><img src="/images/2018/07/stylecop-error-in-vs.png" alt="Rule customized with stylecop.json showing up in Visual Studio"></p>
+<p>You can read about all the possible customization on <a href="https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/Configuration.md">this page</a>. The set of rules supported today feels a bit ad-hoc and limited, but since the project is being actively developed, I expect this to improve in the future.</p>
+<h2 id="distributing-our-custom-configuration">Distributing our custom configuration</h2>
+<p>If we&rsquo;re working on multiple projects in an organization, it&rsquo;s important to be able to distribute our custom rules to all of the projects we&rsquo;re working on, to keep the linting rules consistent. The naive way to do this would be to maintain our <code>.ruleset</code> and <code>stylecop.json</code> files in a central place, for example a git repository, and then from time to time, copy the two files from this repo to our actual projects. Although this approach is doable, it&rsquo;s not ideal. Copy pasting the files can be a bit tedious, and the versioning of our configuration will be unclear.</p>
+<p>A better way is to create a custom Nuget package, which references <code>StyleCop.Analyzers</code>, and also makes the projects depending on it including our custom configuration files in the correct way. This way we can use proper versioning for our linting configuration, and distribute it to the dependant projects as a Nuget dependency.</p>
+<p>In order to do this properly, we need to set up a <code>.nuspec</code> and a <code>.props</code> file in our package, as it is described <a href="https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/Configuration.md#sharing-configuration-among-solutions">in the documentation</a>.</p>
+<p>You can find a working example of this setup in <a href="https://github.com/markvincze/MyCustomStyleCopAnalyzerPackage">this repo</a>.</p>
+<h1 id="what-about-editorconfig">What about editorconfig?</h1>
+<p>Watching the <a href="https://channel9.msdn.com/Events/Build/2018/BRK2100">.NET Roadmap talk</a> from the Build conference I learned that—contrary to what I thought before—<code>editorconfig</code> is not only capable of controlling basic, language-agnostic properties of our source files, such as indentation, newline at the end of a file, trimming trailing whitespace, etc., but with Visual Studio, it also supports enforcing actual C#-specific linting rules, such as qualifying fields with <code>this.</code>, sorting the user directives, etc.</p>
+<p>Looking at some of the projects in the JS ecosystem (<a href="https://github.com/facebook/react">react</a>, <a href="https://github.com/vuejs/vue">vue</a>, <a href="https://github.com/yarnpkg/yarn">yarn</a>, just to name a few) it seems pretty universal that the JS-specific linting is done through <code>eslint</code>, and editorconfig is used only to control a handful of low-level properties of the source files. So <code>eslint</code> and <code>editorconfig</code> are complementary.</p>
+<p>On the other hand, now in the .NET ecosystem it seems that <code>StyleCopAnalyzers</code> and the C#-specific <code>editorconfig</code> integration in Visual Studio aren&rsquo;t really complementary, but they are rather competing alternatives, which seems to be a strange situation to me, since both have some shortcomings at the moment. Although I haven&rsquo;t heard any &ldquo;official&rdquo; information about how this will play out, so I might be misunderstanding the situation.</p>
+<p>Nevertheless, I gave <code>editorconfig</code> a try too (you can see it in the <a href="https://github.com/markvincze/CodeStyleCheckSample/tree/editorconfig"><code>editorconfig</code></a> branch of the sample repo), but couldn&rsquo;t get it to work reliably. It doesn&rsquo;t seem to integrate into VSCode at all, and also in Visual Studio for me only some of the rules were working, some others were simply not triggered.<br>
+And my biggest issue was that although VS picks up the <code>editorconfig</code> rules, and—depending on the configuration—it might show them as Errors, but it doesn&rsquo;t make the actual build fail, so I couldn&rsquo;t find a way to also integrate into the CI-worklow.</p>
+<h1 id="conclusion">Conclusion</h1>
+<p>Based on the above I&rsquo;d say that right now the preferable way to implement portable, automated code style checking for a .NET Core project is to use <code>StyleCopAnalyzers</code>, even if it doesn&rsquo;t directly support VSCode.</p>
+<p>I&rsquo;m really curious how this area is going to improve in the future, and especially the role that <code>StyleCopAnalyzers</code> and <code>editorconfig</code> are going to play in linting .NET Core projects.<br>
+For me the sweet spot would be if we had one unified way of doing linting for .NET Core, with a single configuration file, VSCode support, and maybe with even core integration into the <code>dotnet</code> CLI as a separate <code>lint</code> command, so that we could run it separately from our build.</p>
+
+    </article>
+
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https:\/\/blog.markvincze.com\/automated-portable-code-style-checking-in-net-core-projects\/';
+        
+        this.page.identifier = 'ghost-5b422ffe19ac3b1e3f6dd2b1';
+        
+      };
+      (function () { 
+        var d = document, s = d.createElement('script');
+        s.src = 'https://markvinczeblog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+
+
+  <footer class="footer py-6">
+    <div class="content has-text-centered">
+      <p>
+        © 2020 <strong>Mark Vincze</strong>. All rights reserved.<br />
+        Built with <a href="https://gohugo.io/">Hugo</a> and <a href="https://bulma.io/">Bulma</a>. 💙
+      </p>
+    </div>
+  </footer>
+
+</body>
+
+</html>

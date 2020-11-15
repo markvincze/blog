@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Bulk updating document expiry in Couchbase</title>
+
+  
+  <link rel="stylesheet" href="/styles/bulma.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.15.1/js/all.js"></script>
+  <script defer src="/scripts/scripts.js"></script>
+  <link rel="icon" href="/favicon.png" type="image/png" />
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A simple approach to update the expiry of all the documents in a Couchbase bucket, using a view and a custom updater script." />
+  <meta property="og:url" content="https://blog.markvincze.com/bulk-updating-document-expiry-in-couchbase/" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Bulk updating document expiry in Couchbase" />
+  <meta property="og:description" content="A simple approach to update the expiry of all the documents in a Couchbase bucket, using a view and a custom updater script." />
+  
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@mrkvincze" />
+  <meta name="twitter:title" content="Bulk updating document expiry in Couchbase" />
+  <meta name="twitter:description" content="A simple approach to update the expiry of all the documents in a Couchbase bucket, using a view and a custom updater script." />
+  
+
+</head>
+
+<body>
+  <div class="navbar-container">
+    <nav class="navbar container is-max-desktop" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+
+        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+      <div id="navbarMenu" class="navbar-menu">
+        <div class="navbar-start">
+          <a class="navbar-item" href="/">
+            Home
+          </a>
+
+          <a class="navbar-item" href="/posts">
+            Blog
+          </a>
+
+          <a class="navbar-item">
+            Presentations
+          </a>
+        </div>
+        <div class="navbar-end pt-2 ml-2">
+          <a class="icon is-medium" href="https://twitter.com/mrkvincze">
+            <i class="fab fa-lg fa-twitter"></i>
+          </a>
+          <a class="icon is-medium" href="https://www.github.com/markvincze">
+            <i class="fab fa-lg fa-github"></i>
+          </a>
+          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze">
+            <i class="fab fa-lg fa-stack-overflow"></i>
+          </a>
+          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze">
+            <i class="fab fa-lg fa-linkedin"></i>
+          </a>
+          <a class="icon is-medium" href="/index.xml">
+            <i class="fas fa-lg fa-rss"></i>
+          </a>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <a href="/">
+        <h1 class="title is-1">
+          Mark Vincze
+        </h1>
+      </a>
+      <h2 class="subtitle is-4">
+        Software Developer
+      </h2>
+    </div>
+  </div>
+
+  
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h1 class="title is-1">Bulk updating document expiry in Couchbase</h1>
+    
+
+
+<p class="mb-3 is-vcentered">
+  <time class="has-text-grey" datetime="2017-03-25">Mar 25, 2017 &bull;</time>
+
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://blog.markvincze.com/tags/couchbase">couchbase</a>
+  
+
+</p>
+    <article class="content mt-6">
+      <h1 id="introduction">Introduction</h1>
+<p>When using Couchbase, sometimes we want to update the expiry of all of the documents stored in a bucket.
+In my case it was in a project where initially we weren&rsquo;t sure how we want to handle document expiry (either periodically run some query on our data store, and backup and remove all the old elements—or use the expiry mechanism built into Couchbase), so we ended up deciding we&rsquo;ll just insert all our documents without expiry for now, and we&rsquo;ll figure out later how we want to handle the problem.
+And granted, before we knew it, we had 17 millions documents without expiry in our bucket. Oops.</p>
+<p>At that point we decided we want to use Couchbase&rsquo;s built-in expiry mechanism, so we&rsquo;ll set the <code>Expiry</code> property on every new document we store.</p>
+<p>And we realized that we also retroactively have to set the expiry of all our existing documents too. This turned out to be not exactly trivial. In this post I&rsquo;ll describe how I ended up doing it.</p>
+<p>(I was using the .NET SDK, so that&rsquo;s what you&rsquo;ll see in the code samples, but the approach described here can be used with any of the other SDKs, or even with the CLI.)</p>
+<h1 id="the-approach">The approach</h1>
+<p>I started googling to see how we can update the expiry for all documents in a bucket, and quickly found out that Couchbase has no built-in operation for updating the expiry in bulk.
+Based on my investigation the best option was to simply query over all the document ids in our bucket, and update the expiry of them one by one.</p>
+<h1 id="query-all-the-keys-in-a-bucket">Query all the keys in a bucket</h1>
+<p>In order to be able to iterate over all our documents, we have to be able to query the keys in a bucket, but that&rsquo;s not completely trivial either. Unlike SQL, we can&rsquo;t just iterate over all the elements by default, we have to utilize an index or a view to do that.
+One way to achieve this is to create a simple view, which retrieves the ids of our documents.</p>
+<h2 id="create-the-view">Create the view</h2>
+<p>Creating the necessary view is really simple, we can do it from the Couchbase management console.
+On the &ldquo;Data Buckets&rdquo; screen click on the Views button next to our bucket.</p>
+<p><img src="/images/2017/03/viewbutton.png" alt="The Views button on the Couchbase management console."></p>
+<p>Then click on &ldquo;Create Development View&rdquo;, and give it a name. I used the name &ldquo;all_keys&rdquo;.</p>
+<p><img src="/images/2017/03/createview.png" alt="Creating a new view."></p>
+<p>On the View screen we can customize our query. Actually, the query generated by default is suitable for us, because it already returns our document keys.
+The only thing I changed in the query was that I removed even emitting the <code>meta.id</code>, because the keys are already return by the view without this, so removing this will make our downloaded view file slightly smaller. This is the view I used.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">doc</span>, <span style="color:#a6e22e">meta</span>) {
+  <span style="color:#a6e22e">emit</span>(<span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>);
+}
+</code></pre></div><p>We can test our view by clicking on the &ldquo;Show Results&rdquo; button.
+After this, go back to the &ldquo;Views&rdquo; page and click on the &ldquo;Publish&rdquo; button.</p>
+<p><img src="/images/2017/03/publishview.png" alt="Publish the view."></p>
+<p>By doing this we &ldquo;promote&rdquo; the view to production, and it&rsquo;s gonna query our whole bucket instead of just a small portion for development. Then we can switch to the &ldquo;Production&rdquo; tab and open our published view and test it.</p>
+<h2 id="querying-the-view">Querying the view</h2>
+<p>The simplest way to query a view is to call the HTTP endpoint Couchbase is providing for our view. If we go to the page of the View, we can find an example of this URL at the bottom of the page.</p>
+<p><img src="/images/2017/03/viewurl.png" alt="The URL of the query endpoint can be found on the View page."></p>
+<p><strong>Gotcha</strong>: make sure to get the url from the <em>production</em> view, and not the <em>development</em> one, since the latter will only contain a portion of our data.</p>
+<p>This is an example of the query url:</p>
+<pre><code>http://mycouchbaseserver:8092/mybucket/_design/all_keys/_view/all_keys?connection_timeout=60000&amp;inclusive_end=true&amp;limit=6&amp;skip=0&amp;stale=false
+</code></pre><p>Where the <code>limit</code> and <code>skip</code> arguments specify the portion of the view we want to retrieve.</p>
+<p>(<strong>Querying the view through the SDK</strong>: We can also query the view with the SDK, for example in C# we can use the <code>bucket.CreateQuery()</code> method, but to simply get all the keys I think it&rsquo;s easier to just simply use the HTTP endpoint.)</p>
+<h2 id="processing-the-data-a-failed-attempt">Processing the data: a failed attempt</h2>
+<p>At first it seemed to be a reasonable approach to simply query the view in batches (let&rsquo;s say 1000 documents at a time), and then update the expiry for each of them with the SDK (for example in the .NET SDK we can update the expiry with the <code>Touch()</code> method).</p>
+<p>This is a pseudo-code implementation of this approach:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">var</span> baseUrl = <span style="color:#e6db74">&#34;http://mycouchbaseserver:8092/mybucket/_design/all_keys/_view/all_keys?connection_timeout=60000&amp;stale=false&amp;inclusive_end=true&#34;</span>;
+<span style="color:#66d9ef">var</span> batchSize = <span style="color:#ae81ff">100</span>;
+<span style="color:#66d9ef">var</span> cnt = <span style="color:#ae81ff">0</span>;
+<span style="color:#66d9ef">var</span> expiry = TimeSpan.FromDays(<span style="color:#ae81ff">10</span>);
+
+<span style="color:#66d9ef">while</span>(<span style="color:#66d9ef">true</span>)
+{
+    <span style="color:#66d9ef">var</span> documents = DownloadDocuments(baseUrl + <span style="color:#e6db74">$&#34;&amp;limit={batchSize}&amp;skip={cnt*batchSize}&#34;</span>);
+
+    <span style="color:#66d9ef">foreach</span> (<span style="color:#66d9ef">var</span> doc <span style="color:#66d9ef">in</span> documents)
+    {
+        bucket.Touch(doc, expiry);
+    }
+    
+    <span style="color:#66d9ef">if</span> (documents.Count &lt; batchSize)
+    {
+        <span style="color:#66d9ef">break</span>;
+    }
+    
+    cnt++;
+}
+</code></pre></div><p>The code seems to make sense, and it works too. The problem is its performance.
+It turns out that for some reason, executing the query takes more and more time as the number of skipped document increases (as we get further and further through our documents).</p>
+<p>In my case, with 17 million elements the response time of the query was the following:</p>
+<ul>
+<li>Querying 1000 elements at the beginning (<code>&amp;skip=0&amp;limit=1000</code>): under 200ms</li>
+<li>Querying 1000 elements starting from 500,000 (<code>&amp;skip=500000&amp;limit=1000</code>): 5 seconds</li>
+<li>Querying 1000 elements starting from 10,000,000 (<code>&amp;skip=10000000&amp;limit=1000</code>): 2 and a half minutes</li>
+</ul>
+<p>So this approach was not working, as my script was progressing through the bucket, it got slower and slower, after a couple of hundred thoursand documents it was barely doing any progress.</p>
+<p>I investigated quite a lot about the cause of this. I suspect it&rsquo;s caused by not having some necessary index to be able to efficiently query any portion of my view (I also asked the question <a href="https://forums.couchbase.com/t/how-do-i-get-all-keys-from-the-bucket/35/9?u=markvincze">here</a>).
+Yet, however I tried to set up primary or secondary indices, I couldn&rsquo;t speed the query up.</p>
+<p>Then I had a different idea.</p>
+<h2 id="brute-force">Brute force!</h2>
+<p>I had 17 million documents in the bucket, which sounds a lot, but actually my view is only returning the keys and nothing else, the output looks like this (depending on your keys of course, which are GUIDs in my case):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{<span style="color:#f92672">&#34;id&#34;</span>:<span style="color:#e6db74">&#34;000001ba-c4c9-4691-9c48-ca4b0cb1fe80&#34;</span>,<span style="color:#f92672">&#34;key&#34;</span>:<span style="color:#66d9ef">null</span>,<span style="color:#f92672">&#34;value&#34;</span>:<span style="color:#66d9ef">null</span>}<span style="color:#960050;background-color:#1e0010">,</span>
+{<span style="color:#f92672">&#34;id&#34;</span>:<span style="color:#e6db74">&#34;0000023c-f18a-4cd2-94c2-5ad9533b7c82&#34;</span>,<span style="color:#f92672">&#34;key&#34;</span>:<span style="color:#66d9ef">null</span>,<span style="color:#f92672">&#34;value&#34;</span>:<span style="color:#66d9ef">null</span>}<span style="color:#960050;background-color:#1e0010">,</span>
+{<span style="color:#f92672">&#34;id&#34;</span>:<span style="color:#e6db74">&#34;00000275-0fd7-4aff-bd5c-626ddd087331&#34;</span>,<span style="color:#f92672">&#34;key&#34;</span>:<span style="color:#66d9ef">null</span>,<span style="color:#f92672">&#34;value&#34;</span>:<span style="color:#66d9ef">null</span>}<span style="color:#960050;background-color:#1e0010">,</span>
+</code></pre></div><p>How large the <em>whole</em> Json can be? Well, one line is 70 characters (70 bytes in UTF8), so it shouldn&rsquo;t be much more than 17,000,000 * 70 = 1,190,000,000 bytes, which is ~1,134 MB. That doesn&rsquo;t sound too bad. Can we maybe simply download the whole view in one single go, save the Json as a file, and do the whole processing based on that file? Can Couchbase return all the 17 million documents in one go?
+It turns out that this works without any problem, Couchbase can return the Json for the whole view without breaking a sweat.</p>
+<p>I simply used <code>curl</code> to download the json with the following command.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">curl -o allkeys.json http://mycouchbaseserver:8092/mybucket/_design/all_keys/_view/all_keys?inclusive_end<span style="color:#f92672">=</span>true&amp;stale<span style="color:#f92672">=</span>ok&amp;connection_timeout<span style="color:#f92672">=</span><span style="color:#ae81ff">6000000</span>
+</code></pre></div><p>A couple of things to note about the URL:</p>
+<ul>
+<li>I removed the <code>limit</code> and <code>skip</code> arguments. This is the important part, this&rsquo;ll make the query return all the elements.</li>
+<li>I increased the <code>connection_timeout</code>. (Didn&rsquo;t really calculate it, just added 3-4 zeros at the end.)</li>
+<li>Changed the value of the <code>stale</code> argument to <code>ok</code>. In theory this makes our query faster (I didn&rsquo;t measure), since it enables Couchbase to return stale data (which is fine in our case, since we&rsquo;re interested only in the keys, which shouldn&rsquo;t change anyway.)</li>
+</ul>
+<p>Downloading the whole view took a couple of minutes, and it resulted in a ~1.2 GB json file. So far so good!</p>
+<h1 id="update-the-expiries">Update the expiries</h1>
+<p>Iterating over the lines in this json file shouldn&rsquo;t be difficult with our favourite technology, we can use any of the SDKs out there (or probably we can even do it in a bash script with the CLI).</p>
+<p>I used the .NET SDK to implement this, with the following little console application.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">using</span> Couchbase;
+<span style="color:#66d9ef">using</span> Couchbase.Configuration.Client;
+<span style="color:#66d9ef">using</span> System;
+<span style="color:#66d9ef">using</span> System.Collections.Generic;
+<span style="color:#66d9ef">using</span> System.Diagnostics;
+<span style="color:#66d9ef">using</span> System.IO;
+<span style="color:#66d9ef">using</span> System.Linq;
+<span style="color:#66d9ef">using</span> System.Net;
+<span style="color:#66d9ef">using</span> System.Text.RegularExpressions;
+<span style="color:#66d9ef">using</span> System.Threading.Tasks;
+
+<span style="color:#66d9ef">namespace</span> ExpiryUpdater
+{
+    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Program</span>
+    {
+        <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">string</span> serverAddress = <span style="color:#e6db74">&#34;http://mycouchbaseserver:8091/pools&#34;</span>;
+        <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">string</span> bucketName = <span style="color:#e6db74">&#34;mybucket&#34;</span>;
+        <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> batchSize = <span style="color:#ae81ff">1000</span>;
+        <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> chunkSize = <span style="color:#ae81ff">10</span>;
+        <span style="color:#75715e">// Regex pattern assuming that the lines in the json file are in the format
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// {&#34;id&#34;:&#34;0000023c-f18a-4cd2-94c2-5ad9533b7c82&#34;,&#34;key&#34;:null,&#34;value&#34;:null},
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">string</span> idPattern = <span style="color:#e6db74">&#34;.*\&#34;id\&#34;:\&#34;([^\&#34;]*)\&#34;.*&#34;</span>;
+        <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">readonly</span> Regex idRegex = <span style="color:#66d9ef">new</span> Regex(idPattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">readonly</span> TimeSpan expiry = TimeSpan.FromDays(<span style="color:#ae81ff">90</span>);
+
+        <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> Main(<span style="color:#66d9ef">string</span>[] args)
+        {
+            <span style="color:#66d9ef">var</span> allLines = File.ReadAllLines(<span style="color:#e6db74">@&#34;C:\Temp\allids.json&#34;</span>);
+            allLines = allLines.Skip(<span style="color:#ae81ff">1</span>).Take(allLines.Length - <span style="color:#ae81ff">3</span>).ToArray();
+
+            Console.WriteLine(<span style="color:#e6db74">&#34;Starting updating expiry. Batch size: {0}&#34;</span>, batchSize);
+
+            <span style="color:#66d9ef">var</span> config = <span style="color:#66d9ef">new</span> ClientConfiguration()
+            {
+                Servers = <span style="color:#66d9ef">new</span> List&lt;Uri&gt;
+                {
+                    <span style="color:#66d9ef">new</span> Uri(serverAddress)
+                }
+            };
+
+            <span style="color:#75715e">// Make sure the SDK can handle multiple parallel connections.
+</span><span style="color:#75715e"></span>            ServicePointManager.DefaultConnectionLimit = chunkSize;
+            config.BucketConfigs.First().Value.PoolConfiguration.MaxSize = chunkSize;
+            config.BucketConfigs.First().Value.PoolConfiguration.MinSize = chunkSize;
+            ClusterHelper.Initialize(config);
+
+            <span style="color:#66d9ef">var</span> bucket = ClusterHelper.GetBucket(bucketName);
+
+            <span style="color:#66d9ef">int</span> cnt = <span style="color:#ae81ff">0</span>;
+            <span style="color:#66d9ef">int</span> processed = <span style="color:#ae81ff">0</span>;
+
+            <span style="color:#66d9ef">var</span> sw = Stopwatch.StartNew();
+
+            <span style="color:#66d9ef">while</span> (<span style="color:#66d9ef">true</span>)
+            {
+                Console.Write(<span style="color:#e6db74">&#34;Batch #{0}. Elapsed: {1}. &#34;</span>, cnt, sw.Elapsed);
+
+                <span style="color:#66d9ef">var</span> batchLines = allLines.Skip(cnt * batchSize).Take(batchSize);
+
+                Console.WriteLine(
+                    <span style="color:#e6db74">&#34;Items: {0}/{1} {2}% Speed: {3} docs/sec&#34;</span>,
+                    cnt * batchSize,
+                    allLines.Length,
+                    (<span style="color:#66d9ef">int</span>)Math.Round((<span style="color:#ae81ff">100</span> * cnt * batchSize) / (<span style="color:#66d9ef">double</span>)allLines.Length),
+                    processed / sw.Elapsed.TotalSeconds);
+
+                Parallel.ForEach(batchLines, <span style="color:#66d9ef">new</span> ParallelOptions { MaxDegreeOfParallelism = chunkSize }, line =&gt;
+                {
+                    <span style="color:#66d9ef">var</span> id = idRegex.Match(line).Groups[<span style="color:#ae81ff">1</span>].Captures[<span style="color:#ae81ff">0</span>].Value;
+                    <span style="color:#66d9ef">var</span> result = bucket.Touch(id, expiry);
+                    processed++;
+
+                    <span style="color:#66d9ef">if</span> (!result.Success)
+                    {
+                        <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> Exception(<span style="color:#e6db74">$&#34;Touch operation failed. Message: {result.Message}&#34;</span>, result.Exception);
+                    }
+                });
+
+                <span style="color:#66d9ef">if</span> (batchLines.Count() &lt; batchSize)
+                {
+                    <span style="color:#66d9ef">break</span>;
+                }
+
+                cnt++;
+            }
+
+            sw.Stop();
+
+            Console.WriteLine(<span style="color:#e6db74">&#34;Processing documents done! Total elapsed: {0}&#34;</span>, sw.Elapsed);
+            Console.ReadKey();
+        }
+    }
+}
+</code></pre></div><p>Some notes about this code.</p>
+<ul>
+<li>Since it&rsquo;s throwaway code, there is not much error handling. If opening the file or the regex processing fails, it&rsquo;ll just crash with an unhandled exception. But it was fine for my purposes.</li>
+<li><code>Parallel.ForEach</code> is <strong>not</strong> an ideal approach for this scenario, since this work is not CPU-bound, but IO-bound.<br>
+What I would&rsquo;ve rather done is to stay on one thread, start a bunch of asynchronous touch operations with <code>TouchAsync</code>, and then wait for all the tasks to finish in parallel with <code>Task.WaitAll()</code>. However, for some reason this approach didn&rsquo;t work for me, <code>TouchAsync()</code> throws an exception, and I couldn&rsquo;t figure out why, so I just stick with <code>Parallel.ForEach</code> (again, throwaway code).</li>
+<li>I think reading in the giant json file is not the most performant, when we&rsquo;re doing <code>Skip</code> and <code>Take</code>, and then <code>ToArray</code>, we are probably doing a copy, but I didn&rsquo;t want to spend more time to optimize.</li>
+<li>There is no science behind the batch size and chunk size values, I tried a couple of different ones, and these seemed to be the best.</li>
+</ul>
+<p>The performance of this script will probably vary a lot depending on your network speed, the distance between you and your Couchbase server, the number of nodes in the cluster, and their performance, etc. In my case the script was processing ~500 documents per second, so running it for 17,000,000 million items took approximately 10 hours.</p>
+<p>By running this application, we can watch the progress in the terminal window.
+If it crashes in the middle for any reason (for example we are disconnected from the network), or you have to turn off your machine, don&rsquo;t worry. Simply take a note of what was the last batch you processed, then change the <code>cnt</code> variable to that value, and start it again.</p>
+<p>One thing to keep in mind is that this approach only updates the documents which are in the bucket at the time of downloading the json of the view, so this is ideal to use when we&rsquo;ve already updated our application code to take care of the expiry of new documents.</p>
+<p>I hope this post can save some time for people struggling with the same issue. And if you manage to figure out a more sophisticated approach to do this, all suggestions are welcome in the comments.</p>
+
+    </article>
+
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https:\/\/blog.markvincze.com\/bulk-updating-document-expiry-in-couchbase\/';
+        
+        this.page.identifier = 'ghost-34';
+        
+      };
+      (function () { 
+        var d = document, s = d.createElement('script');
+        s.src = 'https://markvinczeblog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+
+
+  <footer class="footer py-6">
+    <div class="content has-text-centered">
+      <p>
+        © 2020 <strong>Mark Vincze</strong>. All rights reserved.<br />
+        Built with <a href="https://gohugo.io/">Hugo</a> and <a href="https://bulma.io/">Bulma</a>. 💙
+      </p>
+    </div>
+  </footer>
+
+</body>
+
+</html>

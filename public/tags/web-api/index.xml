@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>web api on Mark Vincze</title>
+    <link>https://blog.markvincze.com/tags/web-api/</link>
+    <description>Recent content in web api on Mark Vincze</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 29 Jul 2017 18:32:34 +0000</lastBuildDate><atom:link href="https://blog.markvincze.com/tags/web-api/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Running ASP.NET Core in auto-scaling containers? Warm up!</title>
+      <link>https://blog.markvincze.com/running-asp-net-core-in-auto-scaling-containers-warm-up/</link>
+      <pubDate>Sat, 29 Jul 2017 18:32:34 +0000</pubDate>
+      
+      <guid>https://blog.markvincze.com/running-asp-net-core-in-auto-scaling-containers-warm-up/</guid>
+      <description>ASP.NET Core APIs are not warmed up by default. This is easy to illustrate, let&amp;rsquo;s scaffold a brand new empty api.
+mkdir warmuptest cd warmuptest dotnet new webapi dotnet restore dotnet run Then let&amp;rsquo;s do two consecutive requests against the /values endpoint, and measure the response times. This is what we&amp;rsquo;ll see.
+$ curl -o /dev/null -s -w %{time_total}\\n http://localhost:5000/values 0.594 $ curl -o /dev/null -s -w %{time_total}\\n http://localhost:5000/values 0.000 $ curl -o /dev/null -s -w %{time_total}\\n http://localhost:5000/values 0.</description>
+    </item>
+    
+    <item>
+      <title>Jumpstart F# web development: F# with ASP.NET on classic .NET</title>
+      <link>https://blog.markvincze.com/jumpstart-f-web-development-f-with-asp-net-on-classic-net/</link>
+      <pubDate>Sun, 05 Feb 2017 17:38:02 +0000</pubDate>
+      
+      <guid>https://blog.markvincze.com/jumpstart-f-web-development-f-with-asp-net-on-classic-net/</guid>
+      <description>The first part of my series about jumstarting F# web development takes a look at probably the most straightforward-looking approach: write F# code using ASP.NET on the classic (full) .NET Framework. (If you&amp;rsquo;re not familiar with the distinction between the full .NET and .NET Core, you can read about it here.)
+Traditionally, the ASP.NET development workflow has been a very streamlined and convenient experience. If we&amp;rsquo;re using C# and develop web applications with ASP.</description>
+    </item>
+    
+    <item>
+      <title>Use Glimpse with ASP.NET Web Api</title>
+      <link>https://blog.markvincze.com/use-glimpse-with-asp-net-web-api/</link>
+      <pubDate>Thu, 14 May 2015 12:56:50 +0000</pubDate>
+      
+      <guid>https://blog.markvincze.com/use-glimpse-with-asp-net-web-api/</guid>
+      <description>Glimpse is a wonderful tool for getting an insight into the mechanisms happening in an ASP.NET application. It inspects every request processed by our app, and displays its UI either embedded into our web site, or on a standalone page at a different URL.
+The current version of Glimpse (1.9.2 at the time of writing this) only has proper support for ASP.NET Web Forms and MVC, and not for the Web Api.</description>
+    </item>
+    
+  </channel>
+</rss>

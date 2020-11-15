@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Tear down your ASP.NET Core api between integration tests</title>
+
+  
+  <link rel="stylesheet" href="/styles/bulma.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.15.1/js/all.js"></script>
+  <script defer src="/scripts/scripts.js"></script>
+  <link rel="icon" href="/favicon.png" type="image/png" />
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Static state in an ASP.NET Core application can cause problems when running subsequent integration tests. In this post we take a look at how to solve this." />
+  <meta property="og:url" content="https://blog.markvincze.com/tear-down-your-asp-net-core-api-between-integration-tests/" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Tear down your ASP.NET Core api between integration tests" />
+  <meta property="og:description" content="Static state in an ASP.NET Core application can cause problems when running subsequent integration tests. In this post we take a look at how to solve this." />
+  
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@mrkvincze" />
+  <meta name="twitter:title" content="Tear down your ASP.NET Core api between integration tests" />
+  <meta name="twitter:description" content="Static state in an ASP.NET Core application can cause problems when running subsequent integration tests. In this post we take a look at how to solve this." />
+  
+
+</head>
+
+<body>
+  <div class="navbar-container">
+    <nav class="navbar container is-max-desktop" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+
+        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+      <div id="navbarMenu" class="navbar-menu">
+        <div class="navbar-start">
+          <a class="navbar-item" href="/">
+            Home
+          </a>
+
+          <a class="navbar-item" href="/posts">
+            Blog
+          </a>
+
+          <a class="navbar-item">
+            Presentations
+          </a>
+        </div>
+        <div class="navbar-end pt-2 ml-2">
+          <a class="icon is-medium" href="https://twitter.com/mrkvincze">
+            <i class="fab fa-lg fa-twitter"></i>
+          </a>
+          <a class="icon is-medium" href="https://www.github.com/markvincze">
+            <i class="fab fa-lg fa-github"></i>
+          </a>
+          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze">
+            <i class="fab fa-lg fa-stack-overflow"></i>
+          </a>
+          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze">
+            <i class="fab fa-lg fa-linkedin"></i>
+          </a>
+          <a class="icon is-medium" href="/index.xml">
+            <i class="fas fa-lg fa-rss"></i>
+          </a>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <a href="/">
+        <h1 class="title is-1">
+          Mark Vincze
+        </h1>
+      </a>
+      <h2 class="subtitle is-4">
+        Software Developer
+      </h2>
+    </div>
+  </div>
+
+  
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h1 class="title is-1">Tear down your ASP.NET Core api between integration tests</h1>
+    
+
+
+<p class="mb-3 is-vcentered">
+  <time class="has-text-grey" datetime="2017-06-21">Jun 21, 2017 &bull;</time>
+
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://blog.markvincze.com/tags/c">c#</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://blog.markvincze.com/tags/couchbase">couchbase</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://blog.markvincze.com/tags/asp.net-core">asp.net-core</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://blog.markvincze.com/tags/testing">testing</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://blog.markvincze.com/tags/integration-testing">integration-testing</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://blog.markvincze.com/tags/quartz.net">quartz.net</a>
+  
+
+</p>
+    <article class="content mt-6">
+      <p>The way to write integration tests for ASP.NET applications has been made much easier with the advent of ASP.NET Core. This is mainly due to the programming model becoming super modular, which means that it is really easy to spin up an instance of our whole web application for testing purposes and start sending HTTP requests to it from a simple unit test.</p>
+<p>The following code illustrates a unit test method, which starts up an ASP.NET Core api, sends an HTTP request to it, and verifies the response, assuming that the api returns the string <code>&quot;Hello World!&quot;</code> on the route <code>/api/hello</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#a6e22e">[Fact]</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">async</span> Task Hello_Called_HelloWorldReturned()
+{
+    <span style="color:#66d9ef">using</span> (<span style="color:#66d9ef">var</span> server = <span style="color:#66d9ef">new</span> TestServer(<span style="color:#66d9ef">new</span> WebHostBuilder().UseStartup&lt;Startup&gt;()))
+    <span style="color:#66d9ef">using</span> (<span style="color:#66d9ef">var</span> client = server.CreateClient())
+    {
+        <span style="color:#66d9ef">var</span> response = <span style="color:#66d9ef">await</span> client.GetAsync(<span style="color:#e6db74">&#34;/api/hello&#34;</span>);
+        <span style="color:#66d9ef">var</span> responseString = <span style="color:#66d9ef">await</span> response.Content.ReadAsStringAsync();
+        
+        Assert.Equal(<span style="color:#e6db74">&#34;Hello World!&#34;</span>, responseString);
+    }
+}
+</code></pre></div><p>Keep in mind that the above test is not a usual unit test. Nothing is stubbed or mocked, the whole web application is started up, so this is a great tool to verify that our dependency injection, configuration, routing works properly (which we would typically not cover with unit tests).</p>
+<p>There is an important thing we have to watch out for, which can cause us some problems, and initially, it might be tricky to figure out why.</p>
+<h1 id="the-problem">The problem</h1>
+<p>There are multiple ways to encounter this issue, one of the ways I came across this was when I used Quartz.NET in one of our projects, which is a library for scheduling periodically running background tasks.</p>
+<p>This is an example of starting up a background task in our <code>Startup</code> class which prints a message to the screen every 5 seconds.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+{
+    StartBackgroundTask().Wait();
+
+    ...
+}
+
+<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">async</span> Task StartBackgroundTask()
+{
+    StdSchedulerFactory factory = <span style="color:#66d9ef">new</span> StdSchedulerFactory();
+    <span style="color:#66d9ef">var</span> scheduler = <span style="color:#66d9ef">await</span> factory.GetScheduler();
+
+    <span style="color:#66d9ef">await</span> scheduler.Start();
+
+    IJobDetail job = JobBuilder.Create&lt;DummyJob&gt;()
+        .WithIdentity(<span style="color:#e6db74">&#34;job1&#34;</span>, <span style="color:#e6db74">&#34;group1&#34;</span>)
+        .Build();
+
+    ITrigger trigger = TriggerBuilder.Create()
+        .WithIdentity(<span style="color:#e6db74">&#34;trigger1&#34;</span>, <span style="color:#e6db74">&#34;group1&#34;</span>)
+        .StartNow()
+        .WithSimpleSchedule(x =&gt; x
+            .WithIntervalInSeconds(<span style="color:#ae81ff">5</span>)
+            .RepeatForever())
+        .Build();
+
+    <span style="color:#66d9ef">await</span> scheduler.ScheduleJob(job, trigger);
+}
+
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">DummyJob</span> : IJob
+{
+    <span style="color:#66d9ef">public</span> Task Execute(IJobExecutionContext context)
+    {
+        Console.WriteLine(<span style="color:#e6db74">&#34;Ping!&#34;</span>);
+        
+        <span style="color:#66d9ef">return</span> Task.CompletedTask;
+    }
+}
+</code></pre></div><p>Then let&rsquo;s imagine we have two endpoints (they are not really important in this example), <code>/api/hello</code> and <code>/api/dummy</code>, for which we implement these tests.</p>
+<pre><code>public class ApiTests
+{
+    [Fact]
+    public async Task Hello_Called_HelloWorldReturned()
+    {
+        using (var server = new TestServer(new WebHostBuilder().UseStartup&lt;Startup&gt;()))
+        using (var client = server.CreateClient())
+        {
+            var response = await client.GetAsync(&quot;/api/hello&quot;);
+            var responseString = await response.Content.ReadAsStringAsync();
+            
+            Assert.Equal(&quot;Hello World!&quot;, responseString);
+        }
+    }
+
+    [Fact]
+    public async Task Dummy_Called_FooReturned()
+    {
+        using (var server = new TestServer(new WebHostBuilder().UseStartup&lt;Startup&gt;()))
+        using (var client = server.CreateClient())
+        {
+            var response = await client.GetAsync(&quot;/api/dummy&quot;);
+            var responseString = await response.Content.ReadAsStringAsync();
+            
+            Assert.Equal(&quot;Foo&quot;, responseString);
+        }
+    }
+}
+</code></pre><p>If we execute our tests with <code>dotnet test</code>, we&rsquo;ll get the following error:</p>
+<pre><code>System.AggregateException : One or more errors occurred. (Unable to store Job: 'group1.job1', because one already exists with this identification.)
+---- Quartz.ObjectAlreadyExistsException : Unable to store Job: 'group1.job1', because one already exists with this identification.
+</code></pre><p>The reason for this exception is that even though we create a completely new Job and Factory in our <code>Startup</code>, apparently Quartz is storing some data related to these jobs statically. And we start a completely new <code>TestServer</code> in every test, but because everything happens in the same process, if the first test saves something in a static field, that will affect the subsequent tests.</p>
+<p>One thing I tried to solve this was to add an attribute to disable XUnit parallel test execution.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#a6e22e">[assembly: CollectionBehavior(DisableTestParallelization = true)]</span>
+</code></pre></div><p>But this is not enough, even if the execution is not happening in parallel, the tests can trip each other up.</p>
+<h1 id="the-solution">The solution</h1>
+<p>The fix is to properly tear down any library or component when our application stops. This can be done by injecting <code>IApplicationLifetime</code> into out <code>Configure</code> method, and registering a handler to the <code>ApplicationStopped</code> event, and tearing down whatever library we&rsquo;re using, in this case, the scheduler of Quartz.NET.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IApplicationLifetime appLifetime)
+{
+    StartBackgroundTask(appLifetime).Wait();
+
+    ...
+}
+
+<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">async</span> Task StartBackgroundTask(IApplicationLifetime appLifetime)
+{
+    StdSchedulerFactory factory = <span style="color:#66d9ef">new</span> StdSchedulerFactory();
+    <span style="color:#66d9ef">var</span> scheduler = <span style="color:#66d9ef">await</span> factory.GetScheduler();
+
+    <span style="color:#66d9ef">await</span> scheduler.Start();
+    
+    <span style="color:#75715e">// Register a handler which shuts the scheduler down when the api is stopped.
+</span><span style="color:#75715e"></span>    appLifetime.ApplicationStopped.Register(() =&gt; scheduler.Shutdown().Wait());
+    
+    ...
+}
+</code></pre></div><p>With this simple change, our tests are successful.</p>
+<p>So far I encountered this problem with the above described Quartz library, and the SDK of Couchbase (using the <code>ClusterHelper</code> class, which does static connection pooling), but I think there are many more libraries out there which can cause this issue, and we might run into problems with our own code too if we are storing data in static fields.</p>
+<p>Of course, the actual code we have to write in the <code>ApplicationStopped</code> handler varies from library to library, in the case of Quartz we had to call <code>scheduler.Shutdown()</code>, with the Couchbase SDK I had to do <code>ClusterHelper.Close()</code>, in your scenario it might be something else, that has to be figured out for the specific library causing the issue.</p>
+<p>If you encounter the same issue with any other library, I&rsquo;d appreciate it if you could leave a comment with the way it had to be shut down to fix this problem, so that we can save time for anybody else looking for a solution.</p>
+
+    </article>
+
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https:\/\/blog.markvincze.com\/tear-down-your-asp-net-core-api-between-integration-tests\/';
+        
+        this.page.identifier = 'ghost-39';
+        
+      };
+      (function () { 
+        var d = document, s = d.createElement('script');
+        s.src = 'https://markvinczeblog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+
+
+  <footer class="footer py-6">
+    <div class="content has-text-centered">
+      <p>
+        © 2020 <strong>Mark Vincze</strong>. All rights reserved.<br />
+        Built with <a href="https://gohugo.io/">Hugo</a> and <a href="https://bulma.io/">Bulma</a>. 💙
+      </p>
+    </div>
+  </footer>
+
+</body>
+
+</html>

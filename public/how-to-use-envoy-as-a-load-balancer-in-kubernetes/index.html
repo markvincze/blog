@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>How to use Envoy as a Load Balancer in Kubernetes</title>
+
+  
+  <link rel="stylesheet" href="/styles/bulma.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.15.1/js/all.js"></script>
+  <script defer src="/scripts/scripts.js"></script>
+  <link rel="icon" href="/favicon.png" type="image/png" />
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="An introduction to using Envoy as a load balancer in Kubernetes, and configuring various load balancing algorithms." />
+  <meta property="og:url" content="https://blog.markvincze.com/how-to-use-envoy-as-a-load-balancer-in-kubernetes/" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="How to use Envoy as a Load Balancer in Kubernetes" />
+  <meta property="og:description" content="An introduction to using Envoy as a load balancer in Kubernetes, and configuring various load balancing algorithms." />
+  
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@mrkvincze" />
+  <meta name="twitter:title" content="How to use Envoy as a Load Balancer in Kubernetes" />
+  <meta name="twitter:description" content="An introduction to using Envoy as a load balancer in Kubernetes, and configuring various load balancing algorithms." />
+  
+
+</head>
+
+<body>
+  <div class="navbar-container">
+    <nav class="navbar container is-max-desktop" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+
+        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+      <div id="navbarMenu" class="navbar-menu">
+        <div class="navbar-start">
+          <a class="navbar-item" href="/">
+            Home
+          </a>
+
+          <a class="navbar-item" href="/posts">
+            Blog
+          </a>
+
+          <a class="navbar-item">
+            Presentations
+          </a>
+        </div>
+        <div class="navbar-end pt-2 ml-2">
+          <a class="icon is-medium" href="https://twitter.com/mrkvincze">
+            <i class="fab fa-lg fa-twitter"></i>
+          </a>
+          <a class="icon is-medium" href="https://www.github.com/markvincze">
+            <i class="fab fa-lg fa-github"></i>
+          </a>
+          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze">
+            <i class="fab fa-lg fa-stack-overflow"></i>
+          </a>
+          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze">
+            <i class="fab fa-lg fa-linkedin"></i>
+          </a>
+          <a class="icon is-medium" href="/index.xml">
+            <i class="fas fa-lg fa-rss"></i>
+          </a>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <a href="/">
+        <h1 class="title is-1">
+          Mark Vincze
+        </h1>
+      </a>
+      <h2 class="subtitle is-4">
+        Software Developer
+      </h2>
+    </div>
+  </div>
+
+  
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h1 class="title is-1">How to use Envoy as a Load Balancer in Kubernetes</h1>
+    
+
+
+<p class="mb-3 is-vcentered">
+  <time class="has-text-grey" datetime="2018-10-05">Oct 5, 2018 &bull;</time>
+
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://blog.markvincze.com/tags/envoy">envoy</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://blog.markvincze.com/tags/kubernetes">kubernetes</a>
+  
+
+</p>
+    <article class="content mt-6">
+      <p>In today&rsquo;s highly distributed word, where monolithic architectures are increasingly replaced with multiple, smaller, interconnected services (for better or worse), proxy and load balancing technologies seem to have a renaissance. Beside the older players, there are several new proxy technologies popping up in recent years, implemented in various technologies, popularizing themselves with different features, such as easy integration to certain cloud providers (&ldquo;cloud-native&rdquo;), high performance and low memory footprint, or dynamic configuration.</p>
+<p>Arguably the two most popular &ldquo;classic&rdquo; proxy technologies are <a href="https://www.nginx.com/">NGINX</a> (C) and <a href="http://www.haproxy.org/">HAProxy</a> (C), while some of the new kids on the block are <a href="https://github.com/Netflix/zuul">Zuul</a> (Java), <a href="https://linkerd.io/">Linkerd</a> (Rust), <a href="https://traefik.io/">Traefik</a> (Go), <a href="https://github.com/caddyserver/caddy">Caddy</a> (Go) and [<a href="https://www.envoyproxy.io/">Envoy</a> (C++).</p>
+<p>All of these technologies have different feature sets, and are targeting some specific scenarios or hosting environments (for example Linkerd is fine-tuned for being used in Kubernetes).<br>
+In this post I&rsquo;m not going to do a comparison of these, but rather just focus on one specific scenario: how to use Envoy as a load balancer for a service running in Kubernetes.</p>
+<p>Envoy is a &ldquo;high performance C++ distributed proxy&rdquo;, originally implemented at Lyft, but since then have gained a wide adoption. It&rsquo;s high-performant, has a low resource footprint, it supports dynamic configuration managed by a &ldquo;control plane&rdquo; API, and provides some advanced features such as various load balancing algorithms, rate limiting, circuit braking, and shadow mirroring.</p>
+<p>I chose Envoy as a load balancer proxy for a number of reasons.</p>
+<ul>
+<li>Besides being able to be controlled dynamically with a control plane API, it also supports a simple, hard-coded YAML-based configuration, which was convenient for my purposes, and made it easy to get started.</li>
+<li>It has built-in support for a service discovery technique it calls STRICT_DNS, which builds on querying a DNS record, and expecting seeing an A record with an IP address for every node of the upstream cluster. This made it easy to use with a headless service in Kubernetes.</li>
+<li>It supports various load balancing algorithms, among others &ldquo;Least Request&rdquo;.</li>
+</ul>
+<p>Before starting to use Envoy, I was accessing my service in Kubernetes through a [service] object of the type [LoadBalancer], which is a pretty typical way to access services from the outside in Kubernetes. The exact way a load balancer service works depends on the hosting environment—if it supports it in the first place. I was using the Google Kubernetes Engine, where every load balancer service is mapped to a TCP-level Google Cloud load balancer, which only supports a <em>round robin</em> load balancing algorithm.</p>
+<p>In my case this was an issue, because my service had the following characteristics.</p>
+<ul>
+<li>The requests were long running with varied response times, ranging from 100ms to seconds.</li>
+<li>The processing of the requests was CPU-intensive, practically the processing of one request used 100% of one CPU core.</li>
+<li>Processing many requests in parallel degraded the response time. (This was due to the internals of how this service worked, it couldn&rsquo;t efficiently run more than a handful requests in parallel.)</li>
+</ul>
+<p>Due to the above characteristics, the round robin load balancing algorithm was not a good fit, because often—by chance—multiple requests ended up on the same node, which made the average response times much worse than what the cluster would&rsquo;ve been capable achieving, given a more uniformly spread out load.</p>
+<p>In the remainder of this post I will describe the steps necessary to deploy Envoy to be used as a load balancer in front of a service running in Kubernetes.</p>
+<h1 id="1-create-the-headless-service-for-our-application">1. Create the headless service for our application</h1>
+<p>In Kubernetes there is a specific kind of service called a <a href="https://kubernetes.io/docs/concepts/services-networking/service/#headless-services">headless service</a>, which happens to be very convenient to be used together with Envoy&rsquo;s <code>STRICT_DNS</code> service discovery mode.</p>
+<p>A headless service doesn&rsquo;t provide a single IP and load balancing to the underlying pods, but rather it just has DNS configuration which gives us an A record with the pod&rsquo;s IP address for all the pods matching the label selector.<br>
+This service type is intended to be used in scenarios when we want to implement load balancing, and maintaining the connections to the upstream pods ourselves, which is exactly what we can do with Envoy.</p>
+<p>We can create a headless service by setting the <code>.spec.clusterIP</code> field to <code>&quot;None&quot;</code>. So assuming that our application pods have the label <code>app</code> with the value <code>myapp</code>, we can create the headless service with the following yaml.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
+<span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Service</span>
+<span style="color:#f92672">metadata</span>:
+  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">myapp</span>
+<span style="color:#f92672">spec</span>:
+  <span style="color:#f92672">clusterIP</span>: <span style="color:#ae81ff">None</span>
+  <span style="color:#f92672">ports</span>:
+  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">http</span>
+    <span style="color:#f92672">port</span>: <span style="color:#ae81ff">80</span>
+    <span style="color:#f92672">targetPort</span>: <span style="color:#ae81ff">http</span>
+    <span style="color:#f92672">protocol</span>: <span style="color:#ae81ff">TCP</span>
+  <span style="color:#f92672">selector</span>:
+    <span style="color:#f92672">app</span>: <span style="color:#ae81ff">myapp</span>
+</code></pre></div><p>(The name of the <code>Service</code> does not have to be equal to the name of our application nor the <code>app</code> label, but it&rsquo;s a good convention to follow.)</p>
+<p>Now if we check the DNS records for our service inside the Kubernetes cluster, we&rsquo;ll see the separate A records with the IP addresses. If we have 3 pods, we&rsquo;ll see a DNS summary similar to this.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ nslookup myapp
+Server:         10.40.0.10
+Address:        10.40.0.10#53
+
+Non-authoritative answer:
+Name:   myapp.namespace.svc.cluster.local
+Address: 10.36.224.5
+Name:   myapp.namespace.svc.cluster.local
+Address: 10.38.187.17
+Name:   myapp.namespace.svc.cluster.local
+Address: 10.38.1.8
+</code></pre></div><p>And the way the <code>STRICT_DNS</code> service discovery of Envoy works is that it maintains the IP address of all the A records returned by the DNS, and it refreshes the set of IPs every couple of seconds.</p>
+<h1 id="2-create-the-envoy-image">2. Create the Envoy image</h1>
+<p>The simplest way to use Envoy without providing the control plane in the form of a dynamic API is to add the hardcoded configuration to a static yaml file.</p>
+<p>The following is a basic configuration that load balances to the IP addresses given by the domain name <code>myapp</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">admin</span>:
+  <span style="color:#f92672">access_log_path</span>: <span style="color:#ae81ff">/tmp/admin_access.log</span>
+  <span style="color:#f92672">address</span>:
+    <span style="color:#f92672">socket_address</span>: { <span style="color:#f92672">address: 0.0.0.0, port_value</span>: <span style="color:#ae81ff">9901</span> }
+
+<span style="color:#f92672">static_resources</span>:
+  <span style="color:#f92672">listeners</span>:
+  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">listener_0</span>
+    <span style="color:#f92672">address</span>:
+      <span style="color:#f92672">socket_address</span>: { <span style="color:#f92672">address: 0.0.0.0, port_value</span>: <span style="color:#ae81ff">80</span> }
+    <span style="color:#f92672">filter_chains</span>:
+    - <span style="color:#f92672">filters</span>:
+      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">envoy.http_connection_manager</span>
+        <span style="color:#f92672">config</span>:
+          <span style="color:#f92672">stat_prefix</span>: <span style="color:#ae81ff">ingress_http</span>
+          <span style="color:#f92672">route_config</span>:
+            <span style="color:#f92672">name</span>: <span style="color:#ae81ff">local_route</span>
+            <span style="color:#f92672">virtual_hosts</span>:
+            - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">local_service</span>
+              <span style="color:#f92672">domains</span>: [<span style="color:#e6db74">&#34;*&#34;</span>]
+              <span style="color:#f92672">routes</span>:
+              - <span style="color:#f92672">match</span>: { <span style="color:#f92672">prefix</span>: <span style="color:#e6db74">&#34;/&#34;</span> }
+                <span style="color:#f92672">route</span>: { <span style="color:#f92672">host_rewrite: myapp, cluster: myapp_cluster, timeout</span>: <span style="color:#ae81ff">60s }</span>
+          <span style="color:#f92672">http_filters</span>:
+          - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">envoy.router</span>
+  <span style="color:#f92672">clusters</span>:
+  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">myapp_cluster</span>
+    <span style="color:#f92672">connect_timeout</span>: <span style="color:#ae81ff">0.</span><span style="color:#ae81ff">25s</span>
+    <span style="color:#f92672">type</span>: <span style="color:#ae81ff">STRICT_DNS</span>
+    <span style="color:#f92672">dns_lookup_family</span>: <span style="color:#ae81ff">V4_ONLY</span>
+    <span style="color:#f92672">lb_policy</span>: <span style="color:#ae81ff">LEAST_REQUEST</span>
+    <span style="color:#f92672">hosts</span>: [{ <span style="color:#f92672">socket_address</span>: { <span style="color:#f92672">address: myapp, port_value</span>: <span style="color:#ae81ff">80</span> }}]
+</code></pre></div><p>Note the following parts.</p>
+<ul>
+<li><code>type: STRICT_DNS</code>: Here we&rsquo;re specifying the service discovery type. It&rsquo;s important to set it to <code>STRICT_DNS</code>, because this works well together with the headless service we&rsquo;ve set up.</li>
+<li><code>lb_policy: LEAST_REQUEST</code>: We can choose from various <a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/load_balancing">load balancing algorithms</a>, probably <code>ROUND_ROBIN</code> and <code>LEAST_REQUEST</code> are the most common. (Keep in mind that <code>LEAST_REQUEST</code> is not checking all upstream nodes, but it only chooses from <a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/load_balancers#weighted-least-request">2 randomly picked options</a>.)</li>
+<li><code>hosts: [{ socket_address: { address: myapp, port_value: 80 }}]</code>: This is the part where we specify with the <code>address</code> field the domain name from which Envoy will have to get the A records to route to.</li>
+</ul>
+<p>You can find more information about the various config parameters in the <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v2/api">docs</a>.</p>
+<p>Now we have to put the following <code>Dockerfile</code> next to the <code>envoy.yaml</code> config file.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dockerfile" data-lang="dockerfile"><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> envoyproxy/envoy:latest</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> envoy.yaml /etc/envoy.yaml<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">CMD</span> /usr/local/bin/envoy -c /etc/envoy.yaml<span style="color:#960050;background-color:#1e0010">
+</span></code></pre></div><p>The last step is building the image, and pushing it somewhere (like the Docker hub, or the container registry of a cloud provider) to be able to use it from Kubernetes.Assuming I&rsquo;d like to push this to my personal Docker hub account, I could do it with the following commands.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ docker build -t markvincze/myapp-envoy:1 .
+$ docker push markvincze/myapp-envoy:1
+</code></pre></div><h1 id="3-optional-make-the-envoy-image-parameterizable">(3. Optional: make the Envoy image parameterizable)</h1>
+<p>If we&rsquo;d like to be able to customize some parts of the Envoy configuration with environment variables without rebuilding the Docker image, we can do some env var substitution in the yaml config. Let&rsquo;s say we&rsquo;d like to be able to customize the name of the headless service we&rsquo;re proxying to, and the load balancer algorithm, then we&rsquo;d have to modify the yaml config the following way.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">admin</span>:
+  <span style="color:#f92672">access_log_path</span>: <span style="color:#ae81ff">/tmp/admin_access.log</span>
+  <span style="color:#f92672">address</span>:
+    <span style="color:#f92672">socket_address</span>: { <span style="color:#f92672">address: 0.0.0.0, port_value</span>: <span style="color:#ae81ff">9901</span> }
+
+<span style="color:#f92672">static_resources</span>:
+  <span style="color:#f92672">listeners</span>:
+  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">listener_0</span>
+    <span style="color:#f92672">address</span>:
+      <span style="color:#f92672">socket_address</span>: { <span style="color:#f92672">address: 0.0.0.0, port_value</span>: <span style="color:#ae81ff">80</span> }
+    <span style="color:#f92672">filter_chains</span>:
+    - <span style="color:#f92672">filters</span>:
+      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">envoy.http_connection_manager</span>
+        <span style="color:#f92672">config</span>:
+          <span style="color:#f92672">stat_prefix</span>: <span style="color:#ae81ff">ingress_http</span>
+          <span style="color:#f92672">route_config</span>:
+            <span style="color:#f92672">name</span>: <span style="color:#ae81ff">local_route</span>
+            <span style="color:#f92672">virtual_hosts</span>:
+            - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">local_service</span>
+              <span style="color:#f92672">domains</span>: [<span style="color:#e6db74">&#34;*&#34;</span>]
+              <span style="color:#f92672">routes</span>:
+              - <span style="color:#f92672">match</span>: { <span style="color:#f92672">prefix</span>: <span style="color:#e6db74">&#34;/&#34;</span> }
+                <span style="color:#f92672">route</span>: { <span style="color:#f92672">host_rewrite: myapp, cluster: myapp_cluster, timeout</span>: <span style="color:#ae81ff">60s }</span>
+          <span style="color:#f92672">http_filters</span>:
+          - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">envoy.router</span>
+  <span style="color:#f92672">clusters</span>:
+  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">myapp_cluster</span>
+    <span style="color:#f92672">connect_timeout</span>: <span style="color:#ae81ff">0.</span><span style="color:#ae81ff">25s</span>
+    <span style="color:#f92672">type</span>: <span style="color:#ae81ff">STRICT_DNS</span>
+    <span style="color:#f92672">dns_lookup_family</span>: <span style="color:#ae81ff">V4_ONLY</span>
+    <span style="color:#f92672">lb_policy</span>: <span style="color:#ae81ff">${ENVOY_LB_ALG}</span>
+    <span style="color:#f92672">hosts</span>: [{ <span style="color:#f92672">socket_address</span>: { <span style="color:#f92672">address</span>: <span style="color:#ae81ff">${SERVICE_NAME}, port_value: 80 }}]</span>
+</code></pre></div><p>Then implement a little shell script (<code>docker-entrypoint.sh</code>) in which we do the env var substitution.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#!/bin/sh
+</span><span style="color:#75715e"></span>set -e
+
+echo <span style="color:#e6db74">&#34;Generating envoy.yaml config file...&#34;</span>
+cat /tmpl/envoy.yaml.tmpl | envsubst <span style="color:#ae81ff">\$</span>ENVOY_LB_ALG,<span style="color:#ae81ff">\$</span>SERVICE_NAME &gt; /etc/envoy.yaml
+
+echo <span style="color:#e6db74">&#34;Starting Envoy...&#34;</span>
+/usr/local/bin/envoy -c /etc/envoy.yaml
+</code></pre></div><p>And change our <code>Dockerfile</code> to run this script instead of directly starting Envoy.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dockerfile" data-lang="dockerfile"><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> envoyproxy/envoy:latest</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> envoy.yaml /tmpl/envoy.yaml.tmpl<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> docker-entrypoint.sh /<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> chmod <span style="color:#ae81ff">500</span> /docker-entrypoint.sh<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> apt-get update <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    apt-get install gettext -y<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENTRYPOINT</span> [<span style="color:#e6db74">&#34;/docker-entrypoint.sh&#34;</span>]<span style="color:#960050;background-color:#1e0010">
+</span></code></pre></div><p>Keep in mind that if you use this approach, you have to specify these env vars in the Kubernetes deployment, otherwise they will be empty.</p>
+<h1 id="4-create-the-envoy-deployment">4. Create the Envoy deployment</h1>
+<p>Finally we have to create a deployment for Envoy itself.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
+<span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Service</span>
+<span style="color:#f92672">metadata</span>:
+  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">myapp-envoy</span>
+  <span style="color:#f92672">labels</span>:
+    <span style="color:#f92672">app</span>: <span style="color:#ae81ff">myapp-envoy</span>
+<span style="color:#f92672">spec</span>:
+  <span style="color:#f92672">type</span>: <span style="color:#ae81ff">ClusterIP</span>
+  <span style="color:#f92672">ports</span>:
+  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">http</span>
+    <span style="color:#f92672">port</span>: <span style="color:#ae81ff">80</span>
+    <span style="color:#f92672">targetPort</span>: <span style="color:#ae81ff">http</span>
+    <span style="color:#f92672">protocol</span>: <span style="color:#ae81ff">TCP</span>
+  <span style="color:#f92672">selector</span>:
+    <span style="color:#f92672">app</span>: <span style="color:#ae81ff">myapp-envoy</span>
+---
+<span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">extensions/v1beta1</span>
+<span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Deployment</span>
+<span style="color:#f92672">metadata</span>:
+  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">myapp-envoy</span>
+  <span style="color:#f92672">labels</span>:
+    <span style="color:#f92672">app</span>: <span style="color:#ae81ff">myapp-envoy</span>
+<span style="color:#f92672">spec</span>:
+  <span style="color:#f92672">selector</span>:
+    <span style="color:#f92672">matchLabels</span>:
+      <span style="color:#f92672">app</span>: <span style="color:#ae81ff">myapp-envoy</span>
+  <span style="color:#f92672">template</span>:
+    <span style="color:#f92672">metadata</span>:
+      <span style="color:#f92672">labels</span>:
+        <span style="color:#f92672">app</span>: <span style="color:#ae81ff">myapp-envoy</span>
+    <span style="color:#f92672">spec</span>:
+      <span style="color:#f92672">containers</span>:
+      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">myapp-envoy</span>
+        <span style="color:#f92672">image</span>: <span style="color:#ae81ff">mydockerhub/mycustomenvoy</span>
+        <span style="color:#f92672">imagePullPolicy</span>: <span style="color:#ae81ff">Always</span>
+        <span style="color:#f92672">env</span>:
+        - <span style="color:#f92672">name</span>: <span style="color:#e6db74">&#34;ENVOY_LB_ALG&#34;</span>
+          <span style="color:#f92672">value</span>: <span style="color:#e6db74">&#34;LEAST_REQUEST&#34;</span>
+        - <span style="color:#f92672">name</span>: <span style="color:#e6db74">&#34;SERVICE_NAME&#34;</span>
+          <span style="color:#f92672">value</span>: <span style="color:#e6db74">&#34;myapp&#34;</span>
+        <span style="color:#f92672">ports</span>:
+        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">http</span>
+          <span style="color:#f92672">containerPort</span>: <span style="color:#ae81ff">80</span>
+        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">envoy-admin</span>
+          <span style="color:#f92672">containerPort</span>: <span style="color:#ae81ff">9901</span>
+</code></pre></div><p>(We only need the env variables if we made our Envoy Docker image parameterizable.)</p>
+<p>After applying this yaml, the Envoy proxy should be operational, and you can access the underlying service by sending the requests to the main port of the Envoy service.</p>
+<p>In this example I only added a service of type <code>ClusterIP</code>, but you can also use a <code>LoadBalancer</code> service, or an Ingress object if you want to access the proxy from outside the cluster.</p>
+<p>The following diagram illustrates the architecture of the whole setup.</p>
+<p><img src="/images/2018/10/architecture.png" alt="Diagram illustrating the whole architecture."></p>
+<p>The image only shows one single Envoy pod, but you can scale it up to have more instances if necessary. And of course you can use a Horizontal Pod Autoscaler to automatically create more replicas as needed. (All instances will be autonomous and independent of each other.)<br>
+In practice you&rsquo;ll probably need much fewer instances for the proxy than for the underlying service. In the current production application we&rsquo;re using Envoy with, we&rsquo;re serving ~1000 requests/seconds on ~400 upstream pods, but we only have 3 instances of Envoy running, with ~10% CPU load.</p>
+<h1 id="troubleshooting-and-monitoring">Troubleshooting and Monitoring</h1>
+<p>In the Envoy configuration file you can see an <code>admin:</code> section, which configures Envoy&rsquo;s admin endpoint. That can be used for checking various diagnostic information about the proxy.</p>
+<p>(If you don&rsquo;t have a service publishing the admin port—9901 by default—you can still access it by port-forwarding to a pod with <code>kubectl</code>. Assuming that one of the Envoy pods is called <code>myapp-envoy-656c8d5fff-mwff8</code>, then you can start port-fowarding with the command <code>kubectl port-forward myapp-envoy-656c8d5fff-mwff8 9901</code>. Then you can access the page at <code>http://localhost:9901</code>.)</p>
+<p>Some of the useful endpoints:</p>
+<ul>
+<li><code>/config_dump</code>: Prints the complete configuration of the proxy, which is useful to verify if the correct config ended up on the pod.</li>
+<li><code>/clusters</code>: Shows all the upstream nodes that Envoy discovered, and the number of requests processed for each of them. This is useful for example for checking if the load balancing algorithm works properly.</li>
+</ul>
+<p>One way to do monitoring is to use Prometheus to scrape the stats from the proxy pods. Envoy has built-in support for this, the Prometheus stats are published on the admin port at the route <code>/stats/prometheus</code>.</p>
+<p>You can download a Grafana dashboard visualizing these metrics from <a href="https://github.com/transferwise/prometheus-envoy-dashboards">this repository</a>, which will give you a set of graphs similar to the following.</p>
+<p><img src="/images/2018/10/image.png" alt="Screenshot of the Grafana dashboard showing the Envoy metrics."></p>
+<h1 id="a-word-on-the-load-balancing-algorithms">A word on the load balancing algorithms</h1>
+<p>The load balancing algorithm can have significant effect on the overall performance of our cluster. Using a least request algorithm can be beneficial with services for which an even spread of the load is necessary, for example when a service is CPU-intensive, and gets easily overloaded.On the other hand, least request has the problem that if one of the nodes start failing for some reason, and the failure response times are quick, then the load balancer will send a disproportionately large portion of the requests to the failing node—something which wouldn&rsquo;t be a problem with round robin.</p>
+<p>I made some benchmarks with a <a href="https://github.com/markvincze/PrimeCalcApi/">dummy API</a> and compared the round robin and the least request LB algorithms. It turned out that least request can bring a significant improvement in the overall performance.</p>
+<p>I was benchmarking the API for ~40 minutes with a continuously increasing input traffic. Throughout the benchmark I collected the following metrics:</p>
+<ul>
+<li>Number of requests being executed (&ldquo;requests in flight&rdquo;), broken down by servers</li>
+<li>Number of requests being executed, average per server</li>
+<li>Incoming request rate (this was increasing every 5 minutes)</li>
+<li>Error rate (normally there weren&rsquo;t any, but when things started to slow down, this started to show some timeouts)</li>
+<li>Response time percentiles (0.50, 0.90 and 0.99) recorded on the servers</li>
+</ul>
+<p>The stats looked like this with <code>ROUND_ROBIN</code>.</p>
+<p><img src="/images/2018/10/image-1.png" alt="Screenshot of the measurements with ROUND_ROBIN."></p>
+<p>These were the results with <code>LEAST_REQUEST</code>:</p>
+<p><img src="/images/2018/10/image-2.png" alt="Screenshot of the measurements with LEAST_REQUEST."></p>
+<p>You can see on the results that <code>LEAST_REQUEST</code> can lead to a much smoother distribution of the traffic across the nodes, and thus a lower average response time at high load.</p>
+<p>The exact improvement will depend on the actual API, so I definitely recommend you to do the benchmark with your own service too to be make a decision.</p>
+<p>(Earlier I mentioned that when using <code>LEAST_REQUEST</code>, Envoy will not look at every node in the cluster when selecting the one to send a certain request to, but rather just looks at <a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/load_balancers#weighted-least-request">2 randomly picked options</a>, and sends the request to the one that has the fewer pending requests.<br>
+I was curious if actually doing a full O(n) scan and picking among all the nodes the one with the least amount of requests would bring a further improvement, so I implemented this feature in a <a href="https://github.com/markvincze/envoy/pull/1">fork of Envoy</a>, and did the same benchmark.<br>
+It turns out that this can indeed further improve the uniformity of the load, and the resource utilization, thereby decreasing the response times at high load. There is an ongoing discussion about this topic in <a href="https://github.com/envoyproxy/envoy/issues/4481">this issue</a>.)</p>
+<h1 id="summary">Summary</h1>
+<p>I hope this introduction will be helpful for getting started with using Envoy in Kubernetes. By the way, this is not the only way to achieve least request load balancing on Kubernetes. There are various ingress controllers (one of which is Ambassador, which builds on top of Envoy) that can do the same.<br>
+If you have any other suggestions, feedback is welcome!</p>
+
+    </article>
+
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https:\/\/blog.markvincze.com\/how-to-use-envoy-as-a-load-balancer-in-kubernetes\/';
+        
+        this.page.identifier = 'how-to-use-envoy-as-a-load-balancer-in-kubernetes';
+        
+      };
+      (function () { 
+        var d = document, s = d.createElement('script');
+        s.src = 'https://markvinczeblog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+
+
+  <footer class="footer py-6">
+    <div class="content has-text-centered">
+      <p>
+        © 2020 <strong>Mark Vincze</strong>. All rights reserved.<br />
+        Built with <a href="https://gohugo.io/">Hugo</a> and <a href="https://bulma.io/">Bulma</a>. 💙
+      </p>
+    </div>
+  </footer>
+
+</body>
+
+</html>

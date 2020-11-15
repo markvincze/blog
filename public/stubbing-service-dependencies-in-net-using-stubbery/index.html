@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Stubbing service dependencies in .NET using Stubbery</title>
+
+  
+  <link rel="stylesheet" href="/styles/bulma.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.15.1/js/all.js"></script>
+  <script defer src="/scripts/scripts.js"></script>
+  <link rel="icon" href="/favicon.png" type="image/png" />
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Stubbery is a library for creating and running Api stubs in .NET. The post shows how it can be used to stub service dependencies during integration tests." />
+  <meta property="og:url" content="https://blog.markvincze.com/stubbing-service-dependencies-in-net-using-stubbery/" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Stubbing service dependencies in .NET using Stubbery" />
+  <meta property="og:description" content="Stubbery is a library for creating and running Api stubs in .NET. The post shows how it can be used to stub service dependencies during integration tests." />
+  
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@mrkvincze" />
+  <meta name="twitter:title" content="Stubbing service dependencies in .NET using Stubbery" />
+  <meta name="twitter:description" content="Stubbery is a library for creating and running Api stubs in .NET. The post shows how it can be used to stub service dependencies during integration tests." />
+  
+
+</head>
+
+<body>
+  <div class="navbar-container">
+    <nav class="navbar container is-max-desktop" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+
+        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+      <div id="navbarMenu" class="navbar-menu">
+        <div class="navbar-start">
+          <a class="navbar-item" href="/">
+            Home
+          </a>
+
+          <a class="navbar-item" href="/posts">
+            Blog
+          </a>
+
+          <a class="navbar-item">
+            Presentations
+          </a>
+        </div>
+        <div class="navbar-end pt-2 ml-2">
+          <a class="icon is-medium" href="https://twitter.com/mrkvincze">
+            <i class="fab fa-lg fa-twitter"></i>
+          </a>
+          <a class="icon is-medium" href="https://www.github.com/markvincze">
+            <i class="fab fa-lg fa-github"></i>
+          </a>
+          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze">
+            <i class="fab fa-lg fa-stack-overflow"></i>
+          </a>
+          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze">
+            <i class="fab fa-lg fa-linkedin"></i>
+          </a>
+          <a class="icon is-medium" href="/index.xml">
+            <i class="fas fa-lg fa-rss"></i>
+          </a>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <a href="/">
+        <h1 class="title is-1">
+          Mark Vincze
+        </h1>
+      </a>
+      <h2 class="subtitle is-4">
+        Software Developer
+      </h2>
+    </div>
+  </div>
+
+  
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h1 class="title is-1">Stubbing service dependencies in .NET using Stubbery</h1>
+    
+
+
+<p class="mb-3 is-vcentered">
+  <time class="has-text-grey" datetime="2016-06-12">Jun 12, 2016 &bull;</time>
+
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://blog.markvincze.com/tags/asp.net">asp.net</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://blog.markvincze.com/tags/.net">.net</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://blog.markvincze.com/tags/.net-core">.net-core</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://blog.markvincze.com/tags/asp.net-core">asp.net-core</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://blog.markvincze.com/tags/testing">testing</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://blog.markvincze.com/tags/integration-testing">integration-testing</a>
+  
+
+</p>
+    <article class="content mt-6">
+      <h1 id="introduction">Introduction</h1>
+<p>When writing integration tests for a service (especially if we are running a long, end-to-end test), it often causes a problem that the external dependencies of our service fail.</p>
+<p>Let&rsquo;s say we have a service handling customer payments and the actual payments are handled by an external provider.</p>
+<p><img src="/images/2016/06/payment-integration-test-1.png" alt="Diagram illustrating integration testing an api with an external dependency."></p>
+<p>Very often, we cannot use the actual production system of our external dependency. For example, when we want to test payments, we cannot make real purchases every time we run our integration test suite.</p>
+<p>Thus, we resort to using the test system of our dependency (if there is one).<br>
+The problem with this is that the test system of any provider is usually not 100% reliable. There will be occasional downtimes, performance problems, or other problems due to configuration changes or general tinkering.</p>
+<p>Because of this, from time to time our tests will fail due to the failure of the dependency.
+This means that if we have a substantial number of tests in our suite, one or two of them will fail in every run, which will cause our test suite to be always red.</p>
+<p>When I first faced this problem I was surprised to see there was no .NET library for programmatically creating Api stubs, so I decided to  create a simple library for this purpose.</p>
+<h1 id="stubbery">Stubbery</h1>
+<p><a href="http://markvincze.github.io/Stubbery/">Stubbery</a> is a library with which we can simply configure and start a web server that responds on particular routes with the configured results. It supports .NET Core and the full .NET Framework up from .NET 4.5.1.</p>
+<h2 id="how-to-use">How to use</h2>
+<p>The central class of the library is <code>ApiStub</code>. In order to start a new server we have to create an instance of <code>ApiStub</code>, set up some routes using the methods <code>Get</code>, <code>Post</code>, <code>Put</code> and <code>Delete</code>, and start the server by calling <code>Start</code>.</p>
+<p>The server listens on localhost on a randomly picked free port. The full address is returned by the <code>Address</code> property.</p>
+<p>After usage the server should be stopped to free up the TCP port. This can be done by calling <code>Dispose</code> (or using the stub in a <code>using</code> block).</p>
+<h3 id="basic-usage">Basic usage</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">using</span> (<span style="color:#66d9ef">var</span> stub = <span style="color:#66d9ef">new</span> ApiStub())
+{
+    stub.Get(
+        <span style="color:#e6db74">&#34;/testget&#34;</span>,
+        (req, args) =&gt; <span style="color:#e6db74">&#34;testresponse&#34;</span>);
+
+    stub.Start();
+
+    <span style="color:#66d9ef">var</span> result = <span style="color:#66d9ef">await</span> httpClient.GetAsync(<span style="color:#66d9ef">new</span> UriBuilder(<span style="color:#66d9ef">new</span> Uri(stub.Address)) { Path = <span style="color:#e6db74">&#34;/testget&#34;</span> }.Uri);
+
+    <span style="color:#75715e">// resultString will contain &#34;testresponse&#34;
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">var</span> resultString = <span style="color:#66d9ef">await</span> result.Content.ReadAsStringAsync();
+}
+</code></pre></div><p>More examples can be found on the <a href="https://github.com/markvincze/Stubbery">GitHub page</a>.</p>
+<h1 id="end-to-end-example">End to end example</h1>
+<h2 id="the-dependency">The dependency</h2>
+<p>Let&rsquo;s say we have an endpoint in our Api that depends on getting the name of an UK county based on a postcode, for which we are using the <a href="http://postcodes.io/">Postcodes.io</a> api.</p>
+<p>The endpoint I&rsquo;m interested in returns the details of a certain postcode. Given the request</p>
+<pre><code>GET http://api.postcodes.io/postcodes/OX49%205NU
+</code></pre><p>it returns the details in the form:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript">{
+    <span style="color:#e6db74">&#34;status&#34;</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">200</span>,
+    <span style="color:#e6db74">&#34;result&#34;</span><span style="color:#f92672">:</span> {
+        <span style="color:#e6db74">&#34;postcode&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;OX49 5NU&#34;</span>,
+        <span style="color:#e6db74">&#34;admin_county&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Oxfordshire&#34;</span>
+        ...
+    }
+}
+</code></pre></div><p>This is the dependency we&rsquo;d like to replace in our test with a stub.</p>
+<h2 id="the-api-under-test">The api under test</h2>
+<p>Our own Api is an ASP.NET Core application, which implements an endpoint that returns the name of the county. Given the request</p>
+<pre><code>GET http://our-own-api/countyname/OX49%205NU
+</code></pre><p>it returns the name of the county as a raw string:</p>
+<pre><code>Oxfordshire
+</code></pre><p>Internally, our API is calling out to <code>postcodes.io</code> to get the details of the county. If our application is calling an external dependency, it&rsquo;s introducing the following problems if we want to implement integration tests.</p>
+<ul>
+<li>We have no control over the external API, it might be down any time due to an outage or maintanance, which would break our integration tests.</li>
+<li>The exact data returned by our dependency might change over time. In the case of <code>postcodes.io</code>, this change will be infrequent, only when the set of UK postcodes change. On the other hand, with other APIs (imagine using a weather data provider), the dataset returned will be different every day.<br>
+This will make it difficult to implement reliable assertions in our tests, since the data we&rsquo;re expecting can change any time.</li>
+<li>Since we&rsquo;re using a real API, it&rsquo;s going to be difficult to test non-happy flows. Maybe we want to test what happens if the dependency is returning a <code>404</code>, or a <code>500</code>, or if it doesn&rsquo;t respond at all. Or we might want to test what happens if it works, but it responds very slowly. If our API is calling directly the real dependency, we have no way to emulate these scenarios.</li>
+</ul>
+<p>These problem can all be solved by replacing the dependecy during our integration test with a stub.</p>
+<h2 id="starting-the-stub">Starting the stub</h2>
+<p>We have to add reference to the <a href="https://www.nuget.org/packages/Stubbery/">Stubbery library</a>.</p>
+<p>The stub for the post code api can be created and set up in constructor of the unit test class. I&rsquo;ll configure a response for the case when the postcode is found, one for when it&rsquo;s not found, and one for when some other error happens. (An additional benefit of using a stub is to be able to imitate responses which cannot be reproduced with the real system.)</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">private</span> ApiStub StartStub()
+{
+    <span style="color:#66d9ef">var</span> postcodeApiStub = <span style="color:#66d9ef">new</span> ApiStub();
+
+    postcodeApiStub.Get(
+        <span style="color:#e6db74">&#34;/postcodes/{postcode}&#34;</span>,
+        (request, args) =&gt;
+        {
+            <span style="color:#66d9ef">if</span> (args.Route.postcode == <span style="color:#e6db74">&#34;postcodeOk&#34;</span>)
+            {
+                <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;{ \&#34;status\&#34;: 200, \&#34;result\&#34;: { \&#34;admin_county\&#34;: \&#34;CountyName\&#34; } }&#34;</span>;
+            }
+
+            <span style="color:#66d9ef">if</span> (args.Route.postcode == <span style="color:#e6db74">&#34;postcodeNotFound&#34;</span>)
+            {
+                <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;{ \&#34;status\&#34;: 404 }&#34;</span>;
+            }
+
+            <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;{ \&#34;status\&#34;: 500 }&#34;</span>;
+        });
+
+    postcodeApiStub.Start();
+
+    <span style="color:#66d9ef">return</span> postcodeApiStub;
+}
+</code></pre></div><p>(The <code>postcodes.io</code> API returns the status in a field in the body, and we&rsquo;re depending on that in our implementation, so that&rsquo;s what we configure on the stub.<br>
+The API is also returning proper status codes. If we depended on those, we could set up the stub to respond with the specific status codes by calling the <code>StatusCode</code> method.)</p>
+<h2 id="starting-the-api-under-test">Starting the api under test</h2>
+<p>Then we start our web application for testing (there is a little more ceremony to it than this, the details can be found in <a href="https://docs.asp.net/en/latest/testing/integration-testing.html">the documentation</a>, or the <a href="https://github.com/markvincze/Stubbery/tree/master/samples/Stubbery.Samples.BasicSample">sample project</a>).</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">private</span> TestServer StartApiUnderTest(ApiStub postcodeApiStub)
+{
+    <span style="color:#66d9ef">var</span> server = <span style="color:#66d9ef">new</span> TestServer(
+        WebHost.CreateDefaultBuilder()
+            .UseStartup&lt;Startup&gt;()
+            .ConfigureAppConfiguration((ctx, b) =&gt;
+            {
+                b.Add(<span style="color:#66d9ef">new</span> MemoryConfigurationSource
+                {
+                    InitialData = <span style="color:#66d9ef">new</span> Dictionary&lt;<span style="color:#66d9ef">string</span>, <span style="color:#66d9ef">string</span>&gt;
+                    {
+                        <span style="color:#75715e">// Replace the real api URL with the stub.
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">                        [&#34;PostCodeApiUrl&#34;]</span> = postcodeApiStub.Address
+                    }
+                });
+            }));
+
+    <span style="color:#66d9ef">return</span> server;
+}
+</code></pre></div><h2 id="implement-the-test">Implement the test</h2>
+<p>For implementing the test, I&rsquo;ll use xUnit as the test runner.<br>
+We can implement the actual test and verify that we&rsquo;re getting the responses that we expect.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#a6e22e">[Fact]</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">async</span> Task GetCountyName_CountyFound_CountyNameReturned()
+{
+    <span style="color:#66d9ef">using</span> (<span style="color:#66d9ef">var</span> stub = StartStub())
+    <span style="color:#66d9ef">using</span> (<span style="color:#66d9ef">var</span> server = StartApiUnderTest(stub))
+    <span style="color:#66d9ef">using</span> (<span style="color:#66d9ef">var</span> client = server.CreateClient())
+    {
+        <span style="color:#66d9ef">var</span> response = <span style="color:#66d9ef">await</span> client.GetAsync(<span style="color:#e6db74">&#34;/countyname/postcodeOk&#34;</span>);
+
+        <span style="color:#66d9ef">var</span> responseString = <span style="color:#66d9ef">await</span> response.Content.ReadAsStringAsync();
+
+        Assert.Equal(<span style="color:#e6db74">&#34;CountyName&#34;</span>, responseString);
+    }
+}
+</code></pre></div><p>The complete example can be found in the <a href="https://github.com/markvincze/Stubbery/tree/master/samples/Stubbery.Samples.BasicSample">sample project</a>.</p>
+<h1 id="conclusion">Conclusion</h1>
+<p>Thanks to the changes in how hosting works in ASP.NET Core, writing integration tests became much easier.<br>
+External dependencies can make our integration tests brittle, which can be mitigated by replacing them with a hardwired, reliable stub—which is easy to do with the pluggable proramming model of ASP.NET Core.</p>
+<p>And the <a href="https://markvincze.github.io/Stubbery/">Stubbery</a> library makes it more convenient to set up and start such stubs for HTTP APIs.</p>
+
+    </article>
+
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https:\/\/blog.markvincze.com\/stubbing-service-dependencies-in-net-using-stubbery\/';
+        
+        this.page.identifier = 'ghost-20';
+        
+      };
+      (function () { 
+        var d = document, s = d.createElement('script');
+        s.src = 'https://markvinczeblog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+
+
+  <footer class="footer py-6">
+    <div class="content has-text-centered">
+      <p>
+        © 2020 <strong>Mark Vincze</strong>. All rights reserved.<br />
+        Built with <a href="https://gohugo.io/">Hugo</a> and <a href="https://bulma.io/">Bulma</a>. 💙
+      </p>
+    </div>
+  </footer>
+
+</body>
+
+</html>

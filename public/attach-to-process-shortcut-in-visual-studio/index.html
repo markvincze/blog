@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Attach to specific Process shortcut in Visual Studio</title>
+
+  
+  <link rel="stylesheet" href="/styles/bulma.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.15.1/js/all.js"></script>
+  <script defer src="/scripts/scripts.js"></script>
+  <link rel="icon" href="/favicon.png" type="image/png" />
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="How to create a shortcut in Visual Studio to attach the debugger to a specific process." />
+  <meta property="og:url" content="https://blog.markvincze.com/attach-to-process-shortcut-in-visual-studio/" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Attach to specific Process shortcut in Visual Studio" />
+  <meta property="og:description" content="How to create a shortcut in Visual Studio to attach the debugger to a specific process." />
+  
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@mrkvincze" />
+  <meta name="twitter:title" content="Attach to specific Process shortcut in Visual Studio" />
+  <meta name="twitter:description" content="How to create a shortcut in Visual Studio to attach the debugger to a specific process." />
+  
+
+</head>
+
+<body>
+  <div class="navbar-container">
+    <nav class="navbar container is-max-desktop" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+
+        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+      <div id="navbarMenu" class="navbar-menu">
+        <div class="navbar-start">
+          <a class="navbar-item" href="/">
+            Home
+          </a>
+
+          <a class="navbar-item" href="/posts">
+            Blog
+          </a>
+
+          <a class="navbar-item">
+            Presentations
+          </a>
+        </div>
+        <div class="navbar-end pt-2 ml-2">
+          <a class="icon is-medium" href="https://twitter.com/mrkvincze">
+            <i class="fab fa-lg fa-twitter"></i>
+          </a>
+          <a class="icon is-medium" href="https://www.github.com/markvincze">
+            <i class="fab fa-lg fa-github"></i>
+          </a>
+          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze">
+            <i class="fab fa-lg fa-stack-overflow"></i>
+          </a>
+          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze">
+            <i class="fab fa-lg fa-linkedin"></i>
+          </a>
+          <a class="icon is-medium" href="/index.xml">
+            <i class="fas fa-lg fa-rss"></i>
+          </a>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <a href="/">
+        <h1 class="title is-1">
+          Mark Vincze
+        </h1>
+      </a>
+      <h2 class="subtitle is-4">
+        Software Developer
+      </h2>
+    </div>
+  </div>
+
+  
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h1 class="title is-1">Attach to specific Process shortcut in Visual Studio</h1>
+    
+
+
+<p class="mb-3 is-vcentered">
+  <time class="has-text-grey" datetime="2015-04-26">Apr 26, 2015 &bull;</time>
+
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://blog.markvincze.com/tags/visual-studio">visual studio</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://blog.markvincze.com/tags/debug">debug</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://blog.markvincze.com/tags/tooling">tooling</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://blog.markvincze.com/tags/visual-commander">visual commander</a>
+  
+
+</p>
+    <article class="content mt-6">
+      <p>It&rsquo;s a very useful feature of Visual Studio that besides starting an application for debugging, we can attach the debugger to already running processes as well.
+This can be done with the <strong>Debug-&gt;Attach to Process&hellip;</strong> option, where we have to select the desired one from a list of all running processes.
+<img src="/images/2015/04/attach_window.png" alt="Attach to Process window in Visual Studio">
+This method of attaching to a process is OK if you have to do it only once in a while, but if you have to debug applications this way regularly, it becomes time-consuming to search for the process in the list every time.</p>
+<p>The principle of automation has been written in many forms, this is one of the renditions:</p>
+<blockquote>
+<p>Anything that you do more than twice has to be automated.</p>
+</blockquote>
+<p>This applies not just to integration, deployment, testing, etc., but  to tooling as well.
+So I started looking for a more convenient way to attach to a specific process quickly.
+#Visual Studio Macros
+The first approach I found is to write a Visual Studio macro that looks for a specific process and attaches VS to it. This approach is described in this <a href="http://stackoverflow.com/a/6696813/974733">Stack Overflow answer</a>, it seemed very straightforward and promising.<br>
+However, the first comment on the answer destroys our happiness:</p>
+<blockquote>
+<p>&ldquo;Macros are no longer available in Visual Studio 2012.&rdquo;</p>
+</blockquote>
+<p>Ok, so this is a dead end. Or is it?
+#Visual Commander to the rescue!
+I really like it when a popular feature of a product is removed, but the community brings it back. The same thing happened to VS macros with <a href="https://vlasovstudio.com/visual-commander/">Visual Commander</a>, a freemium VS extension that lets us reuse existing VS macros, and create commands and extensions using C# or VB.NET.<br>
+After installing the extension, you can open the Commands windows with the VCMD-&gt;Commands option.
+<img src="/images/2015/04/VCMD_menu.png" alt="Commands option in the VCMD menu">
+In the Commands window we can manage our existing commands, and create a new one with the Add button.
+<img src="/images/2015/04/vc_commands.png" alt="Commands window for managing all our existing commands">
+In the command editor window can pick a name, select the language we&rsquo;d like to use (C# or VB), and implement the code which will run when we execute the command.
+<img src="/images/2015/04/new_command.png" alt="Command editor window of VCMD">
+<strong>One gotcha</strong>: pick the desired language before starting to type the code, because if you switch to another language, all your edits are erased.<br>
+The editor window is a bit plain, it does not support IntelliSense or automatic code formatting, so you&rsquo;ll might be better off writing the code in a normal Visual Studio window and insert it into the VCMD command afterwards.</p>
+<p>The code for attaching to a process with a specific name is quite simple, as described in the above SO-answer. This is the same code translated to C#.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">using</span> EnvDTE;
+<span style="color:#66d9ef">using</span> EnvDTE80;
+<span style="color:#66d9ef">using</span> System.Management;
+<span style="color:#66d9ef">using</span> System;
+
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">C</span> : VisualCommanderExt.ICommand
+{
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> Run(EnvDTE80.DTE2 DTE, Microsoft.VisualStudio.Shell.Package package) 
+    {
+        <span style="color:#66d9ef">foreach</span>(Process proc <span style="color:#66d9ef">in</span> DTE.Debugger.LocalProcesses)
+        {
+            <span style="color:#66d9ef">if</span>(proc.Name.ToString().EndsWith(<span style="color:#e6db74">&#34;MyApp.exe&#34;</span>))
+            {
+                proc.Attach();
+                <span style="color:#66d9ef">return</span>;
+            }
+        }
+
+        System.Windows.MessageBox.Show(<span style="color:#e6db74">&#34;Process running the MyApp was not found.&#34;</span>);
+    }
+}
+</code></pre></div><p>The above code tries to attach to a process that has a name ending with &ldquo;MyApp.exe&rdquo;. The command in this form is already ready to use. Existing commands can be found with their specified name in the VCMD menu.
+<img src="/images/2015/04/attachToMyApp.png" alt="Run existing VCMD command"></p>
+<p>#Attach to a process with a specific owner user</p>
+<p>Sometimes we can&rsquo;t identify the process we are looking for by it&rsquo;s name, but we have to use the name of the user running it.<br>
+A typical scenario for this is when we have several web applications running in IIS. In this case all the processes have the same name, <strong>w3wp.exe</strong>, they only differ in the name of the user running them. (That is, if we use different application pools for each of the applications.)
+<img src="/images/2015/04/attach_iis.png" alt="IIS processes with the same name, but different user">
+##Finding out the process owner&rsquo;s user name
+Unfortunately, the <code>EnvDTE.Process</code> <a href="https://msdn.microsoft.com/en-us/library/envdte.process.aspx">interface</a> does not contain the user name, so we have to do a little additional coding to find it.<br>
+One solution is to use WMI, which can be used in .NET with the System.Management namespace, and implement a little helper method.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">string</span> GetProcessOwner(<span style="color:#66d9ef">int</span> processId)
+{
+    <span style="color:#66d9ef">string</span> query = <span style="color:#e6db74">&#34;Select * From Win32_Process Where ProcessID = &#34;</span> + processId;
+    ManagementObjectSearcher searcher = <span style="color:#66d9ef">new</span> ManagementObjectSearcher(query);
+    ManagementObjectCollection processList = searcher.Get();
+
+    <span style="color:#66d9ef">foreach</span> (ManagementObject obj <span style="color:#66d9ef">in</span> processList)
+    {
+        <span style="color:#66d9ef">string</span>[] argList = <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">string</span>[] { <span style="color:#66d9ef">string</span>.Empty, <span style="color:#66d9ef">string</span>.Empty };
+        <span style="color:#66d9ef">int</span> returnVal = Convert.ToInt32(obj.InvokeMethod(<span style="color:#e6db74">&#34;GetOwner&#34;</span>, argList));
+        <span style="color:#66d9ef">if</span> (returnVal == <span style="color:#ae81ff">0</span>)
+        {
+            <span style="color:#75715e">// Return DOMAIN\user.
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">return</span> argList[<span style="color:#ae81ff">1</span>] + <span style="color:#e6db74">&#34;\\&#34;</span> + argList[<span style="color:#ae81ff">0</span>];
+        }
+    }
+
+    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;NO OWNER&#34;</span>;
+}
+</code></pre></div><p>With this, we can implement the complete VS command attaching for a specific IIS application.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">using</span> EnvDTE;
+<span style="color:#66d9ef">using</span> EnvDTE80;
+<span style="color:#66d9ef">using</span> System.Management;
+<span style="color:#66d9ef">using</span> System;
+
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">C</span> : VisualCommanderExt.ICommand
+{
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> Run(EnvDTE80.DTE2 DTE, Microsoft.VisualStudio.Shell.Package package) 
+    {
+        <span style="color:#66d9ef">foreach</span>(Process proc <span style="color:#66d9ef">in</span> DTE.Debugger.LocalProcesses)
+        {
+            <span style="color:#66d9ef">if</span>(proc.Name.ToString().EndsWith(<span style="color:#e6db74">&#34;w3wp.exe&#34;</span>) &amp;&amp; GetProcessOwner(proc.ProcessID) == <span style="color:#e6db74">&#34;IIS APPPOOL\\MySite&#34;</span>)
+            {
+                proc.Attach();
+                <span style="color:#66d9ef">return</span>;
+            }
+        }
+
+        System.Windows.MessageBox.Show(<span style="color:#e6db74">&#34;Process runing MySite was not found.&#34;</span>);
+    }
+
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">string</span> GetProcessOwner(<span style="color:#66d9ef">int</span> processId)
+    {
+        <span style="color:#66d9ef">string</span> query = <span style="color:#e6db74">&#34;Select * From Win32_Process Where ProcessID = &#34;</span> + processId;
+        ManagementObjectSearcher searcher = <span style="color:#66d9ef">new</span> ManagementObjectSearcher(query);
+        ManagementObjectCollection processList = searcher.Get();
+
+        <span style="color:#66d9ef">foreach</span> (ManagementObject obj <span style="color:#66d9ef">in</span> processList)
+        {
+            <span style="color:#66d9ef">string</span>[] argList = <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">string</span>[] { <span style="color:#66d9ef">string</span>.Empty, <span style="color:#66d9ef">string</span>.Empty };
+            <span style="color:#66d9ef">int</span> returnVal = Convert.ToInt32(obj.InvokeMethod(<span style="color:#e6db74">&#34;GetOwner&#34;</span>, argList));
+            <span style="color:#66d9ef">if</span> (returnVal == <span style="color:#ae81ff">0</span>)
+            {
+                <span style="color:#75715e">// Return DOMAIN\user.
+</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">return</span> argList[<span style="color:#ae81ff">1</span>] + <span style="color:#e6db74">&#34;\\&#34;</span> + argList[<span style="color:#ae81ff">0</span>];
+            }
+        }
+
+        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;NO OWNER&#34;</span>;
+    }
+}
+</code></pre></div><p>The last thing to take care of is making sure the command has a reference to the System.Management assembly. We simply have to add the line <code>System.Management</code> in the References window.</p>
+<p>One last thing to note is a cool feature of Visual Commander: you can create an <strong>export</strong> of the commands in the VCMD menu, and distribute them in your team, to make everybody debug processes as conveniently as possible!</p>
+
+    </article>
+
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https:\/\/blog.markvincze.com\/attach-to-process-shortcut-in-visual-studio\/';
+        
+        this.page.identifier = 'ghost-2';
+        
+      };
+      (function () { 
+        var d = document, s = d.createElement('script');
+        s.src = 'https://markvinczeblog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+
+
+  <footer class="footer py-6">
+    <div class="content has-text-centered">
+      <p>
+        © 2020 <strong>Mark Vincze</strong>. All rights reserved.<br />
+        Built with <a href="https://gohugo.io/">Hugo</a> and <a href="https://bulma.io/">Bulma</a>. 💙
+      </p>
+    </div>
+  </footer>
+
+</body>
+
+</html>

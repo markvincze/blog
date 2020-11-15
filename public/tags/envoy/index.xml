@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>envoy on Mark Vincze</title>
+    <link>https://blog.markvincze.com/tags/envoy/</link>
+    <description>Recent content in envoy on Mark Vincze</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 11 Apr 2019 20:44:50 +0000</lastBuildDate><atom:link href="https://blog.markvincze.com/tags/envoy/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Shadow mirroring with Envoy</title>
+      <link>https://blog.markvincze.com/shadow-mirroring-with-envoy/</link>
+      <pubDate>Thu, 11 Apr 2019 20:44:50 +0000</pubDate>
+      
+      <guid>https://blog.markvincze.com/shadow-mirroring-with-envoy/</guid>
+      <description>Introduction Shadow mirroring (also called shadow feeding, or just shadowing) is a technique when at some point in our infrastructure we duplicate the outgoing traffic to an additional destination, but we send the responses to the actual client coming from the main destination.
+This is mainly used to be able to test a service with real production traffic without affecting the end clients in any way. It&amp;rsquo;s particularly useful when we are rewriting an existing service, and we want to verify if the new version can process a real variety of incoming requests in an identical way, or when we want to do a comparative benchmark between two version of the same service.</description>
+    </item>
+    
+    <item>
+      <title>How to use Envoy as a Load Balancer in Kubernetes</title>
+      <link>https://blog.markvincze.com/how-to-use-envoy-as-a-load-balancer-in-kubernetes/</link>
+      <pubDate>Fri, 05 Oct 2018 23:07:25 +0000</pubDate>
+      
+      <guid>https://blog.markvincze.com/how-to-use-envoy-as-a-load-balancer-in-kubernetes/</guid>
+      <description>In today&amp;rsquo;s highly distributed word, where monolithic architectures are increasingly replaced with multiple, smaller, interconnected services (for better or worse), proxy and load balancing technologies seem to have a renaissance. Beside the older players, there are several new proxy technologies popping up in recent years, implemented in various technologies, popularizing themselves with different features, such as easy integration to certain cloud providers (&amp;ldquo;cloud-native&amp;rdquo;), high performance and low memory footprint, or dynamic configuration.</description>
+    </item>
+    
+  </channel>
+</rss>

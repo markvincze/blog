@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Jumpstart F# web development: F# with ASP.NET on classic .NET</title>
+
+  
+  <link rel="stylesheet" href="/styles/bulma.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.15.1/js/all.js"></script>
+  <script defer src="/scripts/scripts.js"></script>
+  <link rel="icon" href="/favicon.png" type="image/png" />
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="An introduction to get started with web development in F#, using ASP.NET on the classic .NET Framework." />
+  <meta property="og:url" content="https://blog.markvincze.com/jumpstart-f-web-development-f-with-asp-net-on-classic-net/" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Jumpstart F# web development: F# with ASP.NET on classic .NET" />
+  <meta property="og:description" content="An introduction to get started with web development in F#, using ASP.NET on the classic .NET Framework." />
+  
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@mrkvincze" />
+  <meta name="twitter:title" content="Jumpstart F# web development: F# with ASP.NET on classic .NET" />
+  <meta name="twitter:description" content="An introduction to get started with web development in F#, using ASP.NET on the classic .NET Framework." />
+  
+
+</head>
+
+<body>
+  <div class="navbar-container">
+    <nav class="navbar container is-max-desktop" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+
+        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+      <div id="navbarMenu" class="navbar-menu">
+        <div class="navbar-start">
+          <a class="navbar-item" href="/">
+            Home
+          </a>
+
+          <a class="navbar-item" href="/posts">
+            Blog
+          </a>
+
+          <a class="navbar-item">
+            Presentations
+          </a>
+        </div>
+        <div class="navbar-end pt-2 ml-2">
+          <a class="icon is-medium" href="https://twitter.com/mrkvincze">
+            <i class="fab fa-lg fa-twitter"></i>
+          </a>
+          <a class="icon is-medium" href="https://www.github.com/markvincze">
+            <i class="fab fa-lg fa-github"></i>
+          </a>
+          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze">
+            <i class="fab fa-lg fa-stack-overflow"></i>
+          </a>
+          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze">
+            <i class="fab fa-lg fa-linkedin"></i>
+          </a>
+          <a class="icon is-medium" href="/index.xml">
+            <i class="fas fa-lg fa-rss"></i>
+          </a>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <a href="/">
+        <h1 class="title is-1">
+          Mark Vincze
+        </h1>
+      </a>
+      <h2 class="subtitle is-4">
+        Software Developer
+      </h2>
+    </div>
+  </div>
+
+  
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h1 class="title is-1">Jumpstart F# web development: F# with ASP.NET on classic .NET</h1>
+    
+
+
+<p class="mb-3 is-vcentered">
+  <time class="has-text-grey" datetime="2017-02-05">Feb 5, 2017 &bull;</time>
+
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://blog.markvincze.com/tags/asp.net">asp.net</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://blog.markvincze.com/tags/web-api">web api</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://blog.markvincze.com/tags/f">f#</a>
+  
+
+</p>
+    <article class="content mt-6">
+      <p>The first part of my <a href="/series-jumpstart-f-web-development">series</a> about jumstarting F# web development takes a look at probably the most straightforward-looking approach: write F# code using ASP.NET on the classic (full) .NET Framework. (If you&rsquo;re not familiar with the distinction between the full .NET and .NET Core, you can <a href="https://docs.microsoft.com/en-us/dotnet/articles/standard/choosing-core-framework-server">read about it here</a>.)</p>
+<p>Traditionally, the ASP.NET development workflow has been a very streamlined and convenient experience. If we&rsquo;re using C# and develop web applications with ASP.NET, we&rsquo;re used to the fact that evereything is straightforward and nicely integrated into Visual Studio, and most of the features also have GUI support.</p>
+<p>If we choose F# as our programming language, we&rsquo;ll have to jump over some extra hoops to get Visual Studio and ASP.NET obey our bidding, and have to be prepared that some IDE features might not work properly.</p>
+<h1 id="project-type">Project type</h1>
+<p>The first initial problem is that there is no built-in project type in Visual Studio for ASP.NET and F#.<br>
+On the other hand, we need Visual Studio, and we need it to know about ASP.NET to get the support we need for ASP.NET development, such as publishing and integration with IIS (Express).</p>
+<p>Although VS doesn&rsquo;t have a built-in template for this purpose, it is possible to massage a csproj and change some GUIDs around until Visual Studio will handle it as an ASP.NET web application.<br>
+Mark Seeman <a href="http://blog.ploeh.dk/2013/08/23/how-to-create-a-pure-f-aspnet-web-api-project/">has described</a> this process in detail.</p>
+<p>Luckily we don&rsquo;t have to do this manually any more, because actual project templates have been added to the VS marketplace.</p>
+<p>We have to install the following two templates.</p>
+<ul>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=DanielMohl.FWebItemTemplates">F# Web Item Templates</a></li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=DanielMohl.FMVC5">F# MVC 5</a></li>
+</ul>
+<p>Now we can go ahead and create our project, we can select the project type &ldquo;F# ASP.NET MVC 5 and Web API 2&rdquo;.</p>
+<p><img src="/images/2017/02/fsharpaspnetproject-1.png" alt="F# and ASP.NET project type"></p>
+<p>Then we can select the kind of ASP.NET project we&rsquo;d like to have. If we want to develop an API, and not an HTML web site, we can select &ldquo;Web Api 2&rdquo;.</p>
+<p><img src="/images/2017/02/fsharpaspnettemplatesubtypes-1.png" alt="ASP.NET application types"></p>
+<p>The template adds all the necessary files to our project.</p>
+<p><img src="/images/2017/02/templateproject-1.png" alt="Generated project structure"></p>
+<p>It also adds an <code>Index.html</code> welcome page, and a <code>Content</code>, <code>Script</code> and <code>Fonts</code> folder.
+If you don&rsquo;t need this, feel free to delete them, the Api itself will still work.</p>
+<h1 id="basic-aspnet-elements">Basic ASP.NET elements</h1>
+<p>In order to get a classic ASP.NET api up and running, at minimum we&rsquo;ll need the <code>Global</code> type and a controller.</p>
+<p>This is what a minimal <code>Global.asax.fs</code> looks like.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fsharp" data-lang="fsharp"><span style="color:#66d9ef">namespace</span> FSharpWeb
+ 
+<span style="color:#66d9ef">open</span> System
+<span style="color:#66d9ef">open</span> System.Web.Http
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">HttpRouteDefaults</span> <span style="color:#f92672">=</span> <span style="color:#f92672">{</span> Controller <span style="color:#f92672">:</span> <span style="color:#66d9ef">string</span><span style="color:#f92672">;</span> Id <span style="color:#f92672">:</span> <span style="color:#66d9ef">obj</span> <span style="color:#f92672">}</span>
+ 
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Global</span>() <span style="color:#f92672">=</span>
+    <span style="color:#66d9ef">inherit</span> System.Web.HttpApplication()
+    <span style="color:#66d9ef">member</span> this.<span style="color:#a6e22e">Application_Start</span> <span style="color:#f92672">(</span>sender <span style="color:#f92672">:</span> <span style="color:#66d9ef">obj</span><span style="color:#f92672">)</span> <span style="color:#f92672">(</span>e <span style="color:#f92672">:</span> EventArgs<span style="color:#f92672">)</span> <span style="color:#f92672">=</span>
+        GlobalConfiguration.Configuration.Routes.MapHttpRoute<span style="color:#f92672">(</span>
+            <span style="color:#e6db74">&#34;DefaultAPI&#34;</span><span style="color:#f92672">,</span>
+            <span style="color:#e6db74">&#34;{controller}/{id}&#34;</span><span style="color:#f92672">,</span>
+            <span style="color:#f92672">{</span> Controller <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Home&#34;</span><span style="color:#f92672">;</span> Id <span style="color:#f92672">=</span> RouteParameter.Optional <span style="color:#f92672">})</span> <span style="color:#f92672">|&gt;</span> ignore
+</code></pre></div><p>And implementing a simple controller in F# can be done like this.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fsharp" data-lang="fsharp"><span style="color:#66d9ef">namespace</span> FSharpWeb
+<span style="color:#66d9ef">open</span> System
+<span style="color:#66d9ef">open</span> System.Web.Http
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">HomeController</span>() <span style="color:#f92672">=</span>
+    <span style="color:#66d9ef">inherit</span> ApiController()
+    <span style="color:#66d9ef">member</span> this.<span style="color:#a6e22e">Get</span>() <span style="color:#f92672">=</span>
+        this<span style="color:#f92672">.</span>Ok <span style="color:#e6db74">&#34;Hello from F#!&#34;</span>
+</code></pre></div><h1 id="fix-serialization">Fix serialization</h1>
+<p>We have two main ways to implement our data models on the Web Api boundary: we can either implement them as .NET classes, or we can use F# record types. I think the latter is the generally recommended approach, since it&rsquo;s a more idiomatic construct in the F# world, and it requires less code.<br>
+You can find more details about it in <a href="http://blog.ploeh.dk/2013/10/15/easy-aspnet-web-api-dtos-with-f-climutable-records/">this blog post</a>.</p>
+<p>Either way, to get serialization working properly, it&rsquo;s important to have these two lines in our <code>Global.asax.fs</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fsharp" data-lang="fsharp">GlobalConfiguration.Configuration.Formatters.XmlFormatter.UseXmlSerializer <span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">true</span>
+GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings.ContractResolver <span style="color:#f92672">&lt;-</span> Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver()
+</code></pre></div><p>The first line switches from the <code>DataContractSerializer</code> to <code>XmlSerializer</code> for the case when we want to return our responses in XML, and the second line configures a specific contract resolver for Json.NET.<br>
+The reason we need them is to ensure we have correct property names in our responses. Without these configurations, the names would be somewhat garbled, which is caused by the property names that the F# compiler generates for record types in the background.</p>
+<h1 id="add-new-items-to-the-project">Add new items to the project</h1>
+<p>Even if we use these project templates, Visual Studio is still somewhat confused about having F# and ASP.NET together, and it doesn&rsquo;t allow you to add any items (for example source files) to the project. (The Add New Item dialog is empty.)</p>
+<p>This can be fixed by editing an entry in the registry. (This is supposed to be automatically done by a NuGet package which is present in the template, however, that didn&rsquo;t work for me with Visual Studio 2015. I suspect that it only works for earlier versions of VS.)</p>
+<p>To fix this, do the following steps.</p>
+<ol>
+<li>Open regedit</li>
+<li>Go to <code>HKEY_CURRENT_USER\SOFTWARE\Microsoft\VisualStudio\14.0_Config\Projects\</code></li>
+<li>Find <code>{349C5851-65DF-11DA-9384-00065B846F21}</code>, the one which has a child called <code>LanguageTemplates</code>.</li>
+<li>Add a new String Value to <code>LanguageTemplates</code> with the key and value <code>{F2A71F9B-5D33-465A-A702-920D77279786}</code>. (It&rsquo;s important to have the curly braces around the Guid!)</li>
+</ol>
+<p>(Source: <a href="http://bloggemdano.blogspot.nl/2013/11/adding-new-items-to-pure-f-aspnet.html">http://bloggemdano.blogspot.nl/2013/11/adding-new-items-to-pure-f-aspnet.html</a>)</p>
+<p>After restarting Visual Studio, we&rsquo;ll be able to add items to our F# web projects as normal.</p>
+<p>With these steps we have a working ASP.NET application written in F#.</p>
+<p>In the <a href="/jumpstart-f-web-development-f-with-suave-io-on-classic-net/">next part</a> of <a href="/series-jumpstart-f-web-development">the series</a> we&rsquo;ll take a look at how to get started with Suave.IO on classic .NET.</p>
+
+    </article>
+
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https:\/\/blog.markvincze.com\/jumpstart-f-web-development-f-with-asp-net-on-classic-net\/';
+        
+        this.page.identifier = 'ghost-30';
+        
+      };
+      (function () { 
+        var d = document, s = d.createElement('script');
+        s.src = 'https://markvinczeblog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+
+
+  <footer class="footer py-6">
+    <div class="content has-text-centered">
+      <p>
+        © 2020 <strong>Mark Vincze</strong>. All rights reserved.<br />
+        Built with <a href="https://gohugo.io/">Hugo</a> and <a href="https://bulma.io/">Bulma</a>. 💙
+      </p>
+    </div>
+  </footer>
+
+</body>
+
+</html>

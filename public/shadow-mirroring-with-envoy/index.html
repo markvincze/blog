@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Shadow mirroring with Envoy</title>
+
+  
+  <link rel="stylesheet" href="/styles/bulma.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.15.1/js/all.js"></script>
+  <script defer src="/scripts/scripts.js"></script>
+  <link rel="icon" href="/favicon.png" type="image/png" />
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="An overview of implementing shadow mirroring with Envoy, to safely test a service with real production traffic without affecting the end clients." />
+  <meta property="og:url" content="https://blog.markvincze.com/shadow-mirroring-with-envoy/" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Shadow mirroring with Envoy" />
+  <meta property="og:description" content="An overview of implementing shadow mirroring with Envoy, to safely test a service with real production traffic without affecting the end clients." />
+  
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@mrkvincze" />
+  <meta name="twitter:title" content="Shadow mirroring with Envoy" />
+  <meta name="twitter:description" content="An overview of implementing shadow mirroring with Envoy, to safely test a service with real production traffic without affecting the end clients." />
+  
+
+</head>
+
+<body>
+  <div class="navbar-container">
+    <nav class="navbar container is-max-desktop" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+
+        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+      <div id="navbarMenu" class="navbar-menu">
+        <div class="navbar-start">
+          <a class="navbar-item" href="/">
+            Home
+          </a>
+
+          <a class="navbar-item" href="/posts">
+            Blog
+          </a>
+
+          <a class="navbar-item">
+            Presentations
+          </a>
+        </div>
+        <div class="navbar-end pt-2 ml-2">
+          <a class="icon is-medium" href="https://twitter.com/mrkvincze">
+            <i class="fab fa-lg fa-twitter"></i>
+          </a>
+          <a class="icon is-medium" href="https://www.github.com/markvincze">
+            <i class="fab fa-lg fa-github"></i>
+          </a>
+          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze">
+            <i class="fab fa-lg fa-stack-overflow"></i>
+          </a>
+          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze">
+            <i class="fab fa-lg fa-linkedin"></i>
+          </a>
+          <a class="icon is-medium" href="/index.xml">
+            <i class="fas fa-lg fa-rss"></i>
+          </a>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <a href="/">
+        <h1 class="title is-1">
+          Mark Vincze
+        </h1>
+      </a>
+      <h2 class="subtitle is-4">
+        Software Developer
+      </h2>
+    </div>
+  </div>
+
+  
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h1 class="title is-1">Shadow mirroring with Envoy</h1>
+    
+
+
+<p class="mb-3 is-vcentered">
+  <time class="has-text-grey" datetime="2019-04-11">Apr 11, 2019 &bull;</time>
+
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://blog.markvincze.com/tags/envoy">envoy</a>
+  
+
+</p>
+    <article class="content mt-6">
+      <h1 id="introduction">Introduction</h1>
+<p>Shadow mirroring (also called shadow feeding, or just shadowing) is a technique when at some point in our infrastructure we duplicate the outgoing traffic to an additional destination, but we send the responses to the actual client coming from the main destination.<br>
+This is mainly used to be able to test a service with real production traffic without affecting the end clients in any way. It&rsquo;s particularly useful when we are rewriting an existing service, and we want to verify if the new version can process a real variety of incoming requests in an identical way, or when we want to do a comparative benchmark between two version of the same service. And it can also be used to do some extra, out of bounds processing of our requests, which can be done asynchronously, for example collect some additional statistics, or do some extended logging.</p>
+<p>There are some existing technologies implemented specifically for this purpose. The one I have used before is <a href="https://github.com/buger/goreplay">GoReplay</a>, which is a small network monitoring tool capable of—among other things—shadowing the incoming traffic to a second source.</p>
+<p>And some of the general-purpose reverse proxies have this capability as well. In this post we&rsquo;ll go over how this can be implemented with <a href="https://www.envoyproxy.io/">Envoy</a>. First we&rsquo;ll see an introduction to what a basic proxy or load balancing setup with Envoy looks like, and then we&rsquo;ll focus on the request mirroring capabilities which allows us to implement shadowing.</p>
+<h1 id="a-simple-envoy-setup">A simple Envoy setup</h1>
+<p>The following diagram illustrates a very simple setup where we use an Envoy instance as a &ldquo;frontend&rdquo; or reverse proxy to route traffic to a single backend service. (Envoy can be used in much more complicated routing setups, but this is enough for illustrating request mirroring.)</p>
+<p><img src="/images/2019/04/envoy-simple-setup.png" alt="A basic Envoy setup."></p>
+<p>An Envoy instance can be controlled by providing a static YAML configuration on startup. (Which is just one of the ways of configuring Envoy, it also supports having a dynamic configuration provider, but we won&rsquo;t discuss that in this post.)<br>
+The above simple setup can be achieved with the following YAML config.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">admin</span>:
+  <span style="color:#f92672">access_log_path</span>: <span style="color:#ae81ff">/tmp/admin_access.log</span>
+  <span style="color:#f92672">address</span>:
+    <span style="color:#f92672">socket_address</span>: { <span style="color:#f92672">address: 0.0.0.0, port_value</span>: <span style="color:#ae81ff">9901</span> }
+
+<span style="color:#f92672">static_resources</span>:
+  <span style="color:#f92672">listeners</span>:
+  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">listener_0</span>
+    <span style="color:#f92672">address</span>:
+      <span style="color:#f92672">socket_address</span>: { <span style="color:#f92672">address: 0.0.0.0, port_value</span>: <span style="color:#ae81ff">80</span> }
+    <span style="color:#f92672">filter_chains</span>:
+    - <span style="color:#f92672">filters</span>:
+      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">envoy.http_connection_manager</span>
+        <span style="color:#f92672">config</span>:
+          <span style="color:#f92672">stat_prefix</span>: <span style="color:#ae81ff">ingress_http</span>
+          <span style="color:#f92672">route_config</span>:
+            <span style="color:#f92672">name</span>: <span style="color:#ae81ff">local_route</span>
+            <span style="color:#f92672">virtual_hosts</span>:
+            - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">local_service</span>
+              <span style="color:#f92672">domains</span>: [<span style="color:#e6db74">&#34;*&#34;</span>]
+              <span style="color:#f92672">routes</span>:
+              - <span style="color:#f92672">match</span>: { <span style="color:#f92672">prefix</span>: <span style="color:#e6db74">&#34;/&#34;</span> }
+                <span style="color:#f92672">route</span>:
+                  <span style="color:#f92672">host_rewrite</span>: <span style="color:#ae81ff">myservice-backend.mycompany.com</span>
+                  <span style="color:#f92672">cluster</span>: <span style="color:#ae81ff">myservice_cluster</span>
+          <span style="color:#f92672">http_filters</span>:
+          - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">envoy.router</span>
+  <span style="color:#f92672">clusters</span>:
+  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">myservice_cluster</span>
+    <span style="color:#f92672">type</span>: <span style="color:#ae81ff">LOGICAL_DNS</span>
+    <span style="color:#f92672">hosts</span>: [{ <span style="color:#f92672">socket_address</span>: { <span style="color:#f92672">address: myservice-backend.mycompany.com, port_value</span>: <span style="color:#ae81ff">80</span> }}]
+</code></pre></div><p>This specifies one single route, which matches all incoming requests, and proxies them to the <code>myservice_cluster</code> cluster.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">            - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">local_service</span>
+              <span style="color:#f92672">domains</span>: [<span style="color:#e6db74">&#34;*&#34;</span>]
+              <span style="color:#f92672">routes</span>:
+              - <span style="color:#f92672">match</span>: { <span style="color:#f92672">prefix</span>: <span style="color:#e6db74">&#34;/&#34;</span> }
+                <span style="color:#f92672">route</span>:
+                  <span style="color:#f92672">host_rewrite</span>: <span style="color:#ae81ff">myservice-backend.mycompany.com</span>
+                  <span style="color:#f92672">cluster</span>: <span style="color:#ae81ff">myservice_cluster</span>
+</code></pre></div><p>And the single cluster we configured will route all requests to the address <code>myservice-backend.mycompany.com</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">myservice_cluster</span>
+    <span style="color:#f92672">type</span>: <span style="color:#ae81ff">LOGICAL_DNS</span>
+    <span style="color:#f92672">hosts</span>: [{ <span style="color:#f92672">socket_address</span>: { <span style="color:#f92672">address: myservice-backend.mycompany.com, port_value</span>: <span style="color:#ae81ff">80</span> }}]
+</code></pre></div><h1 id="mirroring-support-in-envoy">Mirroring support in Envoy</h1>
+<p>There are two specific capabilities of Envoy which are particularly interesting to us.</p>
+<p>The first is <a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/http_conn_man/traffic_splitting">Traffic Shifting/Splitting</a>. This allows us to route certain percentages of the traffic to different hosts. Although this is useful in many situations, it won&rsquo;t help us with shadowing, since this just routes the traffic in various directions, but doesn&rsquo;t duplicate it.</p>
+<p>The feature which will allow us to implement shadowing is the <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/route/route.proto#route-routeaction-requestmirrorpolicy">request mirror policy</a>. With this we can specify an extra backend for every route, and configure what percentage of the traffic should be mirrored to it.</p>
+<p>This can be enabled by adding the <code>request_mirror_policy</code> field to our route, and configure the following two keys.</p>
+<ul>
+<li><code>cluster</code>: The name of the cluster to which we&rsquo;re mirroring.</li>
+<li><code>runtime_fraction</code>: The portion of the traffic which should be mirrored. You can either configure this with a dynamic runtime value, or add a static value to your YAML config with this syntax: <code>runtime_fraction: { default_value: { numerator: 25 } }</code>.<br>
+The field <code>default_value</code> should contain an object of the type <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v2/type/percent.proto#envoy-api-msg-type-fractionalpercent">FractionalPercent</a>, in which you can specify the <code>numerator</code> and the <code>denominator</code>. The final portion of the mirrored traffic will be calculated as <code>numerator / denominator</code>. The default value of <code>denominator</code> is <code>100</code>, so if you only specify the <code>numerator</code>, it&rsquo;ll be interpreted as a percentage. If you want to configure fractional percentages, then you need to configure <code>denominator</code> too.<br>
+For example this value specifies 0.03% (0.0003): <code>runtime_fraction: { default_value: { numerator: 3, denominator: 10000 } }</code>.</li>
+</ul>
+<p>And the way Envoy will behave is that it&rsquo;ll send back the response to the original client which comes from the main cluster, and the mirrored requests happens in a fire &amp; forget fashion, so the response is discarded. This is exactly what we want if we&rsquo;d like to test a different version of our service without affecting any end users.</p>
+<h1 id="the-full-setup">The full setup</h1>
+<p>Let&rsquo;s say we want to configure the following setup, in which 25% of the traffic is shadow mirrored to a different upstream, accessible at <code>myservice-test.mycompany.com</code>.</p>
+<p><img src="/images/2019/04/envoy-mirror-setup.png" alt="An Envoy setup with mirroring 25% of the traffic."></p>
+<p>We can set this up with the following YAML configuration.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">admin</span>:
+  <span style="color:#f92672">access_log_path</span>: <span style="color:#ae81ff">/tmp/admin_access.log</span>
+  <span style="color:#f92672">address</span>:
+    <span style="color:#f92672">socket_address</span>: { <span style="color:#f92672">address: 0.0.0.0, port_value</span>: <span style="color:#ae81ff">9901</span> }
+
+<span style="color:#f92672">static_resources</span>:
+  <span style="color:#f92672">listeners</span>:
+  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">listener_0</span>
+    <span style="color:#f92672">address</span>:
+      <span style="color:#f92672">socket_address</span>: { <span style="color:#f92672">address: 0.0.0.0, port_value</span>: <span style="color:#ae81ff">80</span> }
+    <span style="color:#f92672">filter_chains</span>:
+    - <span style="color:#f92672">filters</span>:
+      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">envoy.http_connection_manager</span>
+        <span style="color:#f92672">config</span>:
+          <span style="color:#f92672">stat_prefix</span>: <span style="color:#ae81ff">ingress_http</span>
+          <span style="color:#f92672">route_config</span>:
+            <span style="color:#f92672">name</span>: <span style="color:#ae81ff">local_route</span>
+            <span style="color:#f92672">virtual_hosts</span>:
+            - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">local_service</span>
+              <span style="color:#f92672">domains</span>: [<span style="color:#e6db74">&#34;*&#34;</span>]
+              <span style="color:#f92672">routes</span>:
+              - <span style="color:#f92672">match</span>: { <span style="color:#f92672">prefix</span>: <span style="color:#e6db74">&#34;/&#34;</span> }
+                <span style="color:#f92672">route</span>:
+                  <span style="color:#f92672">host_rewrite</span>: <span style="color:#ae81ff">myservice-backend.mycompany.com</span>
+                  <span style="color:#f92672">cluster</span>: <span style="color:#ae81ff">myservice_cluster</span>
+                  <span style="color:#f92672">request_mirror_policy</span>:
+                    <span style="color:#f92672">cluster</span>: <span style="color:#ae81ff">myservice_test_cluster</span>
+                    <span style="color:#f92672">runtime_fraction</span>: { <span style="color:#f92672">default_value</span>: { <span style="color:#f92672">numerator</span>: <span style="color:#ae81ff">25</span> } }
+          <span style="color:#f92672">http_filters</span>:
+          - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">envoy.router</span>
+  <span style="color:#f92672">clusters</span>:
+  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">myservice_cluster</span>
+    <span style="color:#f92672">type</span>: <span style="color:#ae81ff">LOGICAL_DNS</span>
+    <span style="color:#f92672">hosts</span>: [{ <span style="color:#f92672">socket_address</span>: { <span style="color:#f92672">address: myservice-backend.mycompany.com, port_value</span>: <span style="color:#ae81ff">80</span> }}]
+  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">myservice_test_cluster</span>
+    <span style="color:#f92672">type</span>: <span style="color:#ae81ff">LOGICAL_DNS</span>
+    <span style="color:#f92672">hosts</span>: [{ <span style="color:#f92672">socket_address</span>: { <span style="color:#f92672">address: myservice-test.mycompany.com, port_value</span>: <span style="color:#ae81ff">80</span> }}]
+</code></pre></div><p>One important thing to note is that the service discovery for the test cluster will happen with the DNS address <code>myservice-test.mycompany.com</code>, that&rsquo;s not going to be used as the host name (the value of the <code>Host</code> header) in the mirrored requests.<br>
+With a request mirror policy, the host name is always what it would normally be, plus the <code>-shadow</code> suffix. Thus in this example it will become <code>myservice-backend.company.com-shadow</code>. This is something that we have to prepare for if we&rsquo;re mirroring traffic to a component which takes the value of the <code>Host</code> header into account. (At some point <a href="https://groups.google.com/forum/#!topic/envoy-users/sroT9ecsCDY">I asked</a> if there is any way to customize this, but at the moment it is not possible.)</p>
+<p>I hope this will be a useful introduction about request mirroring with Envoy, I found that this feature can be extremely valuable for safely testing new implementations, or carrying out comparative benchmarks.</p>
+
+    </article>
+
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https:\/\/blog.markvincze.com\/shadow-mirroring-with-envoy\/';
+        
+        this.page.identifier = 'ghost-5cafa655a26b5f5ce4856bf4';
+        
+      };
+      (function () { 
+        var d = document, s = d.createElement('script');
+        s.src = 'https://markvinczeblog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+
+
+  <footer class="footer py-6">
+    <div class="content has-text-centered">
+      <p>
+        © 2020 <strong>Mark Vincze</strong>. All rights reserved.<br />
+        Built with <a href="https://gohugo.io/">Hugo</a> and <a href="https://bulma.io/">Bulma</a>. 💙
+      </p>
+    </div>
+  </footer>
+
+</body>
+
+</html>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>f# on Mark Vincze</title>
+    <link>https://blog.markvincze.com/tags/f#/</link>
+    <description>Recent content in f# on Mark Vincze</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 22 May 2017 19:56:14 +0000</lastBuildDate><atom:link href="https://blog.markvincze.com/tags/f#/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>A data model exercise in two languages, part 2: F#</title>
+      <link>https://blog.markvincze.com/a-data-model-exercise-in-two-languages-part-2-f/</link>
+      <pubDate>Mon, 22 May 2017 19:56:14 +0000</pubDate>
+      
+      <guid>https://blog.markvincze.com/a-data-model-exercise-in-two-languages-part-2-f/</guid>
+      <description>Introduction In the previous post I took a look at a data modelling exercise in C#, I designed a data model to represent a card in the standard 52-card deck.
+We saw some of the problems we face when designing data models in an object oriented language, particularly the lack of ability to express that a certain object can have a value of multiple different types, but it can have a value of only one of those types at any one time (a card is either a value card, a face card, or a joker).</description>
+    </item>
+    
+    <item>
+      <title>A data model exercise in two languages, part 1: C#</title>
+      <link>https://blog.markvincze.com/a-data-model-exercise-in-two-languages-part-1-c/</link>
+      <pubDate>Thu, 04 May 2017 19:29:25 +0000</pubDate>
+      
+      <guid>https://blog.markvincze.com/a-data-model-exercise-in-two-languages-part-1-c/</guid>
+      <description>Introduction When I&amp;rsquo;m learning a new programming language, I usually like to do some coding exercises to get familiar with the various language features, and to get used to the syntax. Many of these exercises—or katas—are about implementing some kind of algorithm, which is a great way to learn about the control structures of the language, the conditions, loops and functions. Other katas are more focused on designing a data model for a certain domain, where the goal is to utilize the various features of the type system to create a model as expressive and intuitive as possible.</description>
+    </item>
+    
+    <item>
+      <title>Playing with the composition of the Kleisli category in C#</title>
+      <link>https://blog.markvincze.com/playing-with-the-composition-of-the-kleisli-category-in-c/</link>
+      <pubDate>Wed, 19 Apr 2017 21:27:16 +0000</pubDate>
+      
+      <guid>https://blog.markvincze.com/playing-with-the-composition-of-the-kleisli-category-in-c/</guid>
+      <description>Introduction Recently I learnt about an interesting concept in category theory called a Kleisli category.
+Let&amp;rsquo;s look at a concrete example I took from this blog post (in his series about category theory) by Bartosz Milewski. We would like to extend all of the functions in a library in a way that besides their normal result, they also return an extra string. We&amp;rsquo;ll consider this extra string a sort of log message or &amp;ldquo;comment&amp;rdquo;, which we&amp;rsquo;ll collect as we call various methods.</description>
+    </item>
+    
+    <item>
+      <title>Jumpstart F# web development: F# with Suave.IO on .NET Core</title>
+      <link>https://blog.markvincze.com/jumpstart-f-web-development-f-with-suave-io-on-net-core/</link>
+      <pubDate>Sun, 12 Mar 2017 12:51:45 +0000</pubDate>
+      
+      <guid>https://blog.markvincze.com/jumpstart-f-web-development-f-with-suave-io-on-net-core/</guid>
+      <description>In a previous post we&amp;rsquo;ve seen how we can create a simple web application with Suave on the full .NET Framework. In the last post of the series we&amp;rsquo;ll take a look at how we can do the same thing on .NET Core.
+This is gonna be a short post, since there are no real gotchas in this scenario, it&amp;rsquo;s really easy to set everything up.
+Note: In this post I will use the new csproj-based .</description>
+    </item>
+    
+    <item>
+      <title>Jumpstart F# web development: F# with ASP.NET Core</title>
+      <link>https://blog.markvincze.com/jumpstart-f-web-development-f-with-asp-net-core/</link>
+      <pubDate>Sun, 26 Feb 2017 20:25:14 +0000</pubDate>
+      
+      <guid>https://blog.markvincze.com/jumpstart-f-web-development-f-with-asp-net-core/</guid>
+      <description>In this third part of the series we&amp;rsquo;ll look at how we can get started with developing an ASP.NET Core application using F#. This scenario is pretty straightforward, there are no extra hoops to jump over. In this post I&amp;rsquo;ll describe the steps necessary to create a new ASP.NET application.
+In ASP.NET Core we typically use the Kestrel web server to host our application, which is technically started up from a Console application.</description>
+    </item>
+    
+    <item>
+      <title>Jumpstart F# web development: F# with Suave.IO on classic .NET</title>
+      <link>https://blog.markvincze.com/jumpstart-f-web-development-f-with-suave-io-on-classic-net/</link>
+      <pubDate>Sat, 11 Feb 2017 15:12:50 +0000</pubDate>
+      
+      <guid>https://blog.markvincze.com/jumpstart-f-web-development-f-with-suave-io-on-classic-net/</guid>
+      <description>In the second part of the series we take a look at how we can develop a web application using Sauve on the classic .NET Framework.
+Suave is a lightweight web framework and server, which was implemented in F# from the ground up with functional programming in mind, using constructs which fit the F# word nicely, so we won&amp;rsquo;t have to create .NET classes or use inheritence and state mutation to configure our application (as we had to do with ASP.</description>
+    </item>
+    
+    <item>
+      <title>Jumpstart F# web development: F# with ASP.NET on classic .NET</title>
+      <link>https://blog.markvincze.com/jumpstart-f-web-development-f-with-asp-net-on-classic-net/</link>
+      <pubDate>Sun, 05 Feb 2017 17:38:02 +0000</pubDate>
+      
+      <guid>https://blog.markvincze.com/jumpstart-f-web-development-f-with-asp-net-on-classic-net/</guid>
+      <description>The first part of my series about jumstarting F# web development takes a look at probably the most straightforward-looking approach: write F# code using ASP.NET on the classic (full) .NET Framework. (If you&amp;rsquo;re not familiar with the distinction between the full .NET and .NET Core, you can read about it here.)
+Traditionally, the ASP.NET development workflow has been a very streamlined and convenient experience. If we&amp;rsquo;re using C# and develop web applications with ASP.</description>
+    </item>
+    
+    <item>
+      <title>Series: Jumpstart F# web development</title>
+      <link>https://blog.markvincze.com/series-jumpstart-f-web-development/</link>
+      <pubDate>Sun, 05 Feb 2017 17:35:00 +0000</pubDate>
+      
+      <guid>https://blog.markvincze.com/series-jumpstart-f-web-development/</guid>
+      <description>F# is a functional first general purpose programming language targeting the .NET Framework. Since .NET is a framework commonly used for web development (most often with C# and ASP.NET). And if we would like to do web development on the .NET framework in a more functional style, using F# is the logical choice.
+F# is a language loved by its community, which is actively working on improving its tooling and creating its own ecosystem.</description>
+    </item>
+    
+  </channel>
+</rss>

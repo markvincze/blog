@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>linting on Mark Vincze</title>
+    <link>https://blog.markvincze.com/tags/linting/</link>
+    <description>Recent content in linting on Mark Vincze</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 08 Jul 2018 15:48:55 +0000</lastBuildDate><atom:link href="https://blog.markvincze.com/tags/linting/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Automated, portable code style checking in .NET Core projects</title>
+      <link>https://blog.markvincze.com/automated-portable-code-style-checking-in-net-core-projects/</link>
+      <pubDate>Sun, 08 Jul 2018 15:48:55 +0000</pubDate>
+      
+      <guid>https://blog.markvincze.com/automated-portable-code-style-checking-in-net-core-projects/</guid>
+      <description>I haven&amp;rsquo;t been using automated code style checking in .NET before. I sporadically experimented with StyleCop, FxCop, or the code style rules of ReSharper, but never ended up using them extensively, or introducing and distributing a maintained configuration in the organization I was working in.
+Recently having worked on JavaScript and TypeScript projects, I really started to appreciate how straightforward and established the process of linting is in those communities: it seems to be almost universal that every project in the JS and TS ecosystem is using eslint and tslint respectively, and the way to specify the linting rules is very straightforward.</description>
+    </item>
+    
+  </channel>
+</rss>

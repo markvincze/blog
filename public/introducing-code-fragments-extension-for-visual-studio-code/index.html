@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Introducing Code Fragments extension in Visual Studio Code for managing snippets during presentations</title>
+
+  
+  <link rel="stylesheet" href="/styles/bulma.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.15.1/js/all.js"></script>
+  <script defer src="/scripts/scripts.js"></script>
+  <link rel="icon" href="/favicon.png" type="image/png" />
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Introducing a simple Visual Studio Code extension for saving pieces of code, and later easily insert them into source files, intended for coding demos." />
+  <meta property="og:url" content="https://blog.markvincze.com/introducing-code-fragments-extension-for-visual-studio-code/" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Introducing Code Fragments extension in Visual Studio Code for managing snippets during presentations" />
+  <meta property="og:description" content="Introducing a simple Visual Studio Code extension for saving pieces of code, and later easily insert them into source files, intended for coding demos." />
+  
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@mrkvincze" />
+  <meta name="twitter:title" content="Introducing Code Fragments extension in Visual Studio Code for managing snippets during presentations" />
+  <meta name="twitter:description" content="Introducing a simple Visual Studio Code extension for saving pieces of code, and later easily insert them into source files, intended for coding demos." />
+  
+
+</head>
+
+<body>
+  <div class="navbar-container">
+    <nav class="navbar container is-max-desktop" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+
+        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+      <div id="navbarMenu" class="navbar-menu">
+        <div class="navbar-start">
+          <a class="navbar-item" href="/">
+            Home
+          </a>
+
+          <a class="navbar-item" href="/posts">
+            Blog
+          </a>
+
+          <a class="navbar-item">
+            Presentations
+          </a>
+        </div>
+        <div class="navbar-end pt-2 ml-2">
+          <a class="icon is-medium" href="https://twitter.com/mrkvincze">
+            <i class="fab fa-lg fa-twitter"></i>
+          </a>
+          <a class="icon is-medium" href="https://www.github.com/markvincze">
+            <i class="fab fa-lg fa-github"></i>
+          </a>
+          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze">
+            <i class="fab fa-lg fa-stack-overflow"></i>
+          </a>
+          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze">
+            <i class="fab fa-lg fa-linkedin"></i>
+          </a>
+          <a class="icon is-medium" href="/index.xml">
+            <i class="fas fa-lg fa-rss"></i>
+          </a>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <a href="/">
+        <h1 class="title is-1">
+          Mark Vincze
+        </h1>
+      </a>
+      <h2 class="subtitle is-4">
+        Software Developer
+      </h2>
+    </div>
+  </div>
+
+  
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h1 class="title is-1">Introducing Code Fragments extension in Visual Studio Code for managing snippets during presentations</h1>
+    
+
+
+<p class="mb-3 is-vcentered">
+  <time class="has-text-grey" datetime="2017-11-26">Nov 26, 2017 &bull;</time>
+
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://blog.markvincze.com/tags/visual-studio">visual studio</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://blog.markvincze.com/tags/visual-studio-code">visual studio code</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://blog.markvincze.com/tags/presenting">presenting</a>
+  
+
+</p>
+    <article class="content mt-6">
+      <p>Recently I started working on a simple Visual Studio Code extension I&rsquo;d like to introduce in this post.</p>
+<p>Occasionally I do tech presentations, in which I usually like to do some live code demos. To make this smoother, Visual Studio has always had a really useful—although somewhat undocumented—feature, which makes it possible to save snippets of code, and easily insert them during the presentation, to save some typing.<br>
+We can create such a &ldquo;snippet&rdquo; (not to be confused with actuala code snippets) by selecting a piece of code, and dropping it onto the <em>Toolbox</em> window.</p>
+<p>Since I started to focus more on .NET Core, I wanted to use Visual Studio <strong>Code</strong> instead of Visual Studio during my presentations, but it was a significant drawback for me that it didn&rsquo;t have this feature—there is no Toolbox window where pieces of code could be easily saved.<br>
+I could&rsquo;ve used actual code snippets, but then I&rsquo;d have to remember the alias of the snippet during the demo, and also, creating a VSCode snippet is a bit too involved for this purpose. (The other alternative would be to just prepare all the demo code in a separate file, and copy paste the necessary chunks during the presentation. But I think we can all agree that this approach is way too clunky 🙂).</p>
+<p>I decided to implement a VSCode extension for this specific purpose, which I called <a href="https://marketplace.visualstudio.com/items?itemName=markvincze.code-fragments"><strong>Code Fragments</strong></a>. (I used the term fragment in order not to confuse these with actual code snippets.)</p>
+<p>I wanted to base the design on the experience the VS Toolbox provided, but I had to diverge due to the limitations of VSCode. Namely, I wasn&rsquo;t able to handle dragging and dropping a piece of code to the Explorer window, and also the other way around, items in the explorer tree views are not draggable.</p>
+<p>A piece of code can be saved as a fragment by selecting it in the editor, and then executing the &ldquo;Save selection as Code Fragment&rdquo; from the Command Palette (brought up with Ctrl+Shift+P) or in the context menu.
+Clicking on an existing fragment in the list inserts its content into the editor at the current cursor position.</p>
+<p>This is what it looks like to save code fragments.</p>
+<p><img src="/images/2017/11/codefragments-save.gif" alt="Saving a Code Fragment."></p>
+<p>And inserting a Code Fragment to the current cursor position.</p>
+<p><img src="/images/2017/11/codefragments-insert.gif" alt="Inserting a Code Fragment"></p>
+<p>This really simple extension provides a very small set of functionality, but I think it&rsquo;s already useful for this specific purpose.<br>
+I&rsquo;d be happy if you gave it a try, and any feedback is welcome!</p>
+<p>You can download the extension from the <a href="https://marketplace.visualstudio.com/items?itemName=markvincze.code-fragments">Visual Studio Marketplace</a>, and find the source code on <a href="https://github.com/markvincze/vscode-codeFragments">GitHub</a>.</p>
+
+    </article>
+
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https:\/\/blog.markvincze.com\/introducing-code-fragments-extension-for-visual-studio-code\/';
+        
+        this.page.identifier = 'ghost-5a1b336219ac3b1e3f6dd297';
+        
+      };
+      (function () { 
+        var d = document, s = d.createElement('script');
+        s.src = 'https://markvinczeblog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+
+
+  <footer class="footer py-6">
+    <div class="content has-text-centered">
+      <p>
+        © 2020 <strong>Mark Vincze</strong>. All rights reserved.<br />
+        Built with <a href="https://gohugo.io/">Hugo</a> and <a href="https://bulma.io/">Bulma</a>. 💙
+      </p>
+    </div>
+  </footer>
+
+</body>
+
+</html>

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Setting up a Travis-CI pipeline for Golang</title>
+
+  
+  <link rel="stylesheet" href="/styles/bulma.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.15.1/js/all.js"></script>
+  <script defer src="/scripts/scripts.js"></script>
+  <link rel="icon" href="/favicon.png" type="image/png" />
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="This post gives and Introduction to setting up a continuous delivery pipeline for a Golang-based project in Travis-CI." />
+  <meta property="og:url" content="https://blog.markvincze.com/setting-up-a-travis-ci-pipeline-for-golang/" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Setting up a Travis-CI pipeline for Golang" />
+  <meta property="og:description" content="This post gives and Introduction to setting up a continuous delivery pipeline for a Golang-based project in Travis-CI." />
+  
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@mrkvincze" />
+  <meta name="twitter:title" content="Setting up a Travis-CI pipeline for Golang" />
+  <meta name="twitter:description" content="This post gives and Introduction to setting up a continuous delivery pipeline for a Golang-based project in Travis-CI." />
+  
+
+</head>
+
+<body>
+  <div class="navbar-container">
+    <nav class="navbar container is-max-desktop" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+
+        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+      <div id="navbarMenu" class="navbar-menu">
+        <div class="navbar-start">
+          <a class="navbar-item" href="/">
+            Home
+          </a>
+
+          <a class="navbar-item" href="/posts">
+            Blog
+          </a>
+
+          <a class="navbar-item">
+            Presentations
+          </a>
+        </div>
+        <div class="navbar-end pt-2 ml-2">
+          <a class="icon is-medium" href="https://twitter.com/mrkvincze">
+            <i class="fab fa-lg fa-twitter"></i>
+          </a>
+          <a class="icon is-medium" href="https://www.github.com/markvincze">
+            <i class="fab fa-lg fa-github"></i>
+          </a>
+          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze">
+            <i class="fab fa-lg fa-stack-overflow"></i>
+          </a>
+          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze">
+            <i class="fab fa-lg fa-linkedin"></i>
+          </a>
+          <a class="icon is-medium" href="/index.xml">
+            <i class="fas fa-lg fa-rss"></i>
+          </a>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <a href="/">
+        <h1 class="title is-1">
+          Mark Vincze
+        </h1>
+      </a>
+      <h2 class="subtitle is-4">
+        Software Developer
+      </h2>
+    </div>
+  </div>
+
+  
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h1 class="title is-1">Setting up a Travis-CI pipeline for Golang</h1>
+    
+
+
+<p class="mb-3 is-vcentered">
+  <time class="has-text-grey" datetime="2016-10-15">Oct 15, 2016 &bull;</time>
+
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://blog.markvincze.com/tags/golang">golang</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://blog.markvincze.com/tags/travis">travis</a>
+  
+
+</p>
+    <article class="content mt-6">
+      <p>In the <a href="/setting-up-an-appveyor-pipeline-for-golang">previous post</a> we looked at how we can set up a pipeline in AppVeyor for building and releasing a Golang application. Recently I made some changes to the project I&rsquo;m working on, which <a href="https://github.com/rjeczalik/notify/issues/108">prevents the it to be cross-compiled on a Windows build agent</a>. After the change I was able to properly do the build only on an OSX machine.</p>
+<p>This caused a problem for me, since AppVeyor only supports using a Windows machine as the build agent, so I wasn&rsquo;t able to properly cross compile the application any more.</p>
+<p>Another really popular CI system for open source projects is Travis-CI. It works very similarly to AppVeyor, and its basic concepts are the same, but it&rsquo;s more tailored for building applications on a Linux-based environments. Luckily, it also supports using an OSX build agent, which is appropriate for my purposes.</p>
+<p>Since I&rsquo;ve written a summary about setting up a Golang pipeline for AppVeyor, it just seemed logical to do the same for Travis.</p>
+<h2 id="setting-up-the-build">Setting up the build</h2>
+<p>Similarly to AppVeyor, the normal way to use Travis to build a project is to include a yaml file at the root of the repository with the name <code>.travis.yml</code>, in which we can specify how we would like to compile our project, and we can also set up a configuration for releasing it.</p>
+<h3 id="environment">Environment</h3>
+<p>By default Travis is using an Ubuntu virtual machine to run the build. If Linux is an appropriate environment for your build, you can probably use the default settings. (I would only recommend using an OSX agent if there is a real need for it, since the Linux environment is faster and boots up much quicker.) You can find all the detailed information about the different environments you can use in <a href="https://docs.travis-ci.com/user/ci-environment/">the documentation</a>.</p>
+<p>Since I wanted to use an OSX agent, I had to add the following line to the top of my <code>.travis.yml</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">os</span>: <span style="color:#ae81ff">osx</span>
+</code></pre></div><p>The next thing to set up is the programming language which is needed to build our application. In the case of Go, the following settings are needed.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">language</span>: <span style="color:#ae81ff">go</span>
+
+<span style="color:#f92672">go</span>:
+- <span style="color:#ae81ff">tip</span> <span style="color:#75715e"># The latest version of Go.</span>
+</code></pre></div><p>We can either set the version of the tools to a fix version, like <code>1.3</code>, or we can use <code>tip</code> to always get the latest version. We can find more options in <a href="https://docs.travis-ci.com/user/languages/go">the docs</a>.</p>
+<h3 id="build">Build</h3>
+<p>The next step is to configure the actual build. Similarly to my example for AppVeyor, I&rsquo;m not setting up the actual <code>go build</code> commands here, but I have a separate build script file in my repository, and I&rsquo;m just calling that script from Travis.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">script</span>:
+- <span style="color:#e6db74">&#34;./build.sh&#34;</span>
+</code></pre></div><p>The script builds the source code and puts the output binary in the <code>bin</code> folder, it looks something like this (This is a simplified example.)</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#!/bin/bash
+</span><span style="color:#75715e"></span>
+go build -o bin/myawesomeapp -i .
+</code></pre></div><h3 id="deployment">Deployment</h3>
+<p>The last thing to do is to configure how to deploy the application. This depends on what kind of project we&rsquo;re working on. The application I&rsquo;m developing is a client side CLI tool. Of course the deployment would be very different for a — let&rsquo;s say — web application.</p>
+<p>Similarly to AppVeyor, Travis has built-in deployment support for a <a href="https://docs.travis-ci.com/user/deployment">wide range</a> of different systems. It includes support for GitHub Releases too, which I was already using.</p>
+<p>To set up a GitHub release, we have to add the following section to our yaml.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">deploy</span>:
+  <span style="color:#f92672">provider</span>: <span style="color:#ae81ff">releases</span>
+  <span style="color:#f92672">skip_cleanup</span>: <span style="color:#66d9ef">true</span> <span style="color:#75715e"># Important, otherwise the build output would be purged.</span>
+  <span style="color:#f92672">api_key</span>:
+    <span style="color:#f92672">secure</span>: <span style="color:#ae81ff">lFGBaF...SJ1lDPDICY=</span>
+  <span style="color:#f92672">file</span>: <span style="color:#ae81ff">bin/myawesomeapp</span>
+  <span style="color:#f92672">on</span>:
+    <span style="color:#f92672">repo</span>: <span style="color:#ae81ff">account/myawesomeproject</span>
+    <span style="color:#f92672">tags</span>: <span style="color:#66d9ef">true</span> <span style="color:#75715e"># The deployment happens only if the commit has a tag.</span>
+</code></pre></div><h4 id="github-authentication">GitHub authentication</h4>
+<p>There are <a href="https://docs.travis-ci.com/user/deployment/releases/">multiple ways</a> to configure the <code>api_key</code> that will be used to authenticate AppVeyor to do the release, and we can also use a username/password combination (which is of course not a good idea if our yaml file will be public).</p>
+<p>The simplest option (which is also recommended by the docs) is to <a href="https://github.com/travis-ci/travis.rb#installation">install the Travis CLI</a>, then step into the directory of our repository, and issue the <code>setup releases</code> command.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">travis setup releases
+</code></pre></div><p>This will prompt us to log into GitHub, then it generates an ApiKey, encrypts it and automatically adds it to our <code>.travis.yml</code> file.</p>
+<p>The <code>file</code> property specifies the binary we want to upload to the GitHub release. We can also upload multiple files.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">  <span style="color:#f92672">file</span>:
+    - <span style="color:#ae81ff">file1</span>
+    - <span style="color:#ae81ff">file2</span>
+    - <span style="color:#ae81ff">file3</span>
+</code></pre></div><p>In the <code>repo</code> field we have to enter our GitHub account name, and the name of our project (basically the route in the URL if we open our repository on GitHub).</p>
+<p>And if we set <code>tags</code> to true, then the deployment only happens for commits which have tags, and the name of the release will be the name of the tag. This is nice if we would like to explicitly control when we&rsquo;re releasing and what version number we want to use, which is a good opportunity to enforce conscious semantic versioning.</p>
+<h2 id="full-example">Full example</h2>
+<p>This is the full <code>.travis.yml</code> file we have to put into our repo to get a build and release working.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">os</span>: <span style="color:#ae81ff">osx</span> <span style="color:#75715e"># Only use OSX if it&#39;s really needed!</span>
+
+<span style="color:#f92672">language</span>: <span style="color:#ae81ff">go</span>
+
+<span style="color:#f92672">go</span>:
+- <span style="color:#ae81ff">tip</span> <span style="color:#75715e"># The latest version of Go.</span>
+
+<span style="color:#f92672">script</span>:
+- <span style="color:#e6db74">&#34;./build.sh&#34;</span>
+
+<span style="color:#f92672">deploy</span>:
+  <span style="color:#f92672">provider</span>: <span style="color:#ae81ff">releases</span>
+  <span style="color:#f92672">skip_cleanup</span>: <span style="color:#66d9ef">true</span> <span style="color:#75715e"># Important, otherwise the build output would be purged.</span>
+  <span style="color:#f92672">api_key</span>:
+    <span style="color:#f92672">secure</span>: <span style="color:#ae81ff">lFGBaF...SJ1lDPDICY=</span>
+  <span style="color:#f92672">file</span>: <span style="color:#ae81ff">bin/myawesomeapp</span>
+  <span style="color:#f92672">on</span>:
+    <span style="color:#f92672">repo</span>: <span style="color:#ae81ff">account/myawesomeproject</span>
+    <span style="color:#f92672">tags</span>: <span style="color:#66d9ef">true</span> <span style="color:#75715e"># The deployment happens only if the commit has a tag.</span>
+</code></pre></div><p>With this configuration the build itself runs for every commit and PR (which is nice, because we see if everything compiles fine), but the deployment only happens when we actually push a tag as well containing the version number of the new release.</p>
+<p>Setting up Travis turned out to be a very similar experience to using AppVeyor, so the decision whether to use one or the other boils down to whether a Windows or a Linux (or OSX) build environment is more appropriate for our scenario.</p>
+
+    </article>
+
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https:\/\/blog.markvincze.com\/setting-up-a-travis-ci-pipeline-for-golang\/';
+        
+        this.page.identifier = 'ghost-25';
+        
+      };
+      (function () { 
+        var d = document, s = d.createElement('script');
+        s.src = 'https://markvinczeblog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+
+
+  <footer class="footer py-6">
+    <div class="content has-text-centered">
+      <p>
+        © 2020 <strong>Mark Vincze</strong>. All rights reserved.<br />
+        Built with <a href="https://gohugo.io/">Hugo</a> and <a href="https://bulma.io/">Bulma</a>. 💙
+      </p>
+    </div>
+  </footer>
+
+</body>
+
+</html>

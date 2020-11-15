@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>specflow on Mark Vincze</title>
+    <link>https://blog.markvincze.com/tags/specflow/</link>
+    <description>Recent content in specflow on Mark Vincze</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 23 Apr 2016 15:57:05 +0000</lastBuildDate><atom:link href="https://blog.markvincze.com/tags/specflow/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>How to fix the empty SpecFlow HTML report problem with vstest.console.exe</title>
+      <link>https://blog.markvincze.com/how-to-fix-the-empty-specflow-html-report-problem-with-vstest-console-exe/</link>
+      <pubDate>Sat, 23 Apr 2016 15:57:05 +0000</pubDate>
+      
+      <guid>https://blog.markvincze.com/how-to-fix-the-empty-specflow-html-report-problem-with-vstest-console-exe/</guid>
+      <description>Introduction There are multiple ways to run an MsTest test suite from the command line. The older, now deprecated tool is mstest.exe. It executes the test suite and produces an output in an XML-based format called TRX.
+Other tools, including the SpecFlow HTML report generation build upon that TRX format.
+The newer, current way to execute the unit tests in a project is vstest.console.exe. This new tool has a pluggable logging system, it supports specifying different &amp;ldquo;loggers&amp;rdquo;, which can produce different outputs.</description>
+    </item>
+    
+    <item>
+      <title>How to store state during SpecFlow tests?</title>
+      <link>https://blog.markvincze.com/how-to-store-state-during-specflow-tests/</link>
+      <pubDate>Sat, 06 Jun 2015 19:19:58 +0000</pubDate>
+      
+      <guid>https://blog.markvincze.com/how-to-store-state-during-specflow-tests/</guid>
+      <description>#Introduction SpecFlow is an implementation of the Gherkin language for the .NET Framework. SpecFlow is to .NET what Cucumber is for the JavaScript ecosystem. It is a way to write tests in a DSL that is easily readable (and maybe writable) by not just developers, but also the business. A simple example from the Cucumber web site (which is also generated when a new SpecFlow feature is added in Visual Studio) is the following:</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>docfx on Mark Vincze</title>
+    <link>https://blog.markvincze.com/tags/docfx/</link>
+    <description>Recent content in docfx on Mark Vincze</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 17 Nov 2017 00:00:34 +0000</lastBuildDate><atom:link href="https://blog.markvincze.com/tags/docfx/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Build and publish documentation and API reference with DocFx for .NET Core projects</title>
+      <link>https://blog.markvincze.com/build-and-publish-documentation-and-api-reference-with-docfx-for-net-core-projects/</link>
+      <pubDate>Fri, 17 Nov 2017 00:00:34 +0000</pubDate>
+      
+      <guid>https://blog.markvincze.com/build-and-publish-documentation-and-api-reference-with-docfx-for-net-core-projects/</guid>
+      <description>DocFx is an open source tool for generating documentation and API reference, and it has great support for .NET Core projects.
+DocFx can be slightly intimidating first, because it has a really wide set of features, and the default scaffolded configuration contains quite a lot of files, which at first sight can look a bit complex.
+With this post I&amp;rsquo;d like to give a guide about what is a minimal configuration you need if you want to set up documentation for a .</description>
+    </item>
+    
+  </channel>
+</rss>

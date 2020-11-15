@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>sqlite on Mark Vincze</title>
+    <link>https://blog.markvincze.com/tags/sqlite/</link>
+    <description>Recent content in sqlite on Mark Vincze</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 10 Apr 2016 16:48:05 +0000</lastBuildDate><atom:link href="https://blog.markvincze.com/tags/sqlite/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Migrating a Ghost blog from SQLite to Postgre on OpenShift</title>
+      <link>https://blog.markvincze.com/migrating-a-ghost-blog-from-sqlite-to-postgre-on-openshift/</link>
+      <pubDate>Sun, 10 Apr 2016 16:48:05 +0000</pubDate>
+      
+      <guid>https://blog.markvincze.com/migrating-a-ghost-blog-from-sqlite-to-postgre-on-openshift/</guid>
+      <description>When I started this blog, I wanted to use the Ghost blogging platform. I was looking for a free solution for hosting it, and I didn&amp;rsquo;t mind a little tinkering in order to get it running.
+At the time, the best approach I could find was hosting it on an Amazon EC2 instance, since Amazon offered a Free Tier, with which you could run a small Linux instance for free, for the duration of one year.</description>
+    </item>
+    
+  </channel>
+</rss>

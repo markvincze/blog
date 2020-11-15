@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>mvc on Mark Vincze</title>
+    <link>https://blog.markvincze.com/tags/mvc/</link>
+    <description>Recent content in mvc on Mark Vincze</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 18 Jun 2016 21:17:15 +0000</lastBuildDate><atom:link href="https://blog.markvincze.com/tags/mvc/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Matching route templates manually in ASP.NET Core</title>
+      <link>https://blog.markvincze.com/matching-route-templates-manually-in-asp-net-core/</link>
+      <pubDate>Sat, 18 Jun 2016 21:17:15 +0000</pubDate>
+      
+      <guid>https://blog.markvincze.com/matching-route-templates-manually-in-asp-net-core/</guid>
+      <description>We can use routing in ASP.NET to define paths on which we want to respond to HTTP requests. In ASP.NET Core we have two common ways to specify routing in our application.
+We can use the Route attribute on the action methods:
+[HttpGet(&amp;#34;test/{myParam}&amp;#34;] public IActionResult Get(int myParam) { // ... } Or if we don&amp;rsquo;t want to use MVC, we can directly set up some responses in our Startup class by creating a RouteBuilder and adding it to the pipeline with the UseRouter method.</description>
+    </item>
+    
+    <item>
+      <title>Use Glimpse with ASP.NET Web Api</title>
+      <link>https://blog.markvincze.com/use-glimpse-with-asp-net-web-api/</link>
+      <pubDate>Thu, 14 May 2015 12:56:50 +0000</pubDate>
+      
+      <guid>https://blog.markvincze.com/use-glimpse-with-asp-net-web-api/</guid>
+      <description>Glimpse is a wonderful tool for getting an insight into the mechanisms happening in an ASP.NET application. It inspects every request processed by our app, and displays its UI either embedded into our web site, or on a standalone page at a different URL.
+The current version of Glimpse (1.9.2 at the time of writing this) only has proper support for ASP.NET Web Forms and MVC, and not for the Web Api.</description>
+    </item>
+    
+  </channel>
+</rss>
