@@ -7714,5 +7714,17 @@ h6 {
 code {
   color: #016FB9; }
 
+body > .navbar-container {
+  border-bottom-width: 0.2em;
+  border-bottom-color: #016FB9;
+  border-bottom-style: solid; }
+
 .navbar, .navbar-container {
   background-color: #fafafa; }
+
+@media screen and (min-width: 1024px) {
+  #indexIntroduction {
+    max-width: 40em; }
+  #indexContainer {
+    margin-top: 3em;
+    margin-bottom: 6em; } }

@@ -1,0 +1,17 @@
+{
+  "name": "markvincze-blog",
+  "version": "1.0.0",
+  "description": "",
+  "main": "assets/styles/mystyles.scss",
+  "scripts": {
+    "css-build": "node-sass --omit-source-map-url assets/sass/mystyles.scss static/styles/styles.css",
+    "css-watch": "npm run css-build -- --watch",
+    "start": "npm run css-watch"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "bulma": "^0.9.1",
+    "node-sass": "^5.0.0"
+  }
+}

@@ -3,11 +3,16 @@
 <section class="section">
   <div class="container is-max-desktop">
     <h1 class="title is-1">{{ .Title }}</h1>
-    {{ partial "date-and-tags.html" . }}
+
+    {{ if eq .File.Dir "posts\\" }}
+      {{ partial "date-and-tags.html" . }}
+    {{ end }}
+
     <article class="content mt-6">
       {{ .Content }}
     </article>
 
+    {{ if eq .File.Dir "posts\\" }}
     <div id="disqus_thread"></div>
     <script>
       var disqus_config = function () {
@@ -29,6 +34,8 @@
     </script>
     <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
   </div>
+  {{ end }}
+
 </section>
 
 {{ end }}

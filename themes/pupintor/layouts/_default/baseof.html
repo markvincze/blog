@@ -2,12 +2,24 @@
 <html>
 
 <head>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-72523215-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'UA-72523215-1');
+  </script>
+
   <title>{{ .Title }}</title>
 
   <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"> -->
-  <link rel="stylesheet" href="/styles/bulma.css">
+  <link rel="stylesheet" href="/styles/styles.css">
+  <!-- <link rel="stylesheet" href="/styles/styles.css"> -->
   <script defer src="https://use.fontawesome.com/releases/v5.15.1/js/all.js"></script>
   <script defer src="/scripts/scripts.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
   <link rel="icon" href="/favicon.png" type="image/png" />
 
   <meta charset="utf-8">
@@ -38,20 +50,14 @@
           <span aria-hidden="true"></span>
         </a>
       </div>
-      <div id="navbarMenu" class="navbar-menu">
+      <div id="navbarMenu" class="navbar-menu has-text-white-ter">
+
         <div class="navbar-start">
-          <a class="navbar-item" href="/">
-            Home
-          </a>
-
-          <a class="navbar-item" href="/posts">
-            Blog
-          </a>
-
-          <a class="navbar-item">
-            Presentations
-          </a>
+          {{ range .Site.Menus.main }}
+          <a class="navbar-item" href="{{ .URL }}">{{ .Name }}</a>
+          {{ end }}
         </div>
+
         <div class="navbar-end pt-2 ml-2">
           <a class="icon is-medium" href="https://twitter.com/mrkvincze">
             <i class="fab fa-lg fa-twitter"></i>

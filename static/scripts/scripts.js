@@ -21,5 +21,20 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   }
+});
 
+window.cookieconsent.initialise({
+  "palette": {
+    "popup": {
+      "background": "#016FB9"
+    },
+    "button": {
+      "background": "#fff",
+      "text": "#016FB9"
+    }
+  },
+  "theme": "classic",
+  "content": {
+    "message": "This website uses cookies to ensure you get the best experience."
+  }
 });
