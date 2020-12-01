@@ -3,15 +3,10 @@ skip_branch_with_pr: true
 image: Ubuntu1804
 
 environment:
-  nodejs_version: "14"
-  github_access_token:
+  GH_TOKEN:
     secure: yVMCFepA5CWkd+a+SaL+RbAWaZ8SWQFzZKnd64SNt5PXEg704BRKWi4LWL08cSka
-  github_email:
-    secure: 5iYcV2GCbnI6N9RZRh6EZa7vVXdoaMoyArpwr4r/r/Q=
 
 install:
-# - sudo apt update
-# - sudo apt install -y nodejs
 - nvm use 15.2.0
 - node -v
 - npm install
@@ -22,8 +17,4 @@ build_script:
 - npm run css-build
 
 deploy_script:
-- git config --global credential.helper store
-- ps: Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:github_access_token):x-oauth-basic@github.com`n"
-- git config --global user.email %github_email%
-- git config --global user.name "markvincze"
 - bash release.sh
