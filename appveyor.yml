@@ -12,6 +12,7 @@ environment:
 install:
 # - sudo apt update
 # - sudo apt install -y nodejs
+- nvm use 15.2.0
 - node -v
 - npm install
 - wget https://github.com/gohugoio/hugo/releases/download/v0.78.2/hugo_0.78.2_Linux-64bit.deb
