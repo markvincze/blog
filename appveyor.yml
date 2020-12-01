@@ -10,8 +10,8 @@ environment:
     secure: 5iYcV2GCbnI6N9RZRh6EZa7vVXdoaMoyArpwr4r/r/Q=
 
 install:
-- apt update
-- apt install nodejs
+- sudo apt update
+- sudo apt install -y nodejs
 - node -v
 - npm install
 - wget https://github.com/gohugoio/hugo/releases/download/v0.78.2/hugo_0.78.2_Linux-64bit.deb
