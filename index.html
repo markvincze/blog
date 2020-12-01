@@ -3,18 +3,28 @@
 
 <head>
 	<meta name="generator" content="Hugo 0.78.2" />
+  
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-72523215-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'UA-72523215-1');
+  </script>
+
   <title>Mark Vincze</title>
 
-  
-  <link rel="stylesheet" href="/styles/bulma.css">
+  <link rel="stylesheet" href="/styles/styles.css">
   <script defer src="https://use.fontawesome.com/releases/v5.15.1/js/all.js"></script>
   <script defer src="/scripts/scripts.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
   <link rel="icon" href="/favicon.png" type="image/png" />
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="" />
-  <meta property="og:url" content="https://markvincze.github.io/blog/" />
+  <meta property="og:url" content="http://localhost:1313/" />
   <meta property="og:type" content="article" />
   <meta property="og:title" content="Mark Vincze" />
   <meta property="og:description" content="" />
@@ -38,34 +48,32 @@
           <span aria-hidden="true"></span>
         </a>
       </div>
-      <div id="navbarMenu" class="navbar-menu">
+      <div id="navbarMenu" class="navbar-menu has-text-white-ter">
+
         <div class="navbar-start">
-          <a class="navbar-item" href="/">
-            Home
-          </a>
-
-          <a class="navbar-item" href="/posts">
-            Blog
-          </a>
-
-          <a class="navbar-item">
-            Presentations
-          </a>
+          
+          <a class="navbar-item" href="/">About</a>
+          
+          <a class="navbar-item" href="/posts">Blog</a>
+          
+          <a class="navbar-item" href="/projects">Projects</a>
+          
         </div>
+
         <div class="navbar-end pt-2 ml-2">
-          <a class="icon is-medium" href="https://twitter.com/mrkvincze">
+          <a class="icon is-medium" href="https://twitter.com/mrkvincze" target="_blank">
             <i class="fab fa-lg fa-twitter"></i>
           </a>
-          <a class="icon is-medium" href="https://www.github.com/markvincze">
+          <a class="icon is-medium" href="https://www.github.com/markvincze" target="_blank">
             <i class="fab fa-lg fa-github"></i>
           </a>
-          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze">
+          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze" target="_blank">
             <i class="fab fa-lg fa-stack-overflow"></i>
           </a>
-          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze">
+          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze" target="_blank">
             <i class="fab fa-lg fa-linkedin"></i>
           </a>
-          <a class="icon is-medium" href="/index.xml">
+          <a class="icon is-medium" href="/index.xml" target="_blank">
             <i class="fas fa-lg fa-rss"></i>
           </a>
         </div>
@@ -88,23 +96,18 @@
 
   
 
-
-
-
-
-<div class="columns" style="margin-bottom: 0px;">
-  
-  
-  
+<div id="indexContainer" class="columns" style="padding-left: 1.5rem;">
   <div class="column content" style="display: flex">
-    <div style="max-width: 60%; margin-left: auto; margin-right: 2em">
+    <div id="indexIntroduction" style="margin-left: auto; margin-right: 2em">
       <p>
         I'm a software developer specialized in C# and modern C++, with extensive experience in using the Microsoft technology stack.
         I blog about things I find interesting during work and hobby projects.<br />
         I'm currently working at Travix in Amsterdam.
       </p>
 
+      <p>
       I worked with the following technologies.
+      </p>
 
       <ul>
         <li>C#: 6 years of experience, client and server side.</li>
@@ -114,15 +117,17 @@
         <li>Other: WPF, Windows Phone, Azure, WinRT, WCF, JNI, TypeScript, MS SQL, Entity Framework, MS Mediaroom.</li>
       </ul>
 
-      I occasionly tweet, and you can find me on Stack Overflow as well.
+      <p>
+      I occasionally tweet, and you can find me on Stack Overflow as well.
+      </p>
     </div>
   </div>
-  
-  <div class="column" style="background-image: url(/images/markvincze-presenting-cropped-2.jpg); background-position: top left;">a</div>
+  <div class="column is-block-desktop" style="display: none; background-image: url(/images/markvincze-presenting-cropped-2.jpg); background-position: top left;"></div>
 </div>
 
 
 
+  <div style="flex: 1"></div>
 
   <footer class="footer py-6">
     <div class="content has-text-centered">

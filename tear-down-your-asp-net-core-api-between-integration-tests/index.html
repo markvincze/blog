@@ -2,18 +2,28 @@
 <html>
 
 <head>
+  
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-72523215-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'UA-72523215-1');
+  </script>
+
   <title>Tear down your ASP.NET Core api between integration tests</title>
 
-  
-  <link rel="stylesheet" href="/styles/bulma.css">
+  <link rel="stylesheet" href="/styles/styles.css">
   <script defer src="https://use.fontawesome.com/releases/v5.15.1/js/all.js"></script>
   <script defer src="/scripts/scripts.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
   <link rel="icon" href="/favicon.png" type="image/png" />
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Static state in an ASP.NET Core application can cause problems when running subsequent integration tests. In this post we take a look at how to solve this." />
-  <meta property="og:url" content="https://markvincze.github.io/blog/tear-down-your-asp-net-core-api-between-integration-tests/" />
+  <meta property="og:url" content="http://localhost:1313/tear-down-your-asp-net-core-api-between-integration-tests/" />
   <meta property="og:type" content="article" />
   <meta property="og:title" content="Tear down your ASP.NET Core api between integration tests" />
   <meta property="og:description" content="Static state in an ASP.NET Core application can cause problems when running subsequent integration tests. In this post we take a look at how to solve this." />
@@ -37,34 +47,32 @@
           <span aria-hidden="true"></span>
         </a>
       </div>
-      <div id="navbarMenu" class="navbar-menu">
+      <div id="navbarMenu" class="navbar-menu has-text-white-ter">
+
         <div class="navbar-start">
-          <a class="navbar-item" href="/">
-            Home
-          </a>
-
-          <a class="navbar-item" href="/posts">
-            Blog
-          </a>
-
-          <a class="navbar-item">
-            Presentations
-          </a>
+          
+          <a class="navbar-item" href="/">About</a>
+          
+          <a class="navbar-item" href="/posts">Blog</a>
+          
+          <a class="navbar-item" href="/projects">Projects</a>
+          
         </div>
+
         <div class="navbar-end pt-2 ml-2">
-          <a class="icon is-medium" href="https://twitter.com/mrkvincze">
+          <a class="icon is-medium" href="https://twitter.com/mrkvincze" target="_blank">
             <i class="fab fa-lg fa-twitter"></i>
           </a>
-          <a class="icon is-medium" href="https://www.github.com/markvincze">
+          <a class="icon is-medium" href="https://www.github.com/markvincze" target="_blank">
             <i class="fab fa-lg fa-github"></i>
           </a>
-          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze">
+          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze" target="_blank">
             <i class="fab fa-lg fa-stack-overflow"></i>
           </a>
-          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze">
+          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze" target="_blank">
             <i class="fab fa-lg fa-linkedin"></i>
           </a>
-          <a class="icon is-medium" href="/index.xml">
+          <a class="icon is-medium" href="/index.xml" target="_blank">
             <i class="fas fa-lg fa-rss"></i>
           </a>
         </div>
@@ -90,33 +98,9 @@
 <section class="section">
   <div class="container is-max-desktop">
     <h1 class="title is-1">Tear down your ASP.NET Core api between integration tests</h1>
+
     
 
-
-<p class="mb-3 is-vcentered">
-  <time class="has-text-grey" datetime="2017-06-21">Jun 21, 2017 &bull;</time>
-
-  
-  
-  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/c">c#</a>
-  
-  
-  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/couchbase">couchbase</a>
-  
-  
-  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/asp.net-core">asp.net-core</a>
-  
-  
-  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/testing">testing</a>
-  
-  
-  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/integration-testing">integration-testing</a>
-  
-  
-  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/quartz.net">quartz.net</a>
-  
-
-</p>
     <article class="content mt-6">
       <p>The way to write integration tests for ASP.NET applications has been made much easier with the advent of ASP.NET Core. This is mainly due to the programming model becoming super modular, which means that it is really easy to spin up an instance of our whole web application for testing purposes and start sending HTTP requests to it from a simple unit test.</p>
 <p>The following code illustrates a unit test method, which starts up an ASP.NET Core api, sends an HTTP request to it, and verifies the response, assuming that the api returns the string <code>&quot;Hello World!&quot;</code> on the route <code>/api/hello</code>.</p>
@@ -239,26 +223,13 @@
 
     </article>
 
-    <div id="disqus_thread"></div>
-    <script>
-      var disqus_config = function () {
-        this.page.url = 'https:\/\/markvincze.github.io\/blog\/tear-down-your-asp-net-core-api-between-integration-tests\/';
-        
-        this.page.identifier = 'ghost-39';
-        
-      };
-      (function () { 
-        var d = document, s = d.createElement('script');
-        s.src = 'https://markvinczeblog.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-      })();
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-  </div>
+    
+
 </section>
 
 
+
+  <div style="flex: 1"></div>
 
   <footer class="footer py-6">
     <div class="content has-text-centered">

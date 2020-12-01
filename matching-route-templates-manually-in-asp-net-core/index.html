@@ -2,18 +2,28 @@
 <html>
 
 <head>
+  
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-72523215-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'UA-72523215-1');
+  </script>
+
   <title>Matching route templates manually in ASP.NET Core</title>
 
-  
-  <link rel="stylesheet" href="/styles/bulma.css">
+  <link rel="stylesheet" href="/styles/styles.css">
   <script defer src="https://use.fontawesome.com/releases/v5.15.1/js/all.js"></script>
   <script defer src="/scripts/scripts.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
   <link rel="icon" href="/favicon.png" type="image/png" />
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="It can come handy to manually match a request path to route templates, and extract the arguments. This post describes how it can be done with ASP.NET Core." />
-  <meta property="og:url" content="https://markvincze.github.io/blog/matching-route-templates-manually-in-asp-net-core/" />
+  <meta property="og:url" content="http://localhost:1313/matching-route-templates-manually-in-asp-net-core/" />
   <meta property="og:type" content="article" />
   <meta property="og:title" content="Matching route templates manually in ASP.NET Core" />
   <meta property="og:description" content="It can come handy to manually match a request path to route templates, and extract the arguments. This post describes how it can be done with ASP.NET Core." />
@@ -37,34 +47,32 @@
           <span aria-hidden="true"></span>
         </a>
       </div>
-      <div id="navbarMenu" class="navbar-menu">
+      <div id="navbarMenu" class="navbar-menu has-text-white-ter">
+
         <div class="navbar-start">
-          <a class="navbar-item" href="/">
-            Home
-          </a>
-
-          <a class="navbar-item" href="/posts">
-            Blog
-          </a>
-
-          <a class="navbar-item">
-            Presentations
-          </a>
+          
+          <a class="navbar-item" href="/">About</a>
+          
+          <a class="navbar-item" href="/posts">Blog</a>
+          
+          <a class="navbar-item" href="/projects">Projects</a>
+          
         </div>
+
         <div class="navbar-end pt-2 ml-2">
-          <a class="icon is-medium" href="https://twitter.com/mrkvincze">
+          <a class="icon is-medium" href="https://twitter.com/mrkvincze" target="_blank">
             <i class="fab fa-lg fa-twitter"></i>
           </a>
-          <a class="icon is-medium" href="https://www.github.com/markvincze">
+          <a class="icon is-medium" href="https://www.github.com/markvincze" target="_blank">
             <i class="fab fa-lg fa-github"></i>
           </a>
-          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze">
+          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze" target="_blank">
             <i class="fab fa-lg fa-stack-overflow"></i>
           </a>
-          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze">
+          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze" target="_blank">
             <i class="fab fa-lg fa-linkedin"></i>
           </a>
-          <a class="icon is-medium" href="/index.xml">
+          <a class="icon is-medium" href="/index.xml" target="_blank">
             <i class="fas fa-lg fa-rss"></i>
           </a>
         </div>
@@ -90,21 +98,9 @@
 <section class="section">
   <div class="container is-max-desktop">
     <h1 class="title is-1">Matching route templates manually in ASP.NET Core</h1>
+
     
 
-
-<p class="mb-3 is-vcentered">
-  <time class="has-text-grey" datetime="2016-06-18">Jun 18, 2016 &bull;</time>
-
-  
-  
-  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/asp.net">asp.net</a>
-  
-  
-  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/mvc">mvc</a>
-  
-
-</p>
     <article class="content mt-6">
       <p>We can use routing in ASP.NET to define paths on which we want to respond to HTTP requests. In ASP.NET Core we have two common ways to specify routing in our application.</p>
 <p>We can use the <code>Route</code> attribute on the action methods:</p>
@@ -165,7 +161,7 @@ app.UseRouter(builder.Build());
 </code></pre></div><p>Fortunately, the necessary framework classes (<code>TemplateParser</code> and <code>TemplateMatcher</code>) are public.</p>
 <h3 id="some-more-detail">Some more detail</h3>
 <p>There are quite a handful of classes participating in the routing process, I needed to debug the code and step over the different calls to wrap my head around them. On a high level this is what happening during setting up our routes.</p>
-<p><img src="/images/2016/06/aspnet-routing.png" alt="Set up routing in ASP.NET"></p>
+<p><img src="/images/2016/06/aspnet-routing.png" alt="Set up routing in ASP.NET"  style="display:block; margin: auto;" /></p>
 <p>When we specify a route by calling <code>RouteBuilder.MapVerb</code> a new <code>Route</code> is created, and added to the builder&rsquo;s collection. The <code>Route</code> object has a delegate to the handler processing the request and producing the response.
 If we use <code>UseMvc</code>, then the routes are automatically created based on the action methods we have (this is done by a method called <code>CreateAttributeMegaRoute</code> :)), and then <code>UseRouter</code> is called.</p>
 <p>When we call the <code>UseRouter</code> extension method, a middleware is registered called <code>RouterMiddleware</code>, to which a <code>RouteCollection</code> is passed with the configured routes.</p>
@@ -174,26 +170,13 @@ If we use <code>UseMvc</code>, then the routes are automatically created based o
 
     </article>
 
-    <div id="disqus_thread"></div>
-    <script>
-      var disqus_config = function () {
-        this.page.url = 'https:\/\/markvincze.github.io\/blog\/matching-route-templates-manually-in-asp-net-core\/';
-        
-        this.page.identifier = 'ghost-21';
-        
-      };
-      (function () { 
-        var d = document, s = d.createElement('script');
-        s.src = 'https://markvinczeblog.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-      })();
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-  </div>
+    
+
 </section>
 
 
+
+  <div style="flex: 1"></div>
 
   <footer class="footer py-6">
     <div class="content has-text-centered">

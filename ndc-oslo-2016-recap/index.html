@@ -2,18 +2,28 @@
 <html>
 
 <head>
+  
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-72523215-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'UA-72523215-1');
+  </script>
+
   <title>NDC Oslo 2016 recap</title>
 
-  
-  <link rel="stylesheet" href="/styles/bulma.css">
+  <link rel="stylesheet" href="/styles/styles.css">
   <script defer src="https://use.fontawesome.com/releases/v5.15.1/js/all.js"></script>
   <script defer src="/scripts/scripts.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
   <link rel="icon" href="/favicon.png" type="image/png" />
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="A summary of my experiences at NDC Oslo 2016, and excerpts from the sessions I found the most interesting." />
-  <meta property="og:url" content="https://markvincze.github.io/blog/ndc-oslo-2016-recap/" />
+  <meta property="og:url" content="http://localhost:1313/ndc-oslo-2016-recap/" />
   <meta property="og:type" content="article" />
   <meta property="og:title" content="NDC Oslo 2016 recap" />
   <meta property="og:description" content="A summary of my experiences at NDC Oslo 2016, and excerpts from the sessions I found the most interesting." />
@@ -37,34 +47,32 @@
           <span aria-hidden="true"></span>
         </a>
       </div>
-      <div id="navbarMenu" class="navbar-menu">
+      <div id="navbarMenu" class="navbar-menu has-text-white-ter">
+
         <div class="navbar-start">
-          <a class="navbar-item" href="/">
-            Home
-          </a>
-
-          <a class="navbar-item" href="/posts">
-            Blog
-          </a>
-
-          <a class="navbar-item">
-            Presentations
-          </a>
+          
+          <a class="navbar-item" href="/">About</a>
+          
+          <a class="navbar-item" href="/posts">Blog</a>
+          
+          <a class="navbar-item" href="/projects">Projects</a>
+          
         </div>
+
         <div class="navbar-end pt-2 ml-2">
-          <a class="icon is-medium" href="https://twitter.com/mrkvincze">
+          <a class="icon is-medium" href="https://twitter.com/mrkvincze" target="_blank">
             <i class="fab fa-lg fa-twitter"></i>
           </a>
-          <a class="icon is-medium" href="https://www.github.com/markvincze">
+          <a class="icon is-medium" href="https://www.github.com/markvincze" target="_blank">
             <i class="fab fa-lg fa-github"></i>
           </a>
-          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze">
+          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze" target="_blank">
             <i class="fab fa-lg fa-stack-overflow"></i>
           </a>
-          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze">
+          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze" target="_blank">
             <i class="fab fa-lg fa-linkedin"></i>
           </a>
-          <a class="icon is-medium" href="/index.xml">
+          <a class="icon is-medium" href="/index.xml" target="_blank">
             <i class="fas fa-lg fa-rss"></i>
           </a>
         </div>
@@ -90,34 +98,22 @@
 <section class="section">
   <div class="container is-max-desktop">
     <h1 class="title is-1">NDC Oslo 2016 recap</h1>
+
     
 
-
-<p class="mb-3 is-vcentered">
-  <time class="has-text-grey" datetime="2016-07-02">Jul 2, 2016 &bull;</time>
-
-  
-  
-  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/ndc">ndc</a>
-  
-  
-  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/conference">conference</a>
-  
-
-</p>
     <article class="content mt-6">
       <p>In the beginning of June I was lucky enough to be able to travel to the <a href="http://ndcoslo.com">NDC conference in Oslo</a>. (Hats off to my employer <a href="http://travix.com">Travix</a> for providing the budget!)</p>
 <p>The NDC has always been one of my favourite conferences besides Build and CppCon (and earlier the PDC and MIX), but so far I have only been following it online by watching the sessions uploaded to <a href="http://www.vimeo.com/ndcconferences">Vimeo</a>. This was the first year I had the chance to actually travel to the conference, and it was a splendid experience.</p>
 <p>In this post I&rsquo;d like to tell my impressions, and share the things I learned and found the most interesting.</p>
 <h2 id="venue-organization-etc">Venue, organization, etc.</h2>
 <p>The conference was held at a central location in Oslo, in a big conference building called Spektrum.The large arena in the middle was used to host the booths of the sponsor companies, serve the food, and to provide a casual space for people to hang out between talks. This was also the venue for the two keynote talks during the conference.</p>
-<p><img src="/images/2016/07/ndc-main-venue.jpg" alt="Central venue at NDC Oslo"></p>
+<p><img src="/images/2016/07/ndc-main-venue.jpg" alt="Central venue at NDC Oslo"  style="display:block; margin: auto;" /></p>
 <p>The food also deserves a mention: there was breakfast in the morning, and then lunch was served continuously throughout the whole day. There were several caterers, each serving one or two dishes, which was really cool, because there were many different dishes you could try out, such as sushi, taco, risotto, etc. (And also, the providers were different caterer companies who wanted to show off their product, so I think they all brought their A-game.)
 Someone even put together a poll to decide which provider was the best, it seems that people enjoyed the GitHub-sponsored tacos the most :)</p>
-<p><a href="https://poll.lab.io/ndc/results"><img src="/images/2016/07/foodvote.png" alt="NDC Oslo food poll"></a></p>
+<p><a href="https://poll.lab.io/ndc/results"><img src="/images/2016/07/foodvote.png" alt="NDC Oslo food poll"  style="display:block; margin: auto;" /></a></p>
 <p>And what else would help more to concentrate on tech talks all day than some good coffee? Just like the food, coffee was also much better than what is typical at conferences. You could always get a nice espress or a latte with properly steamed milk foam. (I haven&rsquo;t seen any of those dreaded coffee creamer thingies).</p>
 <p>And even some of the baristas were <a href="https://robdoescoffee.com/">famous tech people</a> :).</p>
-<p><img src="/images/2016/07/robs-coffee.png" alt="Rob Ashton serving coffe"></p>
+<p><img src="/images/2016/07/robs-coffee.png" alt="Rob Ashton serving coffe"  style="display:block; margin: auto;" /></p>
 <p>I can sum up the work the NDC guys put into organizing the conference with one word: perfect. Every talk started on time, all the tech worked, I didn&rsquo;t see a single problem with microphones, projectors, etc. The main venue was spacious and well designed, it was never too crowded, even during the busiest periods.
 The organizers clearly have a lot of experience in putting a conferenc together, they made a great job.</p>
 <h2 id="the-talks">The talks</h2>
@@ -303,26 +299,13 @@ I hope I will have the opportunity to go back next year, I will definitely try t
 
     </article>
 
-    <div id="disqus_thread"></div>
-    <script>
-      var disqus_config = function () {
-        this.page.url = 'https:\/\/markvincze.github.io\/blog\/ndc-oslo-2016-recap\/';
-        
-        this.page.identifier = 'ghost-22';
-        
-      };
-      (function () { 
-        var d = document, s = d.createElement('script');
-        s.src = 'https://markvinczeblog.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-      })();
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-  </div>
+    
+
 </section>
 
 
+
+  <div style="flex: 1"></div>
 
   <footer class="footer py-6">
     <div class="content has-text-centered">

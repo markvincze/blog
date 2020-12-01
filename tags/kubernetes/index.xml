@@ -2,45 +2,45 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>kubernetes on Mark Vincze</title>
-    <link>https://markvincze.github.io/blog/tags/kubernetes/</link>
+    <link>http://localhost:1313/tags/kubernetes/</link>
     <description>Recent content in kubernetes on Mark Vincze</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 06 Jan 2019 16:56:05 +0000</lastBuildDate><atom:link href="https://markvincze.github.io/blog/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 06 Jan 2019 16:56:05 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Graceful termination in Kubernetes with ASP.NET Core</title>
-      <link>https://markvincze.github.io/blog/graceful-termination-in-kubernetes-with-asp-net-core/</link>
+      <link>http://localhost:1313/graceful-termination-in-kubernetes-with-asp-net-core/</link>
       <pubDate>Sun, 06 Jan 2019 16:56:05 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/graceful-termination-in-kubernetes-with-asp-net-core/</guid>
+      <guid>http://localhost:1313/graceful-termination-in-kubernetes-with-asp-net-core/</guid>
       <description>Using a container-orchestration technology like Kubernetes, running applications in small containers, and scaling out horizontally rather than scaling a single machine up has numerous benefits, such as flexible allocation of the raw resources among different services, being able to precisely adjust the number of instances we&amp;rsquo;re running according to the volume of traffic we&amp;rsquo;re receiving, and forcing us to run our applications in immutable containers, thereby making our releases repeatable, thus easier to reason about.</description>
     </item>
     
     <item>
       <title>How to use Envoy as a Load Balancer in Kubernetes</title>
-      <link>https://markvincze.github.io/blog/how-to-use-envoy-as-a-load-balancer-in-kubernetes/</link>
+      <link>http://localhost:1313/how-to-use-envoy-as-a-load-balancer-in-kubernetes/</link>
       <pubDate>Fri, 05 Oct 2018 23:07:25 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/how-to-use-envoy-as-a-load-balancer-in-kubernetes/</guid>
+      <guid>http://localhost:1313/how-to-use-envoy-as-a-load-balancer-in-kubernetes/</guid>
       <description>In today&amp;rsquo;s highly distributed word, where monolithic architectures are increasingly replaced with multiple, smaller, interconnected services (for better or worse), proxy and load balancing technologies seem to have a renaissance. Beside the older players, there are several new proxy technologies popping up in recent years, implemented in various technologies, popularizing themselves with different features, such as easy integration to certain cloud providers (&amp;ldquo;cloud-native&amp;rdquo;), high performance and low memory footprint, or dynamic configuration.</description>
     </item>
     
     <item>
       <title>Troubleshooting high memory usage with ASP.NET Core on Kubernetes</title>
-      <link>https://markvincze.github.io/blog/troubleshooting-high-memory-usage-with-asp-net-core-on-kubernetes/</link>
+      <link>http://localhost:1313/troubleshooting-high-memory-usage-with-asp-net-core-on-kubernetes/</link>
       <pubDate>Thu, 17 Aug 2017 21:15:39 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/troubleshooting-high-memory-usage-with-asp-net-core-on-kubernetes/</guid>
+      <guid>http://localhost:1313/troubleshooting-high-memory-usage-with-asp-net-core-on-kubernetes/</guid>
       <description>At work we are running several ASP.NET Core APIs on the hosted version of Kubernetes in the Google Cloud (GCE—Google Container Engine). In almost all of our components we noticed that they had unreasonably high memory usage. The resource limit for memory was set to 500MB, and still, many of our—relatively small—APIs were constantly being restarted by Kubernetes due to exceeding the memory limit.
 These graphs show the memory usage of two of our APIs, you can see that they keep increasing until they reach the memory limit, when Kubernetes restarts them.</description>
     </item>
     
     <item>
       <title>Running ASP.NET Core in auto-scaling containers? Warm up!</title>
-      <link>https://markvincze.github.io/blog/running-asp-net-core-in-auto-scaling-containers-warm-up/</link>
+      <link>http://localhost:1313/running-asp-net-core-in-auto-scaling-containers-warm-up/</link>
       <pubDate>Sat, 29 Jul 2017 18:32:34 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/running-asp-net-core-in-auto-scaling-containers-warm-up/</guid>
+      <guid>http://localhost:1313/running-asp-net-core-in-auto-scaling-containers-warm-up/</guid>
       <description>ASP.NET Core APIs are not warmed up by default. This is easy to illustrate, let&amp;rsquo;s scaffold a brand new empty api.
 mkdir warmuptest cd warmuptest dotnet new webapi dotnet restore dotnet run Then let&amp;rsquo;s do two consecutive requests against the /values endpoint, and measure the response times. This is what we&amp;rsquo;ll see.
 $ curl -o /dev/null -s -w %{time_total}\\n http://localhost:5000/values 0.594 $ curl -o /dev/null -s -w %{time_total}\\n http://localhost:5000/values 0.000 $ curl -o /dev/null -s -w %{time_total}\\n http://localhost:5000/values 0.</description>

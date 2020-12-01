@@ -2,75 +2,75 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on Mark Vincze</title>
-    <link>https://markvincze.github.io/blog/posts/</link>
+    <link>http://localhost:1313/posts/</link>
     <description>Recent content in Posts on Mark Vincze</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 24 Feb 2020 23:25:09 +0000</lastBuildDate><atom:link href="https://markvincze.github.io/blog/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 24 Feb 2020 23:25:09 +0000</lastBuildDate><atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Overriding configuration in ASP.NET Core integration tests</title>
-      <link>https://markvincze.github.io/blog/overriding-configuration-in-asp-net-core-integration-tests/</link>
+      <link>http://localhost:1313/overriding-configuration-in-asp-net-core-integration-tests/</link>
       <pubDate>Mon, 24 Feb 2020 23:25:09 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/overriding-configuration-in-asp-net-core-integration-tests/</guid>
+      <guid>http://localhost:1313/overriding-configuration-in-asp-net-core-integration-tests/</guid>
       <description>The pluggable and modular nature of ASP.NET Core made integration testing a much more accessible and convenient tool than it was in classic .NET. We can spin up our whole application with the full ASP.NET middleware pipeline in-process, with a couple of lines of code, and send HTTP requests to it for testing purposes.
 During the integration test, we often want to use different application configuration than what we have in the appsettings.</description>
     </item>
     
     <item>
       <title>Shadow mirroring with Envoy</title>
-      <link>https://markvincze.github.io/blog/shadow-mirroring-with-envoy/</link>
+      <link>http://localhost:1313/shadow-mirroring-with-envoy/</link>
       <pubDate>Thu, 11 Apr 2019 20:44:50 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/shadow-mirroring-with-envoy/</guid>
+      <guid>http://localhost:1313/shadow-mirroring-with-envoy/</guid>
       <description>Introduction Shadow mirroring (also called shadow feeding, or just shadowing) is a technique when at some point in our infrastructure we duplicate the outgoing traffic to an additional destination, but we send the responses to the actual client coming from the main destination.
 This is mainly used to be able to test a service with real production traffic without affecting the end clients in any way. It&amp;rsquo;s particularly useful when we are rewriting an existing service, and we want to verify if the new version can process a real variety of incoming requests in an identical way, or when we want to do a comparative benchmark between two version of the same service.</description>
     </item>
     
     <item>
       <title>Graceful termination in Kubernetes with ASP.NET Core</title>
-      <link>https://markvincze.github.io/blog/graceful-termination-in-kubernetes-with-asp-net-core/</link>
+      <link>http://localhost:1313/graceful-termination-in-kubernetes-with-asp-net-core/</link>
       <pubDate>Sun, 06 Jan 2019 16:56:05 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/graceful-termination-in-kubernetes-with-asp-net-core/</guid>
+      <guid>http://localhost:1313/graceful-termination-in-kubernetes-with-asp-net-core/</guid>
       <description>Using a container-orchestration technology like Kubernetes, running applications in small containers, and scaling out horizontally rather than scaling a single machine up has numerous benefits, such as flexible allocation of the raw resources among different services, being able to precisely adjust the number of instances we&amp;rsquo;re running according to the volume of traffic we&amp;rsquo;re receiving, and forcing us to run our applications in immutable containers, thereby making our releases repeatable, thus easier to reason about.</description>
     </item>
     
     <item>
       <title>How to use Envoy as a Load Balancer in Kubernetes</title>
-      <link>https://markvincze.github.io/blog/how-to-use-envoy-as-a-load-balancer-in-kubernetes/</link>
+      <link>http://localhost:1313/how-to-use-envoy-as-a-load-balancer-in-kubernetes/</link>
       <pubDate>Fri, 05 Oct 2018 23:07:25 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/how-to-use-envoy-as-a-load-balancer-in-kubernetes/</guid>
+      <guid>http://localhost:1313/how-to-use-envoy-as-a-load-balancer-in-kubernetes/</guid>
       <description>In today&amp;rsquo;s highly distributed word, where monolithic architectures are increasingly replaced with multiple, smaller, interconnected services (for better or worse), proxy and load balancing technologies seem to have a renaissance. Beside the older players, there are several new proxy technologies popping up in recent years, implemented in various technologies, popularizing themselves with different features, such as easy integration to certain cloud providers (&amp;ldquo;cloud-native&amp;rdquo;), high performance and low memory footprint, or dynamic configuration.</description>
     </item>
     
     <item>
       <title>How to gracefully fall back to cache on 5xx responses with Varnish</title>
-      <link>https://markvincze.github.io/blog/how-to-gracefully-fall-back-to-cache-on-5xx-responses-with-varnish/</link>
+      <link>http://localhost:1313/how-to-gracefully-fall-back-to-cache-on-5xx-responses-with-varnish/</link>
       <pubDate>Sat, 28 Jul 2018 19:12:24 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/how-to-gracefully-fall-back-to-cache-on-5xx-responses-with-varnish/</guid>
+      <guid>http://localhost:1313/how-to-gracefully-fall-back-to-cache-on-5xx-responses-with-varnish/</guid>
       <description>Introduction Varnish is a widely used reverse proxy and HTTP accelerator. It sits in front of an HTTP service, and caches the responses to improve the response times observed by the clients, and possibly to reduce the load on the upstream backend service.
 Besides bringing performance improvements, Varnish can be also useful for shielding the clients from any outage of the backend service, since if the upstream is temporarily out of service, Varnish can keep serving the cached content, so the clients don&amp;rsquo;t have to notice anything (if the data they need is already present in the cache).</description>
     </item>
     
     <item>
       <title>Automated, portable code style checking in .NET Core projects</title>
-      <link>https://markvincze.github.io/blog/automated-portable-code-style-checking-in-net-core-projects/</link>
+      <link>http://localhost:1313/automated-portable-code-style-checking-in-net-core-projects/</link>
       <pubDate>Sun, 08 Jul 2018 15:48:55 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/automated-portable-code-style-checking-in-net-core-projects/</guid>
+      <guid>http://localhost:1313/automated-portable-code-style-checking-in-net-core-projects/</guid>
       <description>I haven&amp;rsquo;t been using automated code style checking in .NET before. I sporadically experimented with StyleCop, FxCop, or the code style rules of ReSharper, but never ended up using them extensively, or introducing and distributing a maintained configuration in the organization I was working in.
 Recently having worked on JavaScript and TypeScript projects, I really started to appreciate how straightforward and established the process of linting is in those communities: it seems to be almost universal that every project in the JS and TS ecosystem is using eslint and tslint respectively, and the way to specify the linting rules is very straightforward.</description>
     </item>
     
     <item>
       <title>Introducing Code Fragments extension in Visual Studio Code for managing snippets during presentations</title>
-      <link>https://markvincze.github.io/blog/introducing-code-fragments-extension-for-visual-studio-code/</link>
+      <link>http://localhost:1313/introducing-code-fragments-extension-for-visual-studio-code/</link>
       <pubDate>Sun, 26 Nov 2017 22:34:50 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/introducing-code-fragments-extension-for-visual-studio-code/</guid>
+      <guid>http://localhost:1313/introducing-code-fragments-extension-for-visual-studio-code/</guid>
       <description>Recently I started working on a simple Visual Studio Code extension I&amp;rsquo;d like to introduce in this post.
 Occasionally I do tech presentations, in which I usually like to do some live code demos. To make this smoother, Visual Studio has always had a really useful—although somewhat undocumented—feature, which makes it possible to save snippets of code, and easily insert them during the presentation, to save some typing.
 We can create such a &amp;ldquo;snippet&amp;rdquo; (not to be confused with actuala code snippets) by selecting a piece of code, and dropping it onto the Toolbox window.</description>
@@ -78,10 +78,10 @@ We can create such a &amp;ldquo;snippet&amp;rdquo; (not to be confused with actu
     
     <item>
       <title>Build and publish documentation and API reference with DocFx for .NET Core projects</title>
-      <link>https://markvincze.github.io/blog/build-and-publish-documentation-and-api-reference-with-docfx-for-net-core-projects/</link>
+      <link>http://localhost:1313/build-and-publish-documentation-and-api-reference-with-docfx-for-net-core-projects/</link>
       <pubDate>Fri, 17 Nov 2017 00:00:34 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/build-and-publish-documentation-and-api-reference-with-docfx-for-net-core-projects/</guid>
+      <guid>http://localhost:1313/build-and-publish-documentation-and-api-reference-with-docfx-for-net-core-projects/</guid>
       <description>DocFx is an open source tool for generating documentation and API reference, and it has great support for .NET Core projects.
 DocFx can be slightly intimidating first, because it has a really wide set of features, and the default scaffolded configuration contains quite a lot of files, which at first sight can look a bit complex.
 With this post I&amp;rsquo;d like to give a guide about what is a minimal configuration you need if you want to set up documentation for a .</description>
@@ -89,10 +89,10 @@ With this post I&amp;rsquo;d like to give a guide about what is a minimal config
     
     <item>
       <title>Secure an ASP.NET Core api with Firebase</title>
-      <link>https://markvincze.github.io/blog/secure-an-asp-net-core-api-with-firebase/</link>
+      <link>http://localhost:1313/secure-an-asp-net-core-api-with-firebase/</link>
       <pubDate>Tue, 22 Aug 2017 19:00:00 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/secure-an-asp-net-core-api-with-firebase/</guid>
+      <guid>http://localhost:1313/secure-an-asp-net-core-api-with-firebase/</guid>
       <description>Introduction Update: Updated the code samples according to the changes introduced in .NET 2.0.
 Firebase is an application development framework and infrastructure provided by Google. It offers a handful of services, like Storage, Analytics, Notifications and Hosting, mainly targeted to mobile application developers.
 At first I was a bit confused by Firebase, since its functionality seems to overlap with Google&amp;rsquo;s generic cloud environment, the Google Cloud Platform, which has—among many other things—similar features.</description>
@@ -100,20 +100,20 @@ At first I was a bit confused by Firebase, since its functionality seems to over
     
     <item>
       <title>Troubleshooting high memory usage with ASP.NET Core on Kubernetes</title>
-      <link>https://markvincze.github.io/blog/troubleshooting-high-memory-usage-with-asp-net-core-on-kubernetes/</link>
+      <link>http://localhost:1313/troubleshooting-high-memory-usage-with-asp-net-core-on-kubernetes/</link>
       <pubDate>Thu, 17 Aug 2017 21:15:39 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/troubleshooting-high-memory-usage-with-asp-net-core-on-kubernetes/</guid>
+      <guid>http://localhost:1313/troubleshooting-high-memory-usage-with-asp-net-core-on-kubernetes/</guid>
       <description>At work we are running several ASP.NET Core APIs on the hosted version of Kubernetes in the Google Cloud (GCE—Google Container Engine). In almost all of our components we noticed that they had unreasonably high memory usage. The resource limit for memory was set to 500MB, and still, many of our—relatively small—APIs were constantly being restarted by Kubernetes due to exceeding the memory limit.
 These graphs show the memory usage of two of our APIs, you can see that they keep increasing until they reach the memory limit, when Kubernetes restarts them.</description>
     </item>
     
     <item>
       <title>Running ASP.NET Core in auto-scaling containers? Warm up!</title>
-      <link>https://markvincze.github.io/blog/running-asp-net-core-in-auto-scaling-containers-warm-up/</link>
+      <link>http://localhost:1313/running-asp-net-core-in-auto-scaling-containers-warm-up/</link>
       <pubDate>Sat, 29 Jul 2017 18:32:34 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/running-asp-net-core-in-auto-scaling-containers-warm-up/</guid>
+      <guid>http://localhost:1313/running-asp-net-core-in-auto-scaling-containers-warm-up/</guid>
       <description>ASP.NET Core APIs are not warmed up by default. This is easy to illustrate, let&amp;rsquo;s scaffold a brand new empty api.
 mkdir warmuptest cd warmuptest dotnet new webapi dotnet restore dotnet run Then let&amp;rsquo;s do two consecutive requests against the /values endpoint, and measure the response times. This is what we&amp;rsquo;ll see.
 $ curl -o /dev/null -s -w %{time_total}\\n http://localhost:5000/values 0.594 $ curl -o /dev/null -s -w %{time_total}\\n http://localhost:5000/values 0.000 $ curl -o /dev/null -s -w %{time_total}\\n http://localhost:5000/values 0.</description>
@@ -121,20 +121,20 @@ $ curl -o /dev/null -s -w %{time_total}\\n http://localhost:5000/values 0.594 $ 
     
     <item>
       <title>Tear down your ASP.NET Core api between integration tests</title>
-      <link>https://markvincze.github.io/blog/tear-down-your-asp-net-core-api-between-integration-tests/</link>
+      <link>http://localhost:1313/tear-down-your-asp-net-core-api-between-integration-tests/</link>
       <pubDate>Wed, 21 Jun 2017 20:20:00 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/tear-down-your-asp-net-core-api-between-integration-tests/</guid>
+      <guid>http://localhost:1313/tear-down-your-asp-net-core-api-between-integration-tests/</guid>
       <description>The way to write integration tests for ASP.NET applications has been made much easier with the advent of ASP.NET Core. This is mainly due to the programming model becoming super modular, which means that it is really easy to spin up an instance of our whole web application for testing purposes and start sending HTTP requests to it from a simple unit test.
 The following code illustrates a unit test method, which starts up an ASP.</description>
     </item>
     
     <item>
       <title>Setting up Coveralls with OpenCover for a .NET Core project</title>
-      <link>https://markvincze.github.io/blog/setting-up-coveralls-for-a-net-core-project/</link>
+      <link>http://localhost:1313/setting-up-coveralls-for-a-net-core-project/</link>
       <pubDate>Wed, 14 Jun 2017 19:46:00 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/setting-up-coveralls-for-a-net-core-project/</guid>
+      <guid>http://localhost:1313/setting-up-coveralls-for-a-net-core-project/</guid>
       <description>Update: The original version of this post was written when the dotnet toolchain was built on top of the project.json based project structure. Since then the project.json was deprecated, and .NET Core moved to a csproj-based approach.
 Because the project.json was completely deprecated, I decided not to write a new post, but simply adjust this one to work with the new toolchain (as of writing, that is dotnet 1.1).
 Unit test coverage is an interesting metric.</description>
@@ -142,57 +142,57 @@ Unit test coverage is an interesting metric.</description>
     
     <item>
       <title>A data model exercise in two languages, part 2: F#</title>
-      <link>https://markvincze.github.io/blog/a-data-model-exercise-in-two-languages-part-2-f/</link>
+      <link>http://localhost:1313/a-data-model-exercise-in-two-languages-part-2-f/</link>
       <pubDate>Mon, 22 May 2017 19:56:14 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/a-data-model-exercise-in-two-languages-part-2-f/</guid>
+      <guid>http://localhost:1313/a-data-model-exercise-in-two-languages-part-2-f/</guid>
       <description>Introduction In the previous post I took a look at a data modelling exercise in C#, I designed a data model to represent a card in the standard 52-card deck.
 We saw some of the problems we face when designing data models in an object oriented language, particularly the lack of ability to express that a certain object can have a value of multiple different types, but it can have a value of only one of those types at any one time (a card is either a value card, a face card, or a joker).</description>
     </item>
     
     <item>
       <title>A data model exercise in two languages, part 1: C#</title>
-      <link>https://markvincze.github.io/blog/a-data-model-exercise-in-two-languages-part-1-c/</link>
+      <link>http://localhost:1313/a-data-model-exercise-in-two-languages-part-1-c/</link>
       <pubDate>Thu, 04 May 2017 19:29:25 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/a-data-model-exercise-in-two-languages-part-1-c/</guid>
+      <guid>http://localhost:1313/a-data-model-exercise-in-two-languages-part-1-c/</guid>
       <description>Introduction When I&amp;rsquo;m learning a new programming language, I usually like to do some coding exercises to get familiar with the various language features, and to get used to the syntax. Many of these exercises—or katas—are about implementing some kind of algorithm, which is a great way to learn about the control structures of the language, the conditions, loops and functions. Other katas are more focused on designing a data model for a certain domain, where the goal is to utilize the various features of the type system to create a model as expressive and intuitive as possible.</description>
     </item>
     
     <item>
       <title>Playing with the composition of the Kleisli category in C#</title>
-      <link>https://markvincze.github.io/blog/playing-with-the-composition-of-the-kleisli-category-in-c/</link>
+      <link>http://localhost:1313/playing-with-the-composition-of-the-kleisli-category-in-c/</link>
       <pubDate>Wed, 19 Apr 2017 21:27:16 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/playing-with-the-composition-of-the-kleisli-category-in-c/</guid>
+      <guid>http://localhost:1313/playing-with-the-composition-of-the-kleisli-category-in-c/</guid>
       <description>Introduction Recently I learnt about an interesting concept in category theory called a Kleisli category.
 Let&amp;rsquo;s look at a concrete example I took from this blog post (in his series about category theory) by Bartosz Milewski. We would like to extend all of the functions in a library in a way that besides their normal result, they also return an extra string. We&amp;rsquo;ll consider this extra string a sort of log message or &amp;ldquo;comment&amp;rdquo;, which we&amp;rsquo;ll collect as we call various methods.</description>
     </item>
     
     <item>
       <title>Two gotchas with scoped and singleton dependencies in ASP.NET Core</title>
-      <link>https://markvincze.github.io/blog/two-gotchas-with-scoped-and-singleton-dependencies-in-asp-net-core/</link>
+      <link>http://localhost:1313/two-gotchas-with-scoped-and-singleton-dependencies-in-asp-net-core/</link>
       <pubDate>Mon, 17 Apr 2017 14:31:27 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/two-gotchas-with-scoped-and-singleton-dependencies-in-asp-net-core/</guid>
+      <guid>http://localhost:1313/two-gotchas-with-scoped-and-singleton-dependencies-in-asp-net-core/</guid>
       <description>With ASP.NET Core a new built-in lightweight Dependency Injection framework was introduced in the Microsoft.Extensions.DependencyInjection package, thus in ASP.NET Core applications we don&amp;rsquo;t necessarily need an external library such as Ninject or Unity to do DI, we can simply use the built-in package (which—although being framework-agnostic—plays really nicely with ASP.NET Core). Its feature set is rather simple compared to other more full-blown DI frameworks, but it gets the job done in most applications.</description>
     </item>
     
     <item>
       <title>Bulk updating document expiry in Couchbase</title>
-      <link>https://markvincze.github.io/blog/bulk-updating-document-expiry-in-couchbase/</link>
+      <link>http://localhost:1313/bulk-updating-document-expiry-in-couchbase/</link>
       <pubDate>Sat, 25 Mar 2017 15:41:17 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/bulk-updating-document-expiry-in-couchbase/</guid>
+      <guid>http://localhost:1313/bulk-updating-document-expiry-in-couchbase/</guid>
       <description>Introduction When using Couchbase, sometimes we want to update the expiry of all of the documents stored in a bucket. In my case it was in a project where initially we weren&amp;rsquo;t sure how we want to handle document expiry (either periodically run some query on our data store, and backup and remove all the old elements—or use the expiry mechanism built into Couchbase), so we ended up deciding we&amp;rsquo;ll just insert all our documents without expiry for now, and we&amp;rsquo;ll figure out later how we want to handle the problem.</description>
     </item>
     
     <item>
       <title>Jumpstart F# web development: F# with Suave.IO on .NET Core</title>
-      <link>https://markvincze.github.io/blog/jumpstart-f-web-development-f-with-suave-io-on-net-core/</link>
+      <link>http://localhost:1313/jumpstart-f-web-development-f-with-suave-io-on-net-core/</link>
       <pubDate>Sun, 12 Mar 2017 12:51:45 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/jumpstart-f-web-development-f-with-suave-io-on-net-core/</guid>
+      <guid>http://localhost:1313/jumpstart-f-web-development-f-with-suave-io-on-net-core/</guid>
       <description>In a previous post we&amp;rsquo;ve seen how we can create a simple web application with Suave on the full .NET Framework. In the last post of the series we&amp;rsquo;ll take a look at how we can do the same thing on .NET Core.
 This is gonna be a short post, since there are no real gotchas in this scenario, it&amp;rsquo;s really easy to set everything up.
 Note: In this post I will use the new csproj-based .</description>
@@ -200,50 +200,50 @@ Note: In this post I will use the new csproj-based .</description>
     
     <item>
       <title>Jumpstart F# web development: F# with ASP.NET Core</title>
-      <link>https://markvincze.github.io/blog/jumpstart-f-web-development-f-with-asp-net-core/</link>
+      <link>http://localhost:1313/jumpstart-f-web-development-f-with-asp-net-core/</link>
       <pubDate>Sun, 26 Feb 2017 20:25:14 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/jumpstart-f-web-development-f-with-asp-net-core/</guid>
+      <guid>http://localhost:1313/jumpstart-f-web-development-f-with-asp-net-core/</guid>
       <description>In this third part of the series we&amp;rsquo;ll look at how we can get started with developing an ASP.NET Core application using F#. This scenario is pretty straightforward, there are no extra hoops to jump over. In this post I&amp;rsquo;ll describe the steps necessary to create a new ASP.NET application.
 In ASP.NET Core we typically use the Kestrel web server to host our application, which is technically started up from a Console application.</description>
     </item>
     
     <item>
       <title>Jumpstart F# web development: F# with Suave.IO on classic .NET</title>
-      <link>https://markvincze.github.io/blog/jumpstart-f-web-development-f-with-suave-io-on-classic-net/</link>
+      <link>http://localhost:1313/jumpstart-f-web-development-f-with-suave-io-on-classic-net/</link>
       <pubDate>Sat, 11 Feb 2017 15:12:50 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/jumpstart-f-web-development-f-with-suave-io-on-classic-net/</guid>
+      <guid>http://localhost:1313/jumpstart-f-web-development-f-with-suave-io-on-classic-net/</guid>
       <description>In the second part of the series we take a look at how we can develop a web application using Sauve on the classic .NET Framework.
 Suave is a lightweight web framework and server, which was implemented in F# from the ground up with functional programming in mind, using constructs which fit the F# word nicely, so we won&amp;rsquo;t have to create .NET classes or use inheritence and state mutation to configure our application (as we had to do with ASP.</description>
     </item>
     
     <item>
       <title>Jumpstart F# web development: F# with ASP.NET on classic .NET</title>
-      <link>https://markvincze.github.io/blog/jumpstart-f-web-development-f-with-asp-net-on-classic-net/</link>
+      <link>http://localhost:1313/jumpstart-f-web-development-f-with-asp-net-on-classic-net/</link>
       <pubDate>Sun, 05 Feb 2017 17:38:02 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/jumpstart-f-web-development-f-with-asp-net-on-classic-net/</guid>
+      <guid>http://localhost:1313/jumpstart-f-web-development-f-with-asp-net-on-classic-net/</guid>
       <description>The first part of my series about jumstarting F# web development takes a look at probably the most straightforward-looking approach: write F# code using ASP.NET on the classic (full) .NET Framework. (If you&amp;rsquo;re not familiar with the distinction between the full .NET and .NET Core, you can read about it here.)
 Traditionally, the ASP.NET development workflow has been a very streamlined and convenient experience. If we&amp;rsquo;re using C# and develop web applications with ASP.</description>
     </item>
     
     <item>
       <title>Series: Jumpstart F# web development</title>
-      <link>https://markvincze.github.io/blog/series-jumpstart-f-web-development/</link>
+      <link>http://localhost:1313/series-jumpstart-f-web-development/</link>
       <pubDate>Sun, 05 Feb 2017 17:35:00 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/series-jumpstart-f-web-development/</guid>
+      <guid>http://localhost:1313/series-jumpstart-f-web-development/</guid>
       <description>F# is a functional first general purpose programming language targeting the .NET Framework. Since .NET is a framework commonly used for web development (most often with C# and ASP.NET). And if we would like to do web development on the .NET framework in a more functional style, using F# is the logical choice.
 F# is a language loved by its community, which is actively working on improving its tooling and creating its own ecosystem.</description>
     </item>
     
     <item>
       <title>Programmatically refreshing a browser tab from a Golang application</title>
-      <link>https://markvincze.github.io/blog/programmatically-refreshing-a-browser-tab-from-a-golang-application/</link>
+      <link>http://localhost:1313/programmatically-refreshing-a-browser-tab-from-a-golang-application/</link>
       <pubDate>Sun, 30 Oct 2016 14:39:59 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/programmatically-refreshing-a-browser-tab-from-a-golang-application/</guid>
+      <guid>http://localhost:1313/programmatically-refreshing-a-browser-tab-from-a-golang-application/</guid>
       <description>Introduction At work I&amp;rsquo;ve been working on a client-side Golang application (a command-line tool), which is used as part of the development toolchain we&amp;rsquo;re using at the company.
 This application is used from the command line to upload packages to our development web server, which is then opened in the browser.
 Instead of opening our development site in a new tab every time, I wanted to programmatically refresh the browser tab if one has already been opened.</description>
@@ -251,30 +251,30 @@ Instead of opening our development site in a new tab every time, I wanted to pro
     
     <item>
       <title>Setting up a Travis-CI pipeline for Golang</title>
-      <link>https://markvincze.github.io/blog/setting-up-a-travis-ci-pipeline-for-golang/</link>
+      <link>http://localhost:1313/setting-up-a-travis-ci-pipeline-for-golang/</link>
       <pubDate>Sat, 15 Oct 2016 15:36:14 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/setting-up-a-travis-ci-pipeline-for-golang/</guid>
+      <guid>http://localhost:1313/setting-up-a-travis-ci-pipeline-for-golang/</guid>
       <description>In the previous post we looked at how we can set up a pipeline in AppVeyor for building and releasing a Golang application. Recently I made some changes to the project I&amp;rsquo;m working on, which prevents the it to be cross-compiled on a Windows build agent. After the change I was able to properly do the build only on an OSX machine.
 This caused a problem for me, since AppVeyor only supports using a Windows machine as the build agent, so I wasn&amp;rsquo;t able to properly cross compile the application any more.</description>
     </item>
     
     <item>
       <title>Setting up an AppVeyor pipeline for Golang</title>
-      <link>https://markvincze.github.io/blog/setting-up-an-appveyor-pipeline-for-golang/</link>
+      <link>http://localhost:1313/setting-up-an-appveyor-pipeline-for-golang/</link>
       <pubDate>Sat, 16 Jul 2016 15:47:28 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/setting-up-an-appveyor-pipeline-for-golang/</guid>
+      <guid>http://localhost:1313/setting-up-an-appveyor-pipeline-for-golang/</guid>
       <description>Recently at my day job I have been working on a Golang-based application, for which I wanted to set up an automated CD pipeline for building and releasing. Our application is a command line tool, so the release part is basically copying and uploading the binaries to a specified location.
 Since I have been using AppVeyor for my .NET Core projects (Stubbery and RestApiHelpers), and it&amp;rsquo;s working really nicely, it seemed to be the obvious choice for Golang as well.</description>
     </item>
     
     <item>
       <title>Download artifacts from a latest GitHub release with bash and PowerShell</title>
-      <link>https://markvincze.github.io/blog/download-artifacts-from-a-latest-github-release-in-sh-and-powershell/</link>
+      <link>http://localhost:1313/download-artifacts-from-a-latest-github-release-in-sh-and-powershell/</link>
       <pubDate>Sat, 09 Jul 2016 22:45:38 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/download-artifacts-from-a-latest-github-release-in-sh-and-powershell/</guid>
+      <guid>http://localhost:1313/download-artifacts-from-a-latest-github-release-in-sh-and-powershell/</guid>
       <description>Releases is an important feature of GitHub, with which we can publish packaged versions of our project.
 The source code of our repository is packaged with every release, and we also have the possibility to upload some artifacts alongside, for example the binaries or executables that we&amp;rsquo;ve built.
 Lately I&amp;rsquo;ve been working on an application for which the releases are published on GitHub, and I wanted to create an install script which always downloads the latest release.</description>
@@ -282,20 +282,20 @@ Lately I&amp;rsquo;ve been working on an application for which the releases are 
     
     <item>
       <title>NDC Oslo 2016 recap</title>
-      <link>https://markvincze.github.io/blog/ndc-oslo-2016-recap/</link>
+      <link>http://localhost:1313/ndc-oslo-2016-recap/</link>
       <pubDate>Sat, 02 Jul 2016 18:19:12 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/ndc-oslo-2016-recap/</guid>
+      <guid>http://localhost:1313/ndc-oslo-2016-recap/</guid>
       <description>In the beginning of June I was lucky enough to be able to travel to the NDC conference in Oslo. (Hats off to my employer Travix for providing the budget!)
 The NDC has always been one of my favourite conferences besides Build and CppCon (and earlier the PDC and MIX), but so far I have only been following it online by watching the sessions uploaded to Vimeo. This was the first year I had the chance to actually travel to the conference, and it was a splendid experience.</description>
     </item>
     
     <item>
       <title>Matching route templates manually in ASP.NET Core</title>
-      <link>https://markvincze.github.io/blog/matching-route-templates-manually-in-asp-net-core/</link>
+      <link>http://localhost:1313/matching-route-templates-manually-in-asp-net-core/</link>
       <pubDate>Sat, 18 Jun 2016 21:17:15 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/matching-route-templates-manually-in-asp-net-core/</guid>
+      <guid>http://localhost:1313/matching-route-templates-manually-in-asp-net-core/</guid>
       <description>We can use routing in ASP.NET to define paths on which we want to respond to HTTP requests. In ASP.NET Core we have two common ways to specify routing in our application.
 We can use the Route attribute on the action methods:
 [HttpGet(&amp;#34;test/{myParam}&amp;#34;] public IActionResult Get(int myParam) { // ... } Or if we don&amp;rsquo;t want to use MVC, we can directly set up some responses in our Startup class by creating a RouteBuilder and adding it to the pipeline with the UseRouter method.</description>
@@ -303,10 +303,10 @@ We can use the Route attribute on the action methods:
     
     <item>
       <title>Stubbing service dependencies in .NET using Stubbery</title>
-      <link>https://markvincze.github.io/blog/stubbing-service-dependencies-in-net-using-stubbery/</link>
+      <link>http://localhost:1313/stubbing-service-dependencies-in-net-using-stubbery/</link>
       <pubDate>Sun, 12 Jun 2016 15:27:28 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/stubbing-service-dependencies-in-net-using-stubbery/</guid>
+      <guid>http://localhost:1313/stubbing-service-dependencies-in-net-using-stubbery/</guid>
       <description>Introduction When writing integration tests for a service (especially if we are running a long, end-to-end test), it often causes a problem that the external dependencies of our service fail.
 Let&amp;rsquo;s say we have a service handling customer payments and the actual payments are handled by an external provider.
 Very often, we cannot use the actual production system of our external dependency. For example, when we want to test payments, we cannot make real purchases every time we run our integration test suite.</description>
@@ -314,10 +314,10 @@ Very often, we cannot use the actual production system of our external dependenc
     
     <item>
       <title>How to fix the empty SpecFlow HTML report problem with vstest.console.exe</title>
-      <link>https://markvincze.github.io/blog/how-to-fix-the-empty-specflow-html-report-problem-with-vstest-console-exe/</link>
+      <link>http://localhost:1313/how-to-fix-the-empty-specflow-html-report-problem-with-vstest-console-exe/</link>
       <pubDate>Sat, 23 Apr 2016 15:57:05 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/how-to-fix-the-empty-specflow-html-report-problem-with-vstest-console-exe/</guid>
+      <guid>http://localhost:1313/how-to-fix-the-empty-specflow-html-report-problem-with-vstest-console-exe/</guid>
       <description>Introduction There are multiple ways to run an MsTest test suite from the command line. The older, now deprecated tool is mstest.exe. It executes the test suite and produces an output in an XML-based format called TRX.
 Other tools, including the SpecFlow HTML report generation build upon that TRX format.
 The newer, current way to execute the unit tests in a project is vstest.console.exe. This new tool has a pluggable logging system, it supports specifying different &amp;ldquo;loggers&amp;rdquo;, which can produce different outputs.</description>
@@ -325,20 +325,20 @@ The newer, current way to execute the unit tests in a project is vstest.console.
     
     <item>
       <title>Migrating a Ghost blog from SQLite to Postgre on OpenShift</title>
-      <link>https://markvincze.github.io/blog/migrating-a-ghost-blog-from-sqlite-to-postgre-on-openshift/</link>
+      <link>http://localhost:1313/migrating-a-ghost-blog-from-sqlite-to-postgre-on-openshift/</link>
       <pubDate>Sun, 10 Apr 2016 16:48:05 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/migrating-a-ghost-blog-from-sqlite-to-postgre-on-openshift/</guid>
+      <guid>http://localhost:1313/migrating-a-ghost-blog-from-sqlite-to-postgre-on-openshift/</guid>
       <description>When I started this blog, I wanted to use the Ghost blogging platform. I was looking for a free solution for hosting it, and I didn&amp;rsquo;t mind a little tinkering in order to get it running.
 At the time, the best approach I could find was hosting it on an Amazon EC2 instance, since Amazon offered a Free Tier, with which you could run a small Linux instance for free, for the duration of one year.</description>
     </item>
     
     <item>
       <title>How to validate action parameters with DataAnnotation attributes?</title>
-      <link>https://markvincze.github.io/blog/how-to-validate-action-parameters-with-dataannotation-attributes/</link>
+      <link>http://localhost:1313/how-to-validate-action-parameters-with-dataannotation-attributes/</link>
       <pubDate>Sun, 28 Feb 2016 14:23:00 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/how-to-validate-action-parameters-with-dataannotation-attributes/</guid>
+      <guid>http://localhost:1313/how-to-validate-action-parameters-with-dataannotation-attributes/</guid>
       <description>Model validation in MVC In both MVC and Web Api we can use the attributes provided in the System.ComponentModel.DataAnnotations namespace to specify validation rules for our models.
 Let&amp;rsquo;s say we have a controller action with the following signature, accepting a single parameter populated from the request body.
 public IActionResult Post([FromBody]Product product); And we decorated our Product type with the following validation attributes (example taken from the official ASP.NET documentation).
@@ -347,10 +347,10 @@ public class Product { public int Id { get; set; } [Required] public string Name
     
     <item>
       <title>ASP.NET Core 1.0: hints to get started</title>
-      <link>https://markvincze.github.io/blog/getting-started-with-asp-net-core-1-0-tips-and-tricks/</link>
+      <link>http://localhost:1313/getting-started-with-asp-net-core-1-0-tips-and-tricks/</link>
       <pubDate>Sun, 14 Feb 2016 16:30:58 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/getting-started-with-asp-net-core-1-0-tips-and-tricks/</guid>
+      <guid>http://localhost:1313/getting-started-with-asp-net-core-1-0-tips-and-tricks/</guid>
       <description>I recently started working on implementing a Web Api application using ASP.NET Core 1.0, running it on Linux with the CoreCLR.
 There have been many changes introduced in this new version of ASP.NET, and there are also differences in how we are running and deploying applications using CoreCLR, so I&amp;rsquo;m going to document a couple of things you might encounter if you get started with using this new ecosystem.
 Version numbers It is quite easy to get lost in the sea of different products and version numbers.</description>
@@ -358,50 +358,50 @@ Version numbers It is quite easy to get lost in the sea of different products an
     
     <item>
       <title>Simple client-side compression for Couchbase - with benchmarks</title>
-      <link>https://markvincze.github.io/blog/simple-client-side-compression-for-couchbase-with-benchmarks/</link>
+      <link>http://localhost:1313/simple-client-side-compression-for-couchbase-with-benchmarks/</link>
       <pubDate>Sat, 16 Jan 2016 16:53:00 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/simple-client-side-compression-for-couchbase-with-benchmarks/</guid>
+      <guid>http://localhost:1313/simple-client-side-compression-for-couchbase-with-benchmarks/</guid>
       <description>Introduction In the last post I described the quirks and problems I encountered during getting started with using Couchbase Server in a production environment.
 When we are storing complex objects, by default the .NET Couchbase SDK uses Json.NET serialization. It is possible to create indices and views on this Json structure, and execute custom queries to filter our documents based on their Json property values. I guess in this scenario we can think of Couchbase as a NoSQL Document-store.</description>
     </item>
     
     <item>
       <title>Couchbase Server: tips for troubleshooting issues</title>
-      <link>https://markvincze.github.io/blog/couchbase-server-tips-for-troubleshooting-issues/</link>
+      <link>http://localhost:1313/couchbase-server-tips-for-troubleshooting-issues/</link>
       <pubDate>Sun, 10 Jan 2016 15:45:00 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/couchbase-server-tips-for-troubleshooting-issues/</guid>
+      <guid>http://localhost:1313/couchbase-server-tips-for-troubleshooting-issues/</guid>
       <description>Recently at work we started using Couchbase Server to replace a rather outdated caching solution in our architecture. This was the first time I had to use Couchbase and its .NET SDK, and I have encountered a couple of issues along the way.
 This post is a recollection of the problems we faced. (If you are interested in a &amp;ldquo;getting started&amp;rdquo; tutorial, I recommend reading the official documentation of the .</description>
     </item>
     
     <item>
       <title>Back to basics: Dictionary part 4, custom GetHashCode</title>
-      <link>https://markvincze.github.io/blog/back-to-basics-dictionary-part-4-custom-gethashcode/</link>
+      <link>http://localhost:1313/back-to-basics-dictionary-part-4-custom-gethashcode/</link>
       <pubDate>Sun, 25 Oct 2015 18:53:07 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/back-to-basics-dictionary-part-4-custom-gethashcode/</guid>
+      <guid>http://localhost:1313/back-to-basics-dictionary-part-4-custom-gethashcode/</guid>
       <description>Posts in this series:
  Part 1: Hash tables Part 2: .NET implementation Part 3: Built-in GetHashCode Part 4: Custom GetHashCode  General guidelines This is the last part in the series about the Dictionary class and the GetHashCode method. In this post we&amp;rsquo;ll take a look at what to look out for when implementing a custom GetHashCode method. In the previous post we&amp;rsquo;ve seen how the built-in GetHashCode works.</description>
     </item>
     
     <item>
       <title>Back to basics: Dictionary part 3, built-in GetHashCode</title>
-      <link>https://markvincze.github.io/blog/back-to-basics-dictionary-part-3-built-in-gethashcode/</link>
+      <link>http://localhost:1313/back-to-basics-dictionary-part-3-built-in-gethashcode/</link>
       <pubDate>Sat, 29 Aug 2015 14:02:09 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/back-to-basics-dictionary-part-3-built-in-gethashcode/</guid>
+      <guid>http://localhost:1313/back-to-basics-dictionary-part-3-built-in-gethashcode/</guid>
       <description>Posts in this series:
  Part 1: Hash tables Part 2: .NET implementation Part 3: Built-in GetHashCode Part 4: Custom GetHashCode  Introduction In the previous two posts we looked at the basic concepts behind the hash map data structure, and checked out how it is implemented in the Dictionary class of the .NET Framework. Today we&amp;rsquo;ll take a look at a very important mechanism behind the Dictionary class: the GetHashCode method, and the way its built-in implementation works.</description>
     </item>
     
     <item>
       <title>Back to basics: Dictionary part 2, .NET implementation</title>
-      <link>https://markvincze.github.io/blog/back-to-basics-dictionary-part-2-net-implementation/</link>
+      <link>http://localhost:1313/back-to-basics-dictionary-part-2-net-implementation/</link>
       <pubDate>Sat, 15 Aug 2015 13:27:35 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/back-to-basics-dictionary-part-2-net-implementation/</guid>
+      <guid>http://localhost:1313/back-to-basics-dictionary-part-2-net-implementation/</guid>
       <description>Posts in this series:
  Part 1: Hash tables Part 2: .NET implementation Part 3: Built-in GetHashCode Part 4: Custom GetHashCode  Introduction Last time we saw an overview about the basic concepts behind a hash map.
 In this post we will take a look at the .NET Dictionary class, and see what type of hash map it is and how the different mechanisms have been implemented in C#.
@@ -410,39 +410,39 @@ In order to investigate, I used the Reference source published by Microsoft, whi
     
     <item>
       <title>Back to basics: Dictionary part 1, hash tables</title>
-      <link>https://markvincze.github.io/blog/back-to-basics-dictionary-part-1/</link>
+      <link>http://localhost:1313/back-to-basics-dictionary-part-1/</link>
       <pubDate>Sat, 25 Jul 2015 13:37:04 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/back-to-basics-dictionary-part-1/</guid>
+      <guid>http://localhost:1313/back-to-basics-dictionary-part-1/</guid>
       <description>Posts in this series:
  Part 1: Hash tables Part 2: .NET implementation Part 3: Built-in GetHashCode Part 4: Custom GetHashCode  Introduction Recently I came across a situation in which I should have known the details about how a .NET Dictionary (and hashmaps in general) worked under the hood. I realized that my knowledge about this topic was a bit rusty, so I decided I&amp;rsquo;d refresh my memories and look into this topic.</description>
     </item>
     
     <item>
       <title>How to store state during SpecFlow tests?</title>
-      <link>https://markvincze.github.io/blog/how-to-store-state-during-specflow-tests/</link>
+      <link>http://localhost:1313/how-to-store-state-during-specflow-tests/</link>
       <pubDate>Sat, 06 Jun 2015 19:19:58 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/how-to-store-state-during-specflow-tests/</guid>
+      <guid>http://localhost:1313/how-to-store-state-during-specflow-tests/</guid>
       <description>#Introduction SpecFlow is an implementation of the Gherkin language for the .NET Framework. SpecFlow is to .NET what Cucumber is for the JavaScript ecosystem. It is a way to write tests in a DSL that is easily readable (and maybe writable) by not just developers, but also the business. A simple example from the Cucumber web site (which is also generated when a new SpecFlow feature is added in Visual Studio) is the following:</description>
     </item>
     
     <item>
       <title>Use Glimpse with ASP.NET Web Api</title>
-      <link>https://markvincze.github.io/blog/use-glimpse-with-asp-net-web-api/</link>
+      <link>http://localhost:1313/use-glimpse-with-asp-net-web-api/</link>
       <pubDate>Thu, 14 May 2015 12:56:50 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/use-glimpse-with-asp-net-web-api/</guid>
+      <guid>http://localhost:1313/use-glimpse-with-asp-net-web-api/</guid>
       <description>Glimpse is a wonderful tool for getting an insight into the mechanisms happening in an ASP.NET application. It inspects every request processed by our app, and displays its UI either embedded into our web site, or on a standalone page at a different URL.
 The current version of Glimpse (1.9.2 at the time of writing this) only has proper support for ASP.NET Web Forms and MVC, and not for the Web Api.</description>
     </item>
     
     <item>
       <title>Attach to specific Process shortcut in Visual Studio</title>
-      <link>https://markvincze.github.io/blog/attach-to-process-shortcut-in-visual-studio/</link>
+      <link>http://localhost:1313/attach-to-process-shortcut-in-visual-studio/</link>
       <pubDate>Sun, 26 Apr 2015 12:21:19 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/attach-to-process-shortcut-in-visual-studio/</guid>
+      <guid>http://localhost:1313/attach-to-process-shortcut-in-visual-studio/</guid>
       <description>It&amp;rsquo;s a very useful feature of Visual Studio that besides starting an application for debugging, we can attach the debugger to already running processes as well. This can be done with the Debug-&amp;gt;Attach to Process&amp;hellip; option, where we have to select the desired one from a list of all running processes. This method of attaching to a process is OK if you have to do it only once in a while, but if you have to debug applications this way regularly, it becomes time-consuming to search for the process in the list every time.</description>
     </item>
     

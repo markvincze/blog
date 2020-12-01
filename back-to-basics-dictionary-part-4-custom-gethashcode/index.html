@@ -2,18 +2,28 @@
 <html>
 
 <head>
+  
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-72523215-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'UA-72523215-1');
+  </script>
+
   <title>Back to basics: Dictionary part 4, custom GetHashCode</title>
 
-  
-  <link rel="stylesheet" href="/styles/bulma.css">
+  <link rel="stylesheet" href="/styles/styles.css">
   <script defer src="https://use.fontawesome.com/releases/v5.15.1/js/all.js"></script>
   <script defer src="/scripts/scripts.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
   <link rel="icon" href="/favicon.png" type="image/png" />
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="" />
-  <meta property="og:url" content="https://markvincze.github.io/blog/back-to-basics-dictionary-part-4-custom-gethashcode/" />
+  <meta property="og:url" content="http://localhost:1313/back-to-basics-dictionary-part-4-custom-gethashcode/" />
   <meta property="og:type" content="article" />
   <meta property="og:title" content="Back to basics: Dictionary part 4, custom GetHashCode" />
   <meta property="og:description" content="" />
@@ -37,34 +47,32 @@
           <span aria-hidden="true"></span>
         </a>
       </div>
-      <div id="navbarMenu" class="navbar-menu">
+      <div id="navbarMenu" class="navbar-menu has-text-white-ter">
+
         <div class="navbar-start">
-          <a class="navbar-item" href="/">
-            Home
-          </a>
-
-          <a class="navbar-item" href="/posts">
-            Blog
-          </a>
-
-          <a class="navbar-item">
-            Presentations
-          </a>
+          
+          <a class="navbar-item" href="/">About</a>
+          
+          <a class="navbar-item" href="/posts">Blog</a>
+          
+          <a class="navbar-item" href="/projects">Projects</a>
+          
         </div>
+
         <div class="navbar-end pt-2 ml-2">
-          <a class="icon is-medium" href="https://twitter.com/mrkvincze">
+          <a class="icon is-medium" href="https://twitter.com/mrkvincze" target="_blank">
             <i class="fab fa-lg fa-twitter"></i>
           </a>
-          <a class="icon is-medium" href="https://www.github.com/markvincze">
+          <a class="icon is-medium" href="https://www.github.com/markvincze" target="_blank">
             <i class="fab fa-lg fa-github"></i>
           </a>
-          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze">
+          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze" target="_blank">
             <i class="fab fa-lg fa-stack-overflow"></i>
           </a>
-          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze">
+          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze" target="_blank">
             <i class="fab fa-lg fa-linkedin"></i>
           </a>
-          <a class="icon is-medium" href="/index.xml">
+          <a class="icon is-medium" href="/index.xml" target="_blank">
             <i class="fas fa-lg fa-rss"></i>
           </a>
         </div>
@@ -90,27 +98,9 @@
 <section class="section">
   <div class="container is-max-desktop">
     <h1 class="title is-1">Back to basics: Dictionary part 4, custom GetHashCode</h1>
+
     
 
-
-<p class="mb-3 is-vcentered">
-  <time class="has-text-grey" datetime="2015-10-25">Oct 25, 2015 &bull;</time>
-
-  
-  
-  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/c">c#</a>
-  
-  
-  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/.net">.net</a>
-  
-  
-  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/basics">basics</a>
-  
-  
-  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/computer-science">computer science</a>
-  
-
-</p>
     <article class="content mt-6">
       <p><strong>Posts in this series</strong>:</p>
 <ol>
@@ -145,7 +135,7 @@ In practice this means that we shouldn&rsquo;t do anything <em>crazy</em> in it,
 Then we process that object depending on the code, for instance we put it into a bucket of a hash map.
 If we mutate the object so that its GetHashCode method returns a different value, then the state of our program becomes inconsistent. That&rsquo;s what we saw in the previous post, when we weren&rsquo;t able to find our entry in the Dictionary any more.</p>
 <p>An easy solution to this problem is to follow the general rule, that no mutable fields should be used in the implementation of GetHashCode. As we&rsquo;ve seen in the previous post, ReSharper warns you about this:
-<img src="/images/2015/08/vs-warning.png" alt="Visual Studio warning us about using a mutable field in GetHashCode"></p>
+<img src="/images/2015/08/vs-warning.png" alt="Visual Studio warning us about using a mutable field in GetHashCode"  style="display:block; margin: auto;" /></p>
 <h1 id="the-importance-of-equals">The importance of Equals</h1>
 <p>As noted above, if we override GetHashCode, we must do so with Equals, in a way that they are &ldquo;consistent&rdquo;, so that if two objects are equal, then they also have the same hash code.<br>
 The classes using GetHashCode depend on this requirement, so if we don&rsquo;t adhere to it, then we quickly get into an inconsistent state.</p>
@@ -166,26 +156,13 @@ And if you&rsquo;re uncertain, you can always take a look at the source code at 
 
     </article>
 
-    <div id="disqus_thread"></div>
-    <script>
-      var disqus_config = function () {
-        this.page.url = 'https:\/\/markvincze.github.io\/blog\/back-to-basics-dictionary-part-4-custom-gethashcode\/';
-        
-        this.page.identifier = 'ghost-9';
-        
-      };
-      (function () { 
-        var d = document, s = d.createElement('script');
-        s.src = 'https://markvinczeblog.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-      })();
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-  </div>
+    
+
 </section>
 
 
+
+  <div style="flex: 1"></div>
 
   <footer class="footer py-6">
     <div class="content has-text-centered">

@@ -2,18 +2,28 @@
 <html>
 
 <head>
+  
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-72523215-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'UA-72523215-1');
+  </script>
+
   <title>Shadow mirroring with Envoy</title>
 
-  
-  <link rel="stylesheet" href="/styles/bulma.css">
+  <link rel="stylesheet" href="/styles/styles.css">
   <script defer src="https://use.fontawesome.com/releases/v5.15.1/js/all.js"></script>
   <script defer src="/scripts/scripts.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
   <link rel="icon" href="/favicon.png" type="image/png" />
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="An overview of implementing shadow mirroring with Envoy, to safely test a service with real production traffic without affecting the end clients." />
-  <meta property="og:url" content="https://markvincze.github.io/blog/shadow-mirroring-with-envoy/" />
+  <meta property="og:url" content="http://localhost:1313/shadow-mirroring-with-envoy/" />
   <meta property="og:type" content="article" />
   <meta property="og:title" content="Shadow mirroring with Envoy" />
   <meta property="og:description" content="An overview of implementing shadow mirroring with Envoy, to safely test a service with real production traffic without affecting the end clients." />
@@ -37,34 +47,32 @@
           <span aria-hidden="true"></span>
         </a>
       </div>
-      <div id="navbarMenu" class="navbar-menu">
+      <div id="navbarMenu" class="navbar-menu has-text-white-ter">
+
         <div class="navbar-start">
-          <a class="navbar-item" href="/">
-            Home
-          </a>
-
-          <a class="navbar-item" href="/posts">
-            Blog
-          </a>
-
-          <a class="navbar-item">
-            Presentations
-          </a>
+          
+          <a class="navbar-item" href="/">About</a>
+          
+          <a class="navbar-item" href="/posts">Blog</a>
+          
+          <a class="navbar-item" href="/projects">Projects</a>
+          
         </div>
+
         <div class="navbar-end pt-2 ml-2">
-          <a class="icon is-medium" href="https://twitter.com/mrkvincze">
+          <a class="icon is-medium" href="https://twitter.com/mrkvincze" target="_blank">
             <i class="fab fa-lg fa-twitter"></i>
           </a>
-          <a class="icon is-medium" href="https://www.github.com/markvincze">
+          <a class="icon is-medium" href="https://www.github.com/markvincze" target="_blank">
             <i class="fab fa-lg fa-github"></i>
           </a>
-          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze">
+          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze" target="_blank">
             <i class="fab fa-lg fa-stack-overflow"></i>
           </a>
-          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze">
+          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze" target="_blank">
             <i class="fab fa-lg fa-linkedin"></i>
           </a>
-          <a class="icon is-medium" href="/index.xml">
+          <a class="icon is-medium" href="/index.xml" target="_blank">
             <i class="fas fa-lg fa-rss"></i>
           </a>
         </div>
@@ -90,18 +98,9 @@
 <section class="section">
   <div class="container is-max-desktop">
     <h1 class="title is-1">Shadow mirroring with Envoy</h1>
+
     
 
-
-<p class="mb-3 is-vcentered">
-  <time class="has-text-grey" datetime="2019-04-11">Apr 11, 2019 &bull;</time>
-
-  
-  
-  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/envoy">envoy</a>
-  
-
-</p>
     <article class="content mt-6">
       <h1 id="introduction">Introduction</h1>
 <p>Shadow mirroring (also called shadow feeding, or just shadowing) is a technique when at some point in our infrastructure we duplicate the outgoing traffic to an additional destination, but we send the responses to the actual client coming from the main destination.<br>
@@ -110,7 +109,7 @@ This is mainly used to be able to test a service with real production traffic wi
 <p>And some of the general-purpose reverse proxies have this capability as well. In this post we&rsquo;ll go over how this can be implemented with <a href="https://www.envoyproxy.io/">Envoy</a>. First we&rsquo;ll see an introduction to what a basic proxy or load balancing setup with Envoy looks like, and then we&rsquo;ll focus on the request mirroring capabilities which allows us to implement shadowing.</p>
 <h1 id="a-simple-envoy-setup">A simple Envoy setup</h1>
 <p>The following diagram illustrates a very simple setup where we use an Envoy instance as a &ldquo;frontend&rdquo; or reverse proxy to route traffic to a single backend service. (Envoy can be used in much more complicated routing setups, but this is enough for illustrating request mirroring.)</p>
-<p><img src="/images/2019/04/envoy-simple-setup.png" alt="A basic Envoy setup."></p>
+<p><img src="/images/2019/04/envoy-simple-setup.png" alt="A basic Envoy setup."  style="display:block; margin: auto;" /></p>
 <p>An Envoy instance can be controlled by providing a static YAML configuration on startup. (Which is just one of the ways of configuring Envoy, it also supports having a dynamic configuration provider, but we won&rsquo;t discuss that in this post.)<br>
 The above simple setup can be achieved with the following YAML config.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">admin</span>:
@@ -170,7 +169,7 @@ For example this value specifies 0.03% (0.0003): <code>runtime_fraction: { defau
 <p>And the way Envoy will behave is that it&rsquo;ll send back the response to the original client which comes from the main cluster, and the mirrored requests happens in a fire &amp; forget fashion, so the response is discarded. This is exactly what we want if we&rsquo;d like to test a different version of our service without affecting any end users.</p>
 <h1 id="the-full-setup">The full setup</h1>
 <p>Let&rsquo;s say we want to configure the following setup, in which 25% of the traffic is shadow mirrored to a different upstream, accessible at <code>myservice-test.mycompany.com</code>.</p>
-<p><img src="/images/2019/04/envoy-mirror-setup.png" alt="An Envoy setup with mirroring 25% of the traffic."></p>
+<p><img src="/images/2019/04/envoy-mirror-setup.png" alt="An Envoy setup with mirroring 25% of the traffic."  style="display:block; margin: auto;" /></p>
 <p>We can set this up with the following YAML configuration.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">admin</span>:
   <span style="color:#f92672">access_log_path</span>: <span style="color:#ae81ff">/tmp/admin_access.log</span>
@@ -215,26 +214,13 @@ With a request mirror policy, the host name is always what it would normally be,
 
     </article>
 
-    <div id="disqus_thread"></div>
-    <script>
-      var disqus_config = function () {
-        this.page.url = 'https:\/\/markvincze.github.io\/blog\/shadow-mirroring-with-envoy\/';
-        
-        this.page.identifier = 'ghost-5cafa655a26b5f5ce4856bf4';
-        
-      };
-      (function () { 
-        var d = document, s = d.createElement('script');
-        s.src = 'https://markvinczeblog.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-      })();
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-  </div>
+    
+
 </section>
 
 
+
+  <div style="flex: 1"></div>
 
   <footer class="footer py-6">
     <div class="content has-text-centered">

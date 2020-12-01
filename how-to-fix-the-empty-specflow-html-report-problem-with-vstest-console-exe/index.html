@@ -2,18 +2,28 @@
 <html>
 
 <head>
+  
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-72523215-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'UA-72523215-1');
+  </script>
+
   <title>How to fix the empty SpecFlow HTML report problem with vstest.console.exe</title>
 
-  
-  <link rel="stylesheet" href="/styles/bulma.css">
+  <link rel="stylesheet" href="/styles/styles.css">
   <script defer src="https://use.fontawesome.com/releases/v5.15.1/js/all.js"></script>
   <script defer src="/scripts/scripts.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
   <link rel="icon" href="/favicon.png" type="image/png" />
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="The slightly changed TRX generation in vstest.console.exe causes SpecFlow to generate empty HTML reports. This can be fixed with a custom Logger." />
-  <meta property="og:url" content="https://markvincze.github.io/blog/how-to-fix-the-empty-specflow-html-report-problem-with-vstest-console-exe/" />
+  <meta property="og:url" content="http://localhost:1313/how-to-fix-the-empty-specflow-html-report-problem-with-vstest-console-exe/" />
   <meta property="og:type" content="article" />
   <meta property="og:title" content="How to fix the empty SpecFlow HTML report problem with vstest.console.exe" />
   <meta property="og:description" content="The slightly changed TRX generation in vstest.console.exe causes SpecFlow to generate empty HTML reports. This can be fixed with a custom Logger." />
@@ -37,34 +47,32 @@
           <span aria-hidden="true"></span>
         </a>
       </div>
-      <div id="navbarMenu" class="navbar-menu">
+      <div id="navbarMenu" class="navbar-menu has-text-white-ter">
+
         <div class="navbar-start">
-          <a class="navbar-item" href="/">
-            Home
-          </a>
-
-          <a class="navbar-item" href="/posts">
-            Blog
-          </a>
-
-          <a class="navbar-item">
-            Presentations
-          </a>
+          
+          <a class="navbar-item" href="/">About</a>
+          
+          <a class="navbar-item" href="/posts">Blog</a>
+          
+          <a class="navbar-item" href="/projects">Projects</a>
+          
         </div>
+
         <div class="navbar-end pt-2 ml-2">
-          <a class="icon is-medium" href="https://twitter.com/mrkvincze">
+          <a class="icon is-medium" href="https://twitter.com/mrkvincze" target="_blank">
             <i class="fab fa-lg fa-twitter"></i>
           </a>
-          <a class="icon is-medium" href="https://www.github.com/markvincze">
+          <a class="icon is-medium" href="https://www.github.com/markvincze" target="_blank">
             <i class="fab fa-lg fa-github"></i>
           </a>
-          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze">
+          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze" target="_blank">
             <i class="fab fa-lg fa-stack-overflow"></i>
           </a>
-          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze">
+          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze" target="_blank">
             <i class="fab fa-lg fa-linkedin"></i>
           </a>
-          <a class="icon is-medium" href="/index.xml">
+          <a class="icon is-medium" href="/index.xml" target="_blank">
             <i class="fas fa-lg fa-rss"></i>
           </a>
         </div>
@@ -90,18 +98,9 @@
 <section class="section">
   <div class="container is-max-desktop">
     <h1 class="title is-1">How to fix the empty SpecFlow HTML report problem with vstest.console.exe</h1>
+
     
 
-
-<p class="mb-3 is-vcentered">
-  <time class="has-text-grey" datetime="2016-04-23">Apr 23, 2016 &bull;</time>
-
-  
-  
-  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/specflow">specflow</a>
-  
-
-</p>
     <article class="content mt-6">
       <h2 id="introduction">Introduction</h2>
 <p>There are multiple ways to run an MsTest test suite from the command line. The older, now deprecated tool is <code>mstest.exe</code>. It executes the test suite and produces an output in an XML-based format called TRX.<br>
@@ -109,7 +108,7 @@ Other tools, including the SpecFlow HTML report generation build upon that TRX f
 <p>The newer, current way to execute the unit tests in a project is <code>vstest.console.exe</code>. This new tool has a pluggable logging system, it supports specifying different &ldquo;loggers&rdquo;, which can produce different outputs.<br>
 One of the built-in loggers is called <code>trx</code>, which is supposed to produce the output in the same format as mstest.exe did.</p>
 <p>The problem with this TRX logger is that it produces a slightly different output than mstest.exe, which beaks the SpecFlow report generation. If you try to generate an HTML report from the new TRX file, the report will be empty, all the test names and descriptions will be missing.</p>
-<p><img src="/images/2016/04/empty-specflow-report.png" alt="Empty SpecFlow HTML report."></p>
+<p><img src="/images/2016/04/empty-specflow-report.png" alt="Empty SpecFlow HTML report."  style="display:block; margin: auto;" /></p>
 <h2 id="the-problem">The problem</h2>
 <p>The issue was discussed in the a <a href="https://github.com/techtalk/SpecFlow/issues/278">GitHub issue</a> in the SpecFlow repository. Paul Rohorzka identified the differences between the two TRX outputs causing the problems with the report:</p>
 <blockquote>
@@ -144,26 +143,13 @@ The last thing to do is to specify that we want to use that particular logger. T
 
     </article>
 
-    <div id="disqus_thread"></div>
-    <script>
-      var disqus_config = function () {
-        this.page.url = 'https:\/\/markvincze.github.io\/blog\/how-to-fix-the-empty-specflow-html-report-problem-with-vstest-console-exe\/';
-        
-        this.page.identifier = 'ghost-19';
-        
-      };
-      (function () { 
-        var d = document, s = d.createElement('script');
-        s.src = 'https://markvinczeblog.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-      })();
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-  </div>
+    
+
 </section>
 
 
+
+  <div style="flex: 1"></div>
 
   <footer class="footer py-6">
     <div class="content has-text-centered">

@@ -7714,6 +7714,11 @@ h6 {
 code {
   color: #016FB9; }
 
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column; }
+
 body > .navbar-container {
   border-bottom-width: 0.2em;
   border-bottom-color: #016FB9;
@@ -7721,6 +7726,9 @@ body > .navbar-container {
 
 .navbar, .navbar-container {
   background-color: #fafafa; }
+
+.hero-body {
+  flex-grow: 0; }
 
 @media screen and (min-width: 1024px) {
   #indexIntroduction {

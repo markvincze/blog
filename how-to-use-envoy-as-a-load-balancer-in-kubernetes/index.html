@@ -2,18 +2,28 @@
 <html>
 
 <head>
+  
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-72523215-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'UA-72523215-1');
+  </script>
+
   <title>How to use Envoy as a Load Balancer in Kubernetes</title>
 
-  
-  <link rel="stylesheet" href="/styles/bulma.css">
+  <link rel="stylesheet" href="/styles/styles.css">
   <script defer src="https://use.fontawesome.com/releases/v5.15.1/js/all.js"></script>
   <script defer src="/scripts/scripts.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
   <link rel="icon" href="/favicon.png" type="image/png" />
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="An introduction to using Envoy as a load balancer in Kubernetes, and configuring various load balancing algorithms." />
-  <meta property="og:url" content="https://markvincze.github.io/blog/how-to-use-envoy-as-a-load-balancer-in-kubernetes/" />
+  <meta property="og:url" content="http://localhost:1313/how-to-use-envoy-as-a-load-balancer-in-kubernetes/" />
   <meta property="og:type" content="article" />
   <meta property="og:title" content="How to use Envoy as a Load Balancer in Kubernetes" />
   <meta property="og:description" content="An introduction to using Envoy as a load balancer in Kubernetes, and configuring various load balancing algorithms." />
@@ -37,34 +47,32 @@
           <span aria-hidden="true"></span>
         </a>
       </div>
-      <div id="navbarMenu" class="navbar-menu">
+      <div id="navbarMenu" class="navbar-menu has-text-white-ter">
+
         <div class="navbar-start">
-          <a class="navbar-item" href="/">
-            Home
-          </a>
-
-          <a class="navbar-item" href="/posts">
-            Blog
-          </a>
-
-          <a class="navbar-item">
-            Presentations
-          </a>
+          
+          <a class="navbar-item" href="/">About</a>
+          
+          <a class="navbar-item" href="/posts">Blog</a>
+          
+          <a class="navbar-item" href="/projects">Projects</a>
+          
         </div>
+
         <div class="navbar-end pt-2 ml-2">
-          <a class="icon is-medium" href="https://twitter.com/mrkvincze">
+          <a class="icon is-medium" href="https://twitter.com/mrkvincze" target="_blank">
             <i class="fab fa-lg fa-twitter"></i>
           </a>
-          <a class="icon is-medium" href="https://www.github.com/markvincze">
+          <a class="icon is-medium" href="https://www.github.com/markvincze" target="_blank">
             <i class="fab fa-lg fa-github"></i>
           </a>
-          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze">
+          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze" target="_blank">
             <i class="fab fa-lg fa-stack-overflow"></i>
           </a>
-          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze">
+          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze" target="_blank">
             <i class="fab fa-lg fa-linkedin"></i>
           </a>
-          <a class="icon is-medium" href="/index.xml">
+          <a class="icon is-medium" href="/index.xml" target="_blank">
             <i class="fas fa-lg fa-rss"></i>
           </a>
         </div>
@@ -90,21 +98,9 @@
 <section class="section">
   <div class="container is-max-desktop">
     <h1 class="title is-1">How to use Envoy as a Load Balancer in Kubernetes</h1>
+
     
 
-
-<p class="mb-3 is-vcentered">
-  <time class="has-text-grey" datetime="2018-10-05">Oct 5, 2018 &bull;</time>
-
-  
-  
-  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/envoy">envoy</a>
-  
-  
-  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/kubernetes">kubernetes</a>
-  
-
-</p>
     <article class="content mt-6">
       <p>In today&rsquo;s highly distributed word, where monolithic architectures are increasingly replaced with multiple, smaller, interconnected services (for better or worse), proxy and load balancing technologies seem to have a renaissance. Beside the older players, there are several new proxy technologies popping up in recent years, implemented in various technologies, popularizing themselves with different features, such as easy integration to certain cloud providers (&ldquo;cloud-native&rdquo;), high performance and low memory footprint, or dynamic configuration.</p>
 <p>Arguably the two most popular &ldquo;classic&rdquo; proxy technologies are <a href="https://www.nginx.com/">NGINX</a> (C) and <a href="http://www.haproxy.org/">HAProxy</a> (C), while some of the new kids on the block are <a href="https://github.com/Netflix/zuul">Zuul</a> (Java), <a href="https://linkerd.io/">Linkerd</a> (Rust), <a href="https://traefik.io/">Traefik</a> (Go), <a href="https://github.com/caddyserver/caddy">Caddy</a> (Go) and [<a href="https://www.envoyproxy.io/">Envoy</a> (C++).</p>
@@ -314,7 +310,7 @@ echo <span style="color:#e6db74">&#34;Starting Envoy...&#34;</span>
 <p>After applying this yaml, the Envoy proxy should be operational, and you can access the underlying service by sending the requests to the main port of the Envoy service.</p>
 <p>In this example I only added a service of type <code>ClusterIP</code>, but you can also use a <code>LoadBalancer</code> service, or an Ingress object if you want to access the proxy from outside the cluster.</p>
 <p>The following diagram illustrates the architecture of the whole setup.</p>
-<p><img src="/images/2018/10/architecture.png" alt="Diagram illustrating the whole architecture."></p>
+<p><img src="/images/2018/10/architecture.png" alt="Diagram illustrating the whole architecture."  style="display:block; margin: auto;" /></p>
 <p>The image only shows one single Envoy pod, but you can scale it up to have more instances if necessary. And of course you can use a Horizontal Pod Autoscaler to automatically create more replicas as needed. (All instances will be autonomous and independent of each other.)<br>
 In practice you&rsquo;ll probably need much fewer instances for the proxy than for the underlying service. In the current production application we&rsquo;re using Envoy with, we&rsquo;re serving ~1000 requests/seconds on ~400 upstream pods, but we only have 3 instances of Envoy running, with ~10% CPU load.</p>
 <h1 id="troubleshooting-and-monitoring">Troubleshooting and Monitoring</h1>
@@ -327,7 +323,7 @@ In practice you&rsquo;ll probably need much fewer instances for the proxy than f
 </ul>
 <p>One way to do monitoring is to use Prometheus to scrape the stats from the proxy pods. Envoy has built-in support for this, the Prometheus stats are published on the admin port at the route <code>/stats/prometheus</code>.</p>
 <p>You can download a Grafana dashboard visualizing these metrics from <a href="https://github.com/transferwise/prometheus-envoy-dashboards">this repository</a>, which will give you a set of graphs similar to the following.</p>
-<p><img src="/images/2018/10/image.png" alt="Screenshot of the Grafana dashboard showing the Envoy metrics."></p>
+<p><img src="/images/2018/10/image.png" alt="Screenshot of the Grafana dashboard showing the Envoy metrics."  style="display:block; margin: auto;" /></p>
 <h1 id="a-word-on-the-load-balancing-algorithms">A word on the load balancing algorithms</h1>
 <p>The load balancing algorithm can have significant effect on the overall performance of our cluster. Using a least request algorithm can be beneficial with services for which an even spread of the load is necessary, for example when a service is CPU-intensive, and gets easily overloaded.On the other hand, least request has the problem that if one of the nodes start failing for some reason, and the failure response times are quick, then the load balancer will send a disproportionately large portion of the requests to the failing node—something which wouldn&rsquo;t be a problem with round robin.</p>
 <p>I made some benchmarks with a <a href="https://github.com/markvincze/PrimeCalcApi/">dummy API</a> and compared the round robin and the least request LB algorithms. It turned out that least request can bring a significant improvement in the overall performance.</p>
@@ -340,9 +336,9 @@ In practice you&rsquo;ll probably need much fewer instances for the proxy than f
 <li>Response time percentiles (0.50, 0.90 and 0.99) recorded on the servers</li>
 </ul>
 <p>The stats looked like this with <code>ROUND_ROBIN</code>.</p>
-<p><img src="/images/2018/10/image-1.png" alt="Screenshot of the measurements with ROUND_ROBIN."></p>
+<p><img src="/images/2018/10/image-1.png" alt="Screenshot of the measurements with ROUND_ROBIN."  style="display:block; margin: auto;" /></p>
 <p>These were the results with <code>LEAST_REQUEST</code>:</p>
-<p><img src="/images/2018/10/image-2.png" alt="Screenshot of the measurements with LEAST_REQUEST."></p>
+<p><img src="/images/2018/10/image-2.png" alt="Screenshot of the measurements with LEAST_REQUEST."  style="display:block; margin: auto;" /></p>
 <p>You can see on the results that <code>LEAST_REQUEST</code> can lead to a much smoother distribution of the traffic across the nodes, and thus a lower average response time at high load.</p>
 <p>The exact improvement will depend on the actual API, so I definitely recommend you to do the benchmark with your own service too to be make a decision.</p>
 <p>(Earlier I mentioned that when using <code>LEAST_REQUEST</code>, Envoy will not look at every node in the cluster when selecting the one to send a certain request to, but rather just looks at <a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/load_balancers#weighted-least-request">2 randomly picked options</a>, and sends the request to the one that has the fewer pending requests.<br>
@@ -354,26 +350,13 @@ If you have any other suggestions, feedback is welcome!</p>
 
     </article>
 
-    <div id="disqus_thread"></div>
-    <script>
-      var disqus_config = function () {
-        this.page.url = 'https:\/\/markvincze.github.io\/blog\/how-to-use-envoy-as-a-load-balancer-in-kubernetes\/';
-        
-        this.page.identifier = 'how-to-use-envoy-as-a-load-balancer-in-kubernetes';
-        
-      };
-      (function () { 
-        var d = document, s = d.createElement('script');
-        s.src = 'https://markvinczeblog.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-      })();
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-  </div>
+    
+
 </section>
 
 
+
+  <div style="flex: 1"></div>
 
   <footer class="footer py-6">
     <div class="content has-text-centered">

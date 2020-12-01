@@ -2,18 +2,28 @@
 <html>
 
 <head>
+  
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-72523215-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'UA-72523215-1');
+  </script>
+
   <title>How to gracefully fall back to cache on 5xx responses with Varnish</title>
 
-  
-  <link rel="stylesheet" href="/styles/bulma.css">
+  <link rel="stylesheet" href="/styles/styles.css">
   <script defer src="https://use.fontawesome.com/releases/v5.15.1/js/all.js"></script>
   <script defer src="/scripts/scripts.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
   <link rel="icon" href="/favicon.png" type="image/png" />
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Varnish can gracefully fall  back to cached values in case our backend is down. This post describes how we can handle 5xx errors this way." />
-  <meta property="og:url" content="https://markvincze.github.io/blog/how-to-gracefully-fall-back-to-cache-on-5xx-responses-with-varnish/" />
+  <meta property="og:url" content="http://localhost:1313/how-to-gracefully-fall-back-to-cache-on-5xx-responses-with-varnish/" />
   <meta property="og:type" content="article" />
   <meta property="og:title" content="How to gracefully fall back to cache on 5xx responses with Varnish" />
   <meta property="og:description" content="Varnish can gracefully fall  back to cached values in case our backend is down. This post describes how we can handle 5xx errors this way." />
@@ -37,34 +47,32 @@
           <span aria-hidden="true"></span>
         </a>
       </div>
-      <div id="navbarMenu" class="navbar-menu">
+      <div id="navbarMenu" class="navbar-menu has-text-white-ter">
+
         <div class="navbar-start">
-          <a class="navbar-item" href="/">
-            Home
-          </a>
-
-          <a class="navbar-item" href="/posts">
-            Blog
-          </a>
-
-          <a class="navbar-item">
-            Presentations
-          </a>
+          
+          <a class="navbar-item" href="/">About</a>
+          
+          <a class="navbar-item" href="/posts">Blog</a>
+          
+          <a class="navbar-item" href="/projects">Projects</a>
+          
         </div>
+
         <div class="navbar-end pt-2 ml-2">
-          <a class="icon is-medium" href="https://twitter.com/mrkvincze">
+          <a class="icon is-medium" href="https://twitter.com/mrkvincze" target="_blank">
             <i class="fab fa-lg fa-twitter"></i>
           </a>
-          <a class="icon is-medium" href="https://www.github.com/markvincze">
+          <a class="icon is-medium" href="https://www.github.com/markvincze" target="_blank">
             <i class="fab fa-lg fa-github"></i>
           </a>
-          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze">
+          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze" target="_blank">
             <i class="fab fa-lg fa-stack-overflow"></i>
           </a>
-          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze">
+          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze" target="_blank">
             <i class="fab fa-lg fa-linkedin"></i>
           </a>
-          <a class="icon is-medium" href="/index.xml">
+          <a class="icon is-medium" href="/index.xml" target="_blank">
             <i class="fas fa-lg fa-rss"></i>
           </a>
         </div>
@@ -90,18 +98,9 @@
 <section class="section">
   <div class="container is-max-desktop">
     <h1 class="title is-1">How to gracefully fall back to cache on 5xx responses with Varnish</h1>
+
     
 
-
-<p class="mb-3 is-vcentered">
-  <time class="has-text-grey" datetime="2018-07-28">Jul 28, 2018 &bull;</time>
-
-  
-  
-  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/varnish">varnish</a>
-  
-
-</p>
     <article class="content mt-6">
       <h1 id="introduction">Introduction</h1>
 <p>Varnish is a widely used reverse proxy and <em>HTTP accelerator</em>. It sits in front of an HTTP service, and caches the responses to improve the response times observed by the clients, and possibly to reduce the load on the upstream backend service.</p>
@@ -113,10 +112,10 @@
 </ul>
 <p>If a request comes in for which the response is already in the cache, and the <code>ttl</code> has not passed yet, then Varnish returns the cached value to the client without trying to fetch a fresh one from the backend.</p>
 <p>On the first request that comes after <code>ttl</code> expired, if <code>grace</code> is set and is not expired yet, then Varnish will immediately return the cached value to the client, and at the same time it will trigger a background fetch for a fresh response. If the fetch is successful, it replaces the stale object in the cache with the fresh one.</p>
-<p><img src="/images/2018/07/happy-flow.png" alt="Sequence diagram showing how Varnish returns the cached content to the clients."></p>
+<p><img src="/images/2018/07/happy-flow.png" alt="Sequence diagram showing how Varnish returns the cached content to the clients."  style="display:block; margin: auto;" /></p>
 <p>This behavior means that if the backend is not available, that won&rsquo;t affect the end clients until the end of the <code>grace</code> period, since Varnish will always return the cached object to the client, and only do a background fetch asynchronously. Which will fail if the backend is down, but that won&rsquo;t hurt the object already stored in the cache.<br>
 And if the <code>grace</code> period is over, Varnish will purge the cached object, and won&rsquo;t return it to clients any more. So if the backend is down, the clients will receive a <code>503 Service Unavailable</code> response from Varnish.</p>
-<p><img src="/images/2018/07/backend-down.png" alt="Sequence diagram showing how Varnish behaves when the backend is down during the grace period."></p>
+<p><img src="/images/2018/07/backend-down.png" alt="Sequence diagram showing how Varnish behaves when the backend is down during the grace period."  style="display:block; margin: auto;" /></p>
 <p>In practice, <code>grace</code> can be much longer than <code>ttl</code>. For example we can set <code>ttl</code> to a couple of minutes to make sure the clients regularly get fresh data, but we can set <code>grace</code> to multiple hours, to give us time to fix the backend in case of an outage.</p>
 <h1 id="5xx-responses">5xx responses</h1>
 <p>By default Varnish only falls back to the cached values during the grace period if the backend can&rsquo;t be connected to, or if the request times out. If the backend returns a <code>5xx</code> error, Varnish considers that normal response, and returns it to the client (it might even store it in the cache, depending on our configuration).<br>
@@ -172,26 +171,13 @@ This is an understandable default, it might be confusing if our clients did not 
 
     </article>
 
-    <div id="disqus_thread"></div>
-    <script>
-      var disqus_config = function () {
-        this.page.url = 'https:\/\/markvincze.github.io\/blog\/how-to-gracefully-fall-back-to-cache-on-5xx-responses-with-varnish\/';
-        
-        this.page.identifier = 'ghost-5b5c8545e67a0c102087288f';
-        
-      };
-      (function () { 
-        var d = document, s = d.createElement('script');
-        s.src = 'https://markvinczeblog.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-      })();
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-  </div>
+    
+
 </section>
 
 
+
+  <div style="flex: 1"></div>
 
   <footer class="footer py-6">
     <div class="content has-text-centered">

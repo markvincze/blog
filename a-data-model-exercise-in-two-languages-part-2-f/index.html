@@ -2,18 +2,28 @@
 <html>
 
 <head>
+  
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-72523215-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'UA-72523215-1');
+  </script>
+
   <title>A data model exercise in two languages, part 2: F#</title>
 
-  
-  <link rel="stylesheet" href="/styles/bulma.css">
+  <link rel="stylesheet" href="/styles/styles.css">
   <script defer src="https://use.fontawesome.com/releases/v5.15.1/js/all.js"></script>
   <script defer src="/scripts/scripts.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
   <link rel="icon" href="/favicon.png" type="image/png" />
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Second part of an exercise illustrating how F# can provide an elegant solution to some of the challenges we face when designing data models in OO languages." />
-  <meta property="og:url" content="https://markvincze.github.io/blog/a-data-model-exercise-in-two-languages-part-2-f/" />
+  <meta property="og:url" content="http://localhost:1313/a-data-model-exercise-in-two-languages-part-2-f/" />
   <meta property="og:type" content="article" />
   <meta property="og:title" content="A data model exercise in two languages, part 2: F#" />
   <meta property="og:description" content="Second part of an exercise illustrating how F# can provide an elegant solution to some of the challenges we face when designing data models in OO languages." />
@@ -37,34 +47,32 @@
           <span aria-hidden="true"></span>
         </a>
       </div>
-      <div id="navbarMenu" class="navbar-menu">
+      <div id="navbarMenu" class="navbar-menu has-text-white-ter">
+
         <div class="navbar-start">
-          <a class="navbar-item" href="/">
-            Home
-          </a>
-
-          <a class="navbar-item" href="/posts">
-            Blog
-          </a>
-
-          <a class="navbar-item">
-            Presentations
-          </a>
+          
+          <a class="navbar-item" href="/">About</a>
+          
+          <a class="navbar-item" href="/posts">Blog</a>
+          
+          <a class="navbar-item" href="/projects">Projects</a>
+          
         </div>
+
         <div class="navbar-end pt-2 ml-2">
-          <a class="icon is-medium" href="https://twitter.com/mrkvincze">
+          <a class="icon is-medium" href="https://twitter.com/mrkvincze" target="_blank">
             <i class="fab fa-lg fa-twitter"></i>
           </a>
-          <a class="icon is-medium" href="https://www.github.com/markvincze">
+          <a class="icon is-medium" href="https://www.github.com/markvincze" target="_blank">
             <i class="fab fa-lg fa-github"></i>
           </a>
-          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze">
+          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze" target="_blank">
             <i class="fab fa-lg fa-stack-overflow"></i>
           </a>
-          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze">
+          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze" target="_blank">
             <i class="fab fa-lg fa-linkedin"></i>
           </a>
-          <a class="icon is-medium" href="/index.xml">
+          <a class="icon is-medium" href="/index.xml" target="_blank">
             <i class="fas fa-lg fa-rss"></i>
           </a>
         </div>
@@ -90,24 +98,9 @@
 <section class="section">
   <div class="container is-max-desktop">
     <h1 class="title is-1">A data model exercise in two languages, part 2: F#</h1>
+
     
 
-
-<p class="mb-3 is-vcentered">
-  <time class="has-text-grey" datetime="2017-05-22">May 22, 2017 &bull;</time>
-
-  
-  
-  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/c">c#</a>
-  
-  
-  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/computer-science">computer science</a>
-  
-  
-  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/f">f#</a>
-  
-
-</p>
     <article class="content mt-6">
       <h1 id="introduction">Introduction</h1>
 <p>In <a href="/a-data-model-exercise-in-two-languages-part-1-c">the previous post</a> I took a look at a data modelling exercise in C#, I designed a data model to represent a card in the <a href="https://en.wikipedia.org/wiki/Standard_52-card_deck">standard 52-card deck</a>.</p>
@@ -170,7 +163,7 @@ Then we can construct a value of the different cases by specifying the case name
 </code></pre></div><p>We can think of discriminated unions as a way to achieve static, compile-time polymorphism. (Static, because all the cases of the union are defined in one place, and there is no way to extend the union with other cases from the outside, as opposed to OO inheritance. We could try to model this behavior in OO by defining an abstract base class, and creating some sealed derived types. But even this could not prevent the users of our library to introduce additional derived types in the same hierarchy.)</p>
 <p>One of the nice benefits of having <em>all</em> the cases of the union defined in one place is that the compiler can check if we always cover all the cases everywhere we are doing pattern matching on a certain union type, which is extremely handy when we introduce a new case, so the compiler can remind us to update all the places in our codebase which are using the union.<br>
 For example if we introduce a new <code>Square</code> case for our <code>Shape</code> union, we&rsquo;ll get this nice warning message.</p>
-<p><img src="/images/2017/05/fsharp-union-match-warning.png" alt="The F# compiler displaying a warning when we don&rsquo;t handle every case of a discriminated union in pattern matching."></p>
+<p><img src="/images/2017/05/fsharp-union-match-warning.png" alt="The F# compiler displaying a warning when we don&amp;rsquo;t handle every case of a discriminated union in pattern matching."  style="display:block; margin: auto;" /></p>
 <h1 id="implementation">Implementation</h1>
 <p>In order to implement the card data model in F#, we can start the same way we did in C#, by defining the types representing the various suits and faces. In C# we used an enum for this purpose, in F# we can use discriminated unions.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fsharp" data-lang="fsharp"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Suit</span> <span style="color:#f92672">=</span>
@@ -274,26 +267,13 @@ With this post I wanted to give a brief introduction to these constructs. I hope
 
     </article>
 
-    <div id="disqus_thread"></div>
-    <script>
-      var disqus_config = function () {
-        this.page.url = 'https:\/\/markvincze.github.io\/blog\/a-data-model-exercise-in-two-languages-part-2-f\/';
-        
-        this.page.identifier = 'ghost-38';
-        
-      };
-      (function () { 
-        var d = document, s = d.createElement('script');
-        s.src = 'https://markvinczeblog.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-      })();
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-  </div>
+    
+
 </section>
 
 
+
+  <div style="flex: 1"></div>
 
   <footer class="footer py-6">
     <div class="content has-text-centered">

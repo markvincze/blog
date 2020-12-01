@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>firebase on Mark Vincze</title>
-    <link>https://markvincze.github.io/blog/tags/firebase/</link>
+    <link>http://localhost:1313/tags/firebase/</link>
     <description>Recent content in firebase on Mark Vincze</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 22 Aug 2017 19:00:00 +0000</lastBuildDate><atom:link href="https://markvincze.github.io/blog/tags/firebase/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 22 Aug 2017 19:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/firebase/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Secure an ASP.NET Core api with Firebase</title>
-      <link>https://markvincze.github.io/blog/secure-an-asp-net-core-api-with-firebase/</link>
+      <link>http://localhost:1313/secure-an-asp-net-core-api-with-firebase/</link>
       <pubDate>Tue, 22 Aug 2017 19:00:00 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/secure-an-asp-net-core-api-with-firebase/</guid>
+      <guid>http://localhost:1313/secure-an-asp-net-core-api-with-firebase/</guid>
       <description>Introduction Update: Updated the code samples according to the changes introduced in .NET 2.0.
 Firebase is an application development framework and infrastructure provided by Google. It offers a handful of services, like Storage, Analytics, Notifications and Hosting, mainly targeted to mobile application developers.
 At first I was a bit confused by Firebase, since its functionality seems to overlap with Google&amp;rsquo;s generic cloud environment, the Google Cloud Platform, which has—among many other things—similar features.</description>

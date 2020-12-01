@@ -2,18 +2,28 @@
 <html>
 
 <head>
+  
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-72523215-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'UA-72523215-1');
+  </script>
+
   <title>A data model exercise in two languages, part 1: C#</title>
 
-  
-  <link rel="stylesheet" href="/styles/bulma.css">
+  <link rel="stylesheet" href="/styles/styles.css">
   <script defer src="https://use.fontawesome.com/releases/v5.15.1/js/all.js"></script>
   <script defer src="/scripts/scripts.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
   <link rel="icon" href="/favicon.png" type="image/png" />
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="A simple data model exercise illustrating some challenges we encounter when designing domain models in object oriented programming languages." />
-  <meta property="og:url" content="https://markvincze.github.io/blog/a-data-model-exercise-in-two-languages-part-1-c/" />
+  <meta property="og:url" content="http://localhost:1313/a-data-model-exercise-in-two-languages-part-1-c/" />
   <meta property="og:type" content="article" />
   <meta property="og:title" content="A data model exercise in two languages, part 1: C#" />
   <meta property="og:description" content="A simple data model exercise illustrating some challenges we encounter when designing domain models in object oriented programming languages." />
@@ -37,34 +47,32 @@
           <span aria-hidden="true"></span>
         </a>
       </div>
-      <div id="navbarMenu" class="navbar-menu">
+      <div id="navbarMenu" class="navbar-menu has-text-white-ter">
+
         <div class="navbar-start">
-          <a class="navbar-item" href="/">
-            Home
-          </a>
-
-          <a class="navbar-item" href="/posts">
-            Blog
-          </a>
-
-          <a class="navbar-item">
-            Presentations
-          </a>
+          
+          <a class="navbar-item" href="/">About</a>
+          
+          <a class="navbar-item" href="/posts">Blog</a>
+          
+          <a class="navbar-item" href="/projects">Projects</a>
+          
         </div>
+
         <div class="navbar-end pt-2 ml-2">
-          <a class="icon is-medium" href="https://twitter.com/mrkvincze">
+          <a class="icon is-medium" href="https://twitter.com/mrkvincze" target="_blank">
             <i class="fab fa-lg fa-twitter"></i>
           </a>
-          <a class="icon is-medium" href="https://www.github.com/markvincze">
+          <a class="icon is-medium" href="https://www.github.com/markvincze" target="_blank">
             <i class="fab fa-lg fa-github"></i>
           </a>
-          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze">
+          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze" target="_blank">
             <i class="fab fa-lg fa-stack-overflow"></i>
           </a>
-          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze">
+          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze" target="_blank">
             <i class="fab fa-lg fa-linkedin"></i>
           </a>
-          <a class="icon is-medium" href="/index.xml">
+          <a class="icon is-medium" href="/index.xml" target="_blank">
             <i class="fas fa-lg fa-rss"></i>
           </a>
         </div>
@@ -90,24 +98,9 @@
 <section class="section">
   <div class="container is-max-desktop">
     <h1 class="title is-1">A data model exercise in two languages, part 1: C#</h1>
+
     
 
-
-<p class="mb-3 is-vcentered">
-  <time class="has-text-grey" datetime="2017-05-04">May 4, 2017 &bull;</time>
-
-  
-  
-  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/c">c#</a>
-  
-  
-  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/computer-science">computer science</a>
-  
-  
-  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/f">f#</a>
-  
-
-</p>
     <article class="content mt-6">
       <h1 id="introduction">Introduction</h1>
 <p>When I&rsquo;m learning a new programming language, I usually like to do some coding exercises to get familiar with the various language features, and to get used to the syntax.
@@ -127,7 +120,7 @@ In this first post I&rsquo;ll do it in C#, and in the next one I&rsquo;m going t
 <em>(Note: the terminology is not 100% unambiguous, some sources don&rsquo;t call the Ace a face card, but I&rsquo;ll consider it as one for the sake of this exercise.)</em></li>
 <li>There is a special card, the Joker, which does not have a suit.</li>
 </ul>
-<p><img src="/images/2017/05/cards.png" alt="Image illustrating the standard 52-card deck."></p>
+<p><img src="/images/2017/05/cards.png" alt="Image illustrating the standard 52-card deck."  style="display:block; margin: auto;" /></p>
 <p>I would like to implement a data model, which potentially can be used by multiple different algorithms. More concretely, let&rsquo;s imagine that we deliver the data model in a self-contained package, and then we can implement the logic necessary to model various card games, which all depend on this single data model.<br>
 What this means in practice is that I would not like to mix data and logic in our data types, but rather just focus on the data. This might be different than what encapsulation in OO would suggest, but it&rsquo;s necessary if we want to have a data model which then can be used in several different algorithms (which is a typical practice in functional programming).</p>
 <h1 id="implementing-in-c35">Implementing in C#</h1>
@@ -399,26 +392,13 @@ This is a manifestation of one of the general arguments against OO (or specifica
 
     </article>
 
-    <div id="disqus_thread"></div>
-    <script>
-      var disqus_config = function () {
-        this.page.url = 'https:\/\/markvincze.github.io\/blog\/a-data-model-exercise-in-two-languages-part-1-c\/';
-        
-        this.page.identifier = 'ghost-37';
-        
-      };
-      (function () { 
-        var d = document, s = d.createElement('script');
-        s.src = 'https://markvinczeblog.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-      })();
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-  </div>
+    
+
 </section>
 
 
+
+  <div style="flex: 1"></div>
 
   <footer class="footer py-6">
     <div class="content has-text-centered">

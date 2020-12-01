@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>opencover on Mark Vincze</title>
-    <link>https://markvincze.github.io/blog/tags/opencover/</link>
+    <link>http://localhost:1313/tags/opencover/</link>
     <description>Recent content in opencover on Mark Vincze</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 14 Jun 2017 19:46:00 +0000</lastBuildDate><atom:link href="https://markvincze.github.io/blog/tags/opencover/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 14 Jun 2017 19:46:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/opencover/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Setting up Coveralls with OpenCover for a .NET Core project</title>
-      <link>https://markvincze.github.io/blog/setting-up-coveralls-for-a-net-core-project/</link>
+      <link>http://localhost:1313/setting-up-coveralls-for-a-net-core-project/</link>
       <pubDate>Wed, 14 Jun 2017 19:46:00 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/setting-up-coveralls-for-a-net-core-project/</guid>
+      <guid>http://localhost:1313/setting-up-coveralls-for-a-net-core-project/</guid>
       <description>Update: The original version of this post was written when the dotnet toolchain was built on top of the project.json based project structure. Since then the project.json was deprecated, and .NET Core moved to a csproj-based approach.
 Because the project.json was completely deprecated, I decided not to write a new post, but simply adjust this one to work with the new toolchain (as of writing, that is dotnet 1.1).
 Unit test coverage is an interesting metric.</description>

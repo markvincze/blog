@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>powershell on Mark Vincze</title>
-    <link>https://markvincze.github.io/blog/tags/powershell/</link>
+    <link>http://localhost:1313/tags/powershell/</link>
     <description>Recent content in powershell on Mark Vincze</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 09 Jul 2016 22:45:38 +0000</lastBuildDate><atom:link href="https://markvincze.github.io/blog/tags/powershell/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 09 Jul 2016 22:45:38 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/powershell/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Download artifacts from a latest GitHub release with bash and PowerShell</title>
-      <link>https://markvincze.github.io/blog/download-artifacts-from-a-latest-github-release-in-sh-and-powershell/</link>
+      <link>http://localhost:1313/download-artifacts-from-a-latest-github-release-in-sh-and-powershell/</link>
       <pubDate>Sat, 09 Jul 2016 22:45:38 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/download-artifacts-from-a-latest-github-release-in-sh-and-powershell/</guid>
+      <guid>http://localhost:1313/download-artifacts-from-a-latest-github-release-in-sh-and-powershell/</guid>
       <description>Releases is an important feature of GitHub, with which we can publish packaged versions of our project.
 The source code of our repository is packaged with every release, and we also have the possibility to upload some artifacts alongside, for example the binaries or executables that we&amp;rsquo;ve built.
 Lately I&amp;rsquo;ve been working on an application for which the releases are published on GitHub, and I wanted to create an install script which always downloads the latest release.</description>

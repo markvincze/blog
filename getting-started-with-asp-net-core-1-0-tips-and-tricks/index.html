@@ -2,18 +2,28 @@
 <html>
 
 <head>
+  
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-72523215-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'UA-72523215-1');
+  </script>
+
   <title>ASP.NET Core 1.0: hints to get started</title>
 
-  
-  <link rel="stylesheet" href="/styles/bulma.css">
+  <link rel="stylesheet" href="/styles/styles.css">
   <script defer src="https://use.fontawesome.com/releases/v5.15.1/js/all.js"></script>
   <script defer src="/scripts/scripts.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
   <link rel="icon" href="/favicon.png" type="image/png" />
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Some random tips and tricks I have learnt during spending a couple of weeks with getting started with ASP.NET Core." />
-  <meta property="og:url" content="https://markvincze.github.io/blog/getting-started-with-asp-net-core-1-0-tips-and-tricks/" />
+  <meta property="og:url" content="http://localhost:1313/getting-started-with-asp-net-core-1-0-tips-and-tricks/" />
   <meta property="og:type" content="article" />
   <meta property="og:title" content="ASP.NET Core 1.0: hints to get started" />
   <meta property="og:description" content="Some random tips and tricks I have learnt during spending a couple of weeks with getting started with ASP.NET Core." />
@@ -37,34 +47,32 @@
           <span aria-hidden="true"></span>
         </a>
       </div>
-      <div id="navbarMenu" class="navbar-menu">
+      <div id="navbarMenu" class="navbar-menu has-text-white-ter">
+
         <div class="navbar-start">
-          <a class="navbar-item" href="/">
-            Home
-          </a>
-
-          <a class="navbar-item" href="/posts">
-            Blog
-          </a>
-
-          <a class="navbar-item">
-            Presentations
-          </a>
+          
+          <a class="navbar-item" href="/">About</a>
+          
+          <a class="navbar-item" href="/posts">Blog</a>
+          
+          <a class="navbar-item" href="/projects">Projects</a>
+          
         </div>
+
         <div class="navbar-end pt-2 ml-2">
-          <a class="icon is-medium" href="https://twitter.com/mrkvincze">
+          <a class="icon is-medium" href="https://twitter.com/mrkvincze" target="_blank">
             <i class="fab fa-lg fa-twitter"></i>
           </a>
-          <a class="icon is-medium" href="https://www.github.com/markvincze">
+          <a class="icon is-medium" href="https://www.github.com/markvincze" target="_blank">
             <i class="fab fa-lg fa-github"></i>
           </a>
-          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze">
+          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze" target="_blank">
             <i class="fab fa-lg fa-stack-overflow"></i>
           </a>
-          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze">
+          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze" target="_blank">
             <i class="fab fa-lg fa-linkedin"></i>
           </a>
-          <a class="icon is-medium" href="/index.xml">
+          <a class="icon is-medium" href="/index.xml" target="_blank">
             <i class="fas fa-lg fa-rss"></i>
           </a>
         </div>
@@ -90,33 +98,9 @@
 <section class="section">
   <div class="container is-max-desktop">
     <h1 class="title is-1">ASP.NET Core 1.0: hints to get started</h1>
+
     
 
-
-<p class="mb-3 is-vcentered">
-  <time class="has-text-grey" datetime="2016-02-14">Feb 14, 2016 &bull;</time>
-
-  
-  
-  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/asp.net">asp.net</a>
-  
-  
-  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/c">c#</a>
-  
-  
-  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/.net">.net</a>
-  
-  
-  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/.net-core">.net-core</a>
-  
-  
-  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/asp.net-core">asp.net-core</a>
-  
-  
-  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/dnx">dnx</a>
-  
-
-</p>
     <article class="content mt-6">
       <p>I recently started working on implementing a Web Api application using ASP.NET Core 1.0, running it on Linux with the CoreCLR.</p>
 <p>There have been many changes introduced in this new version of ASP.NET, and there are also differences in how we are running and deploying applications using CoreCLR, so I&rsquo;m going to document a couple of things you might encounter if you get started with using this new ecosystem.</p>
@@ -209,7 +193,7 @@ The setup I started using after a while is to split terminal into 3 parts:</p>
 <li>Top-right: constantly run <code>dnx-watch web</code> to always host the latest version of the site.</li>
 <li>Top-left: constantly run <code>dnx-watch test</code> to execute my unit test suite on every change.</li>
 </ul>
-<p><img src="/images/2016/02/asp-net-core-cmder.png" alt="Screeshot illustrating cmder used with an ASP.NET Core project"></p>
+<p><img src="/images/2016/02/asp-net-core-cmder.png" alt="Screeshot illustrating cmder used with an ASP.NET Core project"  style="display:block; margin: auto;" /></p>
 <p>If you are using the built-in command line in Windows, I can really recommend <a href="http://cmder.net/">cmder</a>, it&rsquo;s a great improvement with features like syntax-highlighting, better text-selection with mouse, CTRL+C and CTRL+V support, and many more.</p>
 <h1 id="conclusion">Conclusion</h1>
 <p>No real conclusion here, this post ended up being quite random :). I&rsquo;ve probably written about some stuff which is not essential for everybody, and I&rsquo;m sure there are some others which might be much more important for someone else. However, these are the ones which were at the forefront of my thoughts.</p>
@@ -217,26 +201,13 @@ The setup I started using after a while is to split terminal into 3 parts:</p>
 
     </article>
 
-    <div id="disqus_thread"></div>
-    <script>
-      var disqus_config = function () {
-        this.page.url = 'https:\/\/markvincze.github.io\/blog\/getting-started-with-asp-net-core-1-0-tips-and-tricks\/';
-        
-        this.page.identifier = 'ghost-12';
-        
-      };
-      (function () { 
-        var d = document, s = d.createElement('script');
-        s.src = 'https://markvinczeblog.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-      })();
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-  </div>
+    
+
 </section>
 
 
+
+  <div style="flex: 1"></div>
 
   <footer class="footer py-6">
     <div class="content has-text-centered">

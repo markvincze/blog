@@ -2,18 +2,28 @@
 <html>
 
 <head>
+  
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-72523215-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'UA-72523215-1');
+  </script>
+
   <title>Attach to specific Process shortcut in Visual Studio</title>
 
-  
-  <link rel="stylesheet" href="/styles/bulma.css">
+  <link rel="stylesheet" href="/styles/styles.css">
   <script defer src="https://use.fontawesome.com/releases/v5.15.1/js/all.js"></script>
   <script defer src="/scripts/scripts.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
   <link rel="icon" href="/favicon.png" type="image/png" />
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="How to create a shortcut in Visual Studio to attach the debugger to a specific process." />
-  <meta property="og:url" content="https://markvincze.github.io/blog/attach-to-process-shortcut-in-visual-studio/" />
+  <meta property="og:url" content="http://localhost:1313/attach-to-process-shortcut-in-visual-studio/" />
   <meta property="og:type" content="article" />
   <meta property="og:title" content="Attach to specific Process shortcut in Visual Studio" />
   <meta property="og:description" content="How to create a shortcut in Visual Studio to attach the debugger to a specific process." />
@@ -37,34 +47,32 @@
           <span aria-hidden="true"></span>
         </a>
       </div>
-      <div id="navbarMenu" class="navbar-menu">
+      <div id="navbarMenu" class="navbar-menu has-text-white-ter">
+
         <div class="navbar-start">
-          <a class="navbar-item" href="/">
-            Home
-          </a>
-
-          <a class="navbar-item" href="/posts">
-            Blog
-          </a>
-
-          <a class="navbar-item">
-            Presentations
-          </a>
+          
+          <a class="navbar-item" href="/">About</a>
+          
+          <a class="navbar-item" href="/posts">Blog</a>
+          
+          <a class="navbar-item" href="/projects">Projects</a>
+          
         </div>
+
         <div class="navbar-end pt-2 ml-2">
-          <a class="icon is-medium" href="https://twitter.com/mrkvincze">
+          <a class="icon is-medium" href="https://twitter.com/mrkvincze" target="_blank">
             <i class="fab fa-lg fa-twitter"></i>
           </a>
-          <a class="icon is-medium" href="https://www.github.com/markvincze">
+          <a class="icon is-medium" href="https://www.github.com/markvincze" target="_blank">
             <i class="fab fa-lg fa-github"></i>
           </a>
-          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze">
+          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze" target="_blank">
             <i class="fab fa-lg fa-stack-overflow"></i>
           </a>
-          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze">
+          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze" target="_blank">
             <i class="fab fa-lg fa-linkedin"></i>
           </a>
-          <a class="icon is-medium" href="/index.xml">
+          <a class="icon is-medium" href="/index.xml" target="_blank">
             <i class="fas fa-lg fa-rss"></i>
           </a>
         </div>
@@ -90,31 +98,13 @@
 <section class="section">
   <div class="container is-max-desktop">
     <h1 class="title is-1">Attach to specific Process shortcut in Visual Studio</h1>
+
     
 
-
-<p class="mb-3 is-vcentered">
-  <time class="has-text-grey" datetime="2015-04-26">Apr 26, 2015 &bull;</time>
-
-  
-  
-  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/visual-studio">visual studio</a>
-  
-  
-  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/debug">debug</a>
-  
-  
-  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/tooling">tooling</a>
-  
-  
-  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/visual-commander">visual commander</a>
-  
-
-</p>
     <article class="content mt-6">
       <p>It&rsquo;s a very useful feature of Visual Studio that besides starting an application for debugging, we can attach the debugger to already running processes as well.
 This can be done with the <strong>Debug-&gt;Attach to Process&hellip;</strong> option, where we have to select the desired one from a list of all running processes.
-<img src="/images/2015/04/attach_window.png" alt="Attach to Process window in Visual Studio">
+<img src="/images/2015/04/attach_window.png" alt="Attach to Process window in Visual Studio"  style="display:block; margin: auto;" />
 This method of attaching to a process is OK if you have to do it only once in a while, but if you have to debug applications this way regularly, it becomes time-consuming to search for the process in the list every time.</p>
 <p>The principle of automation has been written in many forms, this is one of the renditions:</p>
 <blockquote>
@@ -132,11 +122,11 @@ However, the first comment on the answer destroys our happiness:</p>
 #Visual Commander to the rescue!
 I really like it when a popular feature of a product is removed, but the community brings it back. The same thing happened to VS macros with <a href="https://vlasovstudio.com/visual-commander/">Visual Commander</a>, a freemium VS extension that lets us reuse existing VS macros, and create commands and extensions using C# or VB.NET.<br>
 After installing the extension, you can open the Commands windows with the VCMD-&gt;Commands option.
-<img src="/images/2015/04/VCMD_menu.png" alt="Commands option in the VCMD menu">
+<img src="/images/2015/04/VCMD_menu.png" alt="Commands option in the VCMD menu"  style="display:block; margin: auto;" />
 In the Commands window we can manage our existing commands, and create a new one with the Add button.
-<img src="/images/2015/04/vc_commands.png" alt="Commands window for managing all our existing commands">
+<img src="/images/2015/04/vc_commands.png" alt="Commands window for managing all our existing commands"  style="display:block; margin: auto;" />
 In the command editor window can pick a name, select the language we&rsquo;d like to use (C# or VB), and implement the code which will run when we execute the command.
-<img src="/images/2015/04/new_command.png" alt="Command editor window of VCMD">
+<img src="/images/2015/04/new_command.png" alt="Command editor window of VCMD"  style="display:block; margin: auto;" />
 <strong>One gotcha</strong>: pick the desired language before starting to type the code, because if you switch to another language, all your edits are erased.<br>
 The editor window is a bit plain, it does not support IntelliSense or automatic code formatting, so you&rsquo;ll might be better off writing the code in a normal Visual Studio window and insert it into the VCMD command afterwards.</p>
 <p>The code for attaching to a process with a specific name is quite simple, as described in the above SO-answer. This is the same code translated to C#.</p>
@@ -162,11 +152,11 @@ The editor window is a bit plain, it does not support IntelliSense or automatic 
     }
 }
 </code></pre></div><p>The above code tries to attach to a process that has a name ending with &ldquo;MyApp.exe&rdquo;. The command in this form is already ready to use. Existing commands can be found with their specified name in the VCMD menu.
-<img src="/images/2015/04/attachToMyApp.png" alt="Run existing VCMD command"></p>
+<img src="/images/2015/04/attachToMyApp.png" alt="Run existing VCMD command"  style="display:block; margin: auto;" /></p>
 <p>#Attach to a process with a specific owner user</p>
 <p>Sometimes we can&rsquo;t identify the process we are looking for by it&rsquo;s name, but we have to use the name of the user running it.<br>
 A typical scenario for this is when we have several web applications running in IIS. In this case all the processes have the same name, <strong>w3wp.exe</strong>, they only differ in the name of the user running them. (That is, if we use different application pools for each of the applications.)
-<img src="/images/2015/04/attach_iis.png" alt="IIS processes with the same name, but different user">
+<img src="/images/2015/04/attach_iis.png" alt="IIS processes with the same name, but different user"  style="display:block; margin: auto;" />
 ##Finding out the process owner&rsquo;s user name
 Unfortunately, the <code>EnvDTE.Process</code> <a href="https://msdn.microsoft.com/en-us/library/envdte.process.aspx">interface</a> does not contain the user name, so we have to do a little additional coding to find it.<br>
 One solution is to use WMI, which can be used in .NET with the System.Management namespace, and implement a little helper method.</p>
@@ -236,26 +226,13 @@ One solution is to use WMI, which can be used in .NET with the System.Management
 
     </article>
 
-    <div id="disqus_thread"></div>
-    <script>
-      var disqus_config = function () {
-        this.page.url = 'https:\/\/markvincze.github.io\/blog\/attach-to-process-shortcut-in-visual-studio\/';
-        
-        this.page.identifier = 'ghost-2';
-        
-      };
-      (function () { 
-        var d = document, s = d.createElement('script');
-        s.src = 'https://markvinczeblog.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-      })();
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-  </div>
+    
+
 </section>
 
 
+
+  <div style="flex: 1"></div>
 
   <footer class="footer py-6">
     <div class="content has-text-centered">

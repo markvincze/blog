@@ -2,37 +2,37 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>basics on Mark Vincze</title>
-    <link>https://markvincze.github.io/blog/tags/basics/</link>
+    <link>http://localhost:1313/tags/basics/</link>
     <description>Recent content in basics on Mark Vincze</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 25 Oct 2015 18:53:07 +0000</lastBuildDate><atom:link href="https://markvincze.github.io/blog/tags/basics/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 25 Oct 2015 18:53:07 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/basics/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Back to basics: Dictionary part 4, custom GetHashCode</title>
-      <link>https://markvincze.github.io/blog/back-to-basics-dictionary-part-4-custom-gethashcode/</link>
+      <link>http://localhost:1313/back-to-basics-dictionary-part-4-custom-gethashcode/</link>
       <pubDate>Sun, 25 Oct 2015 18:53:07 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/back-to-basics-dictionary-part-4-custom-gethashcode/</guid>
+      <guid>http://localhost:1313/back-to-basics-dictionary-part-4-custom-gethashcode/</guid>
       <description>Posts in this series:
  Part 1: Hash tables Part 2: .NET implementation Part 3: Built-in GetHashCode Part 4: Custom GetHashCode  General guidelines This is the last part in the series about the Dictionary class and the GetHashCode method. In this post we&amp;rsquo;ll take a look at what to look out for when implementing a custom GetHashCode method. In the previous post we&amp;rsquo;ve seen how the built-in GetHashCode works.</description>
     </item>
     
     <item>
       <title>Back to basics: Dictionary part 3, built-in GetHashCode</title>
-      <link>https://markvincze.github.io/blog/back-to-basics-dictionary-part-3-built-in-gethashcode/</link>
+      <link>http://localhost:1313/back-to-basics-dictionary-part-3-built-in-gethashcode/</link>
       <pubDate>Sat, 29 Aug 2015 14:02:09 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/back-to-basics-dictionary-part-3-built-in-gethashcode/</guid>
+      <guid>http://localhost:1313/back-to-basics-dictionary-part-3-built-in-gethashcode/</guid>
       <description>Posts in this series:
  Part 1: Hash tables Part 2: .NET implementation Part 3: Built-in GetHashCode Part 4: Custom GetHashCode  Introduction In the previous two posts we looked at the basic concepts behind the hash map data structure, and checked out how it is implemented in the Dictionary class of the .NET Framework. Today we&amp;rsquo;ll take a look at a very important mechanism behind the Dictionary class: the GetHashCode method, and the way its built-in implementation works.</description>
     </item>
     
     <item>
       <title>Back to basics: Dictionary part 2, .NET implementation</title>
-      <link>https://markvincze.github.io/blog/back-to-basics-dictionary-part-2-net-implementation/</link>
+      <link>http://localhost:1313/back-to-basics-dictionary-part-2-net-implementation/</link>
       <pubDate>Sat, 15 Aug 2015 13:27:35 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/back-to-basics-dictionary-part-2-net-implementation/</guid>
+      <guid>http://localhost:1313/back-to-basics-dictionary-part-2-net-implementation/</guid>
       <description>Posts in this series:
  Part 1: Hash tables Part 2: .NET implementation Part 3: Built-in GetHashCode Part 4: Custom GetHashCode  Introduction Last time we saw an overview about the basic concepts behind a hash map.
 In this post we will take a look at the .NET Dictionary class, and see what type of hash map it is and how the different mechanisms have been implemented in C#.
@@ -41,10 +41,10 @@ In order to investigate, I used the Reference source published by Microsoft, whi
     
     <item>
       <title>Back to basics: Dictionary part 1, hash tables</title>
-      <link>https://markvincze.github.io/blog/back-to-basics-dictionary-part-1/</link>
+      <link>http://localhost:1313/back-to-basics-dictionary-part-1/</link>
       <pubDate>Sat, 25 Jul 2015 13:37:04 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/back-to-basics-dictionary-part-1/</guid>
+      <guid>http://localhost:1313/back-to-basics-dictionary-part-1/</guid>
       <description>Posts in this series:
  Part 1: Hash tables Part 2: .NET implementation Part 3: Built-in GetHashCode Part 4: Custom GetHashCode  Introduction Recently I came across a situation in which I should have known the details about how a .NET Dictionary (and hashmaps in general) worked under the hood. I realized that my knowledge about this topic was a bit rusty, so I decided I&amp;rsquo;d refresh my memories and look into this topic.</description>
     </item>

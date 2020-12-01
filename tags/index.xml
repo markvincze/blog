@@ -2,449 +2,449 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Mark Vincze</title>
-    <link>https://markvincze.github.io/blog/tags/</link>
+    <link>http://localhost:1313/tags/</link>
     <description>Recent content in Tags on Mark Vincze</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 24 Feb 2020 23:25:09 +0000</lastBuildDate><atom:link href="https://markvincze.github.io/blog/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 24 Feb 2020 23:25:09 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>asp.net-core</title>
-      <link>https://markvincze.github.io/blog/tags/asp.net-core/</link>
+      <link>http://localhost:1313/tags/asp.net-core/</link>
       <pubDate>Mon, 24 Feb 2020 23:25:09 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/tags/asp.net-core/</guid>
+      <guid>http://localhost:1313/tags/asp.net-core/</guid>
       <description></description>
     </item>
     
     <item>
       <title>integration-testing</title>
-      <link>https://markvincze.github.io/blog/tags/integration-testing/</link>
+      <link>http://localhost:1313/tags/integration-testing/</link>
       <pubDate>Mon, 24 Feb 2020 23:25:09 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/tags/integration-testing/</guid>
+      <guid>http://localhost:1313/tags/integration-testing/</guid>
       <description></description>
     </item>
     
     <item>
       <title>testing</title>
-      <link>https://markvincze.github.io/blog/tags/testing/</link>
+      <link>http://localhost:1313/tags/testing/</link>
       <pubDate>Mon, 24 Feb 2020 23:25:09 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/tags/testing/</guid>
+      <guid>http://localhost:1313/tags/testing/</guid>
       <description></description>
     </item>
     
     <item>
       <title>envoy</title>
-      <link>https://markvincze.github.io/blog/tags/envoy/</link>
+      <link>http://localhost:1313/tags/envoy/</link>
       <pubDate>Thu, 11 Apr 2019 20:44:50 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/tags/envoy/</guid>
+      <guid>http://localhost:1313/tags/envoy/</guid>
       <description></description>
     </item>
     
     <item>
       <title>kubernetes</title>
-      <link>https://markvincze.github.io/blog/tags/kubernetes/</link>
+      <link>http://localhost:1313/tags/kubernetes/</link>
       <pubDate>Sun, 06 Jan 2019 16:56:05 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/tags/kubernetes/</guid>
+      <guid>http://localhost:1313/tags/kubernetes/</guid>
       <description></description>
     </item>
     
     <item>
       <title>varnish</title>
-      <link>https://markvincze.github.io/blog/tags/varnish/</link>
+      <link>http://localhost:1313/tags/varnish/</link>
       <pubDate>Sat, 28 Jul 2018 19:12:24 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/tags/varnish/</guid>
+      <guid>http://localhost:1313/tags/varnish/</guid>
       <description></description>
     </item>
     
     <item>
       <title>.net-core</title>
-      <link>https://markvincze.github.io/blog/tags/.net-core/</link>
+      <link>http://localhost:1313/tags/.net-core/</link>
       <pubDate>Sun, 08 Jul 2018 15:48:55 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/tags/.net-core/</guid>
+      <guid>http://localhost:1313/tags/.net-core/</guid>
       <description></description>
     </item>
     
     <item>
       <title>c#</title>
-      <link>https://markvincze.github.io/blog/tags/c#/</link>
+      <link>http://localhost:1313/tags/c#/</link>
       <pubDate>Sun, 08 Jul 2018 15:48:55 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/tags/c#/</guid>
+      <guid>http://localhost:1313/tags/c#/</guid>
       <description></description>
     </item>
     
     <item>
       <title>linting</title>
-      <link>https://markvincze.github.io/blog/tags/linting/</link>
+      <link>http://localhost:1313/tags/linting/</link>
       <pubDate>Sun, 08 Jul 2018 15:48:55 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/tags/linting/</guid>
+      <guid>http://localhost:1313/tags/linting/</guid>
       <description></description>
     </item>
     
     <item>
       <title>presenting</title>
-      <link>https://markvincze.github.io/blog/tags/presenting/</link>
+      <link>http://localhost:1313/tags/presenting/</link>
       <pubDate>Sun, 26 Nov 2017 22:34:50 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/tags/presenting/</guid>
+      <guid>http://localhost:1313/tags/presenting/</guid>
       <description></description>
     </item>
     
     <item>
       <title>visual studio</title>
-      <link>https://markvincze.github.io/blog/tags/visual-studio/</link>
+      <link>http://localhost:1313/tags/visual-studio/</link>
       <pubDate>Sun, 26 Nov 2017 22:34:50 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/tags/visual-studio/</guid>
+      <guid>http://localhost:1313/tags/visual-studio/</guid>
       <description></description>
     </item>
     
     <item>
       <title>visual studio code</title>
-      <link>https://markvincze.github.io/blog/tags/visual-studio-code/</link>
+      <link>http://localhost:1313/tags/visual-studio-code/</link>
       <pubDate>Sun, 26 Nov 2017 22:34:50 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/tags/visual-studio-code/</guid>
+      <guid>http://localhost:1313/tags/visual-studio-code/</guid>
       <description></description>
     </item>
     
     <item>
       <title>appveyor</title>
-      <link>https://markvincze.github.io/blog/tags/appveyor/</link>
+      <link>http://localhost:1313/tags/appveyor/</link>
       <pubDate>Fri, 17 Nov 2017 00:00:34 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/tags/appveyor/</guid>
+      <guid>http://localhost:1313/tags/appveyor/</guid>
       <description></description>
     </item>
     
     <item>
       <title>docfx</title>
-      <link>https://markvincze.github.io/blog/tags/docfx/</link>
+      <link>http://localhost:1313/tags/docfx/</link>
       <pubDate>Fri, 17 Nov 2017 00:00:34 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/tags/docfx/</guid>
+      <guid>http://localhost:1313/tags/docfx/</guid>
       <description></description>
     </item>
     
     <item>
       <title>firebase</title>
-      <link>https://markvincze.github.io/blog/tags/firebase/</link>
+      <link>http://localhost:1313/tags/firebase/</link>
       <pubDate>Tue, 22 Aug 2017 19:00:00 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/tags/firebase/</guid>
+      <guid>http://localhost:1313/tags/firebase/</guid>
       <description></description>
     </item>
     
     <item>
       <title>security</title>
-      <link>https://markvincze.github.io/blog/tags/security/</link>
+      <link>http://localhost:1313/tags/security/</link>
       <pubDate>Tue, 22 Aug 2017 19:00:00 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/tags/security/</guid>
+      <guid>http://localhost:1313/tags/security/</guid>
       <description></description>
     </item>
     
     <item>
       <title>web api</title>
-      <link>https://markvincze.github.io/blog/tags/web-api/</link>
+      <link>http://localhost:1313/tags/web-api/</link>
       <pubDate>Sat, 29 Jul 2017 18:32:34 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/tags/web-api/</guid>
+      <guid>http://localhost:1313/tags/web-api/</guid>
       <description></description>
     </item>
     
     <item>
       <title>couchbase</title>
-      <link>https://markvincze.github.io/blog/tags/couchbase/</link>
+      <link>http://localhost:1313/tags/couchbase/</link>
       <pubDate>Wed, 21 Jun 2017 20:20:00 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/tags/couchbase/</guid>
+      <guid>http://localhost:1313/tags/couchbase/</guid>
       <description></description>
     </item>
     
     <item>
       <title>quartz.net</title>
-      <link>https://markvincze.github.io/blog/tags/quartz.net/</link>
+      <link>http://localhost:1313/tags/quartz.net/</link>
       <pubDate>Wed, 21 Jun 2017 20:20:00 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/tags/quartz.net/</guid>
+      <guid>http://localhost:1313/tags/quartz.net/</guid>
       <description></description>
     </item>
     
     <item>
       <title>coveralls</title>
-      <link>https://markvincze.github.io/blog/tags/coveralls/</link>
+      <link>http://localhost:1313/tags/coveralls/</link>
       <pubDate>Wed, 14 Jun 2017 19:46:00 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/tags/coveralls/</guid>
+      <guid>http://localhost:1313/tags/coveralls/</guid>
       <description></description>
     </item>
     
     <item>
       <title>opencover</title>
-      <link>https://markvincze.github.io/blog/tags/opencover/</link>
+      <link>http://localhost:1313/tags/opencover/</link>
       <pubDate>Wed, 14 Jun 2017 19:46:00 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/tags/opencover/</guid>
+      <guid>http://localhost:1313/tags/opencover/</guid>
       <description></description>
     </item>
     
     <item>
       <title>computer science</title>
-      <link>https://markvincze.github.io/blog/tags/computer-science/</link>
+      <link>http://localhost:1313/tags/computer-science/</link>
       <pubDate>Mon, 22 May 2017 19:56:14 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/tags/computer-science/</guid>
+      <guid>http://localhost:1313/tags/computer-science/</guid>
       <description></description>
     </item>
     
     <item>
       <title>f#</title>
-      <link>https://markvincze.github.io/blog/tags/f#/</link>
+      <link>http://localhost:1313/tags/f#/</link>
       <pubDate>Mon, 22 May 2017 19:56:14 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/tags/f#/</guid>
+      <guid>http://localhost:1313/tags/f#/</guid>
       <description></description>
     </item>
     
     <item>
       <title>category-theory</title>
-      <link>https://markvincze.github.io/blog/tags/category-theory/</link>
+      <link>http://localhost:1313/tags/category-theory/</link>
       <pubDate>Wed, 19 Apr 2017 21:27:16 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/tags/category-theory/</guid>
+      <guid>http://localhost:1313/tags/category-theory/</guid>
       <description></description>
     </item>
     
     <item>
       <title>dependency-injection</title>
-      <link>https://markvincze.github.io/blog/tags/dependency-injection/</link>
+      <link>http://localhost:1313/tags/dependency-injection/</link>
       <pubDate>Mon, 17 Apr 2017 14:31:27 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/tags/dependency-injection/</guid>
+      <guid>http://localhost:1313/tags/dependency-injection/</guid>
       <description></description>
     </item>
     
     <item>
       <title>suave</title>
-      <link>https://markvincze.github.io/blog/tags/suave/</link>
+      <link>http://localhost:1313/tags/suave/</link>
       <pubDate>Sun, 12 Mar 2017 12:51:45 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/tags/suave/</guid>
+      <guid>http://localhost:1313/tags/suave/</guid>
       <description></description>
     </item>
     
     <item>
       <title>.net</title>
-      <link>https://markvincze.github.io/blog/tags/.net/</link>
+      <link>http://localhost:1313/tags/.net/</link>
       <pubDate>Sat, 11 Feb 2017 15:12:50 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/tags/.net/</guid>
+      <guid>http://localhost:1313/tags/.net/</guid>
       <description></description>
     </item>
     
     <item>
       <title>asp.net</title>
-      <link>https://markvincze.github.io/blog/tags/asp.net/</link>
+      <link>http://localhost:1313/tags/asp.net/</link>
       <pubDate>Sun, 05 Feb 2017 17:38:02 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/tags/asp.net/</guid>
+      <guid>http://localhost:1313/tags/asp.net/</guid>
       <description></description>
     </item>
     
     <item>
       <title>golang</title>
-      <link>https://markvincze.github.io/blog/tags/golang/</link>
+      <link>http://localhost:1313/tags/golang/</link>
       <pubDate>Sun, 30 Oct 2016 14:39:59 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/tags/golang/</guid>
+      <guid>http://localhost:1313/tags/golang/</guid>
       <description></description>
     </item>
     
     <item>
       <title>livereload</title>
-      <link>https://markvincze.github.io/blog/tags/livereload/</link>
+      <link>http://localhost:1313/tags/livereload/</link>
       <pubDate>Sun, 30 Oct 2016 14:39:59 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/tags/livereload/</guid>
+      <guid>http://localhost:1313/tags/livereload/</guid>
       <description></description>
     </item>
     
     <item>
       <title>websocket</title>
-      <link>https://markvincze.github.io/blog/tags/websocket/</link>
+      <link>http://localhost:1313/tags/websocket/</link>
       <pubDate>Sun, 30 Oct 2016 14:39:59 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/tags/websocket/</guid>
+      <guid>http://localhost:1313/tags/websocket/</guid>
       <description></description>
     </item>
     
     <item>
       <title>travis</title>
-      <link>https://markvincze.github.io/blog/tags/travis/</link>
+      <link>http://localhost:1313/tags/travis/</link>
       <pubDate>Sat, 15 Oct 2016 15:36:14 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/tags/travis/</guid>
+      <guid>http://localhost:1313/tags/travis/</guid>
       <description></description>
     </item>
     
     <item>
       <title>bash</title>
-      <link>https://markvincze.github.io/blog/tags/bash/</link>
+      <link>http://localhost:1313/tags/bash/</link>
       <pubDate>Sat, 09 Jul 2016 22:45:38 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/tags/bash/</guid>
+      <guid>http://localhost:1313/tags/bash/</guid>
       <description></description>
     </item>
     
     <item>
       <title>github</title>
-      <link>https://markvincze.github.io/blog/tags/github/</link>
+      <link>http://localhost:1313/tags/github/</link>
       <pubDate>Sat, 09 Jul 2016 22:45:38 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/tags/github/</guid>
+      <guid>http://localhost:1313/tags/github/</guid>
       <description></description>
     </item>
     
     <item>
       <title>powershell</title>
-      <link>https://markvincze.github.io/blog/tags/powershell/</link>
+      <link>http://localhost:1313/tags/powershell/</link>
       <pubDate>Sat, 09 Jul 2016 22:45:38 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/tags/powershell/</guid>
+      <guid>http://localhost:1313/tags/powershell/</guid>
       <description></description>
     </item>
     
     <item>
       <title>conference</title>
-      <link>https://markvincze.github.io/blog/tags/conference/</link>
+      <link>http://localhost:1313/tags/conference/</link>
       <pubDate>Sat, 02 Jul 2016 18:19:12 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/tags/conference/</guid>
+      <guid>http://localhost:1313/tags/conference/</guid>
       <description></description>
     </item>
     
     <item>
       <title>ndc</title>
-      <link>https://markvincze.github.io/blog/tags/ndc/</link>
+      <link>http://localhost:1313/tags/ndc/</link>
       <pubDate>Sat, 02 Jul 2016 18:19:12 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/tags/ndc/</guid>
+      <guid>http://localhost:1313/tags/ndc/</guid>
       <description></description>
     </item>
     
     <item>
       <title>mvc</title>
-      <link>https://markvincze.github.io/blog/tags/mvc/</link>
+      <link>http://localhost:1313/tags/mvc/</link>
       <pubDate>Sat, 18 Jun 2016 21:17:15 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/tags/mvc/</guid>
+      <guid>http://localhost:1313/tags/mvc/</guid>
       <description></description>
     </item>
     
     <item>
       <title>specflow</title>
-      <link>https://markvincze.github.io/blog/tags/specflow/</link>
+      <link>http://localhost:1313/tags/specflow/</link>
       <pubDate>Sat, 23 Apr 2016 15:57:05 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/tags/specflow/</guid>
+      <guid>http://localhost:1313/tags/specflow/</guid>
       <description></description>
     </item>
     
     <item>
       <title>ghost</title>
-      <link>https://markvincze.github.io/blog/tags/ghost/</link>
+      <link>http://localhost:1313/tags/ghost/</link>
       <pubDate>Sun, 10 Apr 2016 16:48:05 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/tags/ghost/</guid>
+      <guid>http://localhost:1313/tags/ghost/</guid>
       <description></description>
     </item>
     
     <item>
       <title>openshift</title>
-      <link>https://markvincze.github.io/blog/tags/openshift/</link>
+      <link>http://localhost:1313/tags/openshift/</link>
       <pubDate>Sun, 10 Apr 2016 16:48:05 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/tags/openshift/</guid>
+      <guid>http://localhost:1313/tags/openshift/</guid>
       <description></description>
     </item>
     
     <item>
       <title>postgre</title>
-      <link>https://markvincze.github.io/blog/tags/postgre/</link>
+      <link>http://localhost:1313/tags/postgre/</link>
       <pubDate>Sun, 10 Apr 2016 16:48:05 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/tags/postgre/</guid>
+      <guid>http://localhost:1313/tags/postgre/</guid>
       <description></description>
     </item>
     
     <item>
       <title>sqlite</title>
-      <link>https://markvincze.github.io/blog/tags/sqlite/</link>
+      <link>http://localhost:1313/tags/sqlite/</link>
       <pubDate>Sun, 10 Apr 2016 16:48:05 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/tags/sqlite/</guid>
+      <guid>http://localhost:1313/tags/sqlite/</guid>
       <description></description>
     </item>
     
     <item>
       <title>dnx</title>
-      <link>https://markvincze.github.io/blog/tags/dnx/</link>
+      <link>http://localhost:1313/tags/dnx/</link>
       <pubDate>Sun, 14 Feb 2016 16:30:58 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/tags/dnx/</guid>
+      <guid>http://localhost:1313/tags/dnx/</guid>
       <description></description>
     </item>
     
     <item>
       <title>basics</title>
-      <link>https://markvincze.github.io/blog/tags/basics/</link>
+      <link>http://localhost:1313/tags/basics/</link>
       <pubDate>Sun, 25 Oct 2015 18:53:07 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/tags/basics/</guid>
+      <guid>http://localhost:1313/tags/basics/</guid>
       <description></description>
     </item>
     
     <item>
       <title>glimpse</title>
-      <link>https://markvincze.github.io/blog/tags/glimpse/</link>
+      <link>http://localhost:1313/tags/glimpse/</link>
       <pubDate>Thu, 14 May 2015 12:56:50 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/tags/glimpse/</guid>
+      <guid>http://localhost:1313/tags/glimpse/</guid>
       <description></description>
     </item>
     
     <item>
       <title>debug</title>
-      <link>https://markvincze.github.io/blog/tags/debug/</link>
+      <link>http://localhost:1313/tags/debug/</link>
       <pubDate>Sun, 26 Apr 2015 12:21:19 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/tags/debug/</guid>
+      <guid>http://localhost:1313/tags/debug/</guid>
       <description></description>
     </item>
     
     <item>
       <title>tooling</title>
-      <link>https://markvincze.github.io/blog/tags/tooling/</link>
+      <link>http://localhost:1313/tags/tooling/</link>
       <pubDate>Sun, 26 Apr 2015 12:21:19 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/tags/tooling/</guid>
+      <guid>http://localhost:1313/tags/tooling/</guid>
       <description></description>
     </item>
     
     <item>
       <title>visual commander</title>
-      <link>https://markvincze.github.io/blog/tags/visual-commander/</link>
+      <link>http://localhost:1313/tags/visual-commander/</link>
       <pubDate>Sun, 26 Apr 2015 12:21:19 +0000</pubDate>
       
-      <guid>https://markvincze.github.io/blog/tags/visual-commander/</guid>
+      <guid>http://localhost:1313/tags/visual-commander/</guid>
       <description></description>
     </item>
     

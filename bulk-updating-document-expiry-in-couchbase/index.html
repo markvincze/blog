@@ -2,18 +2,28 @@
 <html>
 
 <head>
+  
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-72523215-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'UA-72523215-1');
+  </script>
+
   <title>Bulk updating document expiry in Couchbase</title>
 
-  
-  <link rel="stylesheet" href="/styles/bulma.css">
+  <link rel="stylesheet" href="/styles/styles.css">
   <script defer src="https://use.fontawesome.com/releases/v5.15.1/js/all.js"></script>
   <script defer src="/scripts/scripts.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
   <link rel="icon" href="/favicon.png" type="image/png" />
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="A simple approach to update the expiry of all the documents in a Couchbase bucket, using a view and a custom updater script." />
-  <meta property="og:url" content="https://markvincze.github.io/blog/bulk-updating-document-expiry-in-couchbase/" />
+  <meta property="og:url" content="http://localhost:1313/bulk-updating-document-expiry-in-couchbase/" />
   <meta property="og:type" content="article" />
   <meta property="og:title" content="Bulk updating document expiry in Couchbase" />
   <meta property="og:description" content="A simple approach to update the expiry of all the documents in a Couchbase bucket, using a view and a custom updater script." />
@@ -37,34 +47,32 @@
           <span aria-hidden="true"></span>
         </a>
       </div>
-      <div id="navbarMenu" class="navbar-menu">
+      <div id="navbarMenu" class="navbar-menu has-text-white-ter">
+
         <div class="navbar-start">
-          <a class="navbar-item" href="/">
-            Home
-          </a>
-
-          <a class="navbar-item" href="/posts">
-            Blog
-          </a>
-
-          <a class="navbar-item">
-            Presentations
-          </a>
+          
+          <a class="navbar-item" href="/">About</a>
+          
+          <a class="navbar-item" href="/posts">Blog</a>
+          
+          <a class="navbar-item" href="/projects">Projects</a>
+          
         </div>
+
         <div class="navbar-end pt-2 ml-2">
-          <a class="icon is-medium" href="https://twitter.com/mrkvincze">
+          <a class="icon is-medium" href="https://twitter.com/mrkvincze" target="_blank">
             <i class="fab fa-lg fa-twitter"></i>
           </a>
-          <a class="icon is-medium" href="https://www.github.com/markvincze">
+          <a class="icon is-medium" href="https://www.github.com/markvincze" target="_blank">
             <i class="fab fa-lg fa-github"></i>
           </a>
-          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze">
+          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze" target="_blank">
             <i class="fab fa-lg fa-stack-overflow"></i>
           </a>
-          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze">
+          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze" target="_blank">
             <i class="fab fa-lg fa-linkedin"></i>
           </a>
-          <a class="icon is-medium" href="/index.xml">
+          <a class="icon is-medium" href="/index.xml" target="_blank">
             <i class="fas fa-lg fa-rss"></i>
           </a>
         </div>
@@ -90,18 +98,9 @@
 <section class="section">
   <div class="container is-max-desktop">
     <h1 class="title is-1">Bulk updating document expiry in Couchbase</h1>
+
     
 
-
-<p class="mb-3 is-vcentered">
-  <time class="has-text-grey" datetime="2017-03-25">Mar 25, 2017 &bull;</time>
-
-  
-  
-  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://markvincze.github.io/blog/tags/couchbase">couchbase</a>
-  
-
-</p>
     <article class="content mt-6">
       <h1 id="introduction">Introduction</h1>
 <p>When using Couchbase, sometimes we want to update the expiry of all of the documents stored in a bucket.
@@ -119,9 +118,9 @@ One way to achieve this is to create a simple view, which retrieves the ids of o
 <h2 id="create-the-view">Create the view</h2>
 <p>Creating the necessary view is really simple, we can do it from the Couchbase management console.
 On the &ldquo;Data Buckets&rdquo; screen click on the Views button next to our bucket.</p>
-<p><img src="/images/2017/03/viewbutton.png" alt="The Views button on the Couchbase management console."></p>
+<p><img src="/images/2017/03/viewbutton.png" alt="The Views button on the Couchbase management console."  style="display:block; margin: auto;" /></p>
 <p>Then click on &ldquo;Create Development View&rdquo;, and give it a name. I used the name &ldquo;all_keys&rdquo;.</p>
-<p><img src="/images/2017/03/createview.png" alt="Creating a new view."></p>
+<p><img src="/images/2017/03/createview.png" alt="Creating a new view."  style="display:block; margin: auto;" /></p>
 <p>On the View screen we can customize our query. Actually, the query generated by default is suitable for us, because it already returns our document keys.
 The only thing I changed in the query was that I removed even emitting the <code>meta.id</code>, because the keys are already return by the view without this, so removing this will make our downloaded view file slightly smaller. This is the view I used.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">doc</span>, <span style="color:#a6e22e">meta</span>) {
@@ -129,11 +128,11 @@ The only thing I changed in the query was that I removed even emitting the <code
 }
 </code></pre></div><p>We can test our view by clicking on the &ldquo;Show Results&rdquo; button.
 After this, go back to the &ldquo;Views&rdquo; page and click on the &ldquo;Publish&rdquo; button.</p>
-<p><img src="/images/2017/03/publishview.png" alt="Publish the view."></p>
+<p><img src="/images/2017/03/publishview.png" alt="Publish the view."  style="display:block; margin: auto;" /></p>
 <p>By doing this we &ldquo;promote&rdquo; the view to production, and it&rsquo;s gonna query our whole bucket instead of just a small portion for development. Then we can switch to the &ldquo;Production&rdquo; tab and open our published view and test it.</p>
 <h2 id="querying-the-view">Querying the view</h2>
 <p>The simplest way to query a view is to call the HTTP endpoint Couchbase is providing for our view. If we go to the page of the View, we can find an example of this URL at the bottom of the page.</p>
-<p><img src="/images/2017/03/viewurl.png" alt="The URL of the query endpoint can be found on the View page."></p>
+<p><img src="/images/2017/03/viewurl.png" alt="The URL of the query endpoint can be found on the View page."  style="display:block; margin: auto;" /></p>
 <p><strong>Gotcha</strong>: make sure to get the url from the <em>production</em> view, and not the <em>development</em> one, since the latter will only contain a portion of our data.</p>
 <p>This is an example of the query url:</p>
 <pre><code>http://mycouchbaseserver:8092/mybucket/_design/all_keys/_view/all_keys?connection_timeout=60000&amp;inclusive_end=true&amp;limit=6&amp;skip=0&amp;stale=false
@@ -303,26 +302,13 @@ If it crashes in the middle for any reason (for example we are disconnected from
 
     </article>
 
-    <div id="disqus_thread"></div>
-    <script>
-      var disqus_config = function () {
-        this.page.url = 'https:\/\/markvincze.github.io\/blog\/bulk-updating-document-expiry-in-couchbase\/';
-        
-        this.page.identifier = 'ghost-34';
-        
-      };
-      (function () { 
-        var d = document, s = d.createElement('script');
-        s.src = 'https://markvinczeblog.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-      })();
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-  </div>
+    
+
 </section>
 
 
+
+  <div style="flex: 1"></div>
 
   <footer class="footer py-6">
     <div class="content has-text-centered">
