@@ -13,9 +13,7 @@
 
   <title>{{ .Title }}</title>
 
-  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"> -->
   <link rel="stylesheet" href="/styles/styles.css">
-  <!-- <link rel="stylesheet" href="/styles/styles.css"> -->
   <script defer src="https://use.fontawesome.com/releases/v5.15.1/js/all.js"></script>
   <script defer src="/scripts/scripts.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
@@ -59,19 +57,19 @@
         </div>
 
         <div class="navbar-end pt-2 ml-2">
-          <a class="icon is-medium" href="https://twitter.com/mrkvincze">
+          <a class="icon is-medium" href="https://twitter.com/mrkvincze" target="_blank">
             <i class="fab fa-lg fa-twitter"></i>
           </a>
-          <a class="icon is-medium" href="https://www.github.com/markvincze">
+          <a class="icon is-medium" href="https://www.github.com/markvincze" target="_blank">
             <i class="fab fa-lg fa-github"></i>
           </a>
-          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze">
+          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze" target="_blank">
             <i class="fab fa-lg fa-stack-overflow"></i>
           </a>
-          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze">
+          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze" target="_blank">
             <i class="fab fa-lg fa-linkedin"></i>
           </a>
-          <a class="icon is-medium" href="/index.xml">
+          <a class="icon is-medium" href="/index.xml" target="_blank">
             <i class="fas fa-lg fa-rss"></i>
           </a>
         </div>
@@ -93,6 +91,8 @@
   </div>
 
   {{ block "main" . }}{{ end }}
+
+  <div style="flex: 1"></div>
 
   <footer class="footer py-6">
     <div class="content has-text-centered">

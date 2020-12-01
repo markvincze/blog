@@ -25,6 +25,12 @@ code {
   color: $link;
 }
 
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
 body > .navbar-container {
   border-bottom-width: 0.2em;
   border-bottom-color: $blue;
@@ -33,6 +39,10 @@ body > .navbar-container {
 
 .navbar, .navbar-container {
   background-color: $white-bis;
+}
+
+.hero-body {
+    flex-grow: 0;
 }
 
 @media screen and (min-width: 1024px) {
