@@ -28,4 +28,4 @@ cp -r $SOURCE_DIR/public/* .
 echo "Push the new blog to the remote branch"
 git add . -A
 git commit -m "Update blog content"
-git push origin gh-pages
+# git push origin gh-pages

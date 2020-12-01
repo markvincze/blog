@@ -1,0 +1,25 @@
+skip_branch_with_pr: true
+
+image: Ubuntu1804
+
+environment:
+  nodejs_version: "14"
+  github_access_token:
+    secure: yVMCFepA5CWkd+a+SaL+RbAWaZ8SWQFzZKnd64SNt5PXEg704BRKWi4LWL08cSka
+  github_email:
+    secure: 5iYcV2GCbnI6N9RZRh6EZa7vVXdoaMoyArpwr4r/r/Q=
+
+install:
+- npm install
+- wget https://github.com/gohugoio/hugo/releases/download/v0.78.2/hugo_0.78.2_Linux-64bit.deb
+- sudo dpkg -i ./hugo_0.78.2_Linux-64bit.deb
+
+build_script:
+- npm run css-build
+
+deploy_script:
+- git config --global credential.helper store
+- ps: Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:github_access_token):x-oauth-basic@github.com`n"
+- git config --global user.email %github_email%
+- git config --global user.name "markvincze"
+- bash release.sh
