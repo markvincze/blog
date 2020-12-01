@@ -13,7 +13,7 @@ mkdir $TEMP_REPO_DIR
 
 echo "Cloning the repo with the gh-pages branch"
 git clone https://${GH_TOKEN}@github.com/markvincze/blog --branch gh-pages $TEMP_REPO_DIR
-if [ "$TRAVIS" == "true" ]; then
+if [ "$APPVEYOR" == "true" ]; then
     git config --global user.email "travis@travis-ci.org"
     git config --global user.name "Travis"
 fi
