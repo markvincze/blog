@@ -22,7 +22,7 @@ In this post we will take a look at the .NET Dictionary class, and see what type
 
 In order to investigate, I used the [Reference source](http://referencesource.microsoft.com/) published by Microsoft, which contains the code base of the .NET Framework, in which we can look under the hood of the [System.Collections.Generic.Dictionary](http://referencesource.microsoft.com/#mscorlib/system/collections/generic/dictionary.cs,998e5f475d87f454) class.
 
-#Data model
+# Data model
 
 Every object stored in the dictionary is represented by an instance of the Entry struct:
 

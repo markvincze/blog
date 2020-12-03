@@ -7,7 +7,9 @@ tags = ["asp.net", "f#", "suave"]
 ghostCommentId = "ghost-29"
 +++
 
-<img src="/content/images/2017/02/fsharp-logo-1.png" style="float: left; max-width: 40%; position: static; webkit-transform: translateX(0%); ms-transform: translateX(0%); transform: translateX(0%);" /> F# is a functional first general purpose programming language targeting the .NET Framework. Since .NET is a framework commonly used for web development (most often with C# and ASP.NET). And if we would like to do web development on the .NET framework in a more functional style, using F# is the logical choice.
+<img src="/images/2017/02/fsharp-logo-1.png" style="float: left; max-width: 40%; position: static; webkit-transform: translateX(0%); ms-transform: translateX(0%); transform: translateX(0%);" />
+
+F# is a functional first general purpose programming language targeting the .NET Framework. Since .NET is a framework commonly used for web development (most often with C# and ASP.NET). And if we would like to do web development on the .NET framework in a more functional style, using F# is the logical choice.
 
 F# is a language loved by its community, which is actively working on improving its tooling and creating its own ecosystem. This also means that sometimes the experience of the development workflow is less streamlined than its C# counterpart, which is usually officially supported by Microsoft and integrated into Visual Studio.
 If we want to get started with web development in F#, we might need to use some workarounds to get our existing tools working, or we'll need to roll our own scripts implementing our workflow.

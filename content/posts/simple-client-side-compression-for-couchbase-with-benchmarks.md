@@ -28,13 +28,13 @@ An obvious approach to improve this situation would be to store our documents co
 
 I received the suggestion that the simplest way to do this would be to simply compress my documents into a binary blob before inserting them into the Couchbase server.
 
->> The easiest way to do this would probably to store the content as a compressed byte array. A byte array will by-pass the serialization process and be stored on the server as a binary blob.  
+>The easiest way to do this would probably to store the content as a compressed byte array. A byte array will by-pass the serialization process and be stored on the server as a binary blob.  
 
 However, someone else warned me about the fact that Couchbase already uses some kind of compression when it stores documents on disk, so by manually compressing objects I would just put extra load on the client without achieving any improvement.
 
->>On another note, I'm not sure compressing the documents before serializing to Couchbase is necessary. Couchbase already compresses the data store when it's persisted to disk on the server.
+>On another note, I'm not sure compressing the documents before serializing to Couchbase is necessary. Couchbase already compresses the data store when it's persisted to disk on the server.
 
->>So you could just serialize as JSON, and let the server pick up the processing load of compression/decompression.
+>So you could just serialize as JSON, and let the server pick up the processing load of compression/decompression.
 
 So I decided to do a simple benchmark to figure out how much we can gain from using compression, and how significant its drawbacks are.
 

@@ -17,7 +17,7 @@ This is good news, since we won't have any more problems with project types or V
 
 We can simply create a new empty F# project using the `dotnet` CLI by issuing the following command.
 
-```
+```bash
 dotnet new --lang fsharp
 ```
 
@@ -130,7 +130,7 @@ dotnet restore
 dotnet run
 ```
 
-Then we can navigate to http://localhost:5000/Hello to open the endpoint we implemented.
+Then we can navigate to [http://localhost:5000/Hello](http://localhost:5000/Hello) to open the endpoint we implemented.
 
 # Tooling
 

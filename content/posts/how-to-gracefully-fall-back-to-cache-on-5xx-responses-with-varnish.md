@@ -54,7 +54,7 @@ In the VCL configuration we can customize various *subroutines*, with which we c
 
 A very simple version of this would be the following, which enables caching for 1 minute, and enables graceful fallback for 10 minutes on top of that.
 
-```
+```plain
 sub vcl_backend_response {
     set beresp.ttl = 1m;
     set beresp.grace = 10m;
@@ -70,7 +70,7 @@ In order to achieve the objective of gracefull fallback on `5xx` errors, we'll n
 
 With all these tools in our belt we can implement the requirements with the following logic.
 
-```
+```plain
 sub vcl_backend_response {
     set beresp.ttl = 1m;
     set beresp.grace = 10m;

@@ -396,4 +396,4 @@ Because of these reasons I think this OO approach is not really suitable to solv
 
 In this post I tried to illustrate the challenges and tough decisions we usually face when designing a data model in an object oriented language. If you have any suggestions on how to further improve this implementation, feel free to leave it as a comment!
 
-In the next post I'll look at how to solve the same problem in F#, and how can its type system eliminate some problems that are difficult to express in an OO language.
+In the [next post](/a-data-model-exercise-in-two-languages-part-2-f) I'll look at how to solve the same problem in F#, and how can its type system eliminate some problems that are difficult to express in an OO language.

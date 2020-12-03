@@ -31,13 +31,13 @@ To be able to test these tools, I created a sample project where I intentionally
 
 Including StyleCopAnalyzers in your project is very simple, it's basically just adding the reference to its Nuget package. You can do this from the terminal with `dotnet`.
 
-```
+```plain
 dotnet add package StyleCop.Analyzers
 ```
 
 After this, if you try to build your project, you'll immediately receive the violations in the form of compiler warnings.
 
-```
+```plain
 $ dotnet build
 Microsoft (R) Build Engine version 15.7.179.6572 for .NET Core
 Copyright (C) Microsoft Corporation. All rights reserved.

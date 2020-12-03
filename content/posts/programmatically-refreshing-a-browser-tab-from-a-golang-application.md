@@ -327,7 +327,7 @@ On the other hand, if we access the site through HTTPS, things are a bit more tr
 
 If we try to connect from a website served over HTTPS to a WebSocket endpoint hosted without TLS (over `ws://`), then — depending on the browser and the operating system — we might get the following error.
 
-```
+```plain
 startReload.js:24 Mixed Content: The page at 'https://my-dev-application.com/' was loaded over HTTPS, but attempted to connect to the insecure WebSocket endpoint 'ws://localhost:12450/reload'. This request has been blocked; this endpoint must be available over WSS.
 ```
 

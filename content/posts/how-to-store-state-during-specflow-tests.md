@@ -7,7 +7,8 @@ tags = ["visual studio", "specflow", "c#", ".net"]
 ghostCommentId = "ghost-4"
 +++
 
-#Introduction
+# Introduction
+
 [SpecFlow](http://www.specflow.org/) is an implementation of the [Gherkin](https://github.com/cucumber/cucumber/wiki/Gherkin) language for the .NET Framework. SpecFlow is to .NET what [Cucumber](https://cucumber.io/) is for the JavaScript ecosystem.
 It is a way to write tests in a DSL that is easily readable (and maybe writable) by not just developers, but also the business. A simple example from the Cucumber web site (which is also generated when a new SpecFlow feature is added in Visual Studio) is the following:
 
@@ -55,7 +56,7 @@ public class CalculatorTestSteps
 SpecFlow generates a unit test based on the feature definition, which basically instantiates the above class, and executes the instance methods corresponding to the feature steps.
 The unit tests themselves can be run with the test runner of our choice (for instance the built-in VS test runner or ReSharper), and assertions can be implemented with the usual Assert mechanism of the test framework (which can be either MSTest or NUnit).
 
-#Maintaining state during a test
+# Maintaining state during a test
 
 Most of the time we need to store and maintain some kind of state during a test. For instance in the Given step we initialize some input data, in the When step we use that input data to send a request to a service and then save the result, and in the When step we execute assertions on the result.
 There are different ways to store data in SpecFlow steps. In the rest of the post I will introduce three different ways to achieve this.
@@ -177,7 +178,7 @@ Scenario: Service response should contain pear
 	And the response should contain "pear"
 ```
 
-##Conclusion
+## Conclusion
 
 There are multiple ways of storing state in a Specflow feature, all of which have different benefits and drawbacks.
 If we only need the state in a single binding class, we can simply store it as a field of that class.

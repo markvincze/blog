@@ -32,7 +32,7 @@ cinst docfx -y
 
 In the examples I'll assume that our repository has the following.
 
-```
+```plain
 |- src/
    |- MyProject/
       |- MyProject.csproj
@@ -48,14 +48,14 @@ If we want to use DocFx, we need to set up a *project*, which consists of a bunc
 
 To scaffold a default DocFx project in a `docs` directory, issue the following command at the root of the repository.
 
-```
+```plain
 docfx init -q -o docs
 ```
 
 (`-o` specifies the output folder, while `-q` enables the "quiet" mode, so the command generates the default setup without asking any questions. If you'd like to revise the scaffolding options, omit the `-q` flag.)  
 Let's review what this generated.
 
-```md
+```plain
 |- api/: Configuration for the generation of the API reference.
 |- articles/: Manually written pages, this is what we can use to write actual documentation.
 |- images/: Image assets.
@@ -91,7 +91,7 @@ We can do this by adding the `cwd` property to the object in the `src` array. Si
 
 This way we are generating the API reference for every project in the `src` folder. If we want to (for example if we only want to have the reference for a subset of our projects), we can also explicitly specify the csproj files we'd like to process.
 
-```
+```json
     "files": [
       "Project1/Project1.csproj",
       "Project2/Project2.csproj"
@@ -101,7 +101,7 @@ This way we are generating the API reference for every project in the `src` fold
 **Important**: If we are multi-targeting different .NET Framework versions in our project, we must explicitly specify one of the frameworks here, otherwise `docfx` won't be able to build the project.  
 We can do this by adding `properties` to our metadata object:
 
-```
+```json
 "metadata": [
    {
      ...
@@ -117,7 +117,7 @@ In the `api` folder we shouldn't manually edit the `toc.yml`, since the list of 
 On the other hand, we should change the content of the `index.md` file. This is the main page displayed when we navigate to the API reference, so we can change it to a welcome message, or a high-level overview about our types.  
 If we want to add a link to a certain type, we can do it by specifying the full name of the type with html extension. Example:
 
-```
+```plain
 [MyClass](MyProject.MyClass.html)
 ```
 
@@ -139,7 +139,7 @@ It's a good idea to add an introduction about our project, include a link pointi
 
 We can start locally serving the documentation site by entering the `docs` folder and issuing the following command. We can access the site by opening `http://localhost:8080` in the browser.
 
-```
+```plain
 docfx --serve
 ```
 

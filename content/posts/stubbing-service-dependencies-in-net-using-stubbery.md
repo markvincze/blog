@@ -65,7 +65,7 @@ Let's say we have an endpoint in our Api that depends on getting the name of an 
 
 The endpoint I'm interested in returns the details of a certain postcode. Given the request
 
-```
+```plain
 GET http://api.postcodes.io/postcodes/OX49%205NU
 ```
 
@@ -88,13 +88,13 @@ This is the dependency we'd like to replace in our test with a stub.
 
 Our own Api is an ASP.NET Core application, which implements an endpoint that returns the name of the county. Given the request
 
-```
+```plain
 GET http://our-own-api/countyname/OX49%205NU
 ```
 
 it returns the name of the county as a raw string:
 
-```
+```plain
 Oxfordshire
 ```
 

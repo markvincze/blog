@@ -19,7 +19,7 @@ dotnet run
 
 Then let's do two consecutive requests against the `/values` endpoint, and measure the response times. This is what we'll see.
 
-```
+```bash
 $ curl -o /dev/null -s -w %{time_total}\\n http://localhost:5000/values
 0.594
 

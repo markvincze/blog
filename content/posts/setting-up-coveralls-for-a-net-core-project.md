@@ -71,7 +71,7 @@ If we upload the results to Coveralls, then this HTML report becomes less import
 
 Assuming the coverage result was saved to `coverage/coverage.xml`, the following command will generate the HTML report.
 
-```
+```plain
 ReportGenerator.exe \
   -reports:coverage/coverage.xml \
   -targetdir:coverage \
@@ -88,7 +88,7 @@ Luckily it's free of charge for any open source project, and it can process the 
 
 We can upload our previously generated report with the following command.
 
-```
+```plain
 csmacnz.Coveralls.exe --opencover -i coverage/coverage.xml --useRelativePaths
 ```
 

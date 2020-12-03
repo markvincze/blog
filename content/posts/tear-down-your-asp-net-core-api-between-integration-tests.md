@@ -79,7 +79,7 @@ public class DummyJob : IJob
 
 Then let's imagine we have two endpoints (they are not really important in this example), `/api/hello` and `/api/dummy`, for which we implement these tests.
 
-```
+```csharp
 public class ApiTests
 {
     [Fact]
@@ -112,7 +112,7 @@ public class ApiTests
 
 If we execute our tests with `dotnet test`, we'll get the following error:
 
-```
+```plain
 System.AggregateException : One or more errors occurred. (Unable to store Job: 'group1.job1', because one already exists with this identification.)
 ---- Quartz.ObjectAlreadyExistsException : Unable to store Job: 'group1.job1', because one already exists with this identification.
 ```

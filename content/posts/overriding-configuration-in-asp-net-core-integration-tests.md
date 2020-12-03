@@ -89,7 +89,7 @@ This is an MVC setup, but the testing approach would work the same way if we wer
 
 The `DemoOptions` type used to demonstrate the Options pattern is a simple POCO with one property.
 
-```
+```csharp
     public class DemoOptions
     {
         public string OptionsConfigProperty { get; set; }

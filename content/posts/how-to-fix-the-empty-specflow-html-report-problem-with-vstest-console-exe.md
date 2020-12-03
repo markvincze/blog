@@ -23,13 +23,13 @@ The problem with this TRX logger is that it produces a slightly different output
 
 The issue was discussed in the a [GitHub issue](https://github.com/techtalk/SpecFlow/issues/278) in the SpecFlow repository. Paul Rohorzka identified the differences between the two TRX outputs causing the problems with the report:
 
->1. `//TestRun/TestDefinitions/UnitTest/TestMethod/@className` renders not the fully qualified name, but just the namespace.  
+>1\. `//TestRun/TestDefinitions/UnitTest/TestMethod/@className` renders not the fully qualified name, but just the namespace.  
 Effect for report generation: **No relevant textual output at all**
 
->2. The `TestDescriptionAttribute` is not rendered, but should be in `//TestRun/TestDefinitions/UnitTest/Description`.  
+>2\. The `TestDescriptionAttribute` is not rendered, but should be in `//TestRun/TestDefinitions/UnitTest/Description`.  
 Effect for report generation: **No scenario titles**
 
->3. `TestPropertyAttributes` are not rendered, but should be in `//TestRun/TestDefinitions/UnitTest/Properties`.  
+>3\. `TestPropertyAttributes` are not rendered, but should be in `//TestRun/TestDefinitions/UnitTest/Properties`.  
 Effect for report generation: **No feature titles**
 
 ## The solution

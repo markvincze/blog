@@ -109,7 +109,7 @@ var incrementAndDouble = Compose(Increment, Double);
 
 I received the following build error.
 
-> `Error CS0411: The type arguments for method 'Program.Compose<A, B, C>(Func<A, (B, string)>, Func<B, (C, string)>)' cannot be inferred from the usage. Try specifying the type arguments explicitly.`
+>`Error CS0411: The type arguments for method 'Program.Compose<A, B, C>(Func<A, (B, string)>, Func<B, (C, string)>)' cannot be inferred from the usage. Try specifying the type arguments explicitly.`
 
 I was surprised by this error message, and couldn't immediately figure out its reason. Since in the two methods `Increment` and `Double` the parameter and return types are explicitly specified, I thought the compiler would be able to *infer* the proper values for the type arguments.
 

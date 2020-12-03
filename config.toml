@@ -6,6 +6,9 @@ theme = "pupintor"
 [markup.highlight]
   style = "monokai"
 
+[markup.goldmark.renderer]
+  unsafe=true
+
 [params]
   dateFormat = "Jan 2, 2006"
 

@@ -14,22 +14,24 @@ Glimpse is a wonderful tool for getting an insight into the mechanisms happening
 The current version of Glimpse (1.9.2 at the time of writing this) only has proper support for ASP.NET Web Forms and MVC, and not for the Web Api.
 In this post I'm going to look at how can we use Glimpse for the Web Api, what are the features which works for Web Api as well, and what is missing.
 
-#Getting Started
+# Getting Started
 
 I am going to get started by creating an ASP.NET web project that contains both MVC and Web Api elements, and see how well Glimpse performs out of the box.
 I created a new project by checking both MVC and Web Api in the project creation wizard.
 
 ![Creating a new ASP.NET project with both MVC and Web Api support.](/images/2015/05/20createproject.png)
 
-##Creating a test application
+## Creating a test application
 
 In order to be able to try out Glimpse, I created a simple web application with both an MVC and a Web Api controller, that can return a list of guitars stored in the database of an instrument shop.
 
-###Data model
+### Data model
 
 For the the data model I used Entity Framework Code First with LocalDB to store some sample data. EF is no longer distributed with the .NET Framework, but rather published in a NuGet package. We can install it with the following command.
 
-    Install-Package EntityFramework
+```bash
+Install-Package EntityFramework
+```
 
 The following data model will represent manufacturers and models of guitars sold in a guitar shop:
 
@@ -148,7 +150,7 @@ The last thing to do in order to make our data model work is to configure a conn
 </connectionStrings>
 ```
 
-###Controllers
+### Controllers
 
 To be able to test Glimpse in its merits, we need to create some controllers as well. I implemented basically the same functionality in both an MVC and a Web Api controller.
 
@@ -250,7 +252,7 @@ View\Guitar\Index.cshtml is the main view for this action.
 </div>
 ```
 
-####Web Api
+#### Web Api
 
 The Web Api controller is very similar, but it has a different base class and method signature:
 
@@ -296,14 +298,18 @@ config.Formatters.Add(jsonFormatter);
 ```
 This code removes every formatter, except the Json one.
 
-##Installing Glimpse
+## Installing Glimpse
 
 Installing Glimpse is merely adding a NuGet package to our ASP.NET project. For using with the latest version of MVC, Glimpse can be added with the following command from the Package Manager Console:
 
-    Install-Package Glimpse.Mvc5
+```bash
+Install-Package Glimpse.Mvc5
+```
+
 Sadly, there is no official package for Web Api yet. Official Web Api support is supposed to come with version 2 of Glimpse, but no estimated release date has been announce. (However, there is active work going on in this area: https://github.com/Glimpse/Glimpse/issues/715)
 
-###Using Glimpse with MVC
+### Using Glimpse with MVC
+
 After installing Glimpse this way, we can start using it immediately. To enable Glimpse, go to the url /Glimpse.axd, and click on Turn Glimpse On.
 
 ![Turn Glimpse on](/images/2015/05/25turnonglimpse.png)
@@ -319,21 +325,24 @@ If we click on the g button in the bottom right hand corner, the full view of Gl
 Because MVC is officially supported, these tabs all work very well out of the box: we can see the order of different events on the Execution tabs, the Routes tab shows information about the routes taken into consideration, and the Timeline tab displays timing information about the different phases of the request processing.
 One thing that's missing but we would expect to see is insight into the SQL commands being executed during the request. This is not recorded out of the box, but luckily, there is a package that does just this. The package for simple ADO.NET is Glimpse.ADO, but we are using Entity Framework, which needs a different package, Glimpse.EF6 (for Entity Framework version six). We can install it with the following command.
 
-    Install-Package Glimpse.EF6
+```bash
+Install-Package Glimpse.EF6
+```
+
 After installing the package, we will have an additional SQL tab, on which we can see all the SQL queries executed during the request.
 
 ![Glimpse showing SQL queries with the Glimpse.EF6 package.](/images/2015/05/50glimpseef.png)
 
 So we can see that with ASP.NET MVC, Glimpse works very well out of the box without any special customization.
 
-###Using Glimpse with Web Api
+### Using Glimpse with Web Api
 Let's try our Web Api controller by opening it in the browser.
 
 ![Opening a Web Api action in the browser.](/images/2015/05/60jsonapi.png)
 
 Hmm, when we send a request for a Web Api action, instead of a web page, we get back the result in its raw form, serialized to Json. So there is no place for the Glimpse plugin to get embedded into. How can we use Glimpse in this situation then?
 
-####Standalone Glimpse page
+#### Standalone Glimpse page
 In order to be able to use Glimpse independently from the web page itself, it also supports a standalone view, that can also be accessed from its /Glimpse.axd configuration page.
 
 ![Opening the standalone Glimpse page.](/images/2015/05/70standaloneglimpse-1.png)
@@ -346,11 +355,11 @@ When we click on the Inspect link, we can view the information collected on the 
 
 These are the things that should be supported in the upcoming version of Glimpse, probably the unification of the MVC and Web Api data model in ASP.NET 5 will make this simpler.
 
-###How to improve?
+### How to improve?
 
 There are at least two features which work just as well with Web Api as MVC: Tracing and custom Timeline messages.
 
-####Tracing
+#### Tracing
 
 Tracing is very easy to use with Glimpse. Any standard .NET trace message will be captured by Glimpse and displayed on the Trace tab.
 The big advantage of browsing your trace messages with Glimpse is that it shows the trace messages in the context of a single request, so you don't have to filter your whole log in order to correlate the entries with a specific request.
@@ -365,7 +374,7 @@ They will show up in the Trace tab.
 
 ![Custom Trace messages.](/images/2015/05/90tracing.png)
 
-####Custom timeline messages
+#### Custom timeline messages
 
 The timeline tab is a great tool to see timing information and to analyze how long different parts of the request processing take. With Web Api the information displayed out of the box on the Timeline tab is rather limited.
 It is possible to extend it with custom events, however, this is not as trivial as emitting trace messages.
@@ -570,5 +579,7 @@ Our custom timeline events will show up in the timeline tab.
 ![Custom Timeline events.](/images/2015/05/100timeline.png)
 
 If you'd like to take a look at it, you can find the whole source code on [GitHub](https://github.com/markvincze/glimpse-web-api).
-#Conclusion
+
+# Conclusion
+
 We've seen that setting up Glimpse for the Web Api is just as easy as using it with MVC, however, the feature set supported is much more limited. Still, Glimpse can be a very useful tool to analyze what's going on under the hood in a Web Api application as well.

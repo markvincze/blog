@@ -73,7 +73,6 @@ It is quite easy to get lost in the sea of different products and version number
     </tr>
 </table>
 
-
 One thing to keep in mind is that Core 1.0 of ASP.NET and EF shouldn't necessarily be considered as the the latest updates to which everybody should update. The reasoning behind the 1.0 version number is that these are new, standalone technologies which will live alongside the existing ASP.NET 4.6 and EF 6 releases.
 
 The reason for this is that they have been reimplemented in a cross-platform way using .NET Core 1.0, so they are less mature, and not as full-featured as their existing counterparts. Thus, if somebody does not need to target Linux, they might be better off sticking to the older versions, since for the time being those are more reliable, and have more features and wider support.
@@ -108,11 +107,13 @@ Still, this is a very welcomed change on Windows too, it makes editing our proje
 
 Another change related to the new project file format is that in projects using the new project.json we don't need to have a separate packages.config file to specify the necessary NuGet packages any more. Rather, they are pulled in from the project.json. In your project description, you can specify the dependencies of your project in the `dependencies` collection:
 
-    "dependencies": {
-        "EntityFramework.Commands": "7.0.0-rc1-final",
-        "EntityFramework.MicrosoftSqlServer": "7.0.0-rc1-final",
-        "MyOtherProjectInTheSolution": ""
-    }
+```json
+"dependencies": {
+    "EntityFramework.Commands": "7.0.0-rc1-final",
+    "EntityFramework.MicrosoftSqlServer": "7.0.0-rc1-final",
+    "MyOtherProjectInTheSolution": ""
+}
+```
 
 An entry in the `dependencies` can be either a reference to another project in the solution, or a reference to a NuGet package, so finally the references to packages don't live in two different places.
 
@@ -139,20 +140,24 @@ As far as I know, the major mocking frameworks out there haven't been fully port
 
 In other .NET projects I use [Moq](https://github.com/moq/moq4) as a mocking frameworks, so I was happy to find out there is a already a working version of Moq developed by the ASP.NET team. I have been using version `4.4.0-beta8` without any problems so far.
 
-    "dependencies": {
-      "moq.netcore": "4.4.0-beta8",
-      ...
-    }
+```json
+"dependencies": {
+    "moq.netcore": "4.4.0-beta8",
+    ...
+}
+```
 
 To be able to have this reference, there is one extra thing we have to do. We have to create a NuGet.config file in our solution folder, and add another NuGet feed, which publishes development packages coming from the ASP.NET team:
 
-    <?xml version="1.0" encoding="utf-8"?>
-    <configuration>
-      <packageSources>
-        <add key="AspNetVNext" value="https://www.myget.org/F/aspnetcidev/api/v3/index.json" />
-        <add key="NuGet" value="https://api.nuget.org/v3/index.json" />
-      </packageSources>
-    </configuration>
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+    <packageSources>
+    <add key="AspNetVNext" value="https://www.myget.org/F/aspnetcidev/api/v3/index.json" />
+    <add key="NuGet" value="https://api.nuget.org/v3/index.json" />
+    </packageSources>
+</configuration>
+```
 
 (Source: I found this information on [Stack Overflow](http://stackoverflow.com/questions/27918305/mocking-framework-for-asp-net-core-5-0), thanks Lukasz Pyrzyk!)
 
@@ -162,17 +167,19 @@ The Api changes can greatly affect how we are mocking certain aspects of an MVC 
 
 For example we can replace the Response object with a mock using the following code:
 
-    var sut = new MyController();
+```csharp
+var sut = new MyController();
 
-    var responseMock = new Mock<HttpResponse>();
+var responseMock = new Mock<HttpResponse>();
 
-    var httpContextMock = new Mock<HttpContext>();
-    httpContextMock.SetupGet(a => a.Response).Returns(responseMock.Object);
+var httpContextMock = new Mock<HttpContext>();
+httpContextMock.SetupGet(a => a.Response).Returns(responseMock.Object);
 
-    sut.ActionContext = new ActionContext()
-    {
-        HttpContext = httpContextMock.Object
-    };
+sut.ActionContext = new ActionContext()
+{
+    HttpContext = httpContextMock.Object
+};
+```
 
 ## Command line
 
@@ -181,15 +188,21 @@ Building projects, running applications and executing unit tests are all possibl
 But even on Windows, where VS is available, the command line tools can prove to be very convenient.  
 The thing I like the most about the command line tools is [dnx-watch](https://github.com/aspnet/dnx-watch). You can install it by issuing the following command:
 
-    dnu commands install Microsoft.Dnx.Watcher
+```bash
+dnu commands install Microsoft.Dnx.Watcher
+```
 
 Then you can execute any dnx command specified for your project by typing
 
-    dnx-watch web
+```bash
+dnx-watch web
+```
 
 or 
 
-    dnx-watch test
+```bash
+dnx-watch test
+```
 
 and dnx-watch will restart and execute the command every time any of the files in your solution changes. This is a great way to keep a fresh version of your site running all the time, or to automatically execute all your unit tests on every code change.
 

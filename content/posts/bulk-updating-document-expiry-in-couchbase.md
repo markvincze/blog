@@ -66,7 +66,7 @@ The simplest way to query a view is to call the HTTP endpoint Couchbase is provi
 
 This is an example of the query url:
 
-```
+```plain
 http://mycouchbaseserver:8092/mybucket/_design/all_keys/_view/all_keys?connection_timeout=60000&inclusive_end=true&limit=6&skip=0&stale=false
 ```
 
