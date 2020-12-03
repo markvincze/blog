@@ -148,8 +148,8 @@ After this, go back to the &ldquo;Views&rdquo; page and click on the &ldquo;Publ
 <p><img src="/images/2017/03/viewurl.png" alt="The URL of the query endpoint can be found on the View page."  style="display:block; margin: auto;" /></p>
 <p><strong>Gotcha</strong>: make sure to get the url from the <em>production</em> view, and not the <em>development</em> one, since the latter will only contain a portion of our data.</p>
 <p>This is an example of the query url:</p>
-<pre><code>http://mycouchbaseserver:8092/mybucket/_design/all_keys/_view/all_keys?connection_timeout=60000&amp;inclusive_end=true&amp;limit=6&amp;skip=0&amp;stale=false
-</code></pre><p>Where the <code>limit</code> and <code>skip</code> arguments specify the portion of the view we want to retrieve.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-plain" data-lang="plain">http://mycouchbaseserver:8092/mybucket/_design/all_keys/_view/all_keys?connection_timeout=60000&amp;inclusive_end=true&amp;limit=6&amp;skip=0&amp;stale=false
+</code></pre></div><p>Where the <code>limit</code> and <code>skip</code> arguments specify the portion of the view we want to retrieve.</p>
 <p>(<strong>Querying the view through the SDK</strong>: We can also query the view with the SDK, for example in C# we can use the <code>bucket.CreateQuery()</code> method, but to simply get all the keys I think it&rsquo;s easier to just simply use the HTTP endpoint.)</p>
 <h2 id="processing-the-data-a-failed-attempt">Processing the data: a failed attempt</h2>
 <p>At first it seemed to be a reasonable approach to simply query the view in batches (let&rsquo;s say 1000 documents at a time), and then update the expiry for each of them with the SDK (for example in the .NET SDK we can update the expiry with the <code>Touch()</code> method).</p>

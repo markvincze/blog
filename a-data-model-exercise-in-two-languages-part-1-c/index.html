@@ -132,7 +132,7 @@ In this first post I&rsquo;ll do it in C#, and in the next one I&rsquo;m going t
 <p>The task I&rsquo;d like to solve in this simple exercise is to design a data model to represent a card in the standard 52-card deck. For now I&rsquo;m only interested in representing one single card, and not a full deck.</p>
 <p>We can specify a card with the following points.</p>
 <ul>
-<li>Every card has a suit (except the Joker), which can be clubs (♣), diamonds (<!-- raw HTML omitted -->♦<!-- raw HTML omitted -->), hearts (<!-- raw HTML omitted -->♥<!-- raw HTML omitted -->) and spades (♠).</li>
+<li>Every card has a suit (except the Joker), which can be clubs (♣), diamonds (<span style="color: red">♦</span>), hearts (<span style="color: red">♥</span>) and spades (♠).</li>
 <li>A card can be either</li>
 <li>a card with a number on it between 2 and 10, I&rsquo;ll call this a <em>value card</em>,</li>
 <li>or it can be one of the <em>face cards</em>: Jack, Queen, King or Ace.<br>
@@ -407,7 +407,7 @@ This is a manifestation of one of the general arguments against OO (or specifica
 <p>Because of these reasons I think this OO approach is not really suitable to solve our problem. The puzzle pieces of OO seemingly fall in place nicely, but this approach actually causes more problems than what it solves.</p>
 <h1 id="conclusion">Conclusion</h1>
 <p>In this post I tried to illustrate the challenges and tough decisions we usually face when designing a data model in an object oriented language. If you have any suggestions on how to further improve this implementation, feel free to leave it as a comment!</p>
-<p>In the next post I&rsquo;ll look at how to solve the same problem in F#, and how can its type system eliminate some problems that are difficult to express in an OO language.</p>
+<p>In the <a href="/a-data-model-exercise-in-two-languages-part-2-f">next post</a> I&rsquo;ll look at how to solve the same problem in F#, and how can its type system eliminate some problems that are difficult to express in an OO language.</p>
 
     </article>
 

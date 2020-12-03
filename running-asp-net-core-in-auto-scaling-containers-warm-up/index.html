@@ -128,15 +128,15 @@ dotnet new webapi
 dotnet restore
 dotnet run
 </code></pre></div><p>Then let&rsquo;s do two consecutive requests against the <code>/values</code> endpoint, and measure the response times. This is what we&rsquo;ll see.</p>
-<pre><code>$ curl -o /dev/null -s -w %{time_total}\\n http://localhost:5000/values
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ curl -o /dev/null -s -w %<span style="color:#f92672">{</span>time_total<span style="color:#f92672">}</span><span style="color:#ae81ff">\\</span>n http://localhost:5000/values
 0.594
 
-$ curl -o /dev/null -s -w %{time_total}\\n http://localhost:5000/values
+$ curl -o /dev/null -s -w %<span style="color:#f92672">{</span>time_total<span style="color:#f92672">}</span><span style="color:#ae81ff">\\</span>n http://localhost:5000/values
 0.000
 
-$ curl -o /dev/null -s -w %{time_total}\\n http://localhost:5000/values
+$ curl -o /dev/null -s -w %<span style="color:#f92672">{</span>time_total<span style="color:#f92672">}</span><span style="color:#ae81ff">\\</span>n http://localhost:5000/values
 0.000
-</code></pre><p>So you can see that the first request takes a disproportionately long time, around half a second, while the subsequent requests are much faster, they take a couple of milliseconds (for some requests <code>curl</code> reports <code>0.016</code> or <code>0.015</code>, and for some others, it says <code>0.000</code>, so I guess the measurement is not granular enough).</p>
+</code></pre></div><p>So you can see that the first request takes a disproportionately long time, around half a second, while the subsequent requests are much faster, they take a couple of milliseconds (for some requests <code>curl</code> reports <code>0.016</code> or <code>0.015</code>, and for some others, it says <code>0.000</code>, so I guess the measurement is not granular enough).</p>
 <p>I tried also to run the api with the flag <code>-c Release</code>, I also tried to publish <code>dotnet publish</code>, and I even tried to publish a self-contained exe (by adding the <code>RuntimeIdentifiers</code> to the csproj and using the <code>--runtime</code> flag with <code>dotnet publish</code>), but all of them had the same behavior.</p>
 <p>This can generally be an annoyance since the first request to our application will always be slightly slower.
 Still, if we have a monolithic application that we deploy to a server machine—let&rsquo;s say—once a day, we can probably live with this.</p>

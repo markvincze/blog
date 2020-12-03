@@ -167,17 +167,17 @@ It&rsquo;s important to explicitly specify the framework we&rsquo;re using, so w
 <p>There is a simple tool for generating an HTML report from the OpenCover called <a href="https://www.nuget.org/packages/ReportGenerator/">ReportGenerator</a>. If we execute measuring the coverage in our CI pipeline, we can upload this report somewhere so we can freely analyze it.</p>
 <p>If we upload the results to Coveralls, then this HTML report becomes less important, since we&rsquo;ll be browsing the report mostly on the Coveralls site, but it can still come handy if we want to generate the report locally, which is particularly useful if we are on a branch that we haven&rsquo;t pushed yet.</p>
 <p>Assuming the coverage result was saved to <code>coverage/coverage.xml</code>, the following command will generate the HTML report.</p>
-<pre><code>ReportGenerator.exe \
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-plain" data-lang="plain">ReportGenerator.exe \
   -reports:coverage/coverage.xml \
   -targetdir:coverage \
   -verbosity:Error
-</code></pre><p>It&rsquo;ll output a bunch of HTML content, and we can browse the coverage by opening <code>index.htm</code>.</p>
+</code></pre></div><p>It&rsquo;ll output a bunch of HTML content, and we can browse the coverage by opening <code>index.htm</code>.</p>
 <h1 id="uploading-to-coveralls">Uploading to Coveralls</h1>
 <p>Coveralls is a service for collecting and tracking code coverage history and making it available through a web interface.</p>
 <p>Luckily it&rsquo;s free of charge for any open source project, and it can process the XML output format of OpenCover.</p>
 <p>We can upload our previously generated report with the following command.</p>
-<pre><code>csmacnz.Coveralls.exe --opencover -i coverage/coverage.xml --useRelativePaths
-</code></pre><p>In order for the command to work, the <code>COVERALLS_REPO_TOKEN</code> environment variable has to be set to contain the access token, which we can grab from the Coveralls website.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-plain" data-lang="plain">csmacnz.Coveralls.exe --opencover -i coverage/coverage.xml --useRelativePaths
+</code></pre></div><p>In order for the command to work, the <code>COVERALLS_REPO_TOKEN</code> environment variable has to be set to contain the access token, which we can grab from the Coveralls website.</p>
 <h1 id="the-full-script">The full script</h1>
 <p>You can look at the <a href="https://github.com/markvincze/Stubbery/blob/master/coverage.sh">full script</a> for coverage generation in the repository of <a href="https://markvincze.github.io/Stubbery/">Stubbery</a>, a library I&rsquo;ve been working on for stubbing api dependencies. The script installs the necessary CLI tools at the beginning, so we can execute it both on the developer machines and on the agents without pre-installing anything.</p>
 <p>And there is a <a href="https://github.com/markvincze/Stubbery/blob/master/coveralls.sh">separate script</a> for doing the coveralls report, but that&rsquo;s literally the single command I&rsquo;ve shown above.</p>

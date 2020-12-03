@@ -128,12 +128,7 @@
 This can be done with the <strong>Debug-&gt;Attach to Process&hellip;</strong> option, where we have to select the desired one from a list of all running processes.
 <img src="/images/2015/04/attach_window.png" alt="Attach to Process window in Visual Studio"  style="display:block; margin: auto;" />
 This method of attaching to a process is OK if you have to do it only once in a while, but if you have to debug applications this way regularly, it becomes time-consuming to search for the process in the list every time.</p>
-<p>The principle of automation has been written in many forms, this is one of the renditions:</p>
-<blockquote>
-<p>Anything that you do more than twice has to be automated.</p>
-</blockquote>
-<p>This applies not just to integration, deployment, testing, etc., but  to tooling as well.
-So I started looking for a more convenient way to attach to a specific process quickly.
+<p>So I started looking for a more convenient way to attach to a specific process quickly.
 #Visual Studio Macros
 The first approach I found is to write a Visual Studio macro that looks for a specific process and attaches VS to it. This approach is described in this <a href="http://stackoverflow.com/a/6696813/974733">Stack Overflow answer</a>, it seemed very straightforward and promising.<br>
 However, the first comment on the answer destroys our happiness:</p>

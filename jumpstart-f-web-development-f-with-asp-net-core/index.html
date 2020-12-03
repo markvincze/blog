@@ -123,8 +123,8 @@
 <p>This is good news, since we won&rsquo;t have any more problems with project types or Visual Studio (as we had <a href="">when we did F# and ASP.NET on the full .NET Framework</a>).</p>
 <h1 id="create-the-project">Create the project</h1>
 <p>We can simply create a new empty F# project using the <code>dotnet</code> CLI by issuing the following command.</p>
-<pre><code>dotnet new --lang fsharp
-</code></pre><p>This command scaffolds an empty Console application for us. In order to use ASP.NET, add the following package dependencies to our <code>projet.json</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">dotnet new --lang fsharp
+</code></pre></div><p>This command scaffolds an empty Console application for us. In order to use ASP.NET, add the following package dependencies to our <code>projet.json</code>.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">      <span style="color:#e6db74">&#34;dependencies&#34;</span><span style="color:#960050;background-color:#1e0010">:</span> {
         <span style="color:#960050;background-color:#1e0010">...</span>
         <span style="color:#f92672">&#34;Microsoft.AspNetCore.Mvc&#34;</span>: <span style="color:#e6db74">&#34;1.1.0&#34;</span>,
@@ -203,7 +203,7 @@
 <p>There is nothing else to do, we can go ahead restore the Nuget packages and start our application by issuing the following commands.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">dotnet restore
 dotnet run
-</code></pre></div><p>Then we can navigate to http://localhost:5000/Hello to open the endpoint we implemented.</p>
+</code></pre></div><p>Then we can navigate to <a href="http://localhost:5000/Hello">http://localhost:5000/Hello</a> to open the endpoint we implemented.</p>
 <h1 id="tooling">Tooling</h1>
 <p>The F# tooling for .NET Core seems to have some rough edges at this point. I tried using Visual Studio on Windows, and also VSCode with the <a href="http://ionide.io/">ionide-fsharp</a> extensions. They both tend to be a bit flaky, occasionally the IntelliSense and the autocomplete stops working. In this case we should rebuild the project, and restart the editor.</p>
 <p>Once the tooling of .NET Core projects gets finalized with the release of VS2017 and the new version of the <code>dotnet</code> CLI, I expect the F# tooling to catch up and fix these issues quickly.</p>

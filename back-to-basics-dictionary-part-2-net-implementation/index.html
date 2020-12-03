@@ -135,7 +135,7 @@
 <p><a href="http://blog.markvincze.com/back-to-basics-dictionary-part-1/">Last time</a> we saw an overview about the basic concepts behind a hash map.</p>
 <p>In this post we will take a look at the .NET Dictionary class, and see what type of hash map it is and how the different mechanisms have been implemented in C#.</p>
 <p>In order to investigate, I used the <a href="http://referencesource.microsoft.com/">Reference source</a> published by Microsoft, which contains the code base of the .NET Framework, in which we can look under the hood of the <a href="http://referencesource.microsoft.com/#mscorlib/system/collections/generic/dictionary.cs,998e5f475d87f454">System.Collections.Generic.Dictionary</a> class.</p>
-<p>#Data model</p>
+<h1 id="data-model">Data model</h1>
 <p>Every object stored in the dictionary is represented by an instance of the Entry struct:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Entry</span>
 {

@@ -136,20 +136,14 @@ I guess in this scenario we can think of Couchbase as a NoSQL Document-store.</p
 <p>An obvious approach to improve this situation would be to store our documents compressed in Couchbase. Before starting to implement something, I wanted to ask around to see if there is a built-in solution to achieve this, so I posted a question in the official <a href="https://forums.couchbase.com/t/how-to-properly-compress-documents/6418/">Couchbase developer forums</a>.</p>
 <p>I received the suggestion that the simplest way to do this would be to simply compress my documents into a binary blob before inserting them into the Couchbase server.</p>
 <blockquote>
-<blockquote>
 <p>The easiest way to do this would probably to store the content as a compressed byte array. A byte array will by-pass the serialization process and be stored on the server as a binary blob.</p>
-</blockquote>
 </blockquote>
 <p>However, someone else warned me about the fact that Couchbase already uses some kind of compression when it stores documents on disk, so by manually compressing objects I would just put extra load on the client without achieving any improvement.</p>
 <blockquote>
-<blockquote>
 <p>On another note, I&rsquo;m not sure compressing the documents before serializing to Couchbase is necessary. Couchbase already compresses the data store when it&rsquo;s persisted to disk on the server.</p>
 </blockquote>
-</blockquote>
-<blockquote>
 <blockquote>
 <p>So you could just serialize as JSON, and let the server pick up the processing load of compression/decompression.</p>
-</blockquote>
 </blockquote>
 <p>So I decided to do a simple benchmark to figure out how much we can gain from using compression, and how significant its drawbacks are.</p>
 <h1 id="implementing-compression">Implementing compression</h1>

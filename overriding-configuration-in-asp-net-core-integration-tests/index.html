@@ -186,11 +186,11 @@
     }
 </code></pre></div><p>This is an MVC setup, but the testing approach would work the same way if we were using Endpoint routing, or just custom middlewares.</p>
 <p>The <code>DemoOptions</code> type used to demonstrate the Options pattern is a simple POCO with one property.</p>
-<pre><code>    public class DemoOptions
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">DemoOptions</span>
     {
-        public string OptionsConfigProperty { get; set; }
+        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">string</span> OptionsConfigProperty { <span style="color:#66d9ef">get</span>; <span style="color:#66d9ef">set</span>; }
     }
-</code></pre><p>Given that overriding the configuration in the tests will be different for values that we bind to an Options type, and for values that we access directly via the <code>IConfiguration</code>, we have one example for both in the <code>appsettings.json</code>.</p>
+</code></pre></div><p>Given that overriding the configuration in the tests will be different for values that we bind to an Options type, and for values that we access directly via the <code>IConfiguration</code>, we have one example for both in the <code>appsettings.json</code>.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
   <span style="color:#f92672">&#34;Demo&#34;</span>: {
     <span style="color:#f92672">&#34;OptionsConfigProperty&#34;</span>: <span style="color:#e6db74">&#34;OptionsConfigProperty_Default&#34;</span>

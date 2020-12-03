@@ -137,17 +137,17 @@ The rest of the post will be about setting up and configuring StyleCopAnalyzers 
 <p>To be able to test these tools, I created a sample project where I intentionally made some code style violations that I would want the linters to warn about. I uploaded the code <a href="https://github.com/markvincze/CodeStyleCheckSample">here</a>, where I created two branches, <a href="https://github.com/markvincze/CodeStyleCheckSample/tree/stylecopanalyzers"><code>stylecopanalyzers</code></a> and <a href="https://github.com/markvincze/CodeStyleCheckSample/tree/editorconfig"><code>editorconfig</code></a> for the setup of the two tools.</p>
 <h1 id="adding-stylecopanalyzers-to-your-project">Adding StyleCopAnalyzers to your project</h1>
 <p>Including StyleCopAnalyzers in your project is very simple, it&rsquo;s basically just adding the reference to its Nuget package. You can do this from the terminal with <code>dotnet</code>.</p>
-<pre><code>dotnet add package StyleCop.Analyzers
-</code></pre><p>After this, if you try to build your project, you&rsquo;ll immediately receive the violations in the form of compiler warnings.</p>
-<pre><code>$ dotnet build
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-plain" data-lang="plain">dotnet add package StyleCop.Analyzers
+</code></pre></div><p>After this, if you try to build your project, you&rsquo;ll immediately receive the violations in the form of compiler warnings.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-plain" data-lang="plain">$ dotnet build
 Microsoft (R) Build Engine version 15.7.179.6572 for .NET Core
 Copyright (C) Microsoft Corporation. All rights reserved.
 
   Restore completed in 33.08 ms for C:\Workspaces\Github\CodeStyleCheckSample\src\CodeStyleCheckSample\CodeStyleCheckSample.csproj.
-MyClass.cs(20,13): warning SA1000: The keyword 'if' must be followed by a space. [C:\Workspaces\Github\CodeStyleCheckSample\src\CodeStyleCheckSample\CodeStyleCheckSample.csproj]
+MyClass.cs(20,13): warning SA1000: The keyword &#39;if&#39; must be followed by a space. [C:\Workspaces\Github\CodeStyleCheckSample\src\CodeStyleCheckSample\CodeStyleCheckSample.csproj]
 MyClass.cs(8,23): warning SA1401: Field must be private [C:\Workspaces\Github\CodeStyleCheckSample\src\CodeStyleCheckSample\CodeStyleCheckSample.csproj]
 ...
-</code></pre><p>Or, if we add the <code>&lt;TreatWarningsAsErrors&gt;true&lt;/TreatWarningsAsErrors&gt;</code> flag to our project file, these will be actual errors instead of just warnings. This is what I would generally suggest to do from the start, otherwise it&rsquo;s very easy to pile up hundreds or thousands of warnings in a large code base, which is daunting to clean up later. (This can typically be the situation when we want to introduce linting to an existing legacy project.)</p>
+</code></pre></div><p>Or, if we add the <code>&lt;TreatWarningsAsErrors&gt;true&lt;/TreatWarningsAsErrors&gt;</code> flag to our project file, these will be actual errors instead of just warnings. This is what I would generally suggest to do from the start, otherwise it&rsquo;s very easy to pile up hundreds or thousands of warnings in a large code base, which is daunting to clean up later. (This can typically be the situation when we want to introduce linting to an existing legacy project.)</p>
 <p>The linting producing errors by the <code>dotnet build</code> command makes it very easy to wire this into our CI-build, since the build errors will make our CI-build fail too, so we don&rsquo;t need to do anything else.</p>
 <p>The errors also nicely show up in Visual Studio, where we can even quickly fix them with Roslyn quick fixes.</p>
 <p><img src="/images/2018/07/error-in-vs.png" alt="Linting errors showing up in Visual Studio"  style="display:block; margin: auto;" /></p>

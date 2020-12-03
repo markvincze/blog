@@ -188,38 +188,38 @@
     }
 }
 </code></pre></div><p>Then let&rsquo;s imagine we have two endpoints (they are not really important in this example), <code>/api/hello</code> and <code>/api/dummy</code>, for which we implement these tests.</p>
-<pre><code>public class ApiTests
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ApiTests</span>
 {
-    [Fact]
-    public async Task Hello_Called_HelloWorldReturned()
+<span style="color:#a6e22e">    [Fact]</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">async</span> Task Hello_Called_HelloWorldReturned()
     {
-        using (var server = new TestServer(new WebHostBuilder().UseStartup&lt;Startup&gt;()))
-        using (var client = server.CreateClient())
+        <span style="color:#66d9ef">using</span> (<span style="color:#66d9ef">var</span> server = <span style="color:#66d9ef">new</span> TestServer(<span style="color:#66d9ef">new</span> WebHostBuilder().UseStartup&lt;Startup&gt;()))
+        <span style="color:#66d9ef">using</span> (<span style="color:#66d9ef">var</span> client = server.CreateClient())
         {
-            var response = await client.GetAsync(&quot;/api/hello&quot;);
-            var responseString = await response.Content.ReadAsStringAsync();
+            <span style="color:#66d9ef">var</span> response = <span style="color:#66d9ef">await</span> client.GetAsync(<span style="color:#e6db74">&#34;/api/hello&#34;</span>);
+            <span style="color:#66d9ef">var</span> responseString = <span style="color:#66d9ef">await</span> response.Content.ReadAsStringAsync();
             
-            Assert.Equal(&quot;Hello World!&quot;, responseString);
+            Assert.Equal(<span style="color:#e6db74">&#34;Hello World!&#34;</span>, responseString);
         }
     }
-
-    [Fact]
-    public async Task Dummy_Called_FooReturned()
+<span style="color:#a6e22e">
+</span><span style="color:#a6e22e">    [Fact]</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">async</span> Task Dummy_Called_FooReturned()
     {
-        using (var server = new TestServer(new WebHostBuilder().UseStartup&lt;Startup&gt;()))
-        using (var client = server.CreateClient())
+        <span style="color:#66d9ef">using</span> (<span style="color:#66d9ef">var</span> server = <span style="color:#66d9ef">new</span> TestServer(<span style="color:#66d9ef">new</span> WebHostBuilder().UseStartup&lt;Startup&gt;()))
+        <span style="color:#66d9ef">using</span> (<span style="color:#66d9ef">var</span> client = server.CreateClient())
         {
-            var response = await client.GetAsync(&quot;/api/dummy&quot;);
-            var responseString = await response.Content.ReadAsStringAsync();
+            <span style="color:#66d9ef">var</span> response = <span style="color:#66d9ef">await</span> client.GetAsync(<span style="color:#e6db74">&#34;/api/dummy&#34;</span>);
+            <span style="color:#66d9ef">var</span> responseString = <span style="color:#66d9ef">await</span> response.Content.ReadAsStringAsync();
             
-            Assert.Equal(&quot;Foo&quot;, responseString);
+            Assert.Equal(<span style="color:#e6db74">&#34;Foo&#34;</span>, responseString);
         }
     }
 }
-</code></pre><p>If we execute our tests with <code>dotnet test</code>, we&rsquo;ll get the following error:</p>
-<pre><code>System.AggregateException : One or more errors occurred. (Unable to store Job: 'group1.job1', because one already exists with this identification.)
----- Quartz.ObjectAlreadyExistsException : Unable to store Job: 'group1.job1', because one already exists with this identification.
-</code></pre><p>The reason for this exception is that even though we create a completely new Job and Factory in our <code>Startup</code>, apparently Quartz is storing some data related to these jobs statically. And we start a completely new <code>TestServer</code> in every test, but because everything happens in the same process, if the first test saves something in a static field, that will affect the subsequent tests.</p>
+</code></pre></div><p>If we execute our tests with <code>dotnet test</code>, we&rsquo;ll get the following error:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-plain" data-lang="plain">System.AggregateException : One or more errors occurred. (Unable to store Job: &#39;group1.job1&#39;, because one already exists with this identification.)
+---- Quartz.ObjectAlreadyExistsException : Unable to store Job: &#39;group1.job1&#39;, because one already exists with this identification.
+</code></pre></div><p>The reason for this exception is that even though we create a completely new Job and Factory in our <code>Startup</code>, apparently Quartz is storing some data related to these jobs statically. And we start a completely new <code>TestServer</code> in every test, but because everything happens in the same process, if the first test saves something in a static field, that will affect the subsequent tests.</p>
 <p>One thing I tried to solve this was to add an attribute to disable XUnit parallel test execution.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#a6e22e">[assembly: CollectionBehavior(DisableTestParallelization = true)]</span>
 </code></pre></div><p>But this is not enough, even if the execution is not happening in parallel, the tests can trip each other up.</p>

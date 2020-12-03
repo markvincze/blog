@@ -134,7 +134,63 @@
 <p>There have been many changes introduced in this new version of ASP.NET, and there are also differences in how we are running and deploying applications using CoreCLR, so I&rsquo;m going to document a couple of things you might encounter if you get started with using this new ecosystem.</p>
 <h2 id="version-numbers">Version numbers</h2>
 <p>It is quite easy to get lost in the sea of different products and version numbers. In the following table I&rsquo;ll try to summarize the ones related to ASP.NET in the existing and the upcoming release.</p>
-<!-- raw HTML omitted -->
+<table>
+    <tr>
+        <th>
+            Component
+        </th>
+        <th>
+            Current release
+        </th>
+        <th>
+            Upcoming version
+        </th>
+    </tr>
+    <tr>
+        <td>
+            ASP.NET
+        </td>
+        <td>
+            4.6
+        </td>
+        <td>
+            ASP.NET Core 1.0<br/ >(Initially was called ASP.NET 5)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            MVC
+        </td>
+        <td>
+            5
+        </td>
+        <td>
+            6
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Web Api
+        </td>
+        <td>
+            2
+        </td>
+        <td>
+            No new version, merged into MVC 6
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Entity Framework (EF)
+        </td>
+        <td>
+            6
+        </td>
+        <td>
+            EF Core 1.0<br />(Initially called EF 7)
+        </td>
+    </tr>
+</table>
 <p>One thing to keep in mind is that Core 1.0 of ASP.NET and EF shouldn&rsquo;t necessarily be considered as the the latest updates to which everybody should update. The reasoning behind the 1.0 version number is that these are new, standalone technologies which will live alongside the existing ASP.NET 4.6 and EF 6 releases.</p>
 <p>The reason for this is that they have been reimplemented in a cross-platform way using .NET Core 1.0, so they are less mature, and not as full-featured as their existing counterparts. Thus, if somebody does not need to target Linux, they might be better off sticking to the older versions, since for the time being those are more reliable, and have more features and wider support.</p>
 <h2 id="api-changes">Api changes</h2>
@@ -152,13 +208,12 @@
 <p>Still, this is a very welcomed change on Windows too, it makes editing our project details easier and quicker. You can read about its format in more detail on the <a href="http://docs.asp.net/en/latest/conceptual-overview/understanding-aspnet5-apps.html#the-project-json-file">ASP.NET Documentation</a> site.</p>
 <h3 id="nuget-packages-in-the-projectjson">NuGet packages in the project.json</h3>
 <p>Another change related to the new project file format is that in projects using the new project.json we don&rsquo;t need to have a separate packages.config file to specify the necessary NuGet packages any more. Rather, they are pulled in from the project.json. In your project description, you can specify the dependencies of your project in the <code>dependencies</code> collection:</p>
-<pre><code>&quot;dependencies&quot;: {
-    &quot;EntityFramework.Commands&quot;: &quot;7.0.0-rc1-final&quot;,
-    &quot;EntityFramework.MicrosoftSqlServer&quot;: &quot;7.0.0-rc1-final&quot;,
-    &quot;MyOtherProjectInTheSolution&quot;: &quot;&quot;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#e6db74">&#34;dependencies&#34;</span><span style="color:#960050;background-color:#1e0010">:</span> {
+    <span style="color:#f92672">&#34;EntityFramework.Commands&#34;</span>: <span style="color:#e6db74">&#34;7.0.0-rc1-final&#34;</span>,
+    <span style="color:#f92672">&#34;EntityFramework.MicrosoftSqlServer&#34;</span>: <span style="color:#e6db74">&#34;7.0.0-rc1-final&#34;</span>,
+    <span style="color:#f92672">&#34;MyOtherProjectInTheSolution&#34;</span>: <span style="color:#e6db74">&#34;&#34;</span>
 }
-</code></pre>
-<p>An entry in the <code>dependencies</code> can be either a reference to another project in the solution, or a reference to a NuGet package, so finally the references to packages don&rsquo;t live in two different places.</p>
+</code></pre></div><p>An entry in the <code>dependencies</code> can be either a reference to another project in the solution, or a reference to a NuGet package, so finally the references to packages don&rsquo;t live in two different places.</p>
 <p>Previously I had many problems (and I&rsquo;m sure lots of other people did) with NuGet package references living in two different places: the package to download was specified in packages.config, and the actual binary be references was specified in the csproj file. And they could really easily get out of sync, especially in large solution, where we ended up referencing different versions of the same package.</p>
 <p>The fact that all the indirectly needed NuGet packages (packages referenced by some of the packages we need) were all separate entries in our list of references just made this more complicated and unstable.</p>
 <p>With the new project.json these only live in a single place, so the version numbers will always be in sync, and the other advantage is that we only need to specify the top-level package we need, and all the indirect dependencies will be automatically pulled in.</p>
@@ -171,49 +226,43 @@
 The thing I desperately need and probably wouldn&rsquo;t be able to comfortable write unit tests without is a mocking framework.</p>
 <p>As far as I know, the major mocking frameworks out there haven&rsquo;t been fully ported to .NET Core yet. The one I could find is called <a href="https://www.nuget.org/packages/LightMock.vNext/">LightMock.vNext</a>, but it seems to have much fewer features than what I&rsquo;m used to in Moq.</p>
 <p>In other .NET projects I use <a href="https://github.com/moq/moq4">Moq</a> as a mocking frameworks, so I was happy to find out there is a already a working version of Moq developed by the ASP.NET team. I have been using version <code>4.4.0-beta8</code> without any problems so far.</p>
-<pre><code>&quot;dependencies&quot;: {
-  &quot;moq.netcore&quot;: &quot;4.4.0-beta8&quot;,
-  ...
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#e6db74">&#34;dependencies&#34;</span><span style="color:#960050;background-color:#1e0010">:</span> {
+    <span style="color:#f92672">&#34;moq.netcore&#34;</span>: <span style="color:#e6db74">&#34;4.4.0-beta8&#34;</span>,
+    <span style="color:#960050;background-color:#1e0010">...</span>
 }
-</code></pre>
-<p>To be able to have this reference, there is one extra thing we have to do. We have to create a NuGet.config file in our solution folder, and add another NuGet feed, which publishes development packages coming from the ASP.NET team:</p>
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-&lt;configuration&gt;
-  &lt;packageSources&gt;
-    &lt;add key=&quot;AspNetVNext&quot; value=&quot;https://www.myget.org/F/aspnetcidev/api/v3/index.json&quot; /&gt;
-    &lt;add key=&quot;NuGet&quot; value=&quot;https://api.nuget.org/v3/index.json&quot; /&gt;
-  &lt;/packageSources&gt;
-&lt;/configuration&gt;
-</code></pre>
-<p>(Source: I found this information on <a href="http://stackoverflow.com/questions/27918305/mocking-framework-for-asp-net-core-5-0">Stack Overflow</a>, thanks Lukasz Pyrzyk!)</p>
+</code></pre></div><p>To be able to have this reference, there is one extra thing we have to do. We have to create a NuGet.config file in our solution folder, and add another NuGet feed, which publishes development packages coming from the ASP.NET team:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34;?&gt;</span>
+<span style="color:#f92672">&lt;configuration&gt;</span>
+    <span style="color:#f92672">&lt;packageSources&gt;</span>
+    <span style="color:#f92672">&lt;add</span> <span style="color:#a6e22e">key=</span><span style="color:#e6db74">&#34;AspNetVNext&#34;</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;https://www.myget.org/F/aspnetcidev/api/v3/index.json&#34;</span> <span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;add</span> <span style="color:#a6e22e">key=</span><span style="color:#e6db74">&#34;NuGet&#34;</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;https://api.nuget.org/v3/index.json&#34;</span> <span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;/packageSources&gt;</span>
+<span style="color:#f92672">&lt;/configuration&gt;</span>
+</code></pre></div><p>(Source: I found this information on <a href="http://stackoverflow.com/questions/27918305/mocking-framework-for-asp-net-core-5-0">Stack Overflow</a>, thanks Lukasz Pyrzyk!)</p>
 <h4 id="api-changes-1">Api changes</h4>
 <p>The Api changes can greatly affect how we are mocking certain aspects of an MVC controller. Some properties which used to have setters don&rsquo;t have one any more, so instead of simply setting them to a mock object, we have to go through some extra hoops to stub them.</p>
 <p>For example we can replace the Response object with a mock using the following code:</p>
-<pre><code>var sut = new MyController();
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">var</span> sut = <span style="color:#66d9ef">new</span> MyController();
 
-var responseMock = new Mock&lt;HttpResponse&gt;();
+<span style="color:#66d9ef">var</span> responseMock = <span style="color:#66d9ef">new</span> Mock&lt;HttpResponse&gt;();
 
-var httpContextMock = new Mock&lt;HttpContext&gt;();
+<span style="color:#66d9ef">var</span> httpContextMock = <span style="color:#66d9ef">new</span> Mock&lt;HttpContext&gt;();
 httpContextMock.SetupGet(a =&gt; a.Response).Returns(responseMock.Object);
 
-sut.ActionContext = new ActionContext()
+sut.ActionContext = <span style="color:#66d9ef">new</span> ActionContext()
 {
     HttpContext = httpContextMock.Object
 };
-</code></pre>
-<h2 id="command-line">Command line</h2>
+</code></pre></div><h2 id="command-line">Command line</h2>
 <p>Building projects, running applications and executing unit tests are all possible with the new command-line tools. Again, this is essential to support development on platforms where Visual Studio is not available.</p>
 <p>But even on Windows, where VS is available, the command line tools can prove to be very convenient.<br>
 The thing I like the most about the command line tools is <a href="https://github.com/aspnet/dnx-watch">dnx-watch</a>. You can install it by issuing the following command:</p>
-<pre><code>dnu commands install Microsoft.Dnx.Watcher
-</code></pre>
-<p>Then you can execute any dnx command specified for your project by typing</p>
-<pre><code>dnx-watch web
-</code></pre>
-<p>or</p>
-<pre><code>dnx-watch test
-</code></pre>
-<p>and dnx-watch will restart and execute the command every time any of the files in your solution changes. This is a great way to keep a fresh version of your site running all the time, or to automatically execute all your unit tests on every code change.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">dnu commands install Microsoft.Dnx.Watcher
+</code></pre></div><p>Then you can execute any dnx command specified for your project by typing</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">dnx-watch web
+</code></pre></div><p>or</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">dnx-watch test
+</code></pre></div><p>and dnx-watch will restart and execute the command every time any of the files in your solution changes. This is a great way to keep a fresh version of your site running all the time, or to automatically execute all your unit tests on every code change.</p>
 <p>The command line I use on Windows is <a href="http://cmder.net/">cmder</a>. One of my favorite features is being able to split the terminal window vertically or horizontally. <br>
 The setup I started using after a while is to split terminal into 3 parts:</p>
 <ul>

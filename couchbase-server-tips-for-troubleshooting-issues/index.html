@@ -123,128 +123,122 @@
     <article class="content mt-6">
       <p>Recently at work we started using Couchbase Server to replace a rather outdated caching solution in our architecture. This was the first time I had to use Couchbase and its .NET SDK, and I have encountered a couple of issues along the way.</p>
 <p>This post is a recollection of the problems we faced. (If you are interested in a &ldquo;getting started&rdquo; tutorial, I recommend reading the <a href="http://docs.couchbase.com/developer/dotnet-2.0/dotnet-intro.html">official documentation</a> of the .NET SDK, it has a pretty good description about what you can with the SDK, and the API is rather simple, so you shouldn&rsquo;t have a hard time getting started with it.)</p>
-<p>#Logging</p>
+<h1 id="logging">Logging</h1>
 <p>Probably the single most important tool for troubleshooting problems for me was using the built-in logging of the .NET SDK. It can give much more detailed insights into the mechanisms going on in the SDK than what you can get from the <code>IDocumentResult</code> or <code>OperationResult</code> object you get from the API.</p>
 <p>The SDK uses <code>Common.Logging</code> and <code>log4net</code>. Enabling file-based logging is very simple, you basically just have to add the following section to your app or web configuration file.</p>
-<pre><code>&lt;configuration&gt;
-  &lt;configSections&gt;
-    &lt;sectionGroup name=&quot;common&quot;&gt;
-      &lt;section name=&quot;logging&quot; type=&quot;Common.Logging.ConfigurationSectionHandler, Common.Logging&quot; /&gt;
-    &lt;/sectionGroup&gt;
-    &lt;section name=&quot;log4net&quot; type=&quot;log4net.Config.Log4NetConfigurationSectionHandler, log4net&quot; /&gt;
-  &lt;/configSections&gt;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;configuration&gt;</span>
+  <span style="color:#f92672">&lt;configSections&gt;</span>
+    <span style="color:#f92672">&lt;sectionGroup</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;common&#34;</span><span style="color:#f92672">&gt;</span>
+      <span style="color:#f92672">&lt;section</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;logging&#34;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;Common.Logging.ConfigurationSectionHandler, Common.Logging&#34;</span> <span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;/sectionGroup&gt;</span>
+    <span style="color:#f92672">&lt;section</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;log4net&#34;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;log4net.Config.Log4NetConfigurationSectionHandler, log4net&#34;</span> <span style="color:#f92672">/&gt;</span>
+  <span style="color:#f92672">&lt;/configSections&gt;</span>
 
-  &lt;common&gt;
-    &lt;logging&gt;
-      &lt;factoryAdapter type=&quot;Common.Logging.Log4Net.Log4NetLoggerFactoryAdapter, Common.Logging.Log4Net&quot;&gt;
-        &lt;arg key=&quot;configType&quot; value=&quot;INLINE&quot; /&gt;
-      &lt;/factoryAdapter&gt;
-    &lt;/logging&gt;
-  &lt;/common&gt;
+  <span style="color:#f92672">&lt;common&gt;</span>
+    <span style="color:#f92672">&lt;logging&gt;</span>
+      <span style="color:#f92672">&lt;factoryAdapter</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;Common.Logging.Log4Net.Log4NetLoggerFactoryAdapter, Common.Logging.Log4Net&#34;</span><span style="color:#f92672">&gt;</span>
+        <span style="color:#f92672">&lt;arg</span> <span style="color:#a6e22e">key=</span><span style="color:#e6db74">&#34;configType&#34;</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;INLINE&#34;</span> <span style="color:#f92672">/&gt;</span>
+      <span style="color:#f92672">&lt;/factoryAdapter&gt;</span>
+    <span style="color:#f92672">&lt;/logging&gt;</span>
+  <span style="color:#f92672">&lt;/common&gt;</span>
   
-  &lt;log4net&gt;
-    &lt;appender name=&quot;FileAppender&quot; type=&quot;log4net.Appender.FileAppender&quot;&gt;
-    &lt;param name=&quot;File&quot; value=&quot;C:\temp\log.txt&quot; /&gt;
-    &lt;layout type=&quot;log4net.Layout.PatternLayout&quot;&gt;
-      &lt;conversionPattern value=&quot;%date [%thread] %level %logger - %message%newline&quot; /&gt;
-    &lt;/layout&gt;
-    &lt;/appender&gt;
-    &lt;root&gt;
-      &lt;level value=&quot;INFO&quot; /&gt;
-      &lt;appender-ref ref=&quot;FileAppender&quot; /&gt;
-    &lt;/root&gt; 
-  &lt;/log4net&gt;
-&lt;/configuration&gt;
-</code></pre>
-<p>Source and more details on the official Couchbase blog: <a href="http://blog.couchbase.com/couchbase-net-sdk-20-development-series-logging">Couchbase .NET SDK 2.0 Development Series: Logging</a></p>
-<p>#Using Fiddler</p>
+  <span style="color:#f92672">&lt;log4net&gt;</span>
+    <span style="color:#f92672">&lt;appender</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;FileAppender&#34;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;log4net.Appender.FileAppender&#34;</span><span style="color:#f92672">&gt;</span>
+    <span style="color:#f92672">&lt;param</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;File&#34;</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;C:\temp\log.txt&#34;</span> <span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;layout</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;log4net.Layout.PatternLayout&#34;</span><span style="color:#f92672">&gt;</span>
+      <span style="color:#f92672">&lt;conversionPattern</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;%date [%thread] %level %logger - %message%newline&#34;</span> <span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;/layout&gt;</span>
+    <span style="color:#f92672">&lt;/appender&gt;</span>
+    <span style="color:#f92672">&lt;root&gt;</span>
+      <span style="color:#f92672">&lt;level</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;INFO&#34;</span> <span style="color:#f92672">/&gt;</span>
+      <span style="color:#f92672">&lt;appender-ref</span> <span style="color:#a6e22e">ref=</span><span style="color:#e6db74">&#34;FileAppender&#34;</span> <span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;/root&gt;</span> 
+  <span style="color:#f92672">&lt;/log4net&gt;</span>
+<span style="color:#f92672">&lt;/configuration&gt;</span>
+</code></pre></div><p>Source and more details on the official Couchbase blog: <a href="http://blog.couchbase.com/couchbase-net-sdk-20-development-series-logging">Couchbase .NET SDK 2.0 Development Series: Logging</a></p>
+<h1 id="using-fiddler">Using Fiddler</h1>
 <p>When troubleshooting timeout problems or sluggishness, it can be beneficial to take a look at what kind of requests the SDK is trying to send, and what ports it is trying to access.<br>
 You don&rsquo;t necessarily have to understand what the requests are about, it is often enough to
 see which request is failing to get some clue about the problem.</p>
 <p><img src="/images/2016/01/couchbase-fiddler.png" alt="Screenshot illustrating Couchbase requests captured with Fiddler."  style="display:block; margin: auto;" /></p>
 <p>Keep in mind that you might have to explicitly configure your application to use the proxy provided by Fiddler, you can find the details <a href="http://docs.telerik.com/fiddler/Configure-Fiddler/Tasks/ConfigureDotNETApp">here</a>.<br>
 Also, if you have your Couchbase server installation on the local machine, you have to use <code>ipv4.fiddler</code> instead of <code>localhost</code> in the url configuration.</p>
-<p>#Networking issues</p>
+<h1 id="networking-issues">Networking issues</h1>
 <p>It is pretty easy to run into networking issues when using Couchbase, especially if the server and the client run in a different network or environment, for example in different clouds.</p>
 <p>One of the reasons for these issues can often be a firewall between the two computers, because Couchbase uses many different ports, and not just port 80. You can find the list of these ports in the <a href="http://docs.couchbase.com/admin/admin/Install/install-networkPorts.html">official documentation</a>.</p>
 <p>This can cause either the connection to not work at all, or can cause long response times of the SDK.<br>
 Luckily these issues are usually easy to spot, because they produce an error in the logs, or you can see the failed requests with Fiddler, and opening the port in the firewall solves the problem.</p>
 <p>There is still one problem I couldn&rsquo;t solve. If I hosted a Couchbase cluster in Amazon EC2, and tried to access it from a virtual machine in Azure, I got randomly slow response times. You can find the details in this <a href="http://stackoverflow.com/questions/34204339/use-couchbase-hosted-in-amazon-from-a-client-hosted-in-azure-what-can-cause-bad?noredirect=1#comment56154827_34204339">Stack Overflow question</a>. Luckily this was only a test setup, our production architecture is different, but it would be still interesting to find the root cause of this.</p>
-<p>#Default <code>&lt;bucket&gt;</code> configuration</p>
+<h1 id="default-bucket-configuration">Default <code>&lt;bucket&gt;</code> configuration</h1>
 <p>There is a surprising gotcha related to the bucket configurations of the SDK.<br>
 There are two ways to open buckets: you can either statically preconfigure the bucket to use in the app.config:</p>
-<pre><code>&lt;couchbaseClients&gt;
-  &lt;couchbase useSsl=&quot;false&quot; operationLifeSpan=&quot;1000&quot;&gt;
-    &lt;servers&gt;
-      &lt;add uri=&quot;http://192.168.56.101:8091/pools&quot;&gt;&lt;/add&gt;
-    &lt;/servers&gt;
-    &lt;buckets&gt;
-      &lt;add name=&quot;my-bucket-name&quot; useSsl=&quot;false&quot; password=&quot;&quot; operationLifespan=&quot;2000&quot;&gt;
-        &lt;connectionPool name=&quot;custom&quot; maxSize=&quot;10&quot; minSize=&quot;5&quot; sendTimeout=&quot;12000&quot;&gt;&lt;/connectionPool&gt;
-      &lt;/add&gt;
-    &lt;/buckets&gt;
-  &lt;/couchbase&gt;
-&lt;/couchbaseClients&gt;
-</code></pre>
-<p>In this case if you try to open the bucket <code>my-bucket-name</code>, its configuration will be picked up from the config file.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;couchbaseClients&gt;</span>
+  <span style="color:#f92672">&lt;couchbase</span> <span style="color:#a6e22e">useSsl=</span><span style="color:#e6db74">&#34;false&#34;</span> <span style="color:#a6e22e">operationLifeSpan=</span><span style="color:#e6db74">&#34;1000&#34;</span><span style="color:#f92672">&gt;</span>
+    <span style="color:#f92672">&lt;servers&gt;</span>
+      <span style="color:#f92672">&lt;add</span> <span style="color:#a6e22e">uri=</span><span style="color:#e6db74">&#34;http://192.168.56.101:8091/pools&#34;</span><span style="color:#f92672">&gt;&lt;/add&gt;</span>
+    <span style="color:#f92672">&lt;/servers&gt;</span>
+    <span style="color:#f92672">&lt;buckets&gt;</span>
+      <span style="color:#f92672">&lt;add</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;my-bucket-name&#34;</span> <span style="color:#a6e22e">useSsl=</span><span style="color:#e6db74">&#34;false&#34;</span> <span style="color:#a6e22e">password=</span><span style="color:#e6db74">&#34;&#34;</span> <span style="color:#a6e22e">operationLifespan=</span><span style="color:#e6db74">&#34;2000&#34;</span><span style="color:#f92672">&gt;</span>
+        <span style="color:#f92672">&lt;connectionPool</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;custom&#34;</span> <span style="color:#a6e22e">maxSize=</span><span style="color:#e6db74">&#34;10&#34;</span> <span style="color:#a6e22e">minSize=</span><span style="color:#e6db74">&#34;5&#34;</span> <span style="color:#a6e22e">sendTimeout=</span><span style="color:#e6db74">&#34;12000&#34;</span><span style="color:#f92672">&gt;&lt;/connectionPool&gt;</span>
+      <span style="color:#f92672">&lt;/add&gt;</span>
+    <span style="color:#f92672">&lt;/buckets&gt;</span>
+  <span style="color:#f92672">&lt;/couchbase&gt;</span>
+<span style="color:#f92672">&lt;/couchbaseClients&gt;</span>
+</code></pre></div><p>In this case if you try to open the bucket <code>my-bucket-name</code>, its configuration will be picked up from the config file.</p>
 <p>However, there can be situations in which the name of the buckets you want to use are only known dynamically during runtime, so you cannot preconfigure any buckets. In that case you <code>couchbaseClients</code> section will look like this:</p>
-<pre><code>&lt;couchbaseClients&gt;
-  &lt;couchbase useSsl=&quot;false&quot; operationLifeSpan=&quot;1000&quot;&gt;
-    &lt;servers&gt;
-      &lt;add uri=&quot;http://192.168.56.101:8091/pools&quot;&gt;&lt;/add&gt;
-    &lt;/servers&gt;
-  &lt;/couchbase&gt;
-&lt;/couchbaseClients&gt;
-</code></pre>
-<p>The weird thing is that now if you try to open a bucket by using <code>cluster.OpenBucket(bucketName)</code>, the SDK does not pick up the server configuration from the <code>&lt;servers&gt;</code> section, but at first it tries to connect to <code>localhost</code>, and it only uses the proper server after that fails.<br>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;couchbaseClients&gt;</span>
+  <span style="color:#f92672">&lt;couchbase</span> <span style="color:#a6e22e">useSsl=</span><span style="color:#e6db74">&#34;false&#34;</span> <span style="color:#a6e22e">operationLifeSpan=</span><span style="color:#e6db74">&#34;1000&#34;</span><span style="color:#f92672">&gt;</span>
+    <span style="color:#f92672">&lt;servers&gt;</span>
+      <span style="color:#f92672">&lt;add</span> <span style="color:#a6e22e">uri=</span><span style="color:#e6db74">&#34;http://192.168.56.101:8091/pools&#34;</span><span style="color:#f92672">&gt;&lt;/add&gt;</span>
+    <span style="color:#f92672">&lt;/servers&gt;</span>
+  <span style="color:#f92672">&lt;/couchbase&gt;</span>
+<span style="color:#f92672">&lt;/couchbaseClients&gt;</span>
+</code></pre></div><p>The weird thing is that now if you try to open a bucket by using <code>cluster.OpenBucket(bucketName)</code>, the SDK does not pick up the server configuration from the <code>&lt;servers&gt;</code> section, but at first it tries to connect to <code>localhost</code>, and it only uses the proper server after that fails.<br>
 This can have two consequences:</p>
 <ul>
 <li>If we have no Couchbase server running at localhost:8091, opening the bucket can take seconds, because the client is trying to connect to localhost at first, and only after that fails does it connect to the configured server. This problem and a workaround is described in <a href="http://stackoverflow.com/questions/34183342/why-can-opening-a-couchbase-bucket-be-very-slow">this SO question</a>.</li>
 <li>If we actually do have a server at localhost:8091, then that is getting used instead of the one configured in <code>&lt;servers&gt;</code>. I consider this clearly a bug.</li>
 </ul>
 <p>The workaround is simple: you just have to add a dummy bucket to the configuration:</p>
-<pre><code>&lt;couchbaseClients&gt;
-  &lt;couchbase useSsl=&quot;false&quot; operationLifeSpan=&quot;1000&quot;&gt;
-    &lt;servers&gt;
-      &lt;add uri=&quot;http://192.168.56.101:8091/pools&quot;&gt;&lt;/add&gt;
-    &lt;/servers&gt;
-    &lt;buckets&gt;
-      &lt;add name=&quot;dummy-bucket&quot; useSsl=&quot;false&quot; operationLifespan=&quot;1000&quot;&gt;
-      &lt;/add&gt;
-    &lt;/buckets&gt;
-  &lt;/couchbase&gt;
-&lt;/couchbaseClients&gt;
-</code></pre>
-<p>A bucket with the specified name doesn&rsquo;t even have to exist on the server. Solely the existence of that section will make the SDK pick up the server configuration from the <code>&lt;servers&gt;</code> section.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;couchbaseClients&gt;</span>
+  <span style="color:#f92672">&lt;couchbase</span> <span style="color:#a6e22e">useSsl=</span><span style="color:#e6db74">&#34;false&#34;</span> <span style="color:#a6e22e">operationLifeSpan=</span><span style="color:#e6db74">&#34;1000&#34;</span><span style="color:#f92672">&gt;</span>
+    <span style="color:#f92672">&lt;servers&gt;</span>
+      <span style="color:#f92672">&lt;add</span> <span style="color:#a6e22e">uri=</span><span style="color:#e6db74">&#34;http://192.168.56.101:8091/pools&#34;</span><span style="color:#f92672">&gt;&lt;/add&gt;</span>
+    <span style="color:#f92672">&lt;/servers&gt;</span>
+    <span style="color:#f92672">&lt;buckets&gt;</span>
+      <span style="color:#f92672">&lt;add</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;dummy-bucket&#34;</span> <span style="color:#a6e22e">useSsl=</span><span style="color:#e6db74">&#34;false&#34;</span> <span style="color:#a6e22e">operationLifespan=</span><span style="color:#e6db74">&#34;1000&#34;</span><span style="color:#f92672">&gt;</span>
+      <span style="color:#f92672">&lt;/add&gt;</span>
+    <span style="color:#f92672">&lt;/buckets&gt;</span>
+  <span style="color:#f92672">&lt;/couchbase&gt;</span>
+<span style="color:#f92672">&lt;/couchbaseClients&gt;</span>
+</code></pre></div><p>A bucket with the specified name doesn&rsquo;t even have to exist on the server. Solely the existence of that section will make the SDK pick up the server configuration from the <code>&lt;servers&gt;</code> section.</p>
 <p>You can find some more details in <a href="http://stackoverflow.com/questions/34183342/why-can-opening-a-couchbase-bucket-be-very-slow">this SO question</a>, and my proposed fix in the <a href="https://github.com/couchbase/couchbase-net-client/pull/52">following pull request</a>.</p>
-<p>#TCP connection count</p>
+<h1 id="tcp-connection-count">TCP connection count</h1>
 <p>If you are accessing Couchbase at a high volume, possibly on multiple threads, the client can easily run out of available TCP connections. The maximum number of TCP connections can be configured in the app.config. Its default value is 2, which is really low, and it can cause the operation to fail. In the logs and in the result object you can see an exception similar to this.</p>
-<pre><code>The operation has timed out.
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-plain" data-lang="plain">The operation has timed out.
 Couchbase.IO.ConnectionUnavailableException: Failed to acquire a pooled client connection on 192.168.56.101:11210 after 5 tries.
-   at Couchbase.IO.ConnectionPool`1.Acquire()
-   at Couchbase.IO.ConnectionPool`1.Acquire()
-   at Couchbase.IO.ConnectionPool`1.Acquire()
-   at Couchbase.IO.ConnectionPool`1.Couchbase.IO.IConnectionPool.Acquire()
-   at Couchbase.IO.Strategies.DefaultIOStrategy.Execute[T](IOperation`1 operation)
-   at Couchbase.Core.Server.Send[T](IOperation`1 operation)
-</code></pre>
-<p>The solution is to increase the number of maximum TCP connections, which can be separately controlled on a default level, or for a specific bucket:</p>
-<pre><code>&lt;couchbaseClients&gt;
-    &lt;couchbase&gt;
-        &lt;servers&gt;
-            &lt;add uri=&quot;http://192.168.56.101:8091/pools&quot;/&gt;
-        &lt;/servers&gt;
-        &lt;connectionPool name=&quot;default&quot; maxSize=&quot;35&quot; minSize=&quot;5&quot; sendTimeout=&quot;15000&quot;&gt;
-        &lt;/connectionPool&gt;
-        &lt;buckets&gt;
-            &lt;add name=&quot;default&quot;&gt;
-                &lt;connectionPool maxSize=&quot;30&quot; minSize=&quot;5&quot; name=&quot;default&quot;/&gt;
-            &lt;/add&gt;
-        &lt;/buckets&gt;
-    &lt;/couchbase&gt;
-&lt;/couchbaseClients&gt;
-</code></pre>
-<p>For us a pool size of 30 seems to have solved the problem, you should fine tune the configuration until you find a proper value for your scenario.</p>
+    at Couchbase.IO.ConnectionPool`1.Acquire()
+    at Couchbase.IO.ConnectionPool`1.Acquire()
+    at Couchbase.IO.ConnectionPool`1.Acquire()
+    at Couchbase.IO.ConnectionPool`1.Couchbase.IO.IConnectionPool.Acquire()
+    at Couchbase.IO.Strategies.DefaultIOStrategy.Execute[T](IOperation`1 operation)
+    at Couchbase.Core.Server.Send[T](IOperation`1 operation)
+</code></pre></div><p>The solution is to increase the number of maximum TCP connections, which can be separately controlled on a default level, or for a specific bucket:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;couchbaseClients&gt;</span>
+    <span style="color:#f92672">&lt;couchbase&gt;</span>
+        <span style="color:#f92672">&lt;servers&gt;</span>
+            <span style="color:#f92672">&lt;add</span> <span style="color:#a6e22e">uri=</span><span style="color:#e6db74">&#34;http://192.168.56.101:8091/pools&#34;</span><span style="color:#f92672">/&gt;</span>
+        <span style="color:#f92672">&lt;/servers&gt;</span>
+        <span style="color:#f92672">&lt;connectionPool</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;default&#34;</span> <span style="color:#a6e22e">maxSize=</span><span style="color:#e6db74">&#34;35&#34;</span> <span style="color:#a6e22e">minSize=</span><span style="color:#e6db74">&#34;5&#34;</span> <span style="color:#a6e22e">sendTimeout=</span><span style="color:#e6db74">&#34;15000&#34;</span><span style="color:#f92672">&gt;</span>
+        <span style="color:#f92672">&lt;/connectionPool&gt;</span>
+        <span style="color:#f92672">&lt;buckets&gt;</span>
+            <span style="color:#f92672">&lt;add</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;default&#34;</span><span style="color:#f92672">&gt;</span>
+                <span style="color:#f92672">&lt;connectionPool</span> <span style="color:#a6e22e">maxSize=</span><span style="color:#e6db74">&#34;30&#34;</span> <span style="color:#a6e22e">minSize=</span><span style="color:#e6db74">&#34;5&#34;</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;default&#34;</span><span style="color:#f92672">/&gt;</span>
+            <span style="color:#f92672">&lt;/add&gt;</span>
+        <span style="color:#f92672">&lt;/buckets&gt;</span>
+    <span style="color:#f92672">&lt;/couchbase&gt;</span>
+<span style="color:#f92672">&lt;/couchbaseClients&gt;</span>
+</code></pre></div><p>For us a pool size of 30 seems to have solved the problem, you should fine tune the configuration until you find a proper value for your scenario.</p>
 <p>I found this solution with an official answer in the <a href="https://forums.couchbase.com/t/failed-to-acquire-a-pooled-client-connection-after-5-tries/6062/6?u=markvincze">Couchbase Forums</a></p>
 <p>#The importance of <code>ClusterHelper</code></p>
 <p>When we use the <code>OpenBucket</code> of the <code>ICluster</code> interface, a new TCP connection will be made to the Couchbase server. That bucket object should be used in a <code>using</code> block, and when the object is disposed, the connection will be closed. The performance of this approach is not ideal if we are accessing Couchbase at a high volume.</p>

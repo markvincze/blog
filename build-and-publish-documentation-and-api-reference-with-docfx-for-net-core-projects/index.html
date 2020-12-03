@@ -133,20 +133,20 @@ We&rsquo;ll also take a look at how you can automatically publish the documentat
 </code></pre></div><p>(Alternatively, we can also download and extract a release from the <a href="https://github.com/dotnet/docfx/releases">Releases</a> page.)</p>
 <h1 id="set-up-the-docfx-project">Set up the DocFx project</h1>
 <p>In the examples I&rsquo;ll assume that our repository has the following.</p>
-<pre><code>|- src/
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-plain" data-lang="plain">|- src/
    |- MyProject/
       |- MyProject.csproj
 |- test/
    |- MyProject.UnitTests/
       |- MyProject.UnitTests.csproj
 |- MySolution.sln
-</code></pre><p>Where the <code>src</code> folder contains our main project, and the unit test projects are in the <code>test</code> folder.</p>
+</code></pre></div><p>Where the <code>src</code> folder contains our main project, and the unit test projects are in the <code>test</code> folder.</p>
 <p>If we want to use DocFx, we need to set up a <em>project</em>, which consists of a bunch of configuration and content files describing our documentation site. A typical place to put this project in is a <code>docs</code> folder at the root of our repository.</p>
 <p>To scaffold a default DocFx project in a <code>docs</code> directory, issue the following command at the root of the repository.</p>
-<pre><code>docfx init -q -o docs
-</code></pre><p>(<code>-o</code> specifies the output folder, while <code>-q</code> enables the &ldquo;quiet&rdquo; mode, so the command generates the default setup without asking any questions. If you&rsquo;d like to revise the scaffolding options, omit the <code>-q</code> flag.)<br>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-plain" data-lang="plain">docfx init -q -o docs
+</code></pre></div><p>(<code>-o</code> specifies the output folder, while <code>-q</code> enables the &ldquo;quiet&rdquo; mode, so the command generates the default setup without asking any questions. If you&rsquo;d like to revise the scaffolding options, omit the <code>-q</code> flag.)<br>
 Let&rsquo;s review what this generated.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-md" data-lang="md">|- api/: Configuration for the generation of the API reference.
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-plain" data-lang="plain">|- api/: Configuration for the generation of the API reference.
 |- articles/: Manually written pages, this is what we can use to write actual documentation.
 |- images/: Image assets.
 |- src/: Folder is for storing our source code projects. (I don&#39;t use this.)
@@ -172,25 +172,25 @@ We can do this by adding the <code>cwd</code> property to the object in the <cod
   }
 ]<span style="color:#960050;background-color:#1e0010">,</span>
 </code></pre></div><p>This way we are generating the API reference for every project in the <code>src</code> folder. If we want to (for example if we only want to have the reference for a subset of our projects), we can also explicitly specify the csproj files we&rsquo;d like to process.</p>
-<pre><code>    &quot;files&quot;: [
-      &quot;Project1/Project1.csproj&quot;,
-      &quot;Project2/Project2.csproj&quot;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">    <span style="color:#e6db74">&#34;files&#34;</span><span style="color:#960050;background-color:#1e0010">:</span> [
+      <span style="color:#e6db74">&#34;Project1/Project1.csproj&#34;</span>,
+      <span style="color:#e6db74">&#34;Project2/Project2.csproj&#34;</span>
     ]
-</code></pre><p><strong>Important</strong>: If we are multi-targeting different .NET Framework versions in our project, we must explicitly specify one of the frameworks here, otherwise <code>docfx</code> won&rsquo;t be able to build the project.<br>
+</code></pre></div><p><strong>Important</strong>: If we are multi-targeting different .NET Framework versions in our project, we must explicitly specify one of the frameworks here, otherwise <code>docfx</code> won&rsquo;t be able to build the project.<br>
 We can do this by adding <code>properties</code> to our metadata object:</p>
-<pre><code>&quot;metadata&quot;: [
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#e6db74">&#34;metadata&#34;</span><span style="color:#960050;background-color:#1e0010">:</span> [
    {
-     ...
-     &quot;properties&quot;: {
-         &quot;TargetFramework&quot;: &quot;netstandard1.3&quot;
+     <span style="color:#960050;background-color:#1e0010">...</span>
+     <span style="color:#f92672">&#34;properties&#34;</span>: {
+         <span style="color:#f92672">&#34;TargetFramework&#34;</span>: <span style="color:#e6db74">&#34;netstandard1.3&#34;</span>
      }
    } 
- ],
-</code></pre><p>In the <code>api</code> folder we shouldn&rsquo;t manually edit the <code>toc.yml</code>, since the list of table of contents will be generated during the build based on the types we have in our assemblies.</p>
+ ]<span style="color:#960050;background-color:#1e0010">,</span>
+</code></pre></div><p>In the <code>api</code> folder we shouldn&rsquo;t manually edit the <code>toc.yml</code>, since the list of table of contents will be generated during the build based on the types we have in our assemblies.</p>
 <p>On the other hand, we should change the content of the <code>index.md</code> file. This is the main page displayed when we navigate to the API reference, so we can change it to a welcome message, or a high-level overview about our types.<br>
 If we want to add a link to a certain type, we can do it by specifying the full name of the type with html extension. Example:</p>
-<pre><code>[MyClass](MyProject.MyClass.html)
-</code></pre><p><em>Note: <code>docfx</code> will display a warning for &ldquo;Invalid file link&rdquo; when generating the documentation, but the link will work properly.</em></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-plain" data-lang="plain">[MyClass](MyProject.MyClass.html)
+</code></pre></div><p><em>Note: <code>docfx</code> will display a warning for &ldquo;Invalid file link&rdquo; when generating the documentation, but the link will work properly.</em></p>
 <h1 id="set-up-our-documentation-pages">Set up our documentation pages</h1>
 <p>By default, an <code>articles</code> folder is generated in the DocFx project where we can add some extra documentation pages. We can do this by adding additional Markdown files to that folder, and adding them to the <code>toc.yml</code>.</p>
 <p>If we want to, we can rename the sections of the site (or add additional sections). For example, I tend to rename the &ldquo;Articles&rdquo; section to &ldquo;Documentation&rdquo;, and change &ldquo;Api Documentation&rdquo; to &ldquo;Api Reference&rdquo;. If you&rsquo;d like to change these, you should rename the folders (optional), adjust <code>docfx.json</code> to include these folders in the <code>build</code>, and change the <code>toc.yml</code> accordingly.</p>
@@ -199,8 +199,8 @@ If we want to add a link to a certain type, we can do it by specifying the full 
 <p>It&rsquo;s a good idea to add an introduction about our project, include a link pointing to the GitHub repo, and display the usual CI and NuGet badges.</p>
 <h1 id="testing-the-documentation">Testing the documentation</h1>
 <p>We can start locally serving the documentation site by entering the <code>docs</code> folder and issuing the following command. We can access the site by opening <code>http://localhost:8080</code> in the browser.</p>
-<pre><code>docfx --serve
-</code></pre><p><strong>Important</strong>: If we are working with .NET Core, we might have to set the <code>VSINSTALLDIR</code> and <code>VisualStudioVersion</code> environment variables, otherwise DocFx won&rsquo;t be able to build our projects. This is something I only found in various GitHub issues, and different people reported different solutions for these problems. So it might happen that this exact configuration won&rsquo;t work on your machine, in that case you have to adjust these values (for example if you have a different edition of Visual Studio installed, you&rsquo;ll have to change the path).</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-plain" data-lang="plain">docfx --serve
+</code></pre></div><p><strong>Important</strong>: If we are working with .NET Core, we might have to set the <code>VSINSTALLDIR</code> and <code>VisualStudioVersion</code> environment variables, otherwise DocFx won&rsquo;t be able to build our projects. This is something I only found in various GitHub issues, and different people reported different solutions for these problems. So it might happen that this exact configuration won&rsquo;t work on your machine, in that case you have to adjust these values (for example if you have a different edition of Visual Studio installed, you&rsquo;ll have to change the path).</p>
 <p>To make this convenient, I recommend creating a script called <code>serveDocs</code> at the root of the repository, which sets these variables and then calls <code>docfx --serve</code>.</p>
 <p>If you use PowerShell, then <code>serveDocs.ps1</code> should look like this.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">$env:VSINSTALLDIR=<span style="color:#e6db74">&#34;C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional&#34;</span>

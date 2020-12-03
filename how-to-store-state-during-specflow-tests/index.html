@@ -124,8 +124,8 @@
     
 
     <article class="content mt-6">
-      <p>#Introduction
-<a href="http://www.specflow.org/">SpecFlow</a> is an implementation of the <a href="https://github.com/cucumber/cucumber/wiki/Gherkin">Gherkin</a> language for the .NET Framework. SpecFlow is to .NET what <a href="https://cucumber.io/">Cucumber</a> is for the JavaScript ecosystem.
+      <h1 id="introduction">Introduction</h1>
+<p><a href="http://www.specflow.org/">SpecFlow</a> is an implementation of the <a href="https://github.com/cucumber/cucumber/wiki/Gherkin">Gherkin</a> language for the .NET Framework. SpecFlow is to .NET what <a href="https://cucumber.io/">Cucumber</a> is for the JavaScript ecosystem.
 It is a way to write tests in a DSL that is easily readable (and maybe writable) by not just developers, but also the business. A simple example from the Cucumber web site (which is also generated when a new SpecFlow feature is added in Visual Studio) is the following:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">Feature: Addition
 
@@ -163,7 +163,7 @@ The binding class implementing the above steps could look like this:</p>
 }
 </code></pre></div><p>SpecFlow generates a unit test based on the feature definition, which basically instantiates the above class, and executes the instance methods corresponding to the feature steps.
 The unit tests themselves can be run with the test runner of our choice (for instance the built-in VS test runner or ReSharper), and assertions can be implemented with the usual Assert mechanism of the test framework (which can be either MSTest or NUnit).</p>
-<p>#Maintaining state during a test</p>
+<h1 id="maintaining-state-during-a-test">Maintaining state during a test</h1>
 <p>Most of the time we need to store and maintain some kind of state during a test. For instance in the Given step we initialize some input data, in the When step we use that input data to send a request to a service and then save the result, and in the When step we execute assertions on the result.
 There are different ways to store data in SpecFlow steps. In the rest of the post I will introduce three different ways to achieve this.</p>
 <h2 id="using-a-private-field">Using a private field</h2>
@@ -259,7 +259,7 @@ It also makes sure that even if multiple binding classes have a constructor para
 	When I send the request
 	Then the status code should be OK
 	And the response should contain <span style="color:#e6db74">&#34;pear&#34;</span>
-</code></pre></div><p>##Conclusion</p>
+</code></pre></div><h2 id="conclusion">Conclusion</h2>
 <p>There are multiple ways of storing state in a Specflow feature, all of which have different benefits and drawbacks.
 If we only need the state in a single binding class, we can simply store it as a field of that class.
 On the other hand if we need to share the state between multiple binding classes, we have two choices: if we&rsquo;re looking for a quick and dirty solution, the current instance of the ScenarioContext can be used as a dictionary, however, if we are willing to invest writing a bit more code to improve maintainability, we can extract the state to be stored to an external context class, which can be injected into all of the binding classes which need to access the shared data.</p>

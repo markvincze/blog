@@ -145,11 +145,11 @@ This is an understandable default, it might be confusing if our clients did not 
 <p>The config file is using the VCL syntax, which is a C-like domain specific language specifically for the customization of Varnish. It took me some getting used to before I could wrap my head around it, an actual production configuration can get complicated, which can be a bit intimidating at first. In this post I won&rsquo;t talk about the basics, but will just rather show the bits necessary for this particular setup. If you&rsquo;d like to learn the basics of VCL, I recommend reading a comprehensive guide, for example <a href="https://info.varnish-software.com/the-varnish-book">The Varnish Book</a>.</p>
 <p>In the VCL configuration we can customize various <em>subroutines</em>, with which we can hook into varios steps of the request lifecycle. The only subrouting we&rsquo;re going to look at is <code>sub vcl_backend_response</code>, which is triggered right after a response was received from the backend.</p>
 <p>A very simple version of this would be the following, which enables caching for 1 minute, and enables graceful fallback for 10 minutes on top of that.</p>
-<pre><code>sub vcl_backend_response {
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-plain" data-lang="plain">sub vcl_backend_response {
     set beresp.ttl = 1m;
     set beresp.grace = 10m;
 }
-</code></pre><p>In order to achieve the objective of gracefull fallback on <code>5xx</code> errors, we&rsquo;ll need to use the following additional tools.</p>
+</code></pre></div><p>In order to achieve the objective of gracefull fallback on <code>5xx</code> errors, we&rsquo;ll need to use the following additional tools.</p>
 <ul>
 <li><code>beresp.status</code>: With this we can check the status code returned by the backend. This will be used to handle <code>5xx</code> responses specially.</li>
 <li><code>bereq.is_bgfetch</code>: This field shows whether this was a backend request sent asynchronously when the client received a response already from the cache, or if it&rsquo;s a synchronous request that was sent when we didn&rsquo;t find the response in the cache.</li>
@@ -157,15 +157,15 @@ This is an understandable default, it might be confusing if our clients did not 
 <li><code>abandon</code>: This is a <em>return keyword</em> that we can use to make Varnish completely abandon the request, and return a <em>synthesized</em> <code>503</code> to the client (or just do nothing, in case of an asynchronous background fetch).</li>
 </ul>
 <p>With all these tools in our belt we can implement the requirements with the following logic.</p>
-<pre><code>sub vcl_backend_response {
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-plain" data-lang="plain">sub vcl_backend_response {
     set beresp.ttl = 1m;
     set beresp.grace = 10m;
 
-    # This block will make sure that if the upstream returns a 5xx, but we have the response in the cache (even if it's expired),
+    # This block will make sure that if the upstream returns a 5xx, but we have the response in the cache (even if it&#39;s expired),
     # we fall back to the cached value (until the grace period is over).
     if (beresp.status == 500 || beresp.status == 502 || beresp.status == 503 || beresp.status == 504)
     {
-        # This check is important. If is_bgfetch is true, it means that we've found and returned the cached object to the client,
+        # This check is important. If is_bgfetch is true, it means that we&#39;ve found and returned the cached object to the client,
         # and triggered an asynchoronus background update. In that case, if it was a 5xx, we have to abandon, otherwise the previously cached object
         # would be erased from the cache (even if we set uncacheable to true).
         if (bereq.is_bgfetch)
@@ -177,7 +177,7 @@ This is an understandable default, it might be confusing if our clients did not 
         set beresp.uncacheable = true;
     }
 }
-</code></pre><p>In the above code I&rsquo;m only handling the standard <code>500</code>, <code>502</code>, <code>503</code> and <code>504</code> codes, but of course you can extend it if your backend is returning something else.</p>
+</code></pre></div><p>In the above code I&rsquo;m only handling the standard <code>500</code>, <code>502</code>, <code>503</code> and <code>504</code> codes, but of course you can extend it if your backend is returning something else.</p>
 <p>The key of the solution is using <code>abandon</code> in combination with <code>if (bereq.is_bgfetch)</code>. If we returned <code>abandon</code> on every <code>5xx</code> without checking <code>bereq.is_bgfetch</code>, then Varnish would always return its built-in <code>503</code> response to the client instead of the <code>5xx</code> sent by the backend, so our client could never see the actual backend errors.</p>
 <p><strong>Important</strong>: The field <code>bereq.is_bgfetch</code> is only available starting from Varnish 5.2.0. And depending on our OS version and installation method, we might be on an earlier version, so this is important to check with <code>varnishd -V</code>.</p>
 <p>The configuration syntax of Varnish takes a bit of getting used to, but if set up properly, it provides an invaluable tool for improving the performance of our services, and meanwhile protecting our clients from outages. And I hope this post will be helpful when handling server side errors.</p>

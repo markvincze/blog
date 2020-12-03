@@ -125,22 +125,16 @@ One of the built-in loggers is called <code>trx</code>, which is supposed to pro
 <h2 id="the-problem">The problem</h2>
 <p>The issue was discussed in the a <a href="https://github.com/techtalk/SpecFlow/issues/278">GitHub issue</a> in the SpecFlow repository. Paul Rohorzka identified the differences between the two TRX outputs causing the problems with the report:</p>
 <blockquote>
-<ol>
-<li><code>//TestRun/TestDefinitions/UnitTest/TestMethod/@className</code> renders not the fully qualified name, but just the namespace.<br>
-Effect for report generation: <strong>No relevant textual output at all</strong></li>
-</ol>
+<p>1. <code>//TestRun/TestDefinitions/UnitTest/TestMethod/@className</code> renders not the fully qualified name, but just the namespace.<br>
+Effect for report generation: <strong>No relevant textual output at all</strong></p>
 </blockquote>
 <blockquote>
-<ol start="2">
-<li>The <code>TestDescriptionAttribute</code> is not rendered, but should be in <code>//TestRun/TestDefinitions/UnitTest/Description</code>.<br>
-Effect for report generation: <strong>No scenario titles</strong></li>
-</ol>
+<p>2. The <code>TestDescriptionAttribute</code> is not rendered, but should be in <code>//TestRun/TestDefinitions/UnitTest/Description</code>.<br>
+Effect for report generation: <strong>No scenario titles</strong></p>
 </blockquote>
 <blockquote>
-<ol start="3">
-<li><code>TestPropertyAttributes</code> are not rendered, but should be in <code>//TestRun/TestDefinitions/UnitTest/Properties</code>.<br>
-Effect for report generation: <strong>No feature titles</strong></li>
-</ol>
+<p>3. <code>TestPropertyAttributes</code> are not rendered, but should be in <code>//TestRun/TestDefinitions/UnitTest/Properties</code>.<br>
+Effect for report generation: <strong>No feature titles</strong></p>
 </blockquote>
 <h2 id="the-solution">The solution</h2>
 <p>Luckily thanks to the pluggable nature of the <code>vstest.console.exe</code> logging, it&rsquo;s possible to hook in a custom Logger implementation when executing the test suite.</p>
