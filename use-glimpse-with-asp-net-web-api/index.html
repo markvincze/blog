@@ -128,7 +128,7 @@
 <p><img src="/images/2015/05/1example-1.png" alt="Example of the Glimpse UI"  style="display:block; margin: auto;" /></p>
 <p>The current version of Glimpse (1.9.2 at the time of writing this) only has proper support for ASP.NET Web Forms and MVC, and not for the Web Api.
 In this post I&rsquo;m going to look at how can we use Glimpse for the Web Api, what are the features which works for Web Api as well, and what is missing.</p>
-<p>#Getting Started</p>
+<h1 id="getting-started">Getting Started</h1>
 <p>I am going to get started by creating an ASP.NET web project that contains both MVC and Web Api elements, and see how well Glimpse performs out of the box.
 I created a new project by checking both MVC and Web Api in the project creation wizard.</p>
 <p><img src="/images/2015/05/20createproject.png" alt="Creating a new ASP.NET project with both MVC and Web Api support."  style="display:block; margin: auto;" /></p>
@@ -379,12 +379,12 @@ One thing that&rsquo;s missing but we would expect to see is insight into the SQ
 </code></pre></div><p>After installing the package, we will have an additional SQL tab, on which we can see all the SQL queries executed during the request.</p>
 <p><img src="/images/2015/05/50glimpseef.png" alt="Glimpse showing SQL queries with the Glimpse.EF6 package."  style="display:block; margin: auto;" /></p>
 <p>So we can see that with ASP.NET MVC, Glimpse works very well out of the box without any special customization.</p>
-<p>###Using Glimpse with Web Api
-Let&rsquo;s try our Web Api controller by opening it in the browser.</p>
+<h3 id="using-glimpse-with-web-api">Using Glimpse with Web Api</h3>
+<p>Let&rsquo;s try our Web Api controller by opening it in the browser.</p>
 <p><img src="/images/2015/05/60jsonapi.png" alt="Opening a Web Api action in the browser."  style="display:block; margin: auto;" /></p>
 <p>Hmm, when we send a request for a Web Api action, instead of a web page, we get back the result in its raw form, serialized to Json. So there is no place for the Glimpse plugin to get embedded into. How can we use Glimpse in this situation then?</p>
-<p>####Standalone Glimpse page
-In order to be able to use Glimpse independently from the web page itself, it also supports a standalone view, that can also be accessed from its /Glimpse.axd configuration page.</p>
+<h4 id="standalone-glimpse-page">Standalone Glimpse page</h4>
+<p>In order to be able to use Glimpse independently from the web page itself, it also supports a standalone view, that can also be accessed from its /Glimpse.axd configuration page.</p>
 <p><img src="/images/2015/05/70standaloneglimpse-1.png" alt="Opening the standalone Glimpse page."  style="display:block; margin: auto;" /></p>
 <p>On this page we can see a list of all the requests coming to our application, let them be MVC or Web Api requests.</p>
 <p><img src="/images/2015/05/80standaloneglimpse.png" alt="The standalone Glimpse page."  style="display:block; margin: auto;" /></p>
@@ -591,9 +591,9 @@ List&lt;Manufacturer&gt; manufacturers;
 }
 </code></pre></div><p>Our custom timeline events will show up in the timeline tab.</p>
 <p><img src="/images/2015/05/100timeline.png" alt="Custom Timeline events."  style="display:block; margin: auto;" /></p>
-<p>If you&rsquo;d like to take a look at it, you can find the whole source code on <a href="https://github.com/markvincze/glimpse-web-api">GitHub</a>.
-#Conclusion
-We&rsquo;ve seen that setting up Glimpse for the Web Api is just as easy as using it with MVC, however, the feature set supported is much more limited. Still, Glimpse can be a very useful tool to analyze what&rsquo;s going on under the hood in a Web Api application as well.</p>
+<p>If you&rsquo;d like to take a look at it, you can find the whole source code on <a href="https://github.com/markvincze/glimpse-web-api">GitHub</a>.</p>
+<h1 id="conclusion">Conclusion</h1>
+<p>We&rsquo;ve seen that setting up Glimpse for the Web Api is just as easy as using it with MVC, however, the feature set supported is much more limited. Still, Glimpse can be a very useful tool to analyze what&rsquo;s going on under the hood in a Web Api application as well.</p>
 
     </article>
 
