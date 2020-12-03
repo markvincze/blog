@@ -25,6 +25,11 @@ git rm -r *
 echo "Copy documentation into the repo"
 cp -r $SOURCE_DIR/public/* .
 
+echo "Create CNAME file"
+touch CNAME
+echo "blog.markvincze.com" > CNAME
+
+
 echo "Push the new blog to the remote branch"
 git add . -A
 git commit --allow-empty -m "Update blog content"
