@@ -3,492 +3,492 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>http://localhost:1313/tags/asp.net-core/</loc>
+    <loc>https://blog.markvincze.com/tags/asp.net-core/</loc>
     <lastmod>2020-02-24T23:25:09+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/tags/integration-testing/</loc>
+    <loc>https://blog.markvincze.com/tags/integration-testing/</loc>
     <lastmod>2020-02-24T23:25:09+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/</loc>
+    <loc>https://blog.markvincze.com/</loc>
     <lastmod>2020-02-24T23:25:09+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/overriding-configuration-in-asp-net-core-integration-tests/</loc>
+    <loc>https://blog.markvincze.com/overriding-configuration-in-asp-net-core-integration-tests/</loc>
     <lastmod>2020-02-24T23:25:09+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/posts/</loc>
+    <loc>https://blog.markvincze.com/posts/</loc>
     <lastmod>2020-02-24T23:25:09+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/tags/</loc>
+    <loc>https://blog.markvincze.com/tags/</loc>
     <lastmod>2020-02-24T23:25:09+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/tags/testing/</loc>
+    <loc>https://blog.markvincze.com/tags/testing/</loc>
     <lastmod>2020-02-24T23:25:09+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/tags/envoy/</loc>
+    <loc>https://blog.markvincze.com/tags/envoy/</loc>
     <lastmod>2019-04-11T20:44:50+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/shadow-mirroring-with-envoy/</loc>
+    <loc>https://blog.markvincze.com/shadow-mirroring-with-envoy/</loc>
     <lastmod>2019-04-11T20:44:50+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/graceful-termination-in-kubernetes-with-asp-net-core/</loc>
+    <loc>https://blog.markvincze.com/graceful-termination-in-kubernetes-with-asp-net-core/</loc>
     <lastmod>2019-01-06T16:56:05+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/tags/kubernetes/</loc>
+    <loc>https://blog.markvincze.com/tags/kubernetes/</loc>
     <lastmod>2019-01-06T16:56:05+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/how-to-use-envoy-as-a-load-balancer-in-kubernetes/</loc>
+    <loc>https://blog.markvincze.com/how-to-use-envoy-as-a-load-balancer-in-kubernetes/</loc>
     <lastmod>2018-10-05T23:07:25+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/how-to-gracefully-fall-back-to-cache-on-5xx-responses-with-varnish/</loc>
+    <loc>https://blog.markvincze.com/how-to-gracefully-fall-back-to-cache-on-5xx-responses-with-varnish/</loc>
     <lastmod>2018-07-28T19:12:24+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/tags/varnish/</loc>
+    <loc>https://blog.markvincze.com/tags/varnish/</loc>
     <lastmod>2018-07-28T19:12:24+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/tags/.net-core/</loc>
+    <loc>https://blog.markvincze.com/tags/.net-core/</loc>
     <lastmod>2018-07-08T15:48:55+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/automated-portable-code-style-checking-in-net-core-projects/</loc>
+    <loc>https://blog.markvincze.com/automated-portable-code-style-checking-in-net-core-projects/</loc>
     <lastmod>2018-07-08T15:48:55+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/tags/c#/</loc>
+    <loc>https://blog.markvincze.com/tags/c#/</loc>
     <lastmod>2018-07-08T15:48:55+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/tags/linting/</loc>
+    <loc>https://blog.markvincze.com/tags/linting/</loc>
     <lastmod>2018-07-08T15:48:55+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/introducing-code-fragments-extension-for-visual-studio-code/</loc>
+    <loc>https://blog.markvincze.com/introducing-code-fragments-extension-for-visual-studio-code/</loc>
     <lastmod>2017-11-26T22:34:50+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/tags/presenting/</loc>
+    <loc>https://blog.markvincze.com/tags/presenting/</loc>
     <lastmod>2017-11-26T22:34:50+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/tags/visual-studio/</loc>
+    <loc>https://blog.markvincze.com/tags/visual-studio/</loc>
     <lastmod>2017-11-26T22:34:50+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/tags/visual-studio-code/</loc>
+    <loc>https://blog.markvincze.com/tags/visual-studio-code/</loc>
     <lastmod>2017-11-26T22:34:50+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/tags/appveyor/</loc>
+    <loc>https://blog.markvincze.com/tags/appveyor/</loc>
     <lastmod>2017-11-17T00:00:34+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/build-and-publish-documentation-and-api-reference-with-docfx-for-net-core-projects/</loc>
+    <loc>https://blog.markvincze.com/build-and-publish-documentation-and-api-reference-with-docfx-for-net-core-projects/</loc>
     <lastmod>2017-11-17T00:00:34+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/tags/docfx/</loc>
+    <loc>https://blog.markvincze.com/tags/docfx/</loc>
     <lastmod>2017-11-17T00:00:34+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/tags/firebase/</loc>
+    <loc>https://blog.markvincze.com/tags/firebase/</loc>
     <lastmod>2017-08-22T19:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/secure-an-asp-net-core-api-with-firebase/</loc>
+    <loc>https://blog.markvincze.com/secure-an-asp-net-core-api-with-firebase/</loc>
     <lastmod>2017-08-22T19:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/tags/security/</loc>
+    <loc>https://blog.markvincze.com/tags/security/</loc>
     <lastmod>2017-08-22T19:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/troubleshooting-high-memory-usage-with-asp-net-core-on-kubernetes/</loc>
+    <loc>https://blog.markvincze.com/troubleshooting-high-memory-usage-with-asp-net-core-on-kubernetes/</loc>
     <lastmod>2017-08-17T21:15:39+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/running-asp-net-core-in-auto-scaling-containers-warm-up/</loc>
+    <loc>https://blog.markvincze.com/running-asp-net-core-in-auto-scaling-containers-warm-up/</loc>
     <lastmod>2017-07-29T18:32:34+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/tags/web-api/</loc>
+    <loc>https://blog.markvincze.com/tags/web-api/</loc>
     <lastmod>2017-07-29T18:32:34+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/tags/couchbase/</loc>
+    <loc>https://blog.markvincze.com/tags/couchbase/</loc>
     <lastmod>2017-06-21T20:20:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/tags/quartz.net/</loc>
+    <loc>https://blog.markvincze.com/tags/quartz.net/</loc>
     <lastmod>2017-06-21T20:20:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/tear-down-your-asp-net-core-api-between-integration-tests/</loc>
+    <loc>https://blog.markvincze.com/tear-down-your-asp-net-core-api-between-integration-tests/</loc>
     <lastmod>2017-06-21T20:20:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/tags/coveralls/</loc>
+    <loc>https://blog.markvincze.com/tags/coveralls/</loc>
     <lastmod>2017-06-14T19:46:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/tags/opencover/</loc>
+    <loc>https://blog.markvincze.com/tags/opencover/</loc>
     <lastmod>2017-06-14T19:46:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/setting-up-coveralls-for-a-net-core-project/</loc>
+    <loc>https://blog.markvincze.com/setting-up-coveralls-for-a-net-core-project/</loc>
     <lastmod>2017-06-14T19:46:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/a-data-model-exercise-in-two-languages-part-2-f/</loc>
+    <loc>https://blog.markvincze.com/a-data-model-exercise-in-two-languages-part-2-f/</loc>
     <lastmod>2017-05-22T19:56:14+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/tags/computer-science/</loc>
+    <loc>https://blog.markvincze.com/tags/computer-science/</loc>
     <lastmod>2017-05-22T19:56:14+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/tags/f#/</loc>
+    <loc>https://blog.markvincze.com/tags/f#/</loc>
     <lastmod>2017-05-22T19:56:14+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/a-data-model-exercise-in-two-languages-part-1-c/</loc>
+    <loc>https://blog.markvincze.com/a-data-model-exercise-in-two-languages-part-1-c/</loc>
     <lastmod>2017-05-04T19:29:25+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/tags/category-theory/</loc>
+    <loc>https://blog.markvincze.com/tags/category-theory/</loc>
     <lastmod>2017-04-19T21:27:16+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/playing-with-the-composition-of-the-kleisli-category-in-c/</loc>
+    <loc>https://blog.markvincze.com/playing-with-the-composition-of-the-kleisli-category-in-c/</loc>
     <lastmod>2017-04-19T21:27:16+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/tags/dependency-injection/</loc>
+    <loc>https://blog.markvincze.com/tags/dependency-injection/</loc>
     <lastmod>2017-04-17T14:31:27+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/two-gotchas-with-scoped-and-singleton-dependencies-in-asp-net-core/</loc>
+    <loc>https://blog.markvincze.com/two-gotchas-with-scoped-and-singleton-dependencies-in-asp-net-core/</loc>
     <lastmod>2017-04-17T14:31:27+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/bulk-updating-document-expiry-in-couchbase/</loc>
+    <loc>https://blog.markvincze.com/bulk-updating-document-expiry-in-couchbase/</loc>
     <lastmod>2017-03-25T15:41:17+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/jumpstart-f-web-development-f-with-suave-io-on-net-core/</loc>
+    <loc>https://blog.markvincze.com/jumpstart-f-web-development-f-with-suave-io-on-net-core/</loc>
     <lastmod>2017-03-12T12:51:45+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/tags/suave/</loc>
+    <loc>https://blog.markvincze.com/tags/suave/</loc>
     <lastmod>2017-03-12T12:51:45+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/jumpstart-f-web-development-f-with-asp-net-core/</loc>
+    <loc>https://blog.markvincze.com/jumpstart-f-web-development-f-with-asp-net-core/</loc>
     <lastmod>2017-02-26T20:25:14+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/tags/.net/</loc>
+    <loc>https://blog.markvincze.com/tags/.net/</loc>
     <lastmod>2017-02-11T15:12:50+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/jumpstart-f-web-development-f-with-suave-io-on-classic-net/</loc>
+    <loc>https://blog.markvincze.com/jumpstart-f-web-development-f-with-suave-io-on-classic-net/</loc>
     <lastmod>2017-02-11T15:12:50+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/tags/asp.net/</loc>
+    <loc>https://blog.markvincze.com/tags/asp.net/</loc>
     <lastmod>2017-02-05T17:38:02+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/jumpstart-f-web-development-f-with-asp-net-on-classic-net/</loc>
+    <loc>https://blog.markvincze.com/jumpstart-f-web-development-f-with-asp-net-on-classic-net/</loc>
     <lastmod>2017-02-05T17:38:02+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/series-jumpstart-f-web-development/</loc>
+    <loc>https://blog.markvincze.com/series-jumpstart-f-web-development/</loc>
     <lastmod>2017-02-05T17:35:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/tags/golang/</loc>
+    <loc>https://blog.markvincze.com/tags/golang/</loc>
     <lastmod>2016-10-30T14:39:59+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/tags/livereload/</loc>
+    <loc>https://blog.markvincze.com/tags/livereload/</loc>
     <lastmod>2016-10-30T14:39:59+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/programmatically-refreshing-a-browser-tab-from-a-golang-application/</loc>
+    <loc>https://blog.markvincze.com/programmatically-refreshing-a-browser-tab-from-a-golang-application/</loc>
     <lastmod>2016-10-30T14:39:59+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/tags/websocket/</loc>
+    <loc>https://blog.markvincze.com/tags/websocket/</loc>
     <lastmod>2016-10-30T14:39:59+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/setting-up-a-travis-ci-pipeline-for-golang/</loc>
+    <loc>https://blog.markvincze.com/setting-up-a-travis-ci-pipeline-for-golang/</loc>
     <lastmod>2016-10-15T15:36:14+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/tags/travis/</loc>
+    <loc>https://blog.markvincze.com/tags/travis/</loc>
     <lastmod>2016-10-15T15:36:14+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/setting-up-an-appveyor-pipeline-for-golang/</loc>
+    <loc>https://blog.markvincze.com/setting-up-an-appveyor-pipeline-for-golang/</loc>
     <lastmod>2016-07-16T15:47:28+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/tags/bash/</loc>
+    <loc>https://blog.markvincze.com/tags/bash/</loc>
     <lastmod>2016-07-09T22:45:38+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/download-artifacts-from-a-latest-github-release-in-sh-and-powershell/</loc>
+    <loc>https://blog.markvincze.com/download-artifacts-from-a-latest-github-release-in-sh-and-powershell/</loc>
     <lastmod>2016-07-09T22:45:38+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/tags/github/</loc>
+    <loc>https://blog.markvincze.com/tags/github/</loc>
     <lastmod>2016-07-09T22:45:38+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/tags/powershell/</loc>
+    <loc>https://blog.markvincze.com/tags/powershell/</loc>
     <lastmod>2016-07-09T22:45:38+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/tags/conference/</loc>
+    <loc>https://blog.markvincze.com/tags/conference/</loc>
     <lastmod>2016-07-02T18:19:12+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/tags/ndc/</loc>
+    <loc>https://blog.markvincze.com/tags/ndc/</loc>
     <lastmod>2016-07-02T18:19:12+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/ndc-oslo-2016-recap/</loc>
+    <loc>https://blog.markvincze.com/ndc-oslo-2016-recap/</loc>
     <lastmod>2016-07-02T18:19:12+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/matching-route-templates-manually-in-asp-net-core/</loc>
+    <loc>https://blog.markvincze.com/matching-route-templates-manually-in-asp-net-core/</loc>
     <lastmod>2016-06-18T21:17:15+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/tags/mvc/</loc>
+    <loc>https://blog.markvincze.com/tags/mvc/</loc>
     <lastmod>2016-06-18T21:17:15+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/stubbing-service-dependencies-in-net-using-stubbery/</loc>
+    <loc>https://blog.markvincze.com/stubbing-service-dependencies-in-net-using-stubbery/</loc>
     <lastmod>2016-06-12T15:27:28+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/how-to-fix-the-empty-specflow-html-report-problem-with-vstest-console-exe/</loc>
+    <loc>https://blog.markvincze.com/how-to-fix-the-empty-specflow-html-report-problem-with-vstest-console-exe/</loc>
     <lastmod>2016-04-23T15:57:05+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/tags/specflow/</loc>
+    <loc>https://blog.markvincze.com/tags/specflow/</loc>
     <lastmod>2016-04-23T15:57:05+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/tags/ghost/</loc>
+    <loc>https://blog.markvincze.com/tags/ghost/</loc>
     <lastmod>2016-04-10T16:48:05+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/migrating-a-ghost-blog-from-sqlite-to-postgre-on-openshift/</loc>
+    <loc>https://blog.markvincze.com/migrating-a-ghost-blog-from-sqlite-to-postgre-on-openshift/</loc>
     <lastmod>2016-04-10T16:48:05+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/tags/openshift/</loc>
+    <loc>https://blog.markvincze.com/tags/openshift/</loc>
     <lastmod>2016-04-10T16:48:05+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/tags/postgre/</loc>
+    <loc>https://blog.markvincze.com/tags/postgre/</loc>
     <lastmod>2016-04-10T16:48:05+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/tags/sqlite/</loc>
+    <loc>https://blog.markvincze.com/tags/sqlite/</loc>
     <lastmod>2016-04-10T16:48:05+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/how-to-validate-action-parameters-with-dataannotation-attributes/</loc>
+    <loc>https://blog.markvincze.com/how-to-validate-action-parameters-with-dataannotation-attributes/</loc>
     <lastmod>2016-02-28T14:23:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/getting-started-with-asp-net-core-1-0-tips-and-tricks/</loc>
+    <loc>https://blog.markvincze.com/getting-started-with-asp-net-core-1-0-tips-and-tricks/</loc>
     <lastmod>2016-02-14T16:30:58+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/tags/dnx/</loc>
+    <loc>https://blog.markvincze.com/tags/dnx/</loc>
     <lastmod>2016-02-14T16:30:58+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/simple-client-side-compression-for-couchbase-with-benchmarks/</loc>
+    <loc>https://blog.markvincze.com/simple-client-side-compression-for-couchbase-with-benchmarks/</loc>
     <lastmod>2016-01-16T16:53:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/couchbase-server-tips-for-troubleshooting-issues/</loc>
+    <loc>https://blog.markvincze.com/couchbase-server-tips-for-troubleshooting-issues/</loc>
     <lastmod>2016-01-10T15:45:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/back-to-basics-dictionary-part-4-custom-gethashcode/</loc>
+    <loc>https://blog.markvincze.com/back-to-basics-dictionary-part-4-custom-gethashcode/</loc>
     <lastmod>2015-10-25T18:53:07+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/tags/basics/</loc>
+    <loc>https://blog.markvincze.com/tags/basics/</loc>
     <lastmod>2015-10-25T18:53:07+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/back-to-basics-dictionary-part-3-built-in-gethashcode/</loc>
+    <loc>https://blog.markvincze.com/back-to-basics-dictionary-part-3-built-in-gethashcode/</loc>
     <lastmod>2015-08-29T14:02:09+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/about/</loc>
+    <loc>https://blog.markvincze.com/about/</loc>
     <lastmod>2015-08-15T17:08:20+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/contact/</loc>
+    <loc>https://blog.markvincze.com/contact/</loc>
     <lastmod>2015-08-15T17:08:20+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/projects/</loc>
+    <loc>https://blog.markvincze.com/projects/</loc>
     <lastmod>2015-08-15T17:08:20+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/back-to-basics-dictionary-part-2-net-implementation/</loc>
+    <loc>https://blog.markvincze.com/back-to-basics-dictionary-part-2-net-implementation/</loc>
     <lastmod>2015-08-15T13:27:35+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/back-to-basics-dictionary-part-1/</loc>
+    <loc>https://blog.markvincze.com/back-to-basics-dictionary-part-1/</loc>
     <lastmod>2015-07-25T13:37:04+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/how-to-store-state-during-specflow-tests/</loc>
+    <loc>https://blog.markvincze.com/how-to-store-state-during-specflow-tests/</loc>
     <lastmod>2015-06-06T19:19:58+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/tags/glimpse/</loc>
+    <loc>https://blog.markvincze.com/tags/glimpse/</loc>
     <lastmod>2015-05-14T12:56:50+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/use-glimpse-with-asp-net-web-api/</loc>
+    <loc>https://blog.markvincze.com/use-glimpse-with-asp-net-web-api/</loc>
     <lastmod>2015-05-14T12:56:50+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/attach-to-process-shortcut-in-visual-studio/</loc>
+    <loc>https://blog.markvincze.com/attach-to-process-shortcut-in-visual-studio/</loc>
     <lastmod>2015-04-26T12:21:19+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/tags/debug/</loc>
+    <loc>https://blog.markvincze.com/tags/debug/</loc>
     <lastmod>2015-04-26T12:21:19+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/tags/tooling/</loc>
+    <loc>https://blog.markvincze.com/tags/tooling/</loc>
     <lastmod>2015-04-26T12:21:19+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/tags/visual-commander/</loc>
+    <loc>https://blog.markvincze.com/tags/visual-commander/</loc>
     <lastmod>2015-04-26T12:21:19+00:00</lastmod>
   </url>
   

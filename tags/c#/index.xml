@@ -2,75 +2,75 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>c# on Mark Vincze</title>
-    <link>http://localhost:1313/tags/c#/</link>
+    <link>https://blog.markvincze.com/tags/c#/</link>
     <description>Recent content in c# on Mark Vincze</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 08 Jul 2018 15:48:55 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/c#/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 08 Jul 2018 15:48:55 +0000</lastBuildDate><atom:link href="https://blog.markvincze.com/tags/c#/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Automated, portable code style checking in .NET Core projects</title>
-      <link>http://localhost:1313/automated-portable-code-style-checking-in-net-core-projects/</link>
+      <link>https://blog.markvincze.com/automated-portable-code-style-checking-in-net-core-projects/</link>
       <pubDate>Sun, 08 Jul 2018 15:48:55 +0000</pubDate>
       
-      <guid>http://localhost:1313/automated-portable-code-style-checking-in-net-core-projects/</guid>
+      <guid>https://blog.markvincze.com/automated-portable-code-style-checking-in-net-core-projects/</guid>
       <description>I haven&amp;rsquo;t been using automated code style checking in .NET before. I sporadically experimented with StyleCop, FxCop, or the code style rules of ReSharper, but never ended up using them extensively, or introducing and distributing a maintained configuration in the organization I was working in.
 Recently having worked on JavaScript and TypeScript projects, I really started to appreciate how straightforward and established the process of linting is in those communities: it seems to be almost universal that every project in the JS and TS ecosystem is using eslint and tslint respectively, and the way to specify the linting rules is very straightforward.</description>
     </item>
     
     <item>
       <title>Tear down your ASP.NET Core api between integration tests</title>
-      <link>http://localhost:1313/tear-down-your-asp-net-core-api-between-integration-tests/</link>
+      <link>https://blog.markvincze.com/tear-down-your-asp-net-core-api-between-integration-tests/</link>
       <pubDate>Wed, 21 Jun 2017 20:20:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/tear-down-your-asp-net-core-api-between-integration-tests/</guid>
+      <guid>https://blog.markvincze.com/tear-down-your-asp-net-core-api-between-integration-tests/</guid>
       <description>The way to write integration tests for ASP.NET applications has been made much easier with the advent of ASP.NET Core. This is mainly due to the programming model becoming super modular, which means that it is really easy to spin up an instance of our whole web application for testing purposes and start sending HTTP requests to it from a simple unit test.
 The following code illustrates a unit test method, which starts up an ASP.</description>
     </item>
     
     <item>
       <title>A data model exercise in two languages, part 2: F#</title>
-      <link>http://localhost:1313/a-data-model-exercise-in-two-languages-part-2-f/</link>
+      <link>https://blog.markvincze.com/a-data-model-exercise-in-two-languages-part-2-f/</link>
       <pubDate>Mon, 22 May 2017 19:56:14 +0000</pubDate>
       
-      <guid>http://localhost:1313/a-data-model-exercise-in-two-languages-part-2-f/</guid>
+      <guid>https://blog.markvincze.com/a-data-model-exercise-in-two-languages-part-2-f/</guid>
       <description>Introduction In the previous post I took a look at a data modelling exercise in C#, I designed a data model to represent a card in the standard 52-card deck.
 We saw some of the problems we face when designing data models in an object oriented language, particularly the lack of ability to express that a certain object can have a value of multiple different types, but it can have a value of only one of those types at any one time (a card is either a value card, a face card, or a joker).</description>
     </item>
     
     <item>
       <title>A data model exercise in two languages, part 1: C#</title>
-      <link>http://localhost:1313/a-data-model-exercise-in-two-languages-part-1-c/</link>
+      <link>https://blog.markvincze.com/a-data-model-exercise-in-two-languages-part-1-c/</link>
       <pubDate>Thu, 04 May 2017 19:29:25 +0000</pubDate>
       
-      <guid>http://localhost:1313/a-data-model-exercise-in-two-languages-part-1-c/</guid>
+      <guid>https://blog.markvincze.com/a-data-model-exercise-in-two-languages-part-1-c/</guid>
       <description>Introduction When I&amp;rsquo;m learning a new programming language, I usually like to do some coding exercises to get familiar with the various language features, and to get used to the syntax. Many of these exercises—or katas—are about implementing some kind of algorithm, which is a great way to learn about the control structures of the language, the conditions, loops and functions. Other katas are more focused on designing a data model for a certain domain, where the goal is to utilize the various features of the type system to create a model as expressive and intuitive as possible.</description>
     </item>
     
     <item>
       <title>Playing with the composition of the Kleisli category in C#</title>
-      <link>http://localhost:1313/playing-with-the-composition-of-the-kleisli-category-in-c/</link>
+      <link>https://blog.markvincze.com/playing-with-the-composition-of-the-kleisli-category-in-c/</link>
       <pubDate>Wed, 19 Apr 2017 21:27:16 +0000</pubDate>
       
-      <guid>http://localhost:1313/playing-with-the-composition-of-the-kleisli-category-in-c/</guid>
+      <guid>https://blog.markvincze.com/playing-with-the-composition-of-the-kleisli-category-in-c/</guid>
       <description>Introduction Recently I learnt about an interesting concept in category theory called a Kleisli category.
 Let&amp;rsquo;s look at a concrete example I took from this blog post (in his series about category theory) by Bartosz Milewski. We would like to extend all of the functions in a library in a way that besides their normal result, they also return an extra string. We&amp;rsquo;ll consider this extra string a sort of log message or &amp;ldquo;comment&amp;rdquo;, which we&amp;rsquo;ll collect as we call various methods.</description>
     </item>
     
     <item>
       <title>Two gotchas with scoped and singleton dependencies in ASP.NET Core</title>
-      <link>http://localhost:1313/two-gotchas-with-scoped-and-singleton-dependencies-in-asp-net-core/</link>
+      <link>https://blog.markvincze.com/two-gotchas-with-scoped-and-singleton-dependencies-in-asp-net-core/</link>
       <pubDate>Mon, 17 Apr 2017 14:31:27 +0000</pubDate>
       
-      <guid>http://localhost:1313/two-gotchas-with-scoped-and-singleton-dependencies-in-asp-net-core/</guid>
+      <guid>https://blog.markvincze.com/two-gotchas-with-scoped-and-singleton-dependencies-in-asp-net-core/</guid>
       <description>With ASP.NET Core a new built-in lightweight Dependency Injection framework was introduced in the Microsoft.Extensions.DependencyInjection package, thus in ASP.NET Core applications we don&amp;rsquo;t necessarily need an external library such as Ninject or Unity to do DI, we can simply use the built-in package (which—although being framework-agnostic—plays really nicely with ASP.NET Core). Its feature set is rather simple compared to other more full-blown DI frameworks, but it gets the job done in most applications.</description>
     </item>
     
     <item>
       <title>How to validate action parameters with DataAnnotation attributes?</title>
-      <link>http://localhost:1313/how-to-validate-action-parameters-with-dataannotation-attributes/</link>
+      <link>https://blog.markvincze.com/how-to-validate-action-parameters-with-dataannotation-attributes/</link>
       <pubDate>Sun, 28 Feb 2016 14:23:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/how-to-validate-action-parameters-with-dataannotation-attributes/</guid>
+      <guid>https://blog.markvincze.com/how-to-validate-action-parameters-with-dataannotation-attributes/</guid>
       <description>Model validation in MVC In both MVC and Web Api we can use the attributes provided in the System.ComponentModel.DataAnnotations namespace to specify validation rules for our models.
 Let&amp;rsquo;s say we have a controller action with the following signature, accepting a single parameter populated from the request body.
 public IActionResult Post([FromBody]Product product); And we decorated our Product type with the following validation attributes (example taken from the official ASP.NET documentation).
@@ -79,10 +79,10 @@ public class Product { public int Id { get; set; } [Required] public string Name
     
     <item>
       <title>ASP.NET Core 1.0: hints to get started</title>
-      <link>http://localhost:1313/getting-started-with-asp-net-core-1-0-tips-and-tricks/</link>
+      <link>https://blog.markvincze.com/getting-started-with-asp-net-core-1-0-tips-and-tricks/</link>
       <pubDate>Sun, 14 Feb 2016 16:30:58 +0000</pubDate>
       
-      <guid>http://localhost:1313/getting-started-with-asp-net-core-1-0-tips-and-tricks/</guid>
+      <guid>https://blog.markvincze.com/getting-started-with-asp-net-core-1-0-tips-and-tricks/</guid>
       <description>I recently started working on implementing a Web Api application using ASP.NET Core 1.0, running it on Linux with the CoreCLR.
 There have been many changes introduced in this new version of ASP.NET, and there are also differences in how we are running and deploying applications using CoreCLR, so I&amp;rsquo;m going to document a couple of things you might encounter if you get started with using this new ecosystem.
 Version numbers It is quite easy to get lost in the sea of different products and version numbers.</description>
@@ -90,50 +90,50 @@ Version numbers It is quite easy to get lost in the sea of different products an
     
     <item>
       <title>Simple client-side compression for Couchbase - with benchmarks</title>
-      <link>http://localhost:1313/simple-client-side-compression-for-couchbase-with-benchmarks/</link>
+      <link>https://blog.markvincze.com/simple-client-side-compression-for-couchbase-with-benchmarks/</link>
       <pubDate>Sat, 16 Jan 2016 16:53:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/simple-client-side-compression-for-couchbase-with-benchmarks/</guid>
+      <guid>https://blog.markvincze.com/simple-client-side-compression-for-couchbase-with-benchmarks/</guid>
       <description>Introduction In the last post I described the quirks and problems I encountered during getting started with using Couchbase Server in a production environment.
 When we are storing complex objects, by default the .NET Couchbase SDK uses Json.NET serialization. It is possible to create indices and views on this Json structure, and execute custom queries to filter our documents based on their Json property values. I guess in this scenario we can think of Couchbase as a NoSQL Document-store.</description>
     </item>
     
     <item>
       <title>Couchbase Server: tips for troubleshooting issues</title>
-      <link>http://localhost:1313/couchbase-server-tips-for-troubleshooting-issues/</link>
+      <link>https://blog.markvincze.com/couchbase-server-tips-for-troubleshooting-issues/</link>
       <pubDate>Sun, 10 Jan 2016 15:45:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/couchbase-server-tips-for-troubleshooting-issues/</guid>
+      <guid>https://blog.markvincze.com/couchbase-server-tips-for-troubleshooting-issues/</guid>
       <description>Recently at work we started using Couchbase Server to replace a rather outdated caching solution in our architecture. This was the first time I had to use Couchbase and its .NET SDK, and I have encountered a couple of issues along the way.
 This post is a recollection of the problems we faced. (If you are interested in a &amp;ldquo;getting started&amp;rdquo; tutorial, I recommend reading the official documentation of the .</description>
     </item>
     
     <item>
       <title>Back to basics: Dictionary part 4, custom GetHashCode</title>
-      <link>http://localhost:1313/back-to-basics-dictionary-part-4-custom-gethashcode/</link>
+      <link>https://blog.markvincze.com/back-to-basics-dictionary-part-4-custom-gethashcode/</link>
       <pubDate>Sun, 25 Oct 2015 18:53:07 +0000</pubDate>
       
-      <guid>http://localhost:1313/back-to-basics-dictionary-part-4-custom-gethashcode/</guid>
+      <guid>https://blog.markvincze.com/back-to-basics-dictionary-part-4-custom-gethashcode/</guid>
       <description>Posts in this series:
  Part 1: Hash tables Part 2: .NET implementation Part 3: Built-in GetHashCode Part 4: Custom GetHashCode  General guidelines This is the last part in the series about the Dictionary class and the GetHashCode method. In this post we&amp;rsquo;ll take a look at what to look out for when implementing a custom GetHashCode method. In the previous post we&amp;rsquo;ve seen how the built-in GetHashCode works.</description>
     </item>
     
     <item>
       <title>Back to basics: Dictionary part 3, built-in GetHashCode</title>
-      <link>http://localhost:1313/back-to-basics-dictionary-part-3-built-in-gethashcode/</link>
+      <link>https://blog.markvincze.com/back-to-basics-dictionary-part-3-built-in-gethashcode/</link>
       <pubDate>Sat, 29 Aug 2015 14:02:09 +0000</pubDate>
       
-      <guid>http://localhost:1313/back-to-basics-dictionary-part-3-built-in-gethashcode/</guid>
+      <guid>https://blog.markvincze.com/back-to-basics-dictionary-part-3-built-in-gethashcode/</guid>
       <description>Posts in this series:
  Part 1: Hash tables Part 2: .NET implementation Part 3: Built-in GetHashCode Part 4: Custom GetHashCode  Introduction In the previous two posts we looked at the basic concepts behind the hash map data structure, and checked out how it is implemented in the Dictionary class of the .NET Framework. Today we&amp;rsquo;ll take a look at a very important mechanism behind the Dictionary class: the GetHashCode method, and the way its built-in implementation works.</description>
     </item>
     
     <item>
       <title>Back to basics: Dictionary part 2, .NET implementation</title>
-      <link>http://localhost:1313/back-to-basics-dictionary-part-2-net-implementation/</link>
+      <link>https://blog.markvincze.com/back-to-basics-dictionary-part-2-net-implementation/</link>
       <pubDate>Sat, 15 Aug 2015 13:27:35 +0000</pubDate>
       
-      <guid>http://localhost:1313/back-to-basics-dictionary-part-2-net-implementation/</guid>
+      <guid>https://blog.markvincze.com/back-to-basics-dictionary-part-2-net-implementation/</guid>
       <description>Posts in this series:
  Part 1: Hash tables Part 2: .NET implementation Part 3: Built-in GetHashCode Part 4: Custom GetHashCode  Introduction Last time we saw an overview about the basic concepts behind a hash map.
 In this post we will take a look at the .NET Dictionary class, and see what type of hash map it is and how the different mechanisms have been implemented in C#.
@@ -142,20 +142,20 @@ In order to investigate, I used the Reference source published by Microsoft, whi
     
     <item>
       <title>Back to basics: Dictionary part 1, hash tables</title>
-      <link>http://localhost:1313/back-to-basics-dictionary-part-1/</link>
+      <link>https://blog.markvincze.com/back-to-basics-dictionary-part-1/</link>
       <pubDate>Sat, 25 Jul 2015 13:37:04 +0000</pubDate>
       
-      <guid>http://localhost:1313/back-to-basics-dictionary-part-1/</guid>
+      <guid>https://blog.markvincze.com/back-to-basics-dictionary-part-1/</guid>
       <description>Posts in this series:
  Part 1: Hash tables Part 2: .NET implementation Part 3: Built-in GetHashCode Part 4: Custom GetHashCode  Introduction Recently I came across a situation in which I should have known the details about how a .NET Dictionary (and hashmaps in general) worked under the hood. I realized that my knowledge about this topic was a bit rusty, so I decided I&amp;rsquo;d refresh my memories and look into this topic.</description>
     </item>
     
     <item>
       <title>How to store state during SpecFlow tests?</title>
-      <link>http://localhost:1313/how-to-store-state-during-specflow-tests/</link>
+      <link>https://blog.markvincze.com/how-to-store-state-during-specflow-tests/</link>
       <pubDate>Sat, 06 Jun 2015 19:19:58 +0000</pubDate>
       
-      <guid>http://localhost:1313/how-to-store-state-during-specflow-tests/</guid>
+      <guid>https://blog.markvincze.com/how-to-store-state-during-specflow-tests/</guid>
       <description>#Introduction SpecFlow is an implementation of the Gherkin language for the .NET Framework. SpecFlow is to .NET what Cucumber is for the JavaScript ecosystem. It is a way to write tests in a DSL that is easily readable (and maybe writable) by not just developers, but also the business. A simple example from the Cucumber web site (which is also generated when a new SpecFlow feature is added in Visual Studio) is the following:</description>
     </item>
     

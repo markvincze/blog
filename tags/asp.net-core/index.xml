@@ -2,36 +2,36 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>asp.net-core on Mark Vincze</title>
-    <link>http://localhost:1313/tags/asp.net-core/</link>
+    <link>https://blog.markvincze.com/tags/asp.net-core/</link>
     <description>Recent content in asp.net-core on Mark Vincze</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 24 Feb 2020 23:25:09 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/asp.net-core/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 24 Feb 2020 23:25:09 +0000</lastBuildDate><atom:link href="https://blog.markvincze.com/tags/asp.net-core/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Overriding configuration in ASP.NET Core integration tests</title>
-      <link>http://localhost:1313/overriding-configuration-in-asp-net-core-integration-tests/</link>
+      <link>https://blog.markvincze.com/overriding-configuration-in-asp-net-core-integration-tests/</link>
       <pubDate>Mon, 24 Feb 2020 23:25:09 +0000</pubDate>
       
-      <guid>http://localhost:1313/overriding-configuration-in-asp-net-core-integration-tests/</guid>
+      <guid>https://blog.markvincze.com/overriding-configuration-in-asp-net-core-integration-tests/</guid>
       <description>The pluggable and modular nature of ASP.NET Core made integration testing a much more accessible and convenient tool than it was in classic .NET. We can spin up our whole application with the full ASP.NET middleware pipeline in-process, with a couple of lines of code, and send HTTP requests to it for testing purposes.
 During the integration test, we often want to use different application configuration than what we have in the appsettings.</description>
     </item>
     
     <item>
       <title>Graceful termination in Kubernetes with ASP.NET Core</title>
-      <link>http://localhost:1313/graceful-termination-in-kubernetes-with-asp-net-core/</link>
+      <link>https://blog.markvincze.com/graceful-termination-in-kubernetes-with-asp-net-core/</link>
       <pubDate>Sun, 06 Jan 2019 16:56:05 +0000</pubDate>
       
-      <guid>http://localhost:1313/graceful-termination-in-kubernetes-with-asp-net-core/</guid>
+      <guid>https://blog.markvincze.com/graceful-termination-in-kubernetes-with-asp-net-core/</guid>
       <description>Using a container-orchestration technology like Kubernetes, running applications in small containers, and scaling out horizontally rather than scaling a single machine up has numerous benefits, such as flexible allocation of the raw resources among different services, being able to precisely adjust the number of instances we&amp;rsquo;re running according to the volume of traffic we&amp;rsquo;re receiving, and forcing us to run our applications in immutable containers, thereby making our releases repeatable, thus easier to reason about.</description>
     </item>
     
     <item>
       <title>Secure an ASP.NET Core api with Firebase</title>
-      <link>http://localhost:1313/secure-an-asp-net-core-api-with-firebase/</link>
+      <link>https://blog.markvincze.com/secure-an-asp-net-core-api-with-firebase/</link>
       <pubDate>Tue, 22 Aug 2017 19:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/secure-an-asp-net-core-api-with-firebase/</guid>
+      <guid>https://blog.markvincze.com/secure-an-asp-net-core-api-with-firebase/</guid>
       <description>Introduction Update: Updated the code samples according to the changes introduced in .NET 2.0.
 Firebase is an application development framework and infrastructure provided by Google. It offers a handful of services, like Storage, Analytics, Notifications and Hosting, mainly targeted to mobile application developers.
 At first I was a bit confused by Firebase, since its functionality seems to overlap with Google&amp;rsquo;s generic cloud environment, the Google Cloud Platform, which has—among many other things—similar features.</description>
@@ -39,20 +39,20 @@ At first I was a bit confused by Firebase, since its functionality seems to over
     
     <item>
       <title>Troubleshooting high memory usage with ASP.NET Core on Kubernetes</title>
-      <link>http://localhost:1313/troubleshooting-high-memory-usage-with-asp-net-core-on-kubernetes/</link>
+      <link>https://blog.markvincze.com/troubleshooting-high-memory-usage-with-asp-net-core-on-kubernetes/</link>
       <pubDate>Thu, 17 Aug 2017 21:15:39 +0000</pubDate>
       
-      <guid>http://localhost:1313/troubleshooting-high-memory-usage-with-asp-net-core-on-kubernetes/</guid>
+      <guid>https://blog.markvincze.com/troubleshooting-high-memory-usage-with-asp-net-core-on-kubernetes/</guid>
       <description>At work we are running several ASP.NET Core APIs on the hosted version of Kubernetes in the Google Cloud (GCE—Google Container Engine). In almost all of our components we noticed that they had unreasonably high memory usage. The resource limit for memory was set to 500MB, and still, many of our—relatively small—APIs were constantly being restarted by Kubernetes due to exceeding the memory limit.
 These graphs show the memory usage of two of our APIs, you can see that they keep increasing until they reach the memory limit, when Kubernetes restarts them.</description>
     </item>
     
     <item>
       <title>Running ASP.NET Core in auto-scaling containers? Warm up!</title>
-      <link>http://localhost:1313/running-asp-net-core-in-auto-scaling-containers-warm-up/</link>
+      <link>https://blog.markvincze.com/running-asp-net-core-in-auto-scaling-containers-warm-up/</link>
       <pubDate>Sat, 29 Jul 2017 18:32:34 +0000</pubDate>
       
-      <guid>http://localhost:1313/running-asp-net-core-in-auto-scaling-containers-warm-up/</guid>
+      <guid>https://blog.markvincze.com/running-asp-net-core-in-auto-scaling-containers-warm-up/</guid>
       <description>ASP.NET Core APIs are not warmed up by default. This is easy to illustrate, let&amp;rsquo;s scaffold a brand new empty api.
 mkdir warmuptest cd warmuptest dotnet new webapi dotnet restore dotnet run Then let&amp;rsquo;s do two consecutive requests against the /values endpoint, and measure the response times. This is what we&amp;rsquo;ll see.
 $ curl -o /dev/null -s -w %{time_total}\\n http://localhost:5000/values 0.594 $ curl -o /dev/null -s -w %{time_total}\\n http://localhost:5000/values 0.000 $ curl -o /dev/null -s -w %{time_total}\\n http://localhost:5000/values 0.</description>
@@ -60,39 +60,39 @@ $ curl -o /dev/null -s -w %{time_total}\\n http://localhost:5000/values 0.594 $ 
     
     <item>
       <title>Tear down your ASP.NET Core api between integration tests</title>
-      <link>http://localhost:1313/tear-down-your-asp-net-core-api-between-integration-tests/</link>
+      <link>https://blog.markvincze.com/tear-down-your-asp-net-core-api-between-integration-tests/</link>
       <pubDate>Wed, 21 Jun 2017 20:20:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/tear-down-your-asp-net-core-api-between-integration-tests/</guid>
+      <guid>https://blog.markvincze.com/tear-down-your-asp-net-core-api-between-integration-tests/</guid>
       <description>The way to write integration tests for ASP.NET applications has been made much easier with the advent of ASP.NET Core. This is mainly due to the programming model becoming super modular, which means that it is really easy to spin up an instance of our whole web application for testing purposes and start sending HTTP requests to it from a simple unit test.
 The following code illustrates a unit test method, which starts up an ASP.</description>
     </item>
     
     <item>
       <title>Two gotchas with scoped and singleton dependencies in ASP.NET Core</title>
-      <link>http://localhost:1313/two-gotchas-with-scoped-and-singleton-dependencies-in-asp-net-core/</link>
+      <link>https://blog.markvincze.com/two-gotchas-with-scoped-and-singleton-dependencies-in-asp-net-core/</link>
       <pubDate>Mon, 17 Apr 2017 14:31:27 +0000</pubDate>
       
-      <guid>http://localhost:1313/two-gotchas-with-scoped-and-singleton-dependencies-in-asp-net-core/</guid>
+      <guid>https://blog.markvincze.com/two-gotchas-with-scoped-and-singleton-dependencies-in-asp-net-core/</guid>
       <description>With ASP.NET Core a new built-in lightweight Dependency Injection framework was introduced in the Microsoft.Extensions.DependencyInjection package, thus in ASP.NET Core applications we don&amp;rsquo;t necessarily need an external library such as Ninject or Unity to do DI, we can simply use the built-in package (which—although being framework-agnostic—plays really nicely with ASP.NET Core). Its feature set is rather simple compared to other more full-blown DI frameworks, but it gets the job done in most applications.</description>
     </item>
     
     <item>
       <title>Jumpstart F# web development: F# with ASP.NET Core</title>
-      <link>http://localhost:1313/jumpstart-f-web-development-f-with-asp-net-core/</link>
+      <link>https://blog.markvincze.com/jumpstart-f-web-development-f-with-asp-net-core/</link>
       <pubDate>Sun, 26 Feb 2017 20:25:14 +0000</pubDate>
       
-      <guid>http://localhost:1313/jumpstart-f-web-development-f-with-asp-net-core/</guid>
+      <guid>https://blog.markvincze.com/jumpstart-f-web-development-f-with-asp-net-core/</guid>
       <description>In this third part of the series we&amp;rsquo;ll look at how we can get started with developing an ASP.NET Core application using F#. This scenario is pretty straightforward, there are no extra hoops to jump over. In this post I&amp;rsquo;ll describe the steps necessary to create a new ASP.NET application.
 In ASP.NET Core we typically use the Kestrel web server to host our application, which is technically started up from a Console application.</description>
     </item>
     
     <item>
       <title>Stubbing service dependencies in .NET using Stubbery</title>
-      <link>http://localhost:1313/stubbing-service-dependencies-in-net-using-stubbery/</link>
+      <link>https://blog.markvincze.com/stubbing-service-dependencies-in-net-using-stubbery/</link>
       <pubDate>Sun, 12 Jun 2016 15:27:28 +0000</pubDate>
       
-      <guid>http://localhost:1313/stubbing-service-dependencies-in-net-using-stubbery/</guid>
+      <guid>https://blog.markvincze.com/stubbing-service-dependencies-in-net-using-stubbery/</guid>
       <description>Introduction When writing integration tests for a service (especially if we are running a long, end-to-end test), it often causes a problem that the external dependencies of our service fail.
 Let&amp;rsquo;s say we have a service handling customer payments and the actual payments are handled by an external provider.
 Very often, we cannot use the actual production system of our external dependency. For example, when we want to test payments, we cannot make real purchases every time we run our integration test suite.</description>
@@ -100,10 +100,10 @@ Very often, we cannot use the actual production system of our external dependenc
     
     <item>
       <title>How to validate action parameters with DataAnnotation attributes?</title>
-      <link>http://localhost:1313/how-to-validate-action-parameters-with-dataannotation-attributes/</link>
+      <link>https://blog.markvincze.com/how-to-validate-action-parameters-with-dataannotation-attributes/</link>
       <pubDate>Sun, 28 Feb 2016 14:23:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/how-to-validate-action-parameters-with-dataannotation-attributes/</guid>
+      <guid>https://blog.markvincze.com/how-to-validate-action-parameters-with-dataannotation-attributes/</guid>
       <description>Model validation in MVC In both MVC and Web Api we can use the attributes provided in the System.ComponentModel.DataAnnotations namespace to specify validation rules for our models.
 Let&amp;rsquo;s say we have a controller action with the following signature, accepting a single parameter populated from the request body.
 public IActionResult Post([FromBody]Product product); And we decorated our Product type with the following validation attributes (example taken from the official ASP.NET documentation).
@@ -112,10 +112,10 @@ public class Product { public int Id { get; set; } [Required] public string Name
     
     <item>
       <title>ASP.NET Core 1.0: hints to get started</title>
-      <link>http://localhost:1313/getting-started-with-asp-net-core-1-0-tips-and-tricks/</link>
+      <link>https://blog.markvincze.com/getting-started-with-asp-net-core-1-0-tips-and-tricks/</link>
       <pubDate>Sun, 14 Feb 2016 16:30:58 +0000</pubDate>
       
-      <guid>http://localhost:1313/getting-started-with-asp-net-core-1-0-tips-and-tricks/</guid>
+      <guid>https://blog.markvincze.com/getting-started-with-asp-net-core-1-0-tips-and-tricks/</guid>
       <description>I recently started working on implementing a Web Api application using ASP.NET Core 1.0, running it on Linux with the CoreCLR.
 There have been many changes introduced in this new version of ASP.NET, and there are also differences in how we are running and deploying applications using CoreCLR, so I&amp;rsquo;m going to document a couple of things you might encounter if you get started with using this new ecosystem.
 Version numbers It is quite easy to get lost in the sea of different products and version numbers.</description>

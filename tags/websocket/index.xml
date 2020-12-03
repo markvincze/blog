@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>websocket on Mark Vincze</title>
-    <link>http://localhost:1313/tags/websocket/</link>
+    <link>https://blog.markvincze.com/tags/websocket/</link>
     <description>Recent content in websocket on Mark Vincze</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 30 Oct 2016 14:39:59 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/websocket/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 30 Oct 2016 14:39:59 +0000</lastBuildDate><atom:link href="https://blog.markvincze.com/tags/websocket/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Programmatically refreshing a browser tab from a Golang application</title>
-      <link>http://localhost:1313/programmatically-refreshing-a-browser-tab-from-a-golang-application/</link>
+      <link>https://blog.markvincze.com/programmatically-refreshing-a-browser-tab-from-a-golang-application/</link>
       <pubDate>Sun, 30 Oct 2016 14:39:59 +0000</pubDate>
       
-      <guid>http://localhost:1313/programmatically-refreshing-a-browser-tab-from-a-golang-application/</guid>
+      <guid>https://blog.markvincze.com/programmatically-refreshing-a-browser-tab-from-a-golang-application/</guid>
       <description>Introduction At work I&amp;rsquo;ve been working on a client-side Golang application (a command-line tool), which is used as part of the development toolchain we&amp;rsquo;re using at the company.
 This application is used from the command line to upload packages to our development web server, which is then opened in the browser.
 Instead of opening our development site in a new tab every time, I wanted to programmatically refresh the browser tab if one has already been opened.</description>
