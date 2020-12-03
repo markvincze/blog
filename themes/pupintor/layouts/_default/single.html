@@ -4,7 +4,7 @@
   <div class="container is-max-desktop">
     <h1 class="title is-1">{{ .Title }}</h1>
 
-    {{ if eq .File.Dir "posts\\" }}
+    {{ if hasPrefix .File.Dir "posts" }}
       {{ partial "date-and-tags.html" . }}
     {{ end }}
 
@@ -12,7 +12,7 @@
       {{ .Content }}
     </article>
 
-    {{ if eq .File.Dir "posts\\" }}
+    {{ if hasPrefix .File.Dir "posts" }}
     <div id="disqus_thread"></div>
     <script>
       var disqus_config = function () {
