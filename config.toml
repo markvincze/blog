@@ -1,6 +1,4 @@
-# baseURL = "https://blog.markvincze.com/"
-# baseURL = "https://markvincze.github.io/blog/"
-baseURL = "http://localhost:1313"
+baseURL = "https://blog.markvincze.com/"
 languageCode = "en-us"
 title = "Mark Vincze"
 theme = "pupintor"
