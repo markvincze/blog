@@ -29,6 +29,8 @@ echo "Create CNAME file"
 touch CNAME
 echo "blog.markvincze.com" > CNAME
 
+echo "Create .nojekyll file"
+touch .nojekyll
 
 echo "Push the new blog to the remote branch"
 git add . -A
