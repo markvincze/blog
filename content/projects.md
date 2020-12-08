@@ -16,7 +16,7 @@ This is an [extension for Visual Studio Code](https://github.com/markvincze/vsco
 
 ## estafette-k8s-node-compactor
 
-An extension implemented for the Google Kubernetes Engine, which improves the resource utilization of the nodes by scaling the cluster down more aggressively than how GKE does by default.
+An [extension implemented for the Google Kubernetes Engine](https://github.com/estafette/estafette-k8s-node-compactor), which improves the resource utilization of the nodes by scaling the cluster down more aggressively than how GKE does by default.
 
 ## PidginFsharp
 
