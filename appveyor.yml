@@ -7,7 +7,7 @@ environment:
     secure: yVMCFepA5CWkd+a+SaL+RbAWaZ8SWQFzZKnd64SNt5PXEg704BRKWi4LWL08cSka
 
 install:
-- nvm use 16.8.0
+- nvm use 17.6.0
 - node -v
 - npm install
 - wget https://github.com/gohugoio/hugo/releases/download/v0.78.2/hugo_0.78.2_Linux-64bit.deb
