@@ -2,7 +2,7 @@
 title = "Include a multi-file protobuf package in a .NET Core project"
 slug = "include-multi-file-protobuf-package-in-dotnet"
 description = "How to include protobuf contracts consisting of multiple files in .NET Core projects."
-date = "2022-05-25T21:00:00.0000000"
+date = "2022-05-25T20:00:00.0000000"
 tags = [".net-core", "protobuf", "grpc"]
 +++
 
@@ -90,7 +90,7 @@ In this case we typically also want to specify a `package` for our Protobuf cont
 Let's say we have the same contract as above, and we want to name this package `acme.demo.v1`. (The `.v1` suffix is a [common practice](https://docs.buf.build/lint/rules#package_version_suffix) to make it easier to eventually introduce breaking changes.)  
 In this case we want to have these two proto files under the following folder structure.
 
-```
+```plain
 . // This is the root of our contracts repository, which we might include as a submodule in the consumer repos.
 └── acme
     └── demo
@@ -130,7 +130,7 @@ message Foo {
 
 Let's say that the contracts repo is included in our consumer repository as a submodule in a folder called `contracts` at the root of our repo, so our repository with the .NET Core solution has the following structure.
 
-```
+```plain
 .
 ├── contracts // This is the submodule for the contracts repo
 |   └── acme
@@ -156,14 +156,14 @@ In this case we can add the `<Protobuf />` references to our `csproj` file by us
 
 The problem with this is that because the `import` paths in our proto files are interpreted as being relative to the _root of our project folder_, the `import` statement in `foo.bar` won't work, we'll get the following build error.
 
-```
+```plain
 acme/demo/v1/bar.proto : error : File not found. [...\src\Acme.Consumer.Service\Acme.Consumer.Service.csproj]
 ../../contracts/acme/demo/v1/foo.proto(5,1): error : Import "acme/demo/v1/bar.proto" was not found or had errors.
 ```
 
 Luckily, there is a simple solution, we can add the `AdditionalImportDirs` attribute to the `<Protobuf \>` element to specify the root of our contracts folder to be considered as an extra possible root for the `import` statements.
 
-```
+```xml
   <ItemGroup>
     <Protobuf Include="..\..\contracts\acme\demo\v1\bar.proto" AdditionalImportDirs="..\..\contracts" />
     <Protobuf Include="..\..\contracts\acme\demo\v1\foo.proto" AdditionalImportDirs="..\..\contracts" />
