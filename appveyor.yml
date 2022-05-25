@@ -1,13 +1,13 @@
 skip_branch_with_pr: true
 
-image: Ubuntu2004
+image: Ubuntu1804
 
 environment:
   GH_TOKEN:
     secure: yVMCFepA5CWkd+a+SaL+RbAWaZ8SWQFzZKnd64SNt5PXEg704BRKWi4LWL08cSka
 
 install:
-- nvm use 17.6.0
+- nvm use 15.14.0
 - node -v
 - npm install
 - wget https://github.com/gohugoio/hugo/releases/download/v0.78.2/hugo_0.78.2_Linux-64bit.deb
