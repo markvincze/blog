@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-72523215-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'UA-72523215-1');
+  </script>
+
+  <title>Include a multi-file protobuf package in a .NET Core project</title>
+
+  <link rel="stylesheet" href="/styles/styles.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.15.1/js/all.js"></script>
+  <script defer src="/scripts/scripts.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
+  <link rel="icon" href="/favicon.png" type="image/png" />
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="How to include protobuf contracts consisting of multiple files in .NET Core projects." />
+  <meta property="og:url" content="https://blog.markvincze.com/include-multi-file-protobuf-package-in-dotnet/" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Include a multi-file protobuf package in a .NET Core project" />
+  <meta property="og:description" content="How to include protobuf contracts consisting of multiple files in .NET Core projects." />
+  
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@mrkvincze" />
+  <meta name="twitter:title" content="Include a multi-file protobuf package in a .NET Core project" />
+  <meta name="twitter:description" content="How to include protobuf contracts consisting of multiple files in .NET Core projects." />
+  
+
+</head>
+
+<body>
+  <div class="navbar-container">
+    <nav class="navbar container is-max-desktop" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+
+        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+      <div id="navbarMenu" class="navbar-menu has-text-white-ter">
+
+        <div class="navbar-start">
+          
+          <a class="navbar-item" href="/">About</a>
+          
+          <a class="navbar-item" href="/posts">Blog</a>
+          
+          <a class="navbar-item" href="/projects">Projects</a>
+          
+        </div>
+
+        <div class="navbar-end pt-2 ml-2">
+          <a class="icon is-medium" href="https://twitter.com/mrkvincze" target="_blank">
+            <i class="fab fa-lg fa-twitter"></i>
+          </a>
+          <a class="icon is-medium" href="https://www.github.com/markvincze" target="_blank">
+            <i class="fab fa-lg fa-github"></i>
+          </a>
+          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze" target="_blank">
+            <i class="fab fa-lg fa-stack-overflow"></i>
+          </a>
+          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze" target="_blank">
+            <i class="fab fa-lg fa-linkedin"></i>
+          </a>
+          <a class="icon is-medium" href="/index.xml" target="_blank">
+            <i class="fas fa-lg fa-rss"></i>
+          </a>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <a href="/">
+        <h1 class="title is-2">
+          Mark Vincze
+        </h1>
+      </a>
+      <h2 class="subtitle is-5">
+        Software Developer
+      </h2>
+    </div>
+  </div>
+
+  
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h1 class="title is-1">Include a multi-file protobuf package in a .NET Core project</h1>
+
+    
+      
+
+
+<p class="mb-3 is-vcentered">
+  <time class="has-text-grey" datetime="2022-05-25">May 25, 2022 &bull;</time>
+
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://blog.markvincze.com/tags/.net-core/">.net-core</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://blog.markvincze.com/tags/protobuf/">protobuf</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://blog.markvincze.com/tags/grpc/">grpc</a>
+  
+
+</p>
+    
+
+    <article class="content mt-6">
+      <p>We can get the .NET types for a Protobuf contract automatically generated in a .NET Core project by adding a reference to a proto file.<br>
+A basic example from the <a href="https://docs.microsoft.com/en-us/aspnet/core/grpc/?view=aspnetcore-6.0#c-tooling-support-for-proto-files">official docs</a> is having the following proto file in our project.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-proto" data-lang="proto">syntax <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;proto3&#34;</span>;<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">service</span> Greeter {<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>  <span style="color:#66d9ef">rpc</span> SayHello (HelloRequest) <span style="color:#66d9ef">returns</span> (HelloReply);<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>}<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">message</span> <span style="color:#a6e22e">HelloRequest</span> {<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>  <span style="color:#66d9ef">string</span> name <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>}<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">message</span> <span style="color:#a6e22e">HelloReply</span> {<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>  <span style="color:#66d9ef">string</span> <span style="color:#66d9ef">message</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>}<span style="color:#960050;background-color:#1e0010">
+</span></code></pre></div><p>If we have this file inside our project folder in a subfolder called <code>Protos</code>, we can reference it in our project the following way.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;ItemGroup&gt;</span>
+  <span style="color:#f92672">&lt;Protobuf</span> <span style="color:#a6e22e">Include=</span><span style="color:#e6db74">&#34;Protos\greet.proto&#34;</span> <span style="color:#f92672">/&gt;</span>
+<span style="color:#f92672">&lt;/ItemGroup&gt;</span>
+</code></pre></div><p>The contract in the above example consists of one single <code>proto</code> file.</p>
+<p>In real-life applications with more complicated contracts, it is typical to structure our proto contract into multiple files and multiple &ldquo;packages&rdquo;, where files can reference each other with the <code>import</code> statement.<br>
+When we want to reference such multi-file proto contracts, we might encounter errors related to the proto file imports paths.</p>
+<p>The way imports are processed by the code generation depends on whether the proto files are physically under folder of the .NET Core project or not.</p>
+<h2 id="proto-files-physically-under-the-project-folder">Proto files physically under the project folder</h2>
+<p>Let&rsquo;s say we have two proto files physically in our project folder, under a <code>Protos</code> subfolder.
+The first file, <code>bar.proto</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-proto" data-lang="proto">syntax <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;proto3&#34;</span>;<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">message</span> <span style="color:#a6e22e">Bar</span> {<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>  <span style="color:#66d9ef">string</span> prop1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>}<span style="color:#960050;background-color:#1e0010">
+</span></code></pre></div><p>And the second file, <code>foo.proto</code>, which is referencing the first one:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-proto" data-lang="proto">syntax <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;proto3&#34;</span>;<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#34;Protos/bar.proto&#34;</span>;<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">message</span> <span style="color:#a6e22e">Foo</span> {<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>  <span style="color:#66d9ef">string</span> prop1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>  Bar prop2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>}<span style="color:#960050;background-color:#1e0010">
+</span></code></pre></div><p>Notice that even though the proto files are in the same folder, the import statement uses the path <code>Protos/bar.proto</code>, and not just <code>bar.proto</code>. The reason for this is that by default, the .NET tooling interprets the import paths as being relative to the root of the project.</p>
+<p>Then we can include the two proto files in our project, and the build will successfully generate the corresponding types.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml">  <span style="color:#f92672">&lt;ItemGroup&gt;</span>
+    <span style="color:#f92672">&lt;Protobuf</span> <span style="color:#a6e22e">Include=</span><span style="color:#e6db74">&#34;Protos\bar.proto&#34;</span> <span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;Protobuf</span> <span style="color:#a6e22e">Include=</span><span style="color:#e6db74">&#34;Protos\foo.proto&#34;</span> <span style="color:#f92672">/&gt;</span>
+  <span style="color:#f92672">&lt;/ItemGroup&gt;</span>
+</code></pre></div><p>So this approach works fine if our proto files are physically under the project folder, and they are using import paths which are all relative to the root of the project.</p>
+<h2 id="proto-files-physically-outside-of-the-project-folder">Proto files physically outside of the project folder</h2>
+<p>There can be scenarios when we don&rsquo;t want to put the proto files physically under our project folder.<br>
+The typical example is if we are maintaining our Protobuf contracts in a separate Git repository to share it across multiple consumers. In this case, the repository containing the contracts is often included in the consumer repos as a Git submodule, which we typically want to include in their own folder at the root of our repository.</p>
+<p>In this case, the proto files will not be present physically under the project folder, and thus the build process won&rsquo;t find the imported proto files.</p>
+<p>In this case we typically also want to specify a <code>package</code> for our Protobuf contracts, and structure the folder structure in the contracts repository according to the package name.<br>
+Let&rsquo;s say we have the same contract as above, and we want to name this package <code>acme.demo.v1</code>. (The <code>.v1</code> suffix is a <a href="https://docs.buf.build/lint/rules#package_version_suffix">common practice</a> to make it easier to eventually introduce breaking changes.)<br>
+In this case we want to have these two proto files under the following folder structure.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-plain" data-lang="plain">. // This is the root of our contracts repository, which we might include as a submodule in the consumer repos.
+└── acme
+    └── demo
+        └── v1
+            ├── bar.proto
+            └── foo.proto
+</code></pre></div><p>And the content of the two files are slightly different than before, they specify the <code>package</code>, and the import paths are all relative <em>to the root of the package</em>. (More details about how Protobuf packages should typically be structured can be found <a href="https://docs.buf.build/tour/use-a-workspace">here</a>.)</p>
+<p><code>bar.proto</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-proto" data-lang="proto">syntax <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;proto3&#34;</span>;<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#f92672">package</span> acme<span style="color:#f92672">.</span>demo.v1;<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">message</span> <span style="color:#a6e22e">Bar</span> {<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>  <span style="color:#66d9ef">string</span> prop1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>}<span style="color:#960050;background-color:#1e0010">
+</span></code></pre></div><p><code>foo.proto</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-proto" data-lang="proto">syntax <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;proto3&#34;</span>;<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#f92672">package</span> acme<span style="color:#f92672">.</span>demo.v1;<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#34;acme/demo/v1/bar.proto&#34;</span>;<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">message</span> <span style="color:#a6e22e">Foo</span> {<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>  <span style="color:#66d9ef">string</span> prop1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>  Bar prop2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>}<span style="color:#960050;background-color:#1e0010">
+</span></code></pre></div><p>Let&rsquo;s say that the contracts repo is included in our consumer repository as a submodule in a folder called <code>contracts</code> at the root of our repo, so our repository with the .NET Core solution has the following structure.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-plain" data-lang="plain">.
+├── contracts // This is the submodule for the contracts repo
+|   └── acme
+|       └── demo
+|           └── v1
+|               ├── bar.proto
+|               └── foo.proto
+├── src
+|   └── Acme.Consumer.Service
+|       ├── Acme.Consumer.Service.csproj
+|       └── SomeCodeFile.cs
+└── Acme.Consumer.sln
+</code></pre></div><p>In this case we can add the <code>&lt;Protobuf /&gt;</code> references to our <code>csproj</code> file by using relative paths.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml">  <span style="color:#f92672">&lt;ItemGroup&gt;</span>
+    <span style="color:#f92672">&lt;Protobuf</span> <span style="color:#a6e22e">Include=</span><span style="color:#e6db74">&#34;..\..\contracts\acme\demo\v1\bar.proto&#34;</span> <span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;Protobuf</span> <span style="color:#a6e22e">Include=</span><span style="color:#e6db74">&#34;..\..\contracts\acme\demo\v1\foo.proto&#34;</span> <span style="color:#f92672">/&gt;</span>
+  <span style="color:#f92672">&lt;/ItemGroup&gt;</span>
+</code></pre></div><p>The problem with this is that because the <code>import</code> paths in our proto files are interpreted as being relative to the <em>root of our project folder</em>, the <code>import</code> statement in <code>foo.bar</code> won&rsquo;t work, we&rsquo;ll get the following build error.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-plain" data-lang="plain">acme/demo/v1/bar.proto : error : File not found. [...\src\Acme.Consumer.Service\Acme.Consumer.Service.csproj]
+../../contracts/acme/demo/v1/foo.proto(5,1): error : Import &#34;acme/demo/v1/bar.proto&#34; was not found or had errors.
+</code></pre></div><p>Luckily, there is a simple solution, we can add the <code>AdditionalImportDirs</code> attribute to the <code>&lt;Protobuf \&gt;</code> element to specify the root of our contracts folder to be considered as an extra possible root for the <code>import</code> statements.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml">  <span style="color:#f92672">&lt;ItemGroup&gt;</span>
+    <span style="color:#f92672">&lt;Protobuf</span> <span style="color:#a6e22e">Include=</span><span style="color:#e6db74">&#34;..\..\contracts\acme\demo\v1\bar.proto&#34;</span> <span style="color:#a6e22e">AdditionalImportDirs=</span><span style="color:#e6db74">&#34;..\..\contracts&#34;</span> <span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;Protobuf</span> <span style="color:#a6e22e">Include=</span><span style="color:#e6db74">&#34;..\..\contracts\acme\demo\v1\foo.proto&#34;</span> <span style="color:#a6e22e">AdditionalImportDirs=</span><span style="color:#e6db74">&#34;..\..\contracts&#34;</span> <span style="color:#f92672">/&gt;</span>
+  <span style="color:#f92672">&lt;/ItemGroup&gt;</span>
+</code></pre></div><p>Once we do this, the build will work correctly. This issue took me a while to figure out, I couldn&rsquo;t find much information about the <code>AdditionalImportDirs</code> attribute in the documentation. (The first search result I can find is an <a href="https://github.com/grpc/grpc/issues/22878">open issue</a> to add it to the docs.)<br>
+I hope this post will save you some time when encountering this problem.</p>
+<p>I have uploaded a demo solution containing an example for these two approaches <a href="https://github.com/markvincze/ProtobufImportDemo">here</a>.</p>
+
+    </article>
+
+    
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https:\/\/blog.markvincze.com\/include-multi-file-protobuf-package-in-dotnet\/';
+        
+        this.page.identifier = 'include-multi-file-protobuf-package-in-dotnet';
+        
+      };
+      (function () { 
+        var d = document, s = d.createElement('script');
+        s.src = 'https://markvinczeblog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+  
+
+</section>
+
+
+
+  <div style="flex: 1"></div>
+
+  <footer class="footer py-6">
+    <div class="content has-text-centered">
+      <p>
+        © 2020 <strong>Mark Vincze</strong>. All rights reserved.<br />
+        Built with <a href="https://gohugo.io/">Hugo</a> and <a href="https://bulma.io/">Bulma</a>. 💙
+      </p>
+    </div>
+  </footer>
+
+</body>
+
+</html>

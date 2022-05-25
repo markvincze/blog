@@ -6,7 +6,18 @@
     <description>Recent content in .net-core on Mark Vincze</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 08 Jul 2018 15:48:55 +0000</lastBuildDate><atom:link href="https://blog.markvincze.com/tags/.net-core/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 25 May 2022 20:00:00 +0000</lastBuildDate><atom:link href="https://blog.markvincze.com/tags/.net-core/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Include a multi-file protobuf package in a .NET Core project</title>
+      <link>https://blog.markvincze.com/include-multi-file-protobuf-package-in-dotnet/</link>
+      <pubDate>Wed, 25 May 2022 20:00:00 +0000</pubDate>
+      
+      <guid>https://blog.markvincze.com/include-multi-file-protobuf-package-in-dotnet/</guid>
+      <description>We can get the .NET types for a Protobuf contract automatically generated in a .NET Core project by adding a reference to a proto file.
+A basic example from the official docs is having the following proto file in our project.
+syntax = &amp;#34;proto3&amp;#34;;service Greeter { rpc SayHello (HelloRequest) returns (HelloReply);}message HelloRequest { string name = 1;}message HelloReply { string message = 1;}If we have this file inside our project folder in a subfolder called Protos, we can reference it in our project the following way.</description>
+    </item>
+    
     <item>
       <title>Automated, portable code style checking in .NET Core projects</title>
       <link>https://blog.markvincze.com/automated-portable-code-style-checking-in-net-core-projects/</link>

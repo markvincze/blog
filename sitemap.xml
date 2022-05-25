@@ -3,6 +3,41 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://blog.markvincze.com/tags/.net-core/</loc>
+    <lastmod>2022-05-25T20:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.markvincze.com/tags/grpc/</loc>
+    <lastmod>2022-05-25T20:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.markvincze.com/include-multi-file-protobuf-package-in-dotnet/</loc>
+    <lastmod>2022-05-25T20:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.markvincze.com/</loc>
+    <lastmod>2022-05-25T20:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.markvincze.com/posts/</loc>
+    <lastmod>2022-05-25T20:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.markvincze.com/tags/protobuf/</loc>
+    <lastmod>2022-05-25T20:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.markvincze.com/tags/</loc>
+    <lastmod>2022-05-25T20:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://blog.markvincze.com/tags/asp.net-core/</loc>
     <lastmod>2020-02-24T23:25:09+00:00</lastmod>
   </url>
@@ -13,22 +48,7 @@
   </url>
   
   <url>
-    <loc>https://blog.markvincze.com/</loc>
-    <lastmod>2020-02-24T23:25:09+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://blog.markvincze.com/overriding-configuration-in-asp-net-core-integration-tests/</loc>
-    <lastmod>2020-02-24T23:25:09+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.markvincze.com/posts/</loc>
-    <lastmod>2020-02-24T23:25:09+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.markvincze.com/tags/</loc>
     <lastmod>2020-02-24T23:25:09+00:00</lastmod>
   </url>
   
@@ -70,11 +90,6 @@
   <url>
     <loc>https://blog.markvincze.com/tags/varnish/</loc>
     <lastmod>2018-07-28T19:12:24+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.markvincze.com/tags/.net-core/</loc>
-    <lastmod>2018-07-08T15:48:55+00:00</lastmod>
   </url>
   
   <url>

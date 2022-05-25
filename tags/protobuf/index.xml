@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>protobuf on Mark Vincze</title>
+    <link>https://blog.markvincze.com/tags/protobuf/</link>
+    <description>Recent content in protobuf on Mark Vincze</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 25 May 2022 20:00:00 +0000</lastBuildDate><atom:link href="https://blog.markvincze.com/tags/protobuf/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Include a multi-file protobuf package in a .NET Core project</title>
+      <link>https://blog.markvincze.com/include-multi-file-protobuf-package-in-dotnet/</link>
+      <pubDate>Wed, 25 May 2022 20:00:00 +0000</pubDate>
+      
+      <guid>https://blog.markvincze.com/include-multi-file-protobuf-package-in-dotnet/</guid>
+      <description>We can get the .NET types for a Protobuf contract automatically generated in a .NET Core project by adding a reference to a proto file.
+A basic example from the official docs is having the following proto file in our project.
+syntax = &amp;#34;proto3&amp;#34;;service Greeter { rpc SayHello (HelloRequest) returns (HelloReply);}message HelloRequest { string name = 1;}message HelloReply { string message = 1;}If we have this file inside our project folder in a subfolder called Protos, we can reference it in our project the following way.</description>
+    </item>
+    
+  </channel>
+</rss>
