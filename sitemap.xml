@@ -3,37 +3,52 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://blog.markvincze.com/tags/documentation/</loc>
+    <lastmod>2023-04-16T20:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.markvincze.com/tags/grpc/</loc>
+    <lastmod>2023-04-16T20:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.markvincze.com/introducing-sabledocs/</loc>
+    <lastmod>2023-04-16T20:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.markvincze.com/</loc>
+    <lastmod>2023-04-16T20:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.markvincze.com/posts/</loc>
+    <lastmod>2023-04-16T20:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.markvincze.com/tags/protobuf/</loc>
+    <lastmod>2023-04-16T20:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.markvincze.com/tags/python/</loc>
+    <lastmod>2023-04-16T20:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.markvincze.com/tags/</loc>
+    <lastmod>2023-04-16T20:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://blog.markvincze.com/tags/.net-core/</loc>
     <lastmod>2022-05-25T20:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://blog.markvincze.com/tags/grpc/</loc>
-    <lastmod>2022-05-25T20:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://blog.markvincze.com/include-multi-file-protobuf-package-in-dotnet/</loc>
-    <lastmod>2022-05-25T20:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.markvincze.com/</loc>
-    <lastmod>2022-05-25T20:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.markvincze.com/posts/</loc>
-    <lastmod>2022-05-25T20:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.markvincze.com/tags/protobuf/</loc>
-    <lastmod>2022-05-25T20:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.markvincze.com/tags/</loc>
     <lastmod>2022-05-25T20:00:00+00:00</lastmod>
   </url>
   

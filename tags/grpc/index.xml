@@ -6,7 +6,19 @@
     <description>Recent content in grpc on Mark Vincze</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 25 May 2022 20:00:00 +0000</lastBuildDate><atom:link href="https://blog.markvincze.com/tags/grpc/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 16 Apr 2023 20:00:00 +0000</lastBuildDate><atom:link href="https://blog.markvincze.com/tags/grpc/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Introducing sabledocs, a documentation generator for Protobuf and gRPC</title>
+      <link>https://blog.markvincze.com/introducing-sabledocs/</link>
+      <pubDate>Sun, 16 Apr 2023 20:00:00 +0000</pubDate>
+      
+      <guid>https://blog.markvincze.com/introducing-sabledocs/</guid>
+      <description>In this post I&amp;rsquo;d like to introduce a a new project I started working on called Sabledocs, a simple static documentation generator for Protobuf and gRPC contracts.
+As I started using Protobuf and gRPC more and more for service-to-service communication, I started looking for a way to generate a documentation site for the Protobuf contracts.
+I had the following requirements.
+ Be able to generate static HTML documentation with a CLI.</description>
+    </item>
+    
     <item>
       <title>Include a multi-file protobuf package in a .NET Core project</title>
       <link>https://blog.markvincze.com/include-multi-file-protobuf-package-in-dotnet/</link>
