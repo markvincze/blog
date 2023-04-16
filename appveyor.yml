@@ -7,14 +7,14 @@ environment:
     secure: yVMCFepA5CWkd+a+SaL+RbAWaZ8SWQFzZKnd64SNt5PXEg704BRKWi4LWL08cSka
 
 install:
-- nvm use 15.14.0
-- node -v
-- npm install
-- wget https://github.com/gohugoio/hugo/releases/download/v0.78.2/hugo_0.78.2_Linux-64bit.deb
-- sudo dpkg -i ./hugo_0.78.2_Linux-64bit.deb
+  - nvm use 15.14.0
+  - node -v
+  - npm ci
+  - wget https://github.com/gohugoio/hugo/releases/download/v0.78.2/hugo_0.78.2_Linux-64bit.deb
+  - sudo dpkg -i ./hugo_0.78.2_Linux-64bit.deb
 
 build_script:
-- npm run css-build
+  - npm run css-build
 
 deploy_script:
-- bash release.sh
+  - bash release.sh
