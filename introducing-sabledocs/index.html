@@ -11,7 +11,7 @@
     gtag('config', 'UA-72523215-1');
   </script>
 
-  <title></title>
+  <title>Introducing Sabledocs, a documentation generator for Protobuf and gRPC</title>
 
   <link rel="stylesheet" href="/styles/styles.css">
   <script defer src="https://use.fontawesome.com/releases/v5.15.1/js/all.js"></script>
@@ -22,16 +22,16 @@
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="" />
+  <meta name="description" content="Introducing a new open-source project called sabledocs, which is a static documentation generator for Protobuf and gRPC contracts." />
   <meta property="og:url" content="https://blog.markvincze.com/introducing-sabledocs/" />
   <meta property="og:type" content="article" />
-  <meta property="og:title" content="" />
-  <meta property="og:description" content="" />
+  <meta property="og:title" content="Introducing Sabledocs, a documentation generator for Protobuf and gRPC" />
+  <meta property="og:description" content="Introducing a new open-source project called sabledocs, which is a static documentation generator for Protobuf and gRPC contracts." />
   
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:site" content="@mrkvincze" />
-  <meta name="twitter:title" content="" />
-  <meta name="twitter:description" content="" />
+  <meta name="twitter:title" content="Introducing Sabledocs, a documentation generator for Protobuf and gRPC" />
+  <meta name="twitter:description" content="Introducing a new open-source project called sabledocs, which is a static documentation generator for Protobuf and gRPC contracts." />
   
 
 </head>
@@ -97,26 +97,34 @@
 
 <section class="section">
   <div class="container is-max-desktop">
-    <h1 class="title is-1"></h1>
+    <h1 class="title is-1">Introducing Sabledocs, a documentation generator for Protobuf and gRPC</h1>
 
     
       
 
 
 <p class="mb-3 is-vcentered">
-  <time class="has-text-grey" datetime="0001-01-01">Jan 1, 0001 &bull;</time>
+  <time class="has-text-grey" datetime="2023-04-16">Apr 16, 2023 &bull;</time>
+
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://blog.markvincze.com/tags/documentation/">documentation</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://blog.markvincze.com/tags/protobuf/">protobuf</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://blog.markvincze.com/tags/grpc/">grpc</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://blog.markvincze.com/tags/python/">python</a>
+  
 
 </p>
     
 
     <article class="content mt-6">
-      <p>title = &ldquo;Introducing sabledocs, a documentation generator for Protobuf and gRPC&rdquo;
-slug = &ldquo;introducing-sabledocs-documentation-generator-for-protobuf-grpc&rdquo;
-description = &ldquo;Introducing a new open-source project called sabledocs, which is a static documentation generator for Protobuf and gRPC contracts.&rdquo;
-date = &ldquo;2023-04-16T20:00:00.0000000&rdquo;
-tags = [&ldquo;documentation&rdquo;, &ldquo;protobuf&rdquo;, &ldquo;grpc&rdquo;, &ldquo;python&rdquo;]
-+++</p>
-<p>In this post I&rsquo;d like to introduce a a new project I started working on called <a href="https://github.com/markvincze/sabledocs">Sabledocs</a>, a simple static documentation generator for Protobuf and gRPC contracts.</p>
+      <p>In this post I&rsquo;d like to introduce a a new project I started working on called <a href="https://github.com/markvincze/sabledocs"><strong>Sabledocs</strong></a>, a simple static documentation generator for Protobuf and gRPC contracts.</p>
 <p>As I started using Protobuf and gRPC more and more for service-to-service communication, I started looking for a way to generate a documentation site for the Protobuf contracts.</p>
 <p>I had the following requirements.</p>
 <ul>
@@ -145,14 +153,15 @@ tags = [&ldquo;documentation&rdquo;, &ldquo;protobuf&rdquo;, &ldquo;grpc&rdquo;,
 <pre><code>sabledocs
 </code></pre><p>The documentation will be generated into a folder <code>sabledocs_output</code>, its main page can be opened with <code>index.html</code>.</p>
 <p>More information about further customization options can be found in the <a href="https://github.com/markvincze/sabledocs">README</a>.</p>
+<h1 id="summary-and-further-features">Summary and further features</h1>
 <p>There are some features not yet implemented that eventually I&rsquo;d like to support, for example the following.</p>
 <ul>
 <li>Certain Protobuf language features such as <code>oneof</code> and <code>option</code> annotations.</li>
 <li>Streamlined support and documentation for creating a custom HTML template.</li>
 <li>Dark mode and mobile support in the default template.</li>
 </ul>
-<p>I hope this library will be useful for others too, particularly as gRPC seems to be becoming more and more popular as an alternative for REST and SOAP.<br>
-If you try it out, <a href="https://github.com/markvincze/sabledocs/issues">any feedback</a> is welcome!</p>
+<p>I hope this library will be useful for others too, particularly as gRPC seems to be becoming more and more popular as an alternative for REST and SOAP.</p>
+<p>If you try it out, <a href="https://github.com/markvincze/sabledocs/issues">any feedback or missing features</a> are welcome!</p>
 
     </article>
 
@@ -162,7 +171,7 @@ If you try it out, <a href="https://github.com/markvincze/sabledocs/issues">any 
       var disqus_config = function () {
         this.page.url = 'https:\/\/blog.markvincze.com\/introducing-sabledocs\/';
         
-        this.page.identifier = '';
+        this.page.identifier = 'introducing-sabledocs-documentation-generator-for-protobuf-grpc';
         
       };
       (function () { 
