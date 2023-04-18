@@ -1,12 +1,12 @@
 +++
-title = "Introducing sabledocs, a documentation generator for Protobuf and gRPC"
+title = "Introducing Sabledocs, a documentation generator for Protobuf and gRPC"
 slug = "introducing-sabledocs-documentation-generator-for-protobuf-grpc"
 description = "Introducing a new open-source project called sabledocs, which is a static documentation generator for Protobuf and gRPC contracts."
 date = "2023-04-16T20:00:00.0000000"
 tags = ["documentation", "protobuf", "grpc", "python"]
 +++
 
-In this post I'd like to introduce a a new project I started working on called [Sabledocs](https://github.com/markvincze/sabledocs), a simple static documentation generator for Protobuf and gRPC contracts.
+In this post I'd like to introduce a a new project I started working on called [**Sabledocs**](https://github.com/markvincze/sabledocs), a simple static documentation generator for Protobuf and gRPC contracts.
 
 As I started using Protobuf and gRPC more and more for service-to-service communication, I started looking for a way to generate a documentation site for the Protobuf contracts.
 
@@ -60,6 +60,8 @@ sabledocs
 The documentation will be generated into a folder `sabledocs_output`, its main page can be opened with `index.html`.
 
 More information about further customization options can be found in the [README](https://github.com/markvincze/sabledocs).
+
+# Summary and further features
  
 There are some features not yet implemented that eventually I'd like to support, for example the following.
 
@@ -67,6 +69,7 @@ There are some features not yet implemented that eventually I'd like to support,
  - Streamlined support and documentation for creating a custom HTML template.
  - Dark mode and mobile support in the default template.
 
-I hope this library will be useful for others too, particularly as gRPC seems to be becoming more and more popular as an alternative for REST and SOAP.  
-If you try it out, [any feedback](https://github.com/markvincze/sabledocs/issues) is welcome!
+I hope this library will be useful for others too, particularly as gRPC seems to be becoming more and more popular as an alternative for REST and SOAP.
+
+If you try it out, [any feedback or missing features](https://github.com/markvincze/sabledocs/issues) are welcome!
 
