@@ -13,10 +13,10 @@
       <pubDate>Sun, 16 Apr 2023 20:00:00 +0000</pubDate>
       
       <guid>https://blog.markvincze.com/introducing-sabledocs/</guid>
-      <description>In this post I&amp;rsquo;d like to introduce a a new project I started working on called Sabledocs, a simple static documentation generator for Protobuf and gRPC contracts.
-As I started using Protobuf and gRPC more and more for service-to-service communication, I started looking for a way to generate a documentation site for the Protobuf contracts.
+      <description>In this post I&amp;rsquo;d like to introduce a a new project called Sabledocs, a simple static documentation generator for Protobuf and gRPC contracts.
+As I started using Protobuf and gRPC more and more for service-to-service communication, I started looking for a way to generate documentation for the Protobuf contracts.
 I had the following requirements.
- Be able to generate static HTML documentation with a CLI.</description>
+ Be able to generate static HTML documentation with a CLI. Include both gRPC service contracts, and ordinary Protobuf data models.</description>
     </item>
     
     <item>
