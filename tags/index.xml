@@ -6,20 +6,20 @@
     <description>Recent content in Tags on Mark Vincze</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 16 Apr 2023 20:00:00 +0000</lastBuildDate><atom:link href="https://blog.markvincze.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 25 May 2022 20:00:00 +0000</lastBuildDate><atom:link href="https://blog.markvincze.com/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>documentation</title>
-      <link>https://blog.markvincze.com/tags/documentation/</link>
-      <pubDate>Sun, 16 Apr 2023 20:00:00 +0000</pubDate>
+      <title>.net-core</title>
+      <link>https://blog.markvincze.com/tags/.net-core/</link>
+      <pubDate>Wed, 25 May 2022 20:00:00 +0000</pubDate>
       
-      <guid>https://blog.markvincze.com/tags/documentation/</guid>
+      <guid>https://blog.markvincze.com/tags/.net-core/</guid>
       <description></description>
     </item>
     
     <item>
       <title>grpc</title>
       <link>https://blog.markvincze.com/tags/grpc/</link>
-      <pubDate>Sun, 16 Apr 2023 20:00:00 +0000</pubDate>
+      <pubDate>Wed, 25 May 2022 20:00:00 +0000</pubDate>
       
       <guid>https://blog.markvincze.com/tags/grpc/</guid>
       <description></description>
@@ -28,27 +28,9 @@
     <item>
       <title>protobuf</title>
       <link>https://blog.markvincze.com/tags/protobuf/</link>
-      <pubDate>Sun, 16 Apr 2023 20:00:00 +0000</pubDate>
-      
-      <guid>https://blog.markvincze.com/tags/protobuf/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>python</title>
-      <link>https://blog.markvincze.com/tags/python/</link>
-      <pubDate>Sun, 16 Apr 2023 20:00:00 +0000</pubDate>
-      
-      <guid>https://blog.markvincze.com/tags/python/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>.net-core</title>
-      <link>https://blog.markvincze.com/tags/.net-core/</link>
       <pubDate>Wed, 25 May 2022 20:00:00 +0000</pubDate>
       
-      <guid>https://blog.markvincze.com/tags/.net-core/</guid>
+      <guid>https://blog.markvincze.com/tags/protobuf/</guid>
       <description></description>
     </item>
     

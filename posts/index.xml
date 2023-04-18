@@ -6,19 +6,7 @@
     <description>Recent content in Posts on Mark Vincze</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 16 Apr 2023 20:00:00 +0000</lastBuildDate><atom:link href="https://blog.markvincze.com/posts/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Introducing sabledocs, a documentation generator for Protobuf and gRPC</title>
-      <link>https://blog.markvincze.com/introducing-sabledocs/</link>
-      <pubDate>Sun, 16 Apr 2023 20:00:00 +0000</pubDate>
-      
-      <guid>https://blog.markvincze.com/introducing-sabledocs/</guid>
-      <description>In this post I&amp;rsquo;d like to introduce a a new project I started working on called Sabledocs, a simple static documentation generator for Protobuf and gRPC contracts.
-As I started using Protobuf and gRPC more and more for service-to-service communication, I started looking for a way to generate a documentation site for the Protobuf contracts.
-I had the following requirements.
- Be able to generate static HTML documentation with a CLI.</description>
-    </item>
-    
+    <lastBuildDate>Wed, 25 May 2022 20:00:00 +0000</lastBuildDate><atom:link href="https://blog.markvincze.com/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Include a multi-file protobuf package in a .NET Core project</title>
       <link>https://blog.markvincze.com/include-multi-file-protobuf-package-in-dotnet/</link>
@@ -467,6 +455,16 @@ The current version of Glimpse (1.9.2 at the time of writing this) only has prop
       
       <guid>https://blog.markvincze.com/attach-to-process-shortcut-in-visual-studio/</guid>
       <description>It&amp;rsquo;s a very useful feature of Visual Studio that besides starting an application for debugging, we can attach the debugger to already running processes as well. This can be done with the Debug-&amp;gt;Attach to Process&amp;hellip; option, where we have to select the desired one from a list of all running processes. This method of attaching to a process is OK if you have to do it only once in a while, but if you have to debug applications this way regularly, it becomes time-consuming to search for the process in the list every time.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://blog.markvincze.com/introducing-sabledocs/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.markvincze.com/introducing-sabledocs/</guid>
+      <description>title = &amp;ldquo;Introducing sabledocs, a documentation generator for Protobuf and gRPC&amp;rdquo; slug = &amp;ldquo;introducing-sabledocs-documentation-generator-for-protobuf-grpc&amp;rdquo; description = &amp;ldquo;Introducing a new open-source project called sabledocs, which is a static documentation generator for Protobuf and gRPC contracts.&amp;rdquo; date = &amp;ldquo;2023-04-16T20:00:00.0000000&amp;rdquo; tags = [&amp;ldquo;documentation&amp;rdquo;, &amp;ldquo;protobuf&amp;rdquo;, &amp;ldquo;grpc&amp;rdquo;, &amp;ldquo;python&amp;rdquo;] +++
+In this post I&amp;rsquo;d like to introduce a a new project I started working on called Sabledocs, a simple static documentation generator for Protobuf and gRPC contracts.</description>
     </item>
     
   </channel>
