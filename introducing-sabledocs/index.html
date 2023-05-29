@@ -148,7 +148,7 @@ It has been an interesting process, I&rsquo;ve learned a lot about the Protobuf 
 </code></pre><p><em>(It&rsquo;s important to use the <code>--include_source_info</code> flag, otherwise the comments will not be included in the generated documentation.)</em></p>
 <p>The generated <code>descriptor.pb</code> file will be the input needed to build the documentation site.</p>
 <h2 id="build-the-documetation">Build the documetation</h2>
-<p>Install the <code>sabledocs</code> package.</p>
+<p>Install the <code>sabledocs</code> package. It requires <a href="https://www.python.org/downloads/">Python</a> (version 3.11 or higher) to be installed.</p>
 <pre><code>pip install sabledocs
 </code></pre><p>In the same folder where the generated <code>descriptor.pb</code> file is located, execute the command.</p>
 <pre><code>sabledocs
