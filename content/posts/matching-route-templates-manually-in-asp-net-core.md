@@ -5,6 +5,7 @@ description = "It can come handy to manually match a request path to route templ
 date = "2016-06-18T21:17:15.0000000"
 tags = ["asp.net", "mvc"]
 ghostCommentId = "ghost-21"
+aliases = ["how-to-match-route-templates-manually-in-asp-net-2"]
 +++
 
 We can use routing in ASP.NET to define paths on which we want to respond to HTTP requests. In ASP.NET Core we have two common ways to specify routing in our application.
