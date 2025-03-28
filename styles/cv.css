@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css?family=Noto Sans:400,600');
+
+body {
+  background-color: darkgrey;
+  font-family: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+}
+
+/* a, u {
+  text-decoration: none;
+} */
+
+a:link,
+a:visited {
+  text-decoration: inherit;
+  color: inherit;
+}
+
+#cv {
+  box-sizing: border-box;
+  max-width: 960px;
+  padding: 40px;
+  margin: 50px auto;
+  background-color: cornflowerblue;
+  box-shadow:
+    0px 0px 4px hsl(0deg 0% 0% / 0.1),
+    0px 0px 8px hsl(0deg 0% 0% / 0.1),
+    0px 0px 16px hsl(0deg 0% 0% / 0.1),
+    0px 0px 32px hsl(0deg 0% 0% / 0.1),
+    0px 0px 64px hsl(0deg 0% 0% / 0.1)
+  ;
+}
+
+#header {
+  display: grid;
+  grid-template-columns: auto 1fr;
+}
+
+#name {
+  font-size: 50px;
+  font-family: "Noto Sans";
+  font-weight: 600;
+  padding-right: 30px;
+}
+
+#intro {
+  padding-left: 30px;
+}
+
+#intro>p:first-child {
+  margin-block-start: 10px;
+  font-size: 20px;
+}
+
+#contact {
+  margin-top: 15px;
+  display: grid;
+  /* grid-template-columns: 1fr 1fr 1fr 1fr; */
+  grid-template-columns: auto auto auto auto;
+  justify-content: space-between;
+}
+
+#experience {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  row-gap: 20px;
+}
+
+.experience-year {
+  padding-right: 80px
+}
+
+.experience-position {
+  font-weight: 600;
+}
+
+.experience-company {
+  font-weight: 600;
+}
