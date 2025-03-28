@@ -1,3 +1,4 @@
 public/
 node_modules/
 static/styles/styles.css
+.hugo_build.lock
