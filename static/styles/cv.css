@@ -16,10 +16,18 @@ a:visited {
 }
 
 #cv {
+  box-sizing: border-box;
   max-width: 960px;
-  margin: 0 auto;
+  padding: 40px;
+  margin: 50px auto;
   background-color: cornflowerblue;
-  padding: 20px;
+  box-shadow:
+    0px 0px 4px hsl(0deg 0% 0% / 0.1),
+    0px 0px 8px hsl(0deg 0% 0% / 0.1),
+    0px 0px 16px hsl(0deg 0% 0% / 0.1),
+    0px 0px 32px hsl(0deg 0% 0% / 0.1),
+    0px 0px 64px hsl(0deg 0% 0% / 0.1)
+  ;
 }
 
 #header {
@@ -28,7 +36,7 @@ a:visited {
 }
 
 #name {
-  font-size: 40px;
+  font-size: 50px;
   font-family: "Noto Sans";
   font-weight: 600;
   padding-right: 30px;
@@ -46,7 +54,9 @@ a:visited {
 #contact {
   margin-top: 15px;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  /* grid-template-columns: 1fr 1fr 1fr 1fr; */
+  grid-template-columns: auto auto auto auto;
+  justify-content: space-between;
 }
 
 #experience {
