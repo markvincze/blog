@@ -1,0 +1,85 @@
++++
+title = "Mark Vincze CV"
+date = "2025-03-28T17:08:20.0000000"
+tags = []
+layout = "blank"
++++
+
+{{< rawhtml >}}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-72523215-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'UA-72523215-1');
+  </script>
+
+  <title>Mark Vincze CV</title>
+
+  <link rel="stylesheet" href="/styles/cv.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.15.1/js/all.js"></script>
+  <link rel="icon" href="/favicon.png" type="image/png" />
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+
+<body>
+
+  <div id="cv">
+
+    <section id="header">
+      <div id="name">
+        Mark<br />Vincze
+      </div>
+      <div id="intro">
+        <p><strong>Software developer with 15 years of experience, specialized in C# and modern C++.</strong></p>
+        <p>Full stack client and server side development. Experience in leading teams up to 10 members.</p>
+      </div>
+    </section>
+
+    <section id="contact">
+      <a href="https://blog.markvincze.com"><span class="fa fa-laptop"></span> blog.markvincze.com</a>
+      <!-- <div><a href="mailto:mrk.vincze@gmail.com"><span class="fa fa-envelope"></span> mrk.vincze@gmail.com</a></div> -->
+      <a href="mailto:mrk.vincze@gmail.com"><span class="fa fa-envelope"></span> mrk.vincze@gmail.com</a>
+      <a href="https://linkedin.com/in/markvincze"><span class="fab fa-linkedin"></span> linkedin.com/in/markvincze</a>
+      <span><span class="fa fa-phone"></span> +36 20 405 3564</span>
+      <!-- <div style="justify-self: center;"><a href="mailto:mrk.vincze@gmail.com"><span class="fa fa-envelope"></span> mrk.vincze@gmail.com</a></div>
+      <div style="justify-self: center;"><a href="https://linkedin.com/in/markvincze"><span class="fab fa-linkedin"></span> linkedin.com/in/markvincze</a></div>
+      <div style="justify-self: end;"><span class="fa fa-phone"></span> +36 20 405 3564</div> -->
+    </section>
+
+    <h1>Experience</h1>
+    <section id="experience">
+      <div class="experience-year">2015–2025</div>
+      <div>
+        <span class="experience-position">Senior Software Developer, Principal Developer</span><br/>
+        <span class="experience-company">Travix International</span><br/>
+        Developer in various domains. Since 2020 Principal Developer supporting and coordinating multiple dev teams.
+      </div>
+      <div class="experience-year">2012–2015</div>
+      <div>
+        <span class="experience-position">Senior Software Developer, Lead Developer</span><br/>
+        <span class="experience-company">BME-AutSoft Ltd.</span><br/>
+        Developer on several projects for different partners, technical lead since 2013
+      </div>
+      <div class="experience-year">2008–2012</div>
+      <div>
+        <span class="experience-position">Junior Software Developer, Software Developer</span><br/>
+        <span class="experience-company">Budapest University of Technology and Economics</span><br/>
+        Contract work on various software development and research projects.
+      </div>
+  </section>
+  </div>
+</body>
+
+</html>
+
+{{< /rawhtml >}}

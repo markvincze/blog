@@ -1,18 +1,20 @@
 @import url('https://fonts.googleapis.com/css?family=Noto Sans:400,600');
 
 body {
-  background-color: darkgrey;
+  /* background-color: darkgrey; */
+  background-color: lightsteelblue;
   font-family: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 }
 
-/* a, u {
-  text-decoration: none;
-} */
-
 a:link,
 a:visited {
-  text-decoration: inherit;
+  /* text-decoration: inherit; */
   color: inherit;
+}
+
+h1 {
+  font-size: 30px;
+  /* color: royalblue; */
 }
 
 #cv {
@@ -20,7 +22,8 @@ a:visited {
   max-width: 960px;
   padding: 40px;
   margin: 50px auto;
-  background-color: cornflowerblue;
+  /* background-color: cornflowerblue; */
+  background-color: white;
   box-shadow:
     0px 0px 4px hsl(0deg 0% 0% / 0.1),
     0px 0px 8px hsl(0deg 0% 0% / 0.1),
@@ -37,6 +40,7 @@ a:visited {
 
 #name {
   font-size: 50px;
+  line-height: 60px;
   font-family: "Noto Sans";
   font-weight: 600;
   padding-right: 30px;
@@ -52,9 +56,9 @@ a:visited {
 }
 
 #contact {
-  margin-top: 15px;
+  margin-top: 30px;
+  margin-bottom: 30px;
   display: grid;
-  /* grid-template-columns: 1fr 1fr 1fr 1fr; */
   grid-template-columns: auto auto auto auto;
   justify-content: space-between;
 }
@@ -75,4 +79,74 @@ a:visited {
 
 .experience-company {
   font-weight: 600;
+}
+
+#education-language {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  column-gap: 20px;
+}
+
+#education {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  row-gap: 20px;
+}
+
+.education-detail {
+  font-weight: 600;
+}
+
+#language {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  row-gap: 20px;
+  column-gap: 20px;
+}
+
+.language-name {
+  font-weight: 600;
+}
+
+#technology-projects {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  column-gap: 20px;
+}
+
+#technology-list {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  margin-bottom: 20px;
+}
+
+.technology-name {
+  font-weight: 600;
+}
+
+#technology-other {
+  font-weight: 600;
+}
+
+#projects {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  row-gap: 20px;
+  column-gap: 20px;
+}
+
+.project-name {
+  font-weight: 600;
+  text-decoration: underline !important;
+}
+
+@media print {
+  #cv {
+    box-sizing: border-box;
+    max-width: 960px;
+    padding: 40px;
+    margin: 0;
+    background-color: white;
+    box-shadow: none;
+  }
 }
