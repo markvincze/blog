@@ -24,7 +24,7 @@ body {
 
 a:link,
 a:visited {
-  /* text-decoration: inherit; */
+  text-decoration: inherit;
   color: inherit;
 }
 
@@ -86,6 +86,11 @@ ul {
   display: grid;
   grid-template-columns: auto auto auto auto;
   justify-content: space-between;
+}
+
+#contact > a > span {
+  text-decoration: underline;
+  margin-left:0.4rem;
 }
 
 #experience {
