@@ -1,8 +1,25 @@
-@import url('https://fonts.googleapis.com/css?family=Noto Sans:400,600,800');
+@import url('https://fonts.googleapis.com/css?family=Noto Sans:400,500,600,700,800');
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,500,600,700,800');
+@import url('https://fonts.googleapis.com/css?family=Open Sans:400,500,600,700,800');
+@import url('https://fonts.googleapis.com/css?family=Merriweather:400,500,600,700,800');
+@import url('https://fonts.googleapis.com/css?family=Lora:400,500,600,700,800');
+@import url('https://fonts.googleapis.com/css?family=Noto Serif:400,500,600,700,800');
+
+:root {
+  --body-font-family: "Noto Sans";
+  /* --heading-font-family: "Noto Sans"; */
+  /* --heading-font-family: "Merriweather"; */
+  /* --heading-font-family: "Noto Serif"; */
+  --heading-font-family: "Lora";
+  --heading-font-weight: 800;
+  --strong-font-weight: 700;
+  --highlight-color: #156A99;
+}
 
 body {
   background-color: lightsteelblue;
-  font-family: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  /* font-family: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif; */
+  font-family: var(--body-font-family)
 }
 
 a:link,
@@ -11,13 +28,11 @@ a:visited {
   color: inherit;
 }
 
-:root {
-  --highlight-color: #156A99;
-}
-
 h1 {
   font-size: 2rem;
-  color: var(--highlight-color)
+  font-family: var(--heading-font-family);
+  font-weight: var(--heading-font-weight);
+  color: var(--highlight-color);
 }
 
 ul {
@@ -48,8 +63,9 @@ ul {
 #name {
   font-size: 3.75rem;
   line-height: 1.1;
-  font-family: "Noto Sans";
-  font-weight: 800;
+  /* font-family: "Noto Sans"; */
+  font-family: var(--heading-font-family);
+  font-weight: var(--heading-font-weight);
   padding-right: 2rem;
   color: var(--highlight-color)
 }
@@ -60,6 +76,7 @@ ul {
 
 #intro>p:first-child {
   margin-block-start: 0.6rem;
+  font-weight: 700;
   font-size: 1.25rem;
 }
 
@@ -82,12 +99,12 @@ ul {
 }
 
 .experience-position {
-  font-weight: 600;
-  color: var(--highlight-color)
+  font-weight: var(--strong-font-weight);
+  color: var(--highlight-color);
 }
 
 .experience-company {
-  font-weight: 600;
+  font-weight: var(--strong-font-weight);
 }
 
 #education-language {
