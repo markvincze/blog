@@ -204,3 +204,28 @@ ul {
     box-shadow: none;
   }
 }
+
+/* Hide the padding and the drop-shadow if the screen is narrow. */
+@media screen and (max-width: 65rem) {
+  body {
+    background-color: white;
+  }
+
+  #cv {
+    padding: 2rem;
+    margin: 0 auto;
+    box-shadow: none;
+  }
+}
+
+/* Switch the contact list to two rows */
+@media screen and (max-width: 57rem) {
+  #contact {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    display: grid;
+    grid-template-columns: auto auto;
+    row-gap: 1rem;
+    justify-content: center;
+  }
+}
