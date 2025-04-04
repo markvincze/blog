@@ -61,6 +61,7 @@ ul {
 #header {
   display: grid;
   grid-template-columns: auto 1fr;
+  column-gap: 2rem
 }
 
 #name {
@@ -71,11 +72,6 @@ ul {
   padding-right: 2rem;
   color: var(--highlight-color);
   border-right: 0.5rem solid;
-  
-}
-
-#intro {
-  padding-left: 2rem;
 }
 
 #intro>p:first-child {
@@ -114,34 +110,6 @@ ul {
 
 .experience-company {
   font-weight: var(--strong-font-weight);
-}
-
-#education-language {
-  display: grid;
-  grid-template-columns: 3fr 2fr;
-  column-gap: 2rem;
-}
-
-#education {
-  display: grid;
-  grid-template-columns: 7rem 1fr;
-  row-gap: 1rem;
-}
-
-.education-detail {
-  font-weight: 600;
-  color: var(--highlight-color)
-}
-
-#language {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  row-gap: 1rem;
-  column-gap: 1rem;
-}
-
-.language-name {
-  font-weight: 600;
 }
 
 #technology-list {
@@ -191,6 +159,34 @@ ul {
   font-weight: 600;
 }
 
+#education-language {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  column-gap: 2rem;
+}
+
+#education {
+  display: grid;
+  grid-template-columns: 7rem 1fr;
+  row-gap: 1rem;
+}
+
+.education-detail {
+  font-weight: 600;
+  color: var(--highlight-color)
+}
+
+#language {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  row-gap: 1rem;
+  column-gap: 1rem;
+}
+
+.language-name {
+  font-weight: 600;
+}
+
 @media print {
   html {
     font-size: 12.5px;
@@ -221,11 +217,52 @@ ul {
 /* Switch the contact list to two rows */
 @media screen and (max-width: 57rem) {
   #contact {
-    margin-top: 1.5rem;
-    margin-bottom: 1.5rem;
-    display: grid;
     grid-template-columns: auto auto;
     row-gap: 1rem;
-    justify-content: center;
+    justify-content: space-around;
+  }
+}
+
+/* Switch to one-column view (mobile) */
+@media screen and (max-width: 50rem) {
+  #presenting-projects {
+    display: grid;
+    grid-template-columns: 1fr;
+    column-gap: 0;
+  }
+
+  #education-language {
+    display: grid;
+    grid-template-columns: 1fr;
+    column-gap: 0;
+  }
+
+  #cv {
+    padding: 1rem;
+    margin: 0 auto;
+    box-shadow: none;
+  }
+}
+
+/* Switch the name and intro to be underneath each other */
+@media screen and (max-width: 42rem) {
+  #header {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  #name {
+    margin: 0 auto 1rem auto;
+    padding-right: 0;
+    border-right: none;
+  }
+}
+
+/* Switch the name and intro to be underneath each other */
+@media screen and (max-width: 34rem) {
+  #contact {
+    grid-template-columns: auto;
+    row-gap: 1rem;
+    justify-content: space-around;
   }
 }

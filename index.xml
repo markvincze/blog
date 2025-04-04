@@ -8,18 +8,6 @@
     <language>en-us</language>
     <lastBuildDate>Sun, 16 Apr 2023 20:00:00 +0000</lastBuildDate><atom:link href="https://blog.markvincze.com/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Mark Vincze CV</title>
-      <link>https://blog.markvincze.com/cv/</link>
-      <pubDate>Fri, 28 Mar 2025 17:08:20 +0000</pubDate>
-      
-      <guid>https://blog.markvincze.com/cv/</guid>
-      <description>window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments); } gtag(&#39;js&#39;, new Date()); gtag(&#39;config&#39;, &#39;UA-72523215-1&#39;);  Mark Vincze CV    Mark
-Vincze  Software developer with 15 years of experience, specialized in C# and modern C++.
-Full stack client and server side development. Experience in leading teams up to 10 members.
-   blog.markvincze.com  mrk.vincze@gmail.com --  mrk.vincze@gmail.com  linkedin.com/in/markvincze  +36 20 405 3564  mrk.</description>
-    </item>
-    
-    <item>
       <title>Introducing Sabledocs, a documentation generator for Protobuf and gRPC</title>
       <link>https://blog.markvincze.com/introducing-sabledocs/</link>
       <pubDate>Sun, 16 Apr 2023 20:00:00 +0000</pubDate>
