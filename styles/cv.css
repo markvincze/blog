@@ -95,7 +95,7 @@ ul {
   margin-left:0.5rem;
 }
 
-#experience {
+.section-large {
   display: grid;
   grid-template-columns: 10rem 1fr;
   row-gap: 1rem;
@@ -111,13 +111,16 @@ ul {
 }
 
 #technology-list {
-  display: grid;
-  grid-template-columns: 6rem 1fr;
+  row-gap: 0.5rem;
   margin-bottom: 1rem;
 }
 
 .technology-name {
   font-weight: 600;
+}
+
+.technology-description {
+  align-self: center;
 }
 
 #technology-other {
@@ -223,16 +226,23 @@ ul {
   }
 }
 
+/* Override the styling for printing to be able to save as PDF */
 @media print {
   html {
-    font-size: 9pt;
+    font-size: 9.4pt;
+  }
+
+  body {
+    display: flex;
+    align-items: center;
+    height: 297mm;
+    margin: 0;
   }
 
   #cv {
     box-sizing: border-box;
-    padding: 1.2cm 1.2cm 0 1.2cm;
+    padding: 0 1.2cm 0 1.2cm;
     margin: 0;
-    background-color: white;
     box-shadow: none;
     max-width: none;
   }
