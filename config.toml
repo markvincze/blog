@@ -25,10 +25,10 @@ theme = "pupintor"
     name = "Projects"
     url = "/projects"
     weight = 3
-  [[menu.main]]
-    name = "CV"
-    url = "/cv.html"
-    weight = 4
+  # [[menu.main]]
+  #   name = "CV"
+  #   url = "/cv.html"
+  #   weight = 4
   # [[menu.main]]
   #   name = "Presentations"
   #   url = "/presentations"
