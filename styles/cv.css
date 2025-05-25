@@ -6,7 +6,8 @@
   --heading-font-family: "Lora";
   --heading-font-weight: 800;
   --strong-font-weight: 700;
-  --highlight-color: #156A99;
+  --highlight-color: #235dcf;
+  /* --highlight-color: #156A99; */
 }
 
 body {
@@ -28,6 +29,13 @@ h1 {
   border-bottom: 0.1rem solid;
   margin-block-end: 0.52em;
   padding-bottom: 0.15em;
+
+  /* -webkit-background-clip: text;
+  background-clip: text;
+  caret-color: #0f62fe;
+  color: transparent;
+  display: inline-block;
+  background-image: linear-gradient(90deg, #0043ce, #4589ff); */
 }
 
 ul {
@@ -122,6 +130,7 @@ ul {
 
 .technology-description {
   align-self: center;
+  text-wrap: pretty;
 }
 
 #technology-other {
