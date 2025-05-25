@@ -102,11 +102,13 @@ ul {
 }
 
 #contact {
+  /* With phone number: */
+  /* grid-template-columns: auto auto auto auto;  */
+  /* Without phone number: */
+  grid-template-columns: auto auto auto;
   margin-top: 1.5rem;
   margin-bottom: 1.5rem;
   display: grid;
-  /* grid-template-columns: auto auto auto auto; */
-  grid-template-columns: auto auto auto;
   justify-content: space-between;
 }
 
@@ -207,11 +209,12 @@ ul {
 
 /* Switch the contact list to two rows */
 @media screen and (max-width: 57rem) {
-  #contact {
+  /* This is only needed when the phone number is shown. */
+  /* #contact {
     grid-template-columns: auto auto;
     row-gap: 1rem;
     justify-content: space-around;
-  }
+  } */
 }
 
 /* Switch to one-column view (mobile) */
@@ -234,7 +237,7 @@ ul {
 }
 
 /* Switch the name and intro to be underneath each other */
-@media screen and (max-width: 42rem) {
+@media screen and (max-width: 45rem) {
   #header {
     display: grid;
     grid-template-columns: 1fr;
@@ -248,10 +251,8 @@ ul {
     border-left: none;
     padding-left: 0;
   }
-}
 
-/* Switch the contact to be single column. */
-@media screen and (max-width: 34rem) {
+  /* Switch the contact to be single column. */
   #contact {
     grid-template-columns: auto;
     row-gap: 1rem;
