@@ -7,7 +7,6 @@
   --heading-font-weight: 800;
   --strong-font-weight: 700;
   --highlight-color: #235dcf;
-  /* --highlight-color: #156A99; */
 }
 
 body {
@@ -17,8 +16,11 @@ body {
 
 a:link,
 a:visited {
-  text-decoration: inherit;
   color: inherit;
+}
+
+a:hover {
+  color: var(--highlight-color);
 }
 
 h1 {
@@ -30,12 +32,21 @@ h1 {
   margin-block-end: 0.52em;
   padding-bottom: 0.15em;
 
-  /* -webkit-background-clip: text;
+  /*-webkit-background-clip: text;
   background-clip: text;
   caret-color: #0f62fe;
   color: transparent;
   display: inline-block;
-  background-image: linear-gradient(90deg, #0043ce, #4589ff); */
+  background-image: linear-gradient(90deg, #0043ce, #4589ff);*/
+}
+
+h2 {
+  font-size: 1.4rem;
+  font-family: var(--heading-font-family);
+  font-weight: var(--heading-font-weight);
+  color: var(--highlight-color);
+  margin-block-end: 0.52em;
+  padding-bottom: 0.15em;
 }
 
 ul {
@@ -91,11 +102,13 @@ ul {
 }
 
 #contact {
+  /* With phone number: */
+  /* grid-template-columns: auto auto auto auto;  */
+  /* Without phone number: */
+  grid-template-columns: auto auto auto;
   margin-top: 1.5rem;
   margin-bottom: 1.5rem;
   display: grid;
-  /* grid-template-columns: auto auto auto auto; */
-  grid-template-columns: auto auto auto;
   justify-content: space-between;
 }
 
@@ -135,6 +148,7 @@ ul {
 
 #technology-other {
   font-weight: 600;
+  text-wrap: balance;
 }
 
 .two-sections {
@@ -168,6 +182,18 @@ ul {
   font-weight: 600;
 }
 
+.workproject-intro {
+  margin-bottom: 0.7rem;
+}
+
+.workproject-details {
+  margin-bottom: 0.7rem;
+  display: grid;
+  grid-template-columns: 6.5rem 1fr;
+  column-gap: 1rem;
+  row-gap: 1rem;
+}
+
 /* Hide the padding and the drop-shadow if the screen is narrow. */
 @media screen and (max-width: 65rem) {
   body {
@@ -183,11 +209,12 @@ ul {
 
 /* Switch the contact list to two rows */
 @media screen and (max-width: 57rem) {
-  #contact {
+  /* This is only needed when the phone number is shown. */
+  /* #contact {
     grid-template-columns: auto auto;
     row-gap: 1rem;
     justify-content: space-around;
-  }
+  } */
 }
 
 /* Switch to one-column view (mobile) */
@@ -210,7 +237,7 @@ ul {
 }
 
 /* Switch the name and intro to be underneath each other */
-@media screen and (max-width: 42rem) {
+@media screen and (max-width: 45rem) {
   #header {
     display: grid;
     grid-template-columns: 1fr;
@@ -224,10 +251,8 @@ ul {
     border-left: none;
     padding-left: 0;
   }
-}
 
-/* Switch the contact to be single column. */
-@media screen and (max-width: 34rem) {
+  /* Switch the contact to be single column. */
   #contact {
     grid-template-columns: auto;
     row-gap: 1rem;
@@ -239,15 +264,15 @@ ul {
 /* Override the styling for printing to be able to save as PDF */
 @media print {
   html {
-    font-size: 9.4pt;
+    font-size: 8.5pt;
   }
 
-  body {
+  /* body {
     display: flex;
     align-items: center;
     height: 297mm;
     margin: 0;
-  }
+  } */
 
   #cv {
     box-sizing: border-box;
@@ -255,5 +280,9 @@ ul {
     margin: 0;
     box-shadow: none;
     max-width: none;
+  }
+
+  #education {
+    break-after: page;
   }
 }
