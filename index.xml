@@ -448,7 +448,8 @@ LinkedIn</description>
       <pubDate>Sat, 15 Aug 2015 17:08:20 +0000</pubDate>
       
       <guid>https://blog.markvincze.com/projects/</guid>
-      <description>You can find here some of the projects open-source projects I&amp;rsquo;ve been working on.
+      <description>You can find here some of the projects open-source projects I&amp;rsquo;ve been maintaining.
+Sabledocs Sabledocs is a simple static documentation generator for Protobuf and gRPC contracts, implemented in Python.
 Stubbery Stubbery is an API stubbing library mainly intended to be used for stubbing API dependencies during integration testing. It&amp;rsquo;s actively used and maintained, issues, feature requests, pull requests are welcome!
 Code Fragments extension for Visual Studio Code This is an extension for Visual Studio Code to save code fragments and insert them into the editor any time, mainly intended to be used for coding demos during presentations.</description>
     </item>
