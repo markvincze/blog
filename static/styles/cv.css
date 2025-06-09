@@ -14,15 +14,6 @@ body {
   font-family: var(--body-font-family)
 }
 
-a:link,
-a:visited {
-  color: inherit;
-}
-
-a:hover {
-  color: var(--highlight-color);
-}
-
 h1 {
   font-size: 2rem;
   font-family: var(--heading-font-family);
@@ -47,6 +38,11 @@ h2 {
   color: var(--highlight-color);
   margin-block-end: 0.52em;
   padding-bottom: 0.15em;
+}
+
+a:link,
+a:visited {
+  color: var(--highlight-color);
 }
 
 ul {
@@ -102,6 +98,10 @@ ul {
   font-size: 1.12rem;
 }
 
+#available {
+  color: var(--highlight-color);
+}
+
 #contact {
   /* With phone number: */
   /* grid-template-columns: auto auto auto auto;  */
@@ -119,10 +119,27 @@ ul {
   margin-left:0.5rem;
 }
 
+#contact > a:link,
+#contact > a:visited {
+  color: inherit;
+}
+
+#contact > a:hover {
+  color: var(--highlight-color);
+}
+
 .section-large {
   display: grid;
   grid-template-columns: 10rem 1fr;
   row-gap: 1rem;
+}
+
+#experience {
+  row-gap: 0.7rem;
+}
+
+#experience > div > ul {
+  margin-bottom: 0;
 }
 
 .experience-position {
@@ -173,6 +190,15 @@ ul {
 .project-name {
   font-weight: 600;
   text-decoration: underline !important;
+}
+
+.project-name:link,
+.project-name:visited {
+  color: inherit;
+}
+
+.project-name:hover {
+  color: var(--highlight-color);
 }
 
 .education-detail {
@@ -282,7 +308,7 @@ ul {
 /* Override the styling for printing to be able to save as PDF */
 @media print {
   html {
-    font-size: 8.7pt;
+    font-size: 8pt;
   }
 
   #header {
