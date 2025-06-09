@@ -71,6 +71,7 @@ ul {
 
 .icon {
   color: var(--highlight-color);
+  width: 1.8rem !important;
 }
 
 #header {
@@ -195,7 +196,25 @@ ul {
   row-gap: 1rem;
 }
 
-/* Hide the padding and the drop-shadow if the screen is narrow. */
+#pageHeader {
+  display: none;
+  grid-template-columns: auto 1fr;
+  justify-items: right;
+}
+
+#pageHeaderName {
+  font-size: 1.5rem;
+  line-height: 1.1;
+  font-family: var(--heading-font-family);
+  font-weight: var(--heading-font-weight);
+  color: var(--highlight-color);
+}
+
+#pageHeader > div > a {
+  margin-left: 1rem;
+}
+
+/* Hide the background with the drop shadow, and adjust the padding. */
 @media screen and (max-width: 65rem) {
   body {
     background-color: white;
@@ -222,14 +241,12 @@ ul {
 @media screen and (max-width: 50rem) {
   .two-sections {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr; /* 1 column */
     column-gap: 0;
   }
 
   #cv {
-    padding: 1rem;
-    margin: 0 auto;
-    box-shadow: none;
+    padding: 1rem; /* Decrease the padding */
   }
 
   #experience {
@@ -265,18 +282,21 @@ ul {
 /* Override the styling for printing to be able to save as PDF */
 @media print {
   html {
-    font-size: 8.5pt;
+    font-size: 8.7pt;
   }
 
-  /* body {
-    display: flex;
-    align-items: center;
-    height: 297mm;
-    margin: 0;
-  } */
+  #header {
+    margin-top: 3.7rem;
+  }
+
+  #pageHeader {
+    display: grid;
+    padding-top: 4.3rem;
+    padding-bottom: 0.6rem;
+  }
 
   #cv {
-    box-sizing: border-box;
+    /* box-sizing: border-box; */
     padding: 0 1.2cm 0 1.2cm;
     margin: 0;
     box-shadow: none;
