@@ -52,7 +52,7 @@ ul {
 
 #cv {
   box-sizing: border-box;
-  max-width: 60rem;
+  max-width: 62rem;
   padding: 2.5rem;
   margin: 3rem auto;
   background-color: white;
@@ -87,7 +87,7 @@ ul {
 
 #intro {
   padding-left: 2rem;
-
+  text-wrap: pretty;
   border-left: 0.5rem solid;
   border-color: var(--highlight-color);
 }
@@ -103,8 +103,6 @@ ul {
 }
 
 #contact {
-  /* With phone number: */
-  /* grid-template-columns: auto auto auto auto;  */
   /* Without phone number: */
   grid-template-columns: auto auto auto;
   
@@ -126,6 +124,11 @@ ul {
 
 #contact > a:hover {
   color: var(--highlight-color);
+}
+
+/* Hide the phone number from the web version. */
+.phoneNumber {
+  display: none;
 }
 
 .section-large {
@@ -210,6 +213,10 @@ ul {
   font-weight: 600;
 }
 
+.workproject-heading {
+  margin-top: 2rem;
+}
+
 .workproject-intro {
   margin-bottom: 0.7rem;
 }
@@ -237,7 +244,17 @@ ul {
 }
 
 #pageHeader > div > a {
-  margin-left: 1rem;
+  margin-left: 0.6rem;
+}
+
+#pageHeader > div > a > span {
+  text-decoration: underline;
+  margin-left:0.2rem;
+}
+
+#pageHeader > div > a:link,
+#pageHeader > div > a:visited {
+  color: inherit;
 }
 
 /* Hide the background with the drop shadow, and adjust the padding. */
@@ -251,16 +268,6 @@ ul {
     margin: 0 auto;
     box-shadow: none;
   }
-}
-
-/* Switch the contact list to two rows */
-@media screen and (max-width: 57rem) {
-  /* This is only needed when the phone number is shown. */
-  /* #contact {
-    grid-template-columns: auto auto;
-    row-gap: 1rem;
-    justify-content: space-around;
-  } */
 }
 
 /* Switch to one-column view (mobile) */
@@ -308,7 +315,7 @@ ul {
 /* Override the styling for printing to be able to save as PDF */
 @media print {
   html {
-    font-size: 8pt;
+    font-size: 8.2pt;
   }
 
   #header {
@@ -317,12 +324,11 @@ ul {
 
   #pageHeader {
     display: grid;
-    padding-top: 4.3rem;
-    padding-bottom: 0.6rem;
+    padding-top: 5rem;
+    padding-bottom: 2rem;
   }
 
   #cv {
-    /* box-sizing: border-box; */
     padding: 0 1.2cm 0 1.2cm;
     margin: 0;
     box-shadow: none;
@@ -331,5 +337,14 @@ ul {
 
   #education {
     break-after: page;
+  }
+
+  /* Show the phone number: */
+  #contact {
+    grid-template-columns: auto auto auto auto; 
+  }
+
+  .phoneNumber {
+    display: inline;
   }
 }
