@@ -3,6 +3,46 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://blog.markvincze.com/tags/css/</loc>
+    <lastmod>2025-06-15T20:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.markvincze.com/tags/cv/</loc>
+    <lastmod>2025-06-15T20:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.markvincze.com/how-i-created-my-cv-with-modern-html-and-css/</loc>
+    <lastmod>2025-06-15T20:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.markvincze.com/tags/html/</loc>
+    <lastmod>2025-06-15T20:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.markvincze.com/</loc>
+    <lastmod>2025-06-15T20:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.markvincze.com/posts/</loc>
+    <lastmod>2025-06-15T20:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.markvincze.com/tags/resume/</loc>
+    <lastmod>2025-06-15T20:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.markvincze.com/tags/</loc>
+    <lastmod>2025-06-15T20:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://blog.markvincze.com/tags/documentation/</loc>
     <lastmod>2023-04-16T20:00:00+00:00</lastmod>
   </url>
@@ -18,27 +58,12 @@
   </url>
   
   <url>
-    <loc>https://blog.markvincze.com/</loc>
-    <lastmod>2023-04-16T20:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.markvincze.com/posts/</loc>
-    <lastmod>2023-04-16T20:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://blog.markvincze.com/tags/protobuf/</loc>
     <lastmod>2023-04-16T20:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://blog.markvincze.com/tags/python/</loc>
-    <lastmod>2023-04-16T20:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.markvincze.com/tags/</loc>
     <lastmod>2023-04-16T20:00:00+00:00</lastmod>
   </url>
   

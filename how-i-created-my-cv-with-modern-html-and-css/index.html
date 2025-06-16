@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-72523215-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'UA-72523215-1');
+  </script>
+
+  <title>How I created my CV with modern HTML and CSS</title>
+
+  <link rel="stylesheet" href="/styles/styles.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.15.1/js/all.js"></script>
+  <script defer src="/scripts/scripts.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
+
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="manifest" href="site.webmanifest">
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="How I created my resume using modern HTML and CSS in a way that it can be easily exported ot PDF as well." />
+  <meta property="og:url" content="https://blog.markvincze.com/how-i-created-my-cv-with-modern-html-and-css/" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="How I created my CV with modern HTML and CSS" />
+  <meta property="og:description" content="How I created my resume using modern HTML and CSS in a way that it can be easily exported ot PDF as well." />
+  
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@mrkvincze" />
+  <meta name="twitter:title" content="How I created my CV with modern HTML and CSS" />
+  <meta name="twitter:description" content="How I created my resume using modern HTML and CSS in a way that it can be easily exported ot PDF as well." />
+  
+
+</head>
+
+<body>
+  <div class="navbar-container">
+    <nav class="navbar container is-max-desktop" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+
+        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+      <div id="navbarMenu" class="navbar-menu has-text-white-ter">
+
+        <div class="navbar-start">
+          
+          <a class="navbar-item" href="/">About</a>
+          
+          <a class="navbar-item" href="/posts">Blog</a>
+          
+          <a class="navbar-item" href="/projects">Projects</a>
+          
+          <a class="navbar-item" href="/cv.html">Resume</a>
+          
+        </div>
+
+        <div class="navbar-end pt-2 ml-2">
+          <a class="icon is-medium" href="https://twitter.com/mrkvincze" target="_blank">
+            <i class="fab fa-lg fa-twitter"></i>
+          </a>
+          <a class="icon is-medium" href="https://www.github.com/markvincze" target="_blank">
+            <i class="fab fa-lg fa-github"></i>
+          </a>
+          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze" target="_blank">
+            <i class="fab fa-lg fa-stack-overflow"></i>
+          </a>
+          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze" target="_blank">
+            <i class="fab fa-lg fa-linkedin"></i>
+          </a>
+          <a class="icon is-medium" href="/index.xml" target="_blank">
+            <i class="fas fa-lg fa-rss"></i>
+          </a>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <a href="/">
+        <h1 class="title is-2">
+          Mark Vincze
+        </h1>
+      </a>
+      <h2 class="subtitle is-5">
+        Software Developer
+      </h2>
+    </div>
+  </div>
+
+  
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h1 class="title is-1">How I created my CV with modern HTML and CSS</h1>
+
+    
+      
+
+
+<p class="mb-3 is-vcentered">
+  <time class="has-text-grey" datetime="2025-06-15">Jun 15, 2025 &bull;</time>
+
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://blog.markvincze.com/tags/html/">html</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://blog.markvincze.com/tags/css/">css</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://blog.markvincze.com/tags/cv/">cv</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://blog.markvincze.com/tags/resume/">resume</a>
+  
+
+</p>
+    
+
+    <article class="content mt-6">
+      <h1 id="tldr">TLDR</h1>
+<ul>
+<li>I will start looking for new opportunities from 2026, thus I updated my CV, and decided to completely recreate it with HTML and CSS, instead of using an MS Word or Google Doc document.</li>
+<li>I used pure HTML and CSS without any static site generator, templating engine, or CSS framework.</li>
+<li>The main tool for creating the layout was <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout">the Grid</a>, which worked nicely for this purpose, and made it straightforward to make the design mobile-friendly too.</li>
+<li>The sizes were all specified with the <code>rem</code> unit, this resulted in a simple to understand setup, and made it easy to scale all the content with one single property for the purpose of the PDF generation.</li>
+<li>For creating the PDF version, I use the built-in &ldquo;Save as PDF&rdquo; option of the browser&rsquo;s printing function, which was a convenient way to convert the resume to a PDF.</li>
+</ul>
+<p>You can see the <a href="https://blog.markvincze.com/cv.html">final resume here</a>, and its source code <a href="https://github.com/markvincze/blog/blob/main/static/cv.html">on GitHub</a>.<br>
+The rest of this post explains in more detail the approach for creating the CV, and the reasoning for the decisions I outlined above.</p>
+<h1 id="motivation">Motivation</h1>
+<p>After working for the same employer for 10 years, and not regularly updating my resume, I will be looking for a new job starting with 2026, thus I started looking into updating my CV.<br>
+My previous resume was created with Microsoft Word, and saved as a PDF to be able to share it with recruiters or add as an attachment when applying to positions. But since I&rsquo;m not using the MS Office suite any more, I could not even properly open the original editable version, which I found somewhere on my hard drive saved as a docx file.</p>
+<p>I considered using the same approach now as well, just switch from Microsoft Word to Google Doc. But the thought of this did not fill me with joy, I remembered that crafting a document with a fine-tuned layout in Word was a cumbersome experience, and I&rsquo;d rather use an approach with which I could utilize—or potentially showcase—my skills relevant to my profession.<br>
+Thus I decided to create my new CV with HTML and CSS instead.</p>
+<h1 id="goals">Goals</h1>
+<p>When I set out to create my new resume with HTML, I had the following goals:</p>
+<ul>
+<li>Create a layout which works well on both desktop and mobile screens, using responsive design.</li>
+<li>Publish the resume together with my website containing my blog.</li>
+<li>Even though I find a CV available as a web page more convenient than a PDF file, I know that the reality is that a PDF version of the resume is still a must-have to be able to upload as an attachment when applying to position, or sending to recruiters in emails. Due to this it was important to make it possible to easily export it as a PDF as well.</li>
+</ul>
+<p>Using HTML also brings the following benefits:</p>
+<ul>
+<li>I can maintain it in source control, together with the contents of my website.</li>
+<li>Using the link to the resume will always open its latest version, which helps avoiding outdated version of the PDFs circulating.</li>
+<li>Potentially being able to use analytics to see how often my CV is opened.</li>
+</ul>
+<h1 id="technology-stack">Technology stack</h1>
+<p>My website and blog is created using the static site generator called <a href="https://gohugo.io">Hugo</a>, which I&rsquo;ve used in the past for other projects, and it&rsquo;s been working really well. And I wanted to host my resume together with my website and blog. Hugo—similarly to other site generators—is mainly used by maintaining the pages of the website using Markdown files, based on which it generates the HTML content of the site.</p>
+<p>This approach was not the best for the purpose of creating a resume, given that I wanted to create a specific layout with multiple columns, fine-tune the margins and other styling properties to achieve a polished look, and adjust the HTML and the CSS to make it possible to effectively convert it to a PDF. This level of customization is more intricate than what the Markdown pages are typically used for, which are more intended for blog posts and other simple content pages.<br>
+Thus I decided to create my CV using raw HTML and CSS, to be able to fully control its layout and style.</p>
+<p>The next question was whether to use any JavaScript framework, like a template engine to generate the HTML content, as it is shown for example in <a href="https://michaelengen.com/posts/my-eleventy-resume/?utm_source=cassidoo&amp;utm_medium=email&amp;utm_campaign=simplicity-is-the-ultimate-sophistication">this post by Michael Engen</a>, who used Eleventy with the Liquid templating engine, or <a href="https://ktema.org/articles/the-overengineered-resume/">David Reed</a> using Zola with Tera.<br>
+This could bring the benefit of maintaining the content and the layout separately, thus eliminating some duplication, and potentially more easily swapping out the template part to achieve a new visual presentation without having to change the content.<br>
+Ultimately I decided against this, because I wanted to hand-craft the layout to a degree that it felt like I would not be able achieve much normalization by separating the content from the layout anyway, thus using a JavaScript templating library would have introduced some extra complexity without providing much benefit.</p>
+<p>Due to these considerations, the technical stack of my resume ended up being a static HTML and CSS file, without using any JavaScript. This also made the necessary tooling really simple, I used VSCode to edit the markup and the styles, with the <a href="https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer">Live Server</a> extension for hot reloading, to get the page in the browser to refresh on every change.</p>
+<h1 id="styling">Styling</h1>
+<p>For the styling of my website, I use the <a href="https://bulma.io">Bulma</a> CSS framework, which helps by providing a lot of useful styles for the basic page layout, headings, menu items, etc.
+But for my CV, to have full control over the layout and styling, and be able to tune it for PDF generation as well, I decided not to use Bulma, but rather create the CSS from the ground up, which allows precise control and keeping the amount of style code minimal.</p>
+<h2 id="layout">Layout</h2>
+<p>Hand-crafting my CV was also a nice opportunity to catch up with the some improvements in CSS for creating layouts. Spending most of my time in recent years with backend development, I did not have to write much CSS, and the last technique for creating multi-column layouts I worked with was <a href="https://eev.ee/blog/2020/02/01/old-css-new-css/#the-beginning-of-css-layout">the well-known approach of using <code>float</code>s</a>, which is widely viewed as a difficult and convoluted tool to use.<br>
+Since then, two new additions were introduced to CSS, namely the <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout">Flexbox</a> and <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout">Grid</a> layouts, which meant a major improvement in the way layouts can be created, making the markup shorter, simpler and more expressive, and eliminating the need to utilize <a href="http://browserhacks.com">all sorts of hacks</a> to make <code>float</code>-based layouts render correctly on every browser. I was aware of these new capabilities, but haven&rsquo;t directly used them before. (On my website, and for the <a href="https://markvincze.github.io/sabledocs/demo/">UI of sabledocs</a> I used the CSS classes provided by the Bulma framework.)</p>
+<p>Thus creating the styles for my resume from the ground up seemed like a good opportunity to get familiar with these techniques. There are several blog posts and Stack Overflow questions discussing the merits of Flexbox and Grid layouts, but there is no exact authoritative answer regarding which one should be used in certain situations. That being said, the consensus seems to be that Flexbox is mostly intended for situations when we have one single row or column—such as a menu bar—(although it is capable of breaking content into multiple lines), and the Grid is a better choice if the content is expected to span into multiple rows or columns which need to be precisely aligned into a grid.</p>
+<p>The layout I planned for my CV was certainly not very intricate, but it included aligning parts of the content in rows and columns, where it was important that those line up exactly to achieve a neat and tidy look.</p>
+<p>Due to this, I decided to go with the Grid layout, which worked out nicely, it was straightforward to achieve the desired outcome, with simple, expressive syntax. And adjusting the styling for mobile screens, for example <a href="https://github.com/markvincze/blog/blob/main/static/styles/cv.css#L220">switching from a two-column setup to a single column</a>, or decreasing the gap between columns was also easy to do.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">section</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;two-sections&#34;</span>&gt;
+  &lt;<span style="color:#f92672">div</span>&gt;
+    &lt;<span style="color:#f92672">h1</span>&gt;Presenting&lt;/<span style="color:#f92672">h1</span>&gt;
+    ...
+  &lt;/<span style="color:#f92672">div</span>&gt;
+  &lt;<span style="color:#f92672">div</span>&gt;
+    &lt;<span style="color:#f92672">h1</span>&gt;Open source projects&lt;/<span style="color:#f92672">h1</span>&gt;
+    ...
+  &lt;/<span style="color:#f92672">div</span>&gt;
+&lt;/<span style="color:#f92672">section</span>&gt;
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-css" data-lang="css">.<span style="color:#a6e22e">two-sections</span> {
+  <span style="color:#66d9ef">display</span>: <span style="color:#66d9ef">grid</span>;
+  <span style="color:#66d9ef">grid-template-columns</span>: <span style="color:#ae81ff">3</span>fr <span style="color:#ae81ff">2</span>fr;
+  <span style="color:#66d9ef">column-gap</span>: <span style="color:#ae81ff">2</span><span style="color:#66d9ef">rem</span>;
+}
+</code></pre></div><p><img src="/images/2025/06/cv-grid.png" alt="Example grid layout from my resume."  style="display:block; margin: auto;" /></p>
+<h2 id="a-note-on-sizing">A note on sizing</h2>
+<p>If the decision between Flexbox and Grids can be confusing at times, then figuring out which size unit to use in CSS is even more challenging. CSS supports several different units for length, including absolute types like <code>pt</code>, <code>px</code>, <code>cm</code>, and relative units like <code>em</code>, <code>rem</code>, <code>vh</code>. (It turns out there are <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/length#relative_length_units">several more</a>, that I have not used in before.)</p>
+<p>For this purpose I opted to use the <code>rem</code> unit for all the sizes. Dimensions specified with the <code>rem</code> unit are interpreted relative to the <em>root</em> size of the page, which is the size of the <code>html</code> element, which—in most browsers—is <code>16px</code> by default, and can be overwritten by users in their browser settings (which means it&rsquo;s a good idea <em>not</em> to manually specify the <code>font-size</code> of the <code>html</code> element, because that way we&rsquo;d be ignoring this potential user configuration).<br>
+Using <code>rem</code> for everything seemed like the sensible choice, for multiple reasons.</p>
+<ul>
+<li>This results in a simple setup, as all the sizes are relative to the root <code>font-size</code>, it&rsquo;s easy to understand.</li>
+<li>The size of the content follows the font size configured in the user&rsquo;s browser, thus it&rsquo;s preferable from an accessibility standpoint.</li>
+<li>It is easy to scale the size of all of the elements by adjusting the <code>font-size</code> of the <code>html</code> element. Which is not something that should be done for normal rendering in the browser, but it comes in handy for tuning the size of the content for the PDF generation.</li>
+</ul>
+<h1 id="mobile-screen-support">Mobile screen support</h1>
+<p>I found it important that resume looks decent on smaller screens as well. The layout not being overly complicated, achieving this was relatively straightforward, I utilized a handful of media queries to adjust some of the styles depending on the screen size, mainly to switch from a multi-column layout to a single column, and to adjust the font and margin sizes.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-css" data-lang="css"><span style="color:#75715e">/* Hide the background with the drop shadow, and adjust the padding. */</span>
+@<span style="color:#66d9ef">media</span> <span style="color:#f92672">screen</span> <span style="color:#f92672">and</span> <span style="color:#f92672">(</span><span style="color:#f92672">max-width</span><span style="color:#f92672">:</span> <span style="color:#f92672">65rem</span><span style="color:#f92672">)</span> {
+  <span style="color:#f92672">body</span> {
+    <span style="color:#66d9ef">background-color</span>: <span style="color:#66d9ef">white</span>;
+  }
+
+  #cv {
+    <span style="color:#66d9ef">padding</span>: <span style="color:#ae81ff">2</span><span style="color:#66d9ef">rem</span>;
+    <span style="color:#66d9ef">margin</span>: <span style="color:#ae81ff">0</span> <span style="color:#66d9ef">auto</span>;
+    <span style="color:#66d9ef">box-shadow</span>: <span style="color:#66d9ef">none</span>;
+  }
+}
+</code></pre></div><p><img src="/images/2025/06/cv-responsive.gif" alt="Responsive layout reacting to the screen size change"  style="display:block; margin: auto;" /></p>
+<p>The Grid layout proved to work really nicely in this regard as well, adjusting the grid layout based on the screen size was straightforward to do just with CSS, without having to maintain multiple HTML variants.</p>
+<h1 id="pdf-generation">PDF generation</h1>
+<p>Even though I find the HTML version superior, mostly due to being responsive to screen size changes, not being split into pages, and just in general <em>feeling</em> more native, I know that it would be hard to avoid having a PDF version of my resume as well, to be able to include it as an attachment when applying to jobs.</p>
+<p>I found multiple different ways to convert a HTML page to a PDF, the most popular seems to be the <a href="https://wkhtmltopdf.org/index.html"><code>wkhtmltopdf</code></a> CLI (although its repository is archived, without any mention in the README). I did a couple of attempts with this tool, but I couldn&rsquo;t get it to work perfectly, for some reason it did not pick up all the styling from the CSS.<br>
+In the end I decided to go with the approach of using the Print functionality of the browser, with the &ldquo;Save as PDF&rdquo; printing option, which produced a much better result. This did not seem like much of a compromise, because the benefit of doing the conversion with a CLI would&rsquo;ve been that I could&rsquo;ve included it that in the CI build. But I found that any time I changed the content of the CV, I had to manually tinker with the printed font size to make sure that the layout fits neatly into the PDF pages as well, thus running the PDF generation as part of the CI build would not have been too useful anyway.</p>
+<h2 id="pdf-styling">PDF styling</h2>
+<p>Depending on the style of your resume, you&rsquo;ll probably need to do some adjustments to make sure that the layout of the PDF version neatly fits the A4 sized page(s) of the PDF document.
+And further changes might also be needed, for example my CV includes a background color and a drop shadow around the main content, which needs to be hidden in the PDF version.</p>
+<p><img src="/images/2025/06/cv-dropshadow.png" alt="Screenshot showing the background and drop shadow on my resume page."  style="display:block; margin: auto;" /></p>
+<p>Luckily there is support in browsers for customizing the styling of the <em>printed</em> version of a website, and because we use the built-in printing function of the browser to generate the PDF, we can utilize this for our purposes. The printed styling can be customized by using the <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_media_queries/Printing"><code>@media print</code></a> query.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-css" data-lang="css"><span style="color:#75715e">/* Override the styling for printing to be able to save as PDF */</span>
+@<span style="color:#66d9ef">media</span> <span style="color:#f92672">print</span> {
+  <span style="color:#75715e">/* Remove the background and the drop shadow. */</span>
+  #cv {
+    <span style="color:#66d9ef">box-sizing</span>: <span style="color:#66d9ef">border-box</span>;
+    <span style="color:#66d9ef">padding</span>: <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">1.2</span><span style="color:#66d9ef">cm</span> <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">1.2</span><span style="color:#66d9ef">cm</span>;
+    <span style="color:#66d9ef">margin</span>: <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">box-shadow</span>: <span style="color:#66d9ef">none</span>;
+    <span style="color:#66d9ef">max-width</span>: <span style="color:#66d9ef">none</span>;
+  }
+</code></pre></div><p>The other important thing is that <em>probably</em> your resume will not be perfect in the generated PDF on the first try. If you are not really lucky, the last page of the PDF will probably not be fully filled with content, and having a bunch of empty space at the end of the last page does not look polished. Also, page breaks might happen to be in places which might make an unaesthetic final result.</p>
+<p>Page breaks can be forced to be placed at a certain point of the site by using the <code>break-after: page</code> style on the element <em>after which</em> we want the page break to be.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-css" data-lang="css">@<span style="color:#66d9ef">media</span> <span style="color:#f92672">print</span> {
+  #education {
+    <span style="color:#66d9ef">break-after</span>: <span style="color:#66d9ef">page</span>;
+  }
+</code></pre></div><p>And in order to make the content fill the last page properly, the size of the content can be scaled up or down. Because I consistently used <code>rem</code> for all of the sizes, all the content can be scaled by adjusting one single property, the <code>font-size</code> of the <code>html</code> element.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-css" data-lang="css">@<span style="color:#66d9ef">media</span> <span style="color:#f92672">print</span> {
+  <span style="color:#f92672">html</span> {
+    <span style="color:#66d9ef">font-size</span>: <span style="color:#ae81ff">8.5</span><span style="color:#66d9ef">pt</span>;
+  }
+</code></pre></div><p>I did not find a sophisticated way to automatically determine the <code>font-size</code> that will result in a nice-looking PDF, but rather I had to manually tinker with the value until a desired result is achieved. If we want to have the page breaks in a nice place, and ensure that the content fills up the pages evenly, then I don&rsquo;t think this can be avoided, and it needs to be done every time the content of the page is changed.<br>
+My current CV fits into two pages, so after configuring the position of the page break, and finding a good <code>font-size</code> for the printed version, this is the result I get when printing the page as a PDF.</p>
+<p><img src="/images/2025/06/cv-pdf-pages.png" alt="The PDF version of my resume."  style="display:block; margin: auto;" /></p>
+<p>(I also included an extra heading with my contact info on the second page, which is not needed in the web-based version, so I hid it by default with <code>display: none</code>, and made it visible in the <code>@media print {}</code> section.)</p>
+<h1 id="summary">Summary</h1>
+<p>You can see the <a href="https://blog.markvincze.com/cv.html">final resume here</a>, and its source code <a href="https://github.com/markvincze/blog/blob/main/static/cv.html">on GitHub</a>.
+I&rsquo;m happy with the final result, I find the design neat and simple, and being maintained with HTML and CSS makes me much more inclined to tinker with it and keep it up to date than if it was a docx file tucked away somewhere.</p>
+<p>I hope this post will be useful for others as well to create resumes which are clean and modern, and maintaining them is a rewarding experience instead of an annoying hassle.</p>
+
+    </article>
+
+    
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https:\/\/blog.markvincze.com\/how-i-created-my-cv-with-modern-html-and-css\/';
+        
+        this.page.identifier = 'how-i-created-my-cv-with-modern-html-and-css';
+        
+      };
+      (function () { 
+        var d = document, s = d.createElement('script');
+        s.src = 'https://markvinczeblog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+  
+
+</section>
+
+
+
+  <div style="flex: 1"></div>
+
+  <footer class="footer py-6">
+    <div class="content has-text-centered">
+      <p>
+        © 2020 <strong>Mark Vincze</strong>. All rights reserved.<br />
+        Built with <a href="https://gohugo.io/">Hugo</a> and <a href="https://bulma.io/">Bulma</a>. 💙
+      </p>
+    </div>
+  </footer>
+
+</body>
+
+</html>

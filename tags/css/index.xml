@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>css on Mark Vincze</title>
+    <link>https://blog.markvincze.com/tags/css/</link>
+    <description>Recent content in css on Mark Vincze</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 15 Jun 2025 20:00:00 +0000</lastBuildDate><atom:link href="https://blog.markvincze.com/tags/css/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>How I created my CV with modern HTML and CSS</title>
+      <link>https://blog.markvincze.com/how-i-created-my-cv-with-modern-html-and-css/</link>
+      <pubDate>Sun, 15 Jun 2025 20:00:00 +0000</pubDate>
+      
+      <guid>https://blog.markvincze.com/how-i-created-my-cv-with-modern-html-and-css/</guid>
+      <description>TLDR  I will start looking for new opportunities from 2026, thus I updated my CV, and decided to completely recreate it with HTML and CSS, instead of using an MS Word or Google Doc document. I used pure HTML and CSS without any static site generator, templating engine, or CSS framework. The main tool for creating the layout was the Grid, which worked nicely for this purpose, and made it straightforward to make the design mobile-friendly too.</description>
+    </item>
+    
+  </channel>
+</rss>
