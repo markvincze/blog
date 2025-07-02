@@ -34,13 +34,13 @@
   <meta property="og:title" content="{{ .Title }}" />
   <meta property="og:description" content="{{ .Description }}" />
   <meta property="og:site_name" content="{{ .Site.Title }}" />
-  {{ if .Params.featured_image }}<meta name="og:image" content="{{ .Params.featured_image }}">{{ end }}
+  {{ if .Params.featured_image }}<meta name="og:image" content="{{ .Params.featured_image | absURL }}">{{ end }}
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:site" content="@mrkvincze" />
   <meta name="twitter:title" content="{{ .Title }}" />
   <meta name="twitter:description" content="{{ .Description }}" />
-  {{ if .Params.featured_image }}<meta name="twitter:image" content="{{ .Params.featured_image }}">{{ end }}
+  {{ if .Params.featured_image }}<meta name="twitter:image" content="{{ .Params.featured_image | absURL }}">{{ end }}
 
 </head>
 
