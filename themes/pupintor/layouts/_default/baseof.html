@@ -25,20 +25,22 @@
   <link rel="manifest" href="site.webmanifest">
 
   <meta charset="utf-8">
+
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="{{ .Description }}" />
+
   <meta property="og:url" content="{{ .Permalink }}" />
   <meta property="og:type" content="article" />
   <meta property="og:title" content="{{ .Title }}" />
   <meta property="og:description" content="{{ .Description }}" />
   <meta property="og:site_name" content="{{ .Site.Title }}" />
-  <!-- <meta property="og:image" content="todo!" />
-  <meta property="og:image:alt" content="todo!" /> -->
+  {{ if .Params.featured_image }}<meta name="og:image" content="{{ .Params.featured_image }}">{{ end }}
+
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:site" content="@mrkvincze" />
   <meta name="twitter:title" content="{{ .Title }}" />
   <meta name="twitter:description" content="{{ .Description }}" />
-  <!-- <meta name="twitter:image" content="todo!" /> -->
+  {{ if .Params.featured_image }}<meta name="twitter:image" content="{{ .Params.featured_image }}">{{ end }}
 
 </head>
 

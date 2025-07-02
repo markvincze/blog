@@ -4,6 +4,7 @@ slug = "how-i-created-my-cv-with-modern-html-and-css"
 description = "How I created my resume using modern HTML and CSS in a way that it can be easily exported to PDF as well."
 date = "2025-06-15T20:00:00.0000000"
 tags = ["html", "css", "cv", "resume"]
+featured_image = "/images/2025/06/featured-cv.png"
 +++
 
 # TLDR
