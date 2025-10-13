@@ -145,10 +145,18 @@
 </ul>
 <p>If a request comes in for which the response is already in the cache, and the <code>ttl</code> has not passed yet, then Varnish returns the cached value to the client without trying to fetch a fresh one from the backend.</p>
 <p>On the first request that comes after <code>ttl</code> expired, if <code>grace</code> is set and is not expired yet, then Varnish will immediately return the cached value to the client, and at the same time it will trigger a background fetch for a fresh response. If the fetch is successful, it replaces the stale object in the cache with the fresh one.</p>
-<p><img src="/images/2018/07/happy-flow.png" alt="Sequence diagram showing how Varnish returns the cached content to the clients."  style="display:block; margin: auto;" /></p>
+<p>
+<img src="/images/2018/07/happy-flow.png" alt="Sequence diagram showing how Varnish returns the cached content to the clients." 
+  style="display:block; margin: auto;" />
+
+</p>
 <p>This behavior means that if the backend is not available, that won&rsquo;t affect the end clients until the end of the <code>grace</code> period, since Varnish will always return the cached object to the client, and only do a background fetch asynchronously. Which will fail if the backend is down, but that won&rsquo;t hurt the object already stored in the cache.<br>
 And if the <code>grace</code> period is over, Varnish will purge the cached object, and won&rsquo;t return it to clients any more. So if the backend is down, the clients will receive a <code>503 Service Unavailable</code> response from Varnish.</p>
-<p><img src="/images/2018/07/backend-down.png" alt="Sequence diagram showing how Varnish behaves when the backend is down during the grace period."  style="display:block; margin: auto;" /></p>
+<p>
+<img src="/images/2018/07/backend-down.png" alt="Sequence diagram showing how Varnish behaves when the backend is down during the grace period." 
+  style="display:block; margin: auto;" />
+
+</p>
 <p>In practice, <code>grace</code> can be much longer than <code>ttl</code>. For example we can set <code>ttl</code> to a couple of minutes to make sure the clients regularly get fresh data, but we can set <code>grace</code> to multiple hours, to give us time to fix the backend in case of an outage.</p>
 <h1 id="5xx-responses">5xx responses</h1>
 <p>By default Varnish only falls back to the cached values during the grace period if the backend can&rsquo;t be connected to, or if the request times out. If the backend returns a <code>5xx</code> error, Varnish considers that normal response, and returns it to the client (it might even store it in the cache, depending on our configuration).<br>

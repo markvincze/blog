@@ -202,7 +202,11 @@ Then we can construct a value of the different cases by specifying the case name
 </code></pre></div><p>We can think of discriminated unions as a way to achieve static, compile-time polymorphism. (Static, because all the cases of the union are defined in one place, and there is no way to extend the union with other cases from the outside, as opposed to OO inheritance. We could try to model this behavior in OO by defining an abstract base class, and creating some sealed derived types. But even this could not prevent the users of our library to introduce additional derived types in the same hierarchy.)</p>
 <p>One of the nice benefits of having <em>all</em> the cases of the union defined in one place is that the compiler can check if we always cover all the cases everywhere we are doing pattern matching on a certain union type, which is extremely handy when we introduce a new case, so the compiler can remind us to update all the places in our codebase which are using the union.<br>
 For example if we introduce a new <code>Square</code> case for our <code>Shape</code> union, we&rsquo;ll get this nice warning message.</p>
-<p><img src="/images/2017/05/fsharp-union-match-warning.png" alt="The F# compiler displaying a warning when we don&amp;rsquo;t handle every case of a discriminated union in pattern matching."  style="display:block; margin: auto;" /></p>
+<p>
+<img src="/images/2017/05/fsharp-union-match-warning.png" alt="The F# compiler displaying a warning when we don&amp;rsquo;t handle every case of a discriminated union in pattern matching." 
+  style="display:block; margin: auto;" />
+
+</p>
 <h1 id="implementation">Implementation</h1>
 <p>In order to implement the card data model in F#, we can start the same way we did in C#, by defining the types representing the various suits and faces. In C# we used an enum for this purpose, in F# we can use discriminated unions.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fsharp" data-lang="fsharp"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Suit</span> <span style="color:#f92672">=</span>

@@ -159,7 +159,11 @@ In this first post I&rsquo;ll do it in C#, and in the next one I&rsquo;m going t
 <em>(Note: the terminology is not 100% unambiguous, some sources don&rsquo;t call the Ace a face card, but I&rsquo;ll consider it as one for the sake of this exercise.)</em></li>
 <li>There is a special card, the Joker, which does not have a suit.</li>
 </ul>
-<p><img src="/images/2017/05/cards.png" alt="Image illustrating the standard 52-card deck."  style="display:block; margin: auto;" /></p>
+<p>
+<img src="/images/2017/05/cards.png" alt="Image illustrating the standard 52-card deck." 
+  style="display:block; margin: auto;" />
+
+</p>
 <p>I would like to implement a data model, which potentially can be used by multiple different algorithms. More concretely, let&rsquo;s imagine that we deliver the data model in a self-contained package, and then we can implement the logic necessary to model various card games, which all depend on this single data model.<br>
 What this means in practice is that I would not like to mix data and logic in our data types, but rather just focus on the data. This might be different than what encapsulation in OO would suggest, but it&rsquo;s necessary if we want to have a data model which then can be used in several different algorithms (which is a typical practice in functional programming).</p>
 <h1 id="implementing-in-c35">Implementing in C#</h1>

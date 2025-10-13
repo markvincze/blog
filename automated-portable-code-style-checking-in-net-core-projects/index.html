@@ -170,7 +170,11 @@ MyClass.cs(8,23): warning SA1401: Field must be private [C:\Workspaces\Github\Co
 </code></pre></div><p>Or, if we add the <code>&lt;TreatWarningsAsErrors&gt;true&lt;/TreatWarningsAsErrors&gt;</code> flag to our project file, these will be actual errors instead of just warnings. This is what I would generally suggest to do from the start, otherwise it&rsquo;s very easy to pile up hundreds or thousands of warnings in a large code base, which is daunting to clean up later. (This can typically be the situation when we want to introduce linting to an existing legacy project.)</p>
 <p>The linting producing errors by the <code>dotnet build</code> command makes it very easy to wire this into our CI-build, since the build errors will make our CI-build fail too, so we don&rsquo;t need to do anything else.</p>
 <p>The errors also nicely show up in Visual Studio, where we can even quickly fix them with Roslyn quick fixes.</p>
-<p><img src="/images/2018/07/error-in-vs.png" alt="Linting errors showing up in Visual Studio"  style="display:block; margin: auto;" /></p>
+<p>
+<img src="/images/2018/07/error-in-vs.png" alt="Linting errors showing up in Visual Studio" 
+  style="display:block; margin: auto;" />
+
+</p>
 <p>Unfortunately, at this moment, Visual Studio Code does not support displaying the errors coming from Roslyn analyzers, as mentioned in <a href="https://github.com/DotNetAnalyzers/StyleCopAnalyzers/issues/2739#issuecomment-403258345">this comment</a>. Thus StyleCopAnalyzers today is the most ideal if we are using Visual Studio. If we&rsquo;re using VSCode, we&rsquo;ll have to rely on the build errors produced by <code>dotnet build</code> instead of the IDE-integration.</p>
 <h1 id="customizing-the-linting-rules">Customizing the linting rules</h1>
 <p>When using <code>eslint</code> and <code>tslint</code>, we can customize the linting rules by creating an <code>.eslintrc</code> or <code>tslint.json</code> file, respectively, where we can change both the violation severity, and also customize how some of the rules work (for example whether to enforce single quotes, double quotes, or accept both for string literals).</p>
@@ -203,7 +207,11 @@ And we have to specify the name of our file in the <code>CodeAnalysisRuleSet</co
     }
   }
 }
-</code></pre></div><p><img src="/images/2018/07/stylecop-error-in-vs.png" alt="Rule customized with stylecop.json showing up in Visual Studio"  style="display:block; margin: auto;" /></p>
+</code></pre></div><p>
+<img src="/images/2018/07/stylecop-error-in-vs.png" alt="Rule customized with stylecop.json showing up in Visual Studio" 
+  style="display:block; margin: auto;" />
+
+</p>
 <p>You can read about all the possible customization on <a href="https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/Configuration.md">this page</a>. The set of rules supported today feels a bit ad-hoc and limited, but since the project is being actively developed, I expect this to improve in the future.</p>
 <h2 id="distributing-our-custom-configuration">Distributing our custom configuration</h2>
 <p>If we&rsquo;re working on multiple projects in an organization, it&rsquo;s important to be able to distribute our custom rules to all of the projects we&rsquo;re working on, to keep the linting rules consistent. The naive way to do this would be to maintain our <code>.ruleset</code> and <code>stylecop.json</code> files in a central place, for example a git repository, and then from time to time, copy the two files from this repo to our actual projects. Although this approach is doable, it&rsquo;s not ideal. Copy pasting the files can be a bit tedious, and the versioning of our configuration will be unclear.</p>

@@ -6,11 +6,11 @@
     <description>Recent content in windowmanager on Mark Vincze</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 16 Apr 2025 20:00:00 +0000</lastBuildDate><atom:link href="https://blog.markvincze.com/tags/windowmanager/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 12 Oct 2025 20:00:00 +0000</lastBuildDate><atom:link href="https://blog.markvincze.com/tags/windowmanager/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Tiling WMs, aka ricing the Windows</title>
       <link>https://blog.markvincze.com/tiling-wm-for-windows/</link>
-      <pubDate>Wed, 16 Apr 2025 20:00:00 +0000</pubDate>
+      <pubDate>Sun, 12 Oct 2025 20:00:00 +0000</pubDate>
       
       <guid>https://blog.markvincze.com/tiling-wm-for-windows/</guid>
       <description>Throughout most of my career I worked with Microsoft technologies, mainly with .NET and C#. This meant that my daily driver operatin system has mostly been Windows, as even after the advent of .NET Core (which can be run on Linux), I had to maintain some classic .NET applications, which only ran on Windows, and could only be easily developed with Visual Studio.

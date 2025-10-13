@@ -64,7 +64,7 @@ In ASP.NET Core we typically use the Kestrel web server to host our application,
       
       <guid>https://blog.markvincze.com/jumpstart-f-web-development-f-with-suave-io-on-classic-net/</guid>
       <description>In the second part of the series we take a look at how we can develop a web application using Sauve on the classic .NET Framework.
-Suave is a lightweight web framework and server, which was implemented in F# from the ground up with functional programming in mind, using constructs which fit the F# word nicely, so we won&amp;rsquo;t have to create .NET classes or use inheritence and state mutation to configure our application (as we had to do with ASP.</description>
+ Suave is a lightweight web framework and server, which was implemented in F# from the ground up with functional programming in mind, using constructs which fit the F# word nicely, so we won&amp;rsquo;t have to create .NET classes or use inheritence and state mutation to configure our application (as we had to do with ASP.</description>
     </item>
     
     <item>

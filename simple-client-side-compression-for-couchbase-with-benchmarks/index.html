@@ -182,15 +182,35 @@ In my experience the best tool to avoid these problems is to  make our benchmark
 <li>After running the benchmark, examine the memory and the disk usage of the Couchbase bucket.</li>
 </ol>
 <p>I&rsquo;ve run this benchmark with both the default serializer and the simple GZip serializer described above. The timings are measured by the benchmark code, but I couldn&rsquo;t find any way to get the memory and disk usage out of the server programatically with the Couchbase SDK, so I read those from the management interface:</p>
-<p><img src="/images/2016/01/management-screenshot.png" alt=""  style="display:block; margin: auto;" /></p>
+<p>
+<img src="/images/2016/01/management-screenshot.png" alt="" 
+  style="display:block; margin: auto;" />
+
+</p>
 <h2 id="test-results">Test results</h2>
 <p>I did the first set of tests with a semi-random data set. I generated some random Json objects using <a href="http://www.json-generator.com/">JSON GENERATOR</a>, and generated a C# object model with <a href="http://json2csharp.com/">json2csharp</a>. You can find the data and the code in this <a href="https://github.com/markvincze/couchbase-perf-test">Github repository</a>.</p>
 <p>The results for the 1000 inserts and retrievals are the following</p>
-<p><img src="/images/2016/01/timings-random-data-1.png" alt="Timings for a semi-random data set."  style="display:block; margin: auto;" /></p>
-<p><img src="/images/2016/01/memory-random-data-1.png" alt="Memory and disk usage for a semi-random data set."  style="display:block; margin: auto;" /></p>
+<p>
+<img src="/images/2016/01/timings-random-data-1.png" alt="Timings for a semi-random data set." 
+  style="display:block; margin: auto;" />
+
+</p>
+<p>
+<img src="/images/2016/01/memory-random-data-1.png" alt="Memory and disk usage for a semi-random data set." 
+  style="display:block; margin: auto;" />
+
+</p>
 <p>I did the second set of tests with a real-life dataset I extracted from our production cache. With this data I got the following results</p>
-<p><img src="/images/2016/01/timings-real-data-2.png" alt="Timings for a real data set."  style="display:block; margin: auto;" /></p>
-<p><img src="/images/2016/01/memory-real-data-1.png" alt="Memory and disk usage for a real data set."  style="display:block; margin: auto;" /></p>
+<p>
+<img src="/images/2016/01/timings-real-data-2.png" alt="Timings for a real data set." 
+  style="display:block; margin: auto;" />
+
+</p>
+<p>
+<img src="/images/2016/01/memory-real-data-1.png" alt="Memory and disk usage for a real data set." 
+  style="display:block; margin: auto;" />
+
+</p>
 <p>The results suggest that</p>
 <ul>
 <li>Inserting and reading are slower if we use compression on the client side. Reading compressed data can be significantly slower if we have to decompress, the writing seems to be less affected. The penalty we have to pay for compression seems to depend a lot on our data set, the difference might be negligible.</li>

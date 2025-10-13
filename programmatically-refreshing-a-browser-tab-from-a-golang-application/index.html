@@ -417,7 +417,11 @@ This is typically the case if it&rsquo;s a site under development hosted on <cod
 </code></pre></div><p>I didn&rsquo;t find any overview about exactly which browsers and systems produce this error. Based on my tests, this problem occurs for Chrome on Linux, but not on Windows nor OSX, and it also happens for Firefox, on every operating system I tried.</p>
 <p>I couldn&rsquo;t find a perfect solution to the problem, but there is a workaround that can at least mitigate the issue. What we can do is host the WebSocket endpoint on both <code>ws</code> and <code>wss</code>, and try to connect to both from the client (first to <code>ws</code>, and if that fails, then to <code>wss</code>).</p>
 <p>This solves the problem for both Chrome and Firefox, but there is one more thing we have to do. Since we are hosting the service on localhost, there is no way to get a valid SSL certificate, and Chrome rejects the connection by default. In order to make it ignore certificate errors when connecting to <code>localhost</code>, we have to go to the advanced settings page in Chrome by navigating to <code>chrome://flags</code>, and we have to enable the following setting.</p>
-<p><img src="/images/2016/10/chrome-ignore-localhost-cert.png" alt=""  style="display:block; margin: auto;" /></p>
+<p>
+<img src="/images/2016/10/chrome-ignore-localhost-cert.png" alt="" 
+  style="display:block; margin: auto;" />
+
+</p>
 <p>With Firefox this didn&rsquo;t cause a problem, the connection worked properly after I started hosting the endpoint on <code>wss</code>. I&rsquo;ll update the post if I encounter any problem with it.</p>
 <h1 id="source">Source</h1>
 <p>I uploaded the full working example to <a href="https://github.com/markvincze/golang-reload-browser">GitHub</a>, which also contain the implementation of hosting the reload endpoint on both WS and WSS, and also the code for the client side to establish the connection.</p>

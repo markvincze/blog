@@ -46,7 +46,7 @@ We can use the Route attribute on the action methods:
       <guid>https://blog.markvincze.com/stubbing-service-dependencies-in-net-using-stubbery/</guid>
       <description>Introduction When writing integration tests for a service (especially if we are running a long, end-to-end test), it often causes a problem that the external dependencies of our service fail.
 Let&amp;rsquo;s say we have a service handling customer payments and the actual payments are handled by an external provider.
-Very often, we cannot use the actual production system of our external dependency. For example, when we want to test payments, we cannot make real purchases every time we run our integration test suite.</description>
+ Very often, we cannot use the actual production system of our external dependency. For example, when we want to test payments, we cannot make real purchases every time we run our integration test suite.</description>
     </item>
     
     <item>
@@ -79,7 +79,7 @@ Version numbers It is quite easy to get lost in the sea of different products an
       
       <guid>https://blog.markvincze.com/use-glimpse-with-asp-net-web-api/</guid>
       <description>Glimpse is a wonderful tool for getting an insight into the mechanisms happening in an ASP.NET application. It inspects every request processed by our app, and displays its UI either embedded into our web site, or on a standalone page at a different URL.
-The current version of Glimpse (1.9.2 at the time of writing this) only has proper support for ASP.NET Web Forms and MVC, and not for the Web Api.</description>
+ The current version of Glimpse (1.9.2 at the time of writing this) only has proper support for ASP.NET Web Forms and MVC, and not for the Web Api.</description>
     </item>
     
   </channel>

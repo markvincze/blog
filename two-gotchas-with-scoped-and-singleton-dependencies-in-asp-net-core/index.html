@@ -155,7 +155,11 @@ Its feature set is rather simple compared to other more full-blown DI frameworks
 <p>Assume the following setup.</p>
 <p>We have an <code>IFoo</code> interface registered as a <em>singleton</em>, which depends on <code>IBar</code>, which is registered as <em>scoped</em> (for example because it depends on the current HTTP request).
 And from our controller (which we can consider <em>scoped</em>, since it is created per request), we require <code>IFoo</code>.</p>
-<p><img src="/images/2017/04/aspnetcore_di_issue.png" alt="Class diagram illustrating the erroneous setup."  style="display:block; margin: auto;" /></p>
+<p>
+<img src="/images/2017/04/aspnetcore_di_issue.png" alt="Class diagram illustrating the erroneous setup." 
+  style="display:block; margin: auto;" />
+
+</p>
 <p>The problem with this setup is that the first time we retrieve <code>IFoo</code>, a new instance of <code>Foo</code> and transitively <code>Bar</code> is going to be created. Since <code>Foo</code> is singleton, no new instances of it are going to be created on further retrievals, the single instance created at first will always be retrieved.
 But this means—since the reference to <code>IBar</code> is stored by the instance of <code>Foo</code>—that the singleton <code>Foo</code> is going to &ldquo;capture&rdquo; the scoped <code>IBar</code>, so no new instance of <code>Bar</code> is going to be created either, in spite of it being registered as <em>scoped</em>.</p>
 <p>This is a bug in our application, since if we retrieve <code>IFoo</code> in a subsequent request, we would need a new instance of <code>IBar</code> to be created, because it might depend on the context of the HTTP request.</p>
