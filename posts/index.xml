@@ -17,6 +17,16 @@
     </item>
     
     <item>
+      <title>Tiling WMs, aka ricing the Windows</title>
+      <link>https://blog.markvincze.com/tiling-wm-for-windows/</link>
+      <pubDate>Wed, 16 Apr 2025 20:00:00 +0000</pubDate>
+      
+      <guid>https://blog.markvincze.com/tiling-wm-for-windows/</guid>
+      <description>Throughout most of my career I worked with Microsoft technologies, mainly with .NET and C#. This meant that my daily driver operatin system has mostly been Windows, as even after the advent of .NET Core (which can be run on Linux), I had to maintain some classic .NET applications, which only ran on Windows, and could only be easily developed with Visual Studio.
+But I had a short period of time during which I mainly worked on some TypeScript and NodeJS applications, and did not need Windows for my day to day work.</description>
+    </item>
+    
+    <item>
       <title>Introducing Sabledocs, a documentation generator for Protobuf and gRPC</title>
       <link>https://blog.markvincze.com/introducing-sabledocs/</link>
       <pubDate>Sun, 16 Apr 2023 20:00:00 +0000</pubDate>
