@@ -149,17 +149,9 @@ There are questions about the relation between them in many forums, so I&rsquo;m
 <p>It seems that Google simply tries to differentiate between two separate offerings, where Google Cloud Platform (GCP) is the core infrastructure, providing many different lower level building blocks.<br>
 On the other hand, Firebase (which is mostly built on top of GCP under the hood) is a simpler framework offering fewer, higher level services.</p>
 <p>To me it makes sense to build a higher level, easier to understand framework on top of GCP, since the number of different services offered in the Cloud Platform can be somewhat overwhelming, if all we want is a couple of simple api endpoints for our mobile application.</p>
-<p>
-<img src="/images/2016/12/gcp-services.png" alt="Offerings of the Google Cloud Platform" 
-  style="display:block; margin: auto;" />
-
-</p>
+<p><img src="/images/2016/12/gcp-services.png" alt="Offerings of the Google Cloud Platform"  style="display:block; margin: auto;" /></p>
 <p>And of course it&rsquo;s not only the Google cloud which has this sort of &ldquo;feature creep&rdquo;—Azure and Amazon AWS have the same problem. I find the the service overview page of AWS the scariest :).</p>
-<p>
-<img src="/images/2016/12/aws-services.png" alt="Offerings of Amazon AWS" 
-  style="display:block; margin: auto;" />
-
-</p>
+<p><img src="/images/2016/12/aws-services.png" alt="Offerings of Amazon AWS"  style="display:block; margin: auto;" /></p>
 <h2 id="authentication">Authentication</h2>
 <p>The only Firebase service I&rsquo;m going to focus on in this post is <a href="https://firebase.google.com/docs/auth/">Authentication</a>. It supports multiple authentication providers, you can use a custom email/password combination, you can hook in your own user store, or you can use third-party providers, like Google, Facebook or Twitter accounts. Then, in your application you can handle authentication with all these providers in a unified way.</p>
 <p>In this post what I&rsquo;m going to describe is not how to implement the sign-in part, that&rsquo;s well documented on the <a href="https://firebase.google.com/docs/auth/">Firebase site</a>, it has official SDK support for Android, iOS and web applications.</p>
@@ -218,11 +210,7 @@ This is important because what the authentication middleware does is that it che
 <h3 id="update-how-does-token-signing-work">Update: How does token signing work?</h3>
 <p>There was some interesting discussion in the comments and in <a href="https://stackoverflow.com/questions/42336950/firebase-authentication-jwt-with-net-core/42410233">this SO question</a>, so I added this section to clarify how the token signing works.</p>
 <p>The following diagram illustrates the (simplified) architecture and flow of using Firebase for authentication from an ASP.NET application.</p>
-<p>
-<img src="/images/2017/02/firebase-auth-architecture-small-1.png" alt="Diagram illustrating the architecture and flow of using Firebase for authentication from an ASP.NET application." 
-  style="display:block; margin: auto;" />
-
-</p>
+<p><img src="/images/2017/02/firebase-auth-architecture-small-1.png" alt="Diagram illustrating the architecture and flow of using Firebase for authentication from an ASP.NET application."  style="display:block; margin: auto;" /></p>
 <p>During signing in and accessing a secure endpoint, the following steps are involved.</p>
 <ol>
 <li>When our application starts up (and then later also periodically) the <code>JwtBearerMiddleware</code> calls <code>https://securetoken.google.com/my-firebase-project/.well-known/openid-configuration</code> (you can see more details in the <a href="https://github.com/aspnet/Security/blob/22d2fe99c6fd9806b36025399a217a3a8b4e50f4/src/Microsoft.AspNetCore.Authentication.JwtBearer/JwtBearerMiddleware.cs#L81">Source code</a>). From there, it navigates to <code>https://www.googleapis.com/service_accounts/v1/jwk/securetoken@system.gserviceaccount.com</code>, where the current public keys of Google are accessible.

@@ -3,46 +3,6 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://blog.markvincze.com/tags/glazem/</loc>
-    <lastmod>2025-10-12T20:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.markvincze.com/</loc>
-    <lastmod>2025-10-12T20:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.markvincze.com/posts/</loc>
-    <lastmod>2025-10-12T20:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.markvincze.com/tags/ricing/</loc>
-    <lastmod>2025-10-12T20:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.markvincze.com/tags/</loc>
-    <lastmod>2025-10-12T20:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.markvincze.com/tiling-wm-for-windows/</loc>
-    <lastmod>2025-10-12T20:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.markvincze.com/tags/windowmanager/</loc>
-    <lastmod>2025-10-12T20:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.markvincze.com/tags/windows/</loc>
-    <lastmod>2025-10-12T20:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://blog.markvincze.com/tags/css/</loc>
     <lastmod>2025-06-15T20:00:00+00:00</lastmod>
   </url>
@@ -63,7 +23,22 @@
   </url>
   
   <url>
+    <loc>https://blog.markvincze.com/</loc>
+    <lastmod>2025-06-15T20:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.markvincze.com/posts/</loc>
+    <lastmod>2025-06-15T20:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://blog.markvincze.com/tags/resume/</loc>
+    <lastmod>2025-06-15T20:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.markvincze.com/tags/</loc>
     <lastmod>2025-06-15T20:00:00+00:00</lastmod>
   </url>
   

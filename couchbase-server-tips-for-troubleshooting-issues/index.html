@@ -180,11 +180,7 @@
 <p>When troubleshooting timeout problems or sluggishness, it can be beneficial to take a look at what kind of requests the SDK is trying to send, and what ports it is trying to access.<br>
 You don&rsquo;t necessarily have to understand what the requests are about, it is often enough to
 see which request is failing to get some clue about the problem.</p>
-<p>
-<img src="/images/2016/01/couchbase-fiddler.png" alt="Screenshot illustrating Couchbase requests captured with Fiddler." 
-  style="display:block; margin: auto;" />
-
-</p>
+<p><img src="/images/2016/01/couchbase-fiddler.png" alt="Screenshot illustrating Couchbase requests captured with Fiddler."  style="display:block; margin: auto;" /></p>
 <p>Keep in mind that you might have to explicitly configure your application to use the proxy provided by Fiddler, you can find the details <a href="http://docs.telerik.com/fiddler/Configure-Fiddler/Tasks/ConfigureDotNETApp">here</a>.<br>
 Also, if you have your Couchbase server installation on the local machine, you have to use <code>ipv4.fiddler</code> instead of <code>localhost</code> in the url configuration.</p>
 <h1 id="networking-issues">Networking issues</h1>

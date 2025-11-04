@@ -35,7 +35,7 @@ The following code illustrates a unit test method, which starts up an ASP.</desc
       <guid>https://blog.markvincze.com/stubbing-service-dependencies-in-net-using-stubbery/</guid>
       <description>Introduction When writing integration tests for a service (especially if we are running a long, end-to-end test), it often causes a problem that the external dependencies of our service fail.
 Let&amp;rsquo;s say we have a service handling customer payments and the actual payments are handled by an external provider.
- Very often, we cannot use the actual production system of our external dependency. For example, when we want to test payments, we cannot make real purchases every time we run our integration test suite.</description>
+Very often, we cannot use the actual production system of our external dependency. For example, when we want to test payments, we cannot make real purchases every time we run our integration test suite.</description>
     </item>
     
   </channel>

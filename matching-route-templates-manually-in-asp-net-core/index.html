@@ -197,11 +197,7 @@ app.UseRouter(builder.Build());
 </code></pre></div><p>Fortunately, the necessary framework classes (<code>TemplateParser</code> and <code>TemplateMatcher</code>) are public.</p>
 <h3 id="some-more-detail">Some more detail</h3>
 <p>There are quite a handful of classes participating in the routing process, I needed to debug the code and step over the different calls to wrap my head around them. On a high level this is what happening during setting up our routes.</p>
-<p>
-<img src="/images/2016/06/aspnet-routing.png" alt="Set up routing in ASP.NET" 
-  style="display:block; margin: auto;" />
-
-</p>
+<p><img src="/images/2016/06/aspnet-routing.png" alt="Set up routing in ASP.NET"  style="display:block; margin: auto;" /></p>
 <p>When we specify a route by calling <code>RouteBuilder.MapVerb</code> a new <code>Route</code> is created, and added to the builder&rsquo;s collection. The <code>Route</code> object has a delegate to the handler processing the request and producing the response.
 If we use <code>UseMvc</code>, then the routes are automatically created based on the action methods we have (this is done by a method called <code>CreateAttributeMegaRoute</code> :)), and then <code>UseRouter</code> is called.</p>
 <p>When we call the <code>UseRouter</code> extension method, a middleware is registered called <code>RouterMiddleware</code>, to which a <code>RouteCollection</code> is passed with the configured routes.</p>

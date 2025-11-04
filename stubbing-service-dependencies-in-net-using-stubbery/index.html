@@ -153,11 +153,7 @@
       <h1 id="introduction">Introduction</h1>
 <p>When writing integration tests for a service (especially if we are running a long, end-to-end test), it often causes a problem that the external dependencies of our service fail.</p>
 <p>Let&rsquo;s say we have a service handling customer payments and the actual payments are handled by an external provider.</p>
-<p>
-<img src="/images/2016/06/payment-integration-test-1.png" alt="Diagram illustrating integration testing an api with an external dependency." 
-  style="display:block; margin: auto;" />
-
-</p>
+<p><img src="/images/2016/06/payment-integration-test-1.png" alt="Diagram illustrating integration testing an api with an external dependency."  style="display:block; margin: auto;" /></p>
 <p>Very often, we cannot use the actual production system of our external dependency. For example, when we want to test payments, we cannot make real purchases every time we run our integration test suite.</p>
 <p>Thus, we resort to using the test system of our dependency (if there is one).<br>
 The problem with this is that the test system of any provider is usually not 100% reliable. There will be occasional downtimes, performance problems, or other problems due to configuration changes or general tinkering.</p>

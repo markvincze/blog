@@ -177,11 +177,7 @@ In practice this means that we shouldn&rsquo;t do anything <em>crazy</em> in it,
 Then we process that object depending on the code, for instance we put it into a bucket of a hash map.
 If we mutate the object so that its GetHashCode method returns a different value, then the state of our program becomes inconsistent. That&rsquo;s what we saw in the previous post, when we weren&rsquo;t able to find our entry in the Dictionary any more.</p>
 <p>An easy solution to this problem is to follow the general rule, that no mutable fields should be used in the implementation of GetHashCode. As we&rsquo;ve seen in the previous post, ReSharper warns you about this:
-
-<img src="/images/2015/08/vs-warning.png" alt="Visual Studio warning us about using a mutable field in GetHashCode" 
-  style="display:block; margin: auto;" />
-
-</p>
+<img src="/images/2015/08/vs-warning.png" alt="Visual Studio warning us about using a mutable field in GetHashCode"  style="display:block; margin: auto;" /></p>
 <h1 id="the-importance-of-equals">The importance of Equals</h1>
 <p>As noted above, if we override GetHashCode, we must do so with Equals, in a way that they are &ldquo;consistent&rdquo;, so that if two objects are equal, then they also have the same hash code.<br>
 The classes using GetHashCode depend on this requirement, so if we don&rsquo;t adhere to it, then we quickly get into an inconsistent state.</p>

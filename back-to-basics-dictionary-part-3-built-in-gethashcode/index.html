@@ -234,29 +234,17 @@ It&rsquo;s important to keep in mind that the default implementation takes into 
 </ol>
 <p>I will illustrate the situation with the little WPF client created for the last post. I removed the <code>readonly</code> keyword from the key&rsquo;s field to make it mutable.
 It&rsquo;s a very nice touch that Visual Studio displays a warning if we do this:
-
-<img src="/images/2015/08/vs-warning.png" alt="Visual Studio warning us about using a mutable field in GetHashCode" 
-  style="display:block; margin: auto;" />
-
-
+<img src="/images/2015/08/vs-warning.png" alt="Visual Studio warning us about using a mutable field in GetHashCode"  style="display:block; margin: auto;" />
 (After writing this I realized it isn&rsquo;t VS, but rather ReSharper, so the kudos goes to JetBrains instead of Microsoft in this case :).)</p>
 <p>I added an entry to a Dictionary with such a key:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">var</span> key = <span style="color:#66d9ef">new</span> GoodTestRefKey(<span style="color:#ae81ff">3</span>);
 <span style="color:#66d9ef">var</span> dictWithMutableKey = <span style="color:#66d9ef">new</span> Dictionary&lt;GoodTestRefKey, <span style="color:#66d9ef">string</span>&gt;(<span style="color:#ae81ff">5</span>) { { key, <span style="color:#e6db74">&#34;Hello!&#34;</span> } };
 </code></pre></div><p>If we display the state of the Dictionary, we see that everything is good, the hash code of the key is 3, and the entry is in the proper bucket:</p>
-<p>
-<img src="/images/2015/08/before-mutate.png" alt="State of the Dictionary before mutation" 
-  style="display:block; margin: auto;" />
-
-</p>
+<p><img src="/images/2015/08/before-mutate.png" alt="State of the Dictionary before mutation"  style="display:block; margin: auto;" /></p>
 <p>If we mutate the state of the key object</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">key.Key = <span style="color:#ae81ff">4</span>;
 </code></pre></div><p>And visualize the Dictionary again</p>
-<p>
-<img src="/images/2015/08/after-mutate.png" alt="The state of the Dictionary after mutating the key" 
-  style="display:block; margin: auto;" />
-
-</p>
+<p><img src="/images/2015/08/after-mutate.png" alt="The state of the Dictionary after mutating the key"  style="display:block; margin: auto;" /></p>
 <p>You see that the Key&rsquo;s value was changed to <strong>4</strong>, it&rsquo;s hash code <em>is</em> 4, however, it&rsquo;s still in the bucket at the index <strong>3</strong>. (Note that the Dictionary separately stores the hash code, which still has the original value.)</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">var</span> key = <span style="color:#66d9ef">new</span> GoodTestRefKey(<span style="color:#ae81ff">3</span>);
 <span style="color:#66d9ef">var</span> dictWithMutableKey = <span style="color:#66d9ef">new</span> Dictionary&lt;GoodTestRefKey, <span style="color:#66d9ef">string</span>&gt;(<span style="color:#ae81ff">5</span>) { { key, <span style="color:#e6db74">&#34;Hello!&#34;</span> } };

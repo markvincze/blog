@@ -204,11 +204,7 @@ Since then, two new additions were introduced to CSS, namely the <a href="https:
   <span style="color:#66d9ef">grid-template-columns</span>: <span style="color:#ae81ff">3</span>fr <span style="color:#ae81ff">2</span>fr;
   <span style="color:#66d9ef">column-gap</span>: <span style="color:#ae81ff">2</span><span style="color:#66d9ef">rem</span>;
 }
-</code></pre></div><p>
-<img src="/images/2025/06/cv-grid.png" alt="Example grid layout from my resume." 
-  style="display:block; margin: auto;" />
-
-</p>
+</code></pre></div><p><img src="/images/2025/06/cv-grid.png" alt="Example grid layout from my resume."  style="display:block; margin: auto;" /></p>
 <h2 id="a-note-on-sizing">A note on sizing</h2>
 <p>If the decision between Flexbox and Grids can be confusing at times, then figuring out which size unit to use in CSS is even more challenging. CSS supports several different units for length, including absolute types like <code>pt</code>, <code>px</code>, <code>cm</code>, and relative units like <code>em</code>, <code>rem</code>, <code>vh</code>. (It turns out there are <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/length#relative_length_units">several more</a>, that I have not used in before.)</p>
 <p>For this purpose I opted to use the <code>rem</code> unit for all the sizes. Dimensions specified with the <code>rem</code> unit are interpreted relative to the <em>root</em> size of the page, which is the size of the <code>html</code> element, which—in most browsers—is <code>16px</code> by default, and can be overwritten by users in their browser settings (which means it&rsquo;s a good idea <em>not</em> to manually specify the <code>font-size</code> of the <code>html</code> element, because that way we&rsquo;d be ignoring this potential user configuration).<br>
@@ -232,11 +228,7 @@ Using <code>rem</code> for everything seemed like the sensible choice, for multi
     <span style="color:#66d9ef">box-shadow</span>: <span style="color:#66d9ef">none</span>;
   }
 }
-</code></pre></div><p>
-<img src="/images/2025/06/cv-responsive.gif" alt="Responsive layout reacting to the screen size change" 
-  style="display:block; margin: auto;" />
-
-</p>
+</code></pre></div><p><img src="/images/2025/06/cv-responsive.gif" alt="Responsive layout reacting to the screen size change"  style="display:block; margin: auto;" /></p>
 <p>The Grid layout proved to work really nicely in this regard as well, adjusting the grid layout based on the screen size was straightforward to do just with CSS, without having to maintain multiple HTML variants.</p>
 <h1 id="pdf-generation">PDF generation</h1>
 <p>Even though I find the HTML version superior, mostly due to being responsive to screen size changes, not being split into pages, and just in general <em>feeling</em> more native, I know that it would be hard to avoid having a PDF version of my resume as well, to be able to include it as an attachment when applying to jobs.</p>
@@ -245,11 +237,7 @@ In the end I decided to go with the approach of using the Print functionality of
 <h2 id="pdf-styling">PDF styling</h2>
 <p>Depending on the style of your resume, you&rsquo;ll probably need to do some adjustments to make sure that the layout of the PDF version neatly fits the A4 sized page(s) of the PDF document.
 And further changes might also be needed, for example my CV includes a background color and a drop shadow around the main content, which needs to be hidden in the PDF version.</p>
-<p>
-<img src="/images/2025/06/cv-dropshadow.png" alt="Screenshot showing the background and drop shadow on my resume page." 
-  style="display:block; margin: auto;" />
-
-</p>
+<p><img src="/images/2025/06/cv-dropshadow.png" alt="Screenshot showing the background and drop shadow on my resume page."  style="display:block; margin: auto;" /></p>
 <p>Luckily there is support in browsers for customizing the styling of the <em>printed</em> version of a website, and because we use the built-in printing function of the browser to generate the PDF, we can utilize this for our purposes. The printed styling can be customized by using the <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_media_queries/Printing"><code>@media print</code></a> query.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-css" data-lang="css"><span style="color:#75715e">/* Override the styling for printing to be able to save as PDF */</span>
 @<span style="color:#66d9ef">media</span> <span style="color:#f92672">print</span> {
@@ -274,11 +262,7 @@ And further changes might also be needed, for example my CV includes a backgroun
   }
 </code></pre></div><p>I did not find a sophisticated way to automatically determine the <code>font-size</code> that will result in a nice-looking PDF, but rather I had to manually tinker with the value until a desired result is achieved. If we want to have the page breaks in a nice place, and ensure that the content fills up the pages evenly, then I don&rsquo;t think this can be avoided, and it needs to be done every time the content of the page is changed.<br>
 My current CV fits into two pages, so after configuring the position of the page break, and finding a good <code>font-size</code> for the printed version, this is the result I get when printing the page as a PDF.</p>
-<p>
-<img src="/images/2025/06/cv-pdf-pages.png" alt="The PDF version of my resume." 
-  style="display:block; margin: auto;" />
-
-</p>
+<p><img src="/images/2025/06/cv-pdf-pages.png" alt="The PDF version of my resume."  style="display:block; margin: auto;" /></p>
 <p>(I also included an extra heading with my contact info on the second page, which is not needed in the web-based version, so I hid it by default with <code>display: none</code>, and made it visible in the <code>@media print {}</code> section.)</p>
 <h1 id="summary">Summary</h1>
 <p>You can see the <a href="https://blog.markvincze.com/cv.html">final resume here</a>, and its source code <a href="https://github.com/markvincze/blog/blob/main/static/cv.html">on GitHub</a>.
