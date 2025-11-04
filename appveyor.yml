@@ -1,6 +1,6 @@
 branches:
   only:
-    - master
+    - main
 
 skip_branch_with_pr: true
 
