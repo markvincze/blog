@@ -9,10 +9,10 @@
     <lastBuildDate>Wed, 05 Nov 2025 10:00:00 +0000</lastBuildDate><atom:link href="https://blog.markvincze.com/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Switching to the GlazeWM tiling window manager on Windows</title>
-      <link>https://blog.markvincze.com/tiling-wm-for-windows/</link>
+      <link>https://blog.markvincze.com/switching-to-the-glazewm-tiling-window-manager-on-windows/</link>
       <pubDate>Wed, 05 Nov 2025 10:00:00 +0000</pubDate>
       
-      <guid>https://blog.markvincze.com/tiling-wm-for-windows/</guid>
+      <guid>https://blog.markvincze.com/switching-to-the-glazewm-tiling-window-manager-on-windows/</guid>
       <description>Throughout most of my career I worked with Microsoft technologies, mainly with .NET and C#. This meant that my daily driver operating system has mostly been Windows, as even after the advent of .NET Core (which can be run on Linux), I had to maintain some classic .NET applications, which only ran on Windows, and could only be easily developed with Visual Studio.
 But I had a short period of time during which I mainly worked on some TypeScript and NodeJS applications, and did not need Windows for my day to day work.</description>
     </item>
