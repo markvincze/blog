@@ -20,6 +20,9 @@
   <script defer src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
 
+  <link rel="stylesheet" href="/scripts/dimbox/dimbox.min.css" />
+  <script src="/scripts/dimbox/dimbox.min.js"></script>
+
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
@@ -346,7 +349,13 @@ echo <span style="color:#e6db74">&#34;Starting Envoy...&#34;</span>
 <p>After applying this yaml, the Envoy proxy should be operational, and you can access the underlying service by sending the requests to the main port of the Envoy service.</p>
 <p>In this example I only added a service of type <code>ClusterIP</code>, but you can also use a <code>LoadBalancer</code> service, or an Ingress object if you want to access the proxy from outside the cluster.</p>
 <p>The following diagram illustrates the architecture of the whole setup.</p>
-<p><img src="/images/2018/10/architecture.png" alt="Diagram illustrating the whole architecture."  style="display:block; margin: auto;" /></p>
+<p>
+<a href="/images/2018/10/architecture.png" data-dimbox="">
+  <img src="/images/2018/10/architecture.png" alt="Diagram illustrating the whole architecture." 
+  style="display:block; margin: auto;" />
+</a>
+
+</p>
 <p>The image only shows one single Envoy pod, but you can scale it up to have more instances if necessary. And of course you can use a Horizontal Pod Autoscaler to automatically create more replicas as needed. (All instances will be autonomous and independent of each other.)<br>
 In practice you&rsquo;ll probably need much fewer instances for the proxy than for the underlying service. In the current production application we&rsquo;re using Envoy with, we&rsquo;re serving ~1000 requests/seconds on ~400 upstream pods, but we only have 3 instances of Envoy running, with ~10% CPU load.</p>
 <h1 id="troubleshooting-and-monitoring">Troubleshooting and Monitoring</h1>
@@ -359,7 +368,13 @@ In practice you&rsquo;ll probably need much fewer instances for the proxy than f
 </ul>
 <p>One way to do monitoring is to use Prometheus to scrape the stats from the proxy pods. Envoy has built-in support for this, the Prometheus stats are published on the admin port at the route <code>/stats/prometheus</code>.</p>
 <p>You can download a Grafana dashboard visualizing these metrics from <a href="https://github.com/transferwise/prometheus-envoy-dashboards">this repository</a>, which will give you a set of graphs similar to the following.</p>
-<p><img src="/images/2018/10/image.png" alt="Screenshot of the Grafana dashboard showing the Envoy metrics."  style="display:block; margin: auto;" /></p>
+<p>
+<a href="/images/2018/10/image.png" data-dimbox="">
+  <img src="/images/2018/10/image.png" alt="Screenshot of the Grafana dashboard showing the Envoy metrics." 
+  style="display:block; margin: auto;" />
+</a>
+
+</p>
 <h1 id="a-word-on-the-load-balancing-algorithms">A word on the load balancing algorithms</h1>
 <p>The load balancing algorithm can have significant effect on the overall performance of our cluster. Using a least request algorithm can be beneficial with services for which an even spread of the load is necessary, for example when a service is CPU-intensive, and gets easily overloaded.On the other hand, least request has the problem that if one of the nodes start failing for some reason, and the failure response times are quick, then the load balancer will send a disproportionately large portion of the requests to the failing node—something which wouldn&rsquo;t be a problem with round robin.</p>
 <p>I made some benchmarks with a <a href="https://github.com/markvincze/PrimeCalcApi/">dummy API</a> and compared the round robin and the least request LB algorithms. It turned out that least request can bring a significant improvement in the overall performance.</p>
@@ -372,9 +387,21 @@ In practice you&rsquo;ll probably need much fewer instances for the proxy than f
 <li>Response time percentiles (0.50, 0.90 and 0.99) recorded on the servers</li>
 </ul>
 <p>The stats looked like this with <code>ROUND_ROBIN</code>.</p>
-<p><img src="/images/2018/10/image-1.png" alt="Screenshot of the measurements with ROUND_ROBIN."  style="display:block; margin: auto;" /></p>
+<p>
+<a href="/images/2018/10/image-1.png" data-dimbox="">
+  <img src="/images/2018/10/image-1.png" alt="Screenshot of the measurements with ROUND_ROBIN." 
+  style="display:block; margin: auto;" />
+</a>
+
+</p>
 <p>These were the results with <code>LEAST_REQUEST</code>:</p>
-<p><img src="/images/2018/10/image-2.png" alt="Screenshot of the measurements with LEAST_REQUEST."  style="display:block; margin: auto;" /></p>
+<p>
+<a href="/images/2018/10/image-2.png" data-dimbox="">
+  <img src="/images/2018/10/image-2.png" alt="Screenshot of the measurements with LEAST_REQUEST." 
+  style="display:block; margin: auto;" />
+</a>
+
+</p>
 <p>You can see on the results that <code>LEAST_REQUEST</code> can lead to a much smoother distribution of the traffic across the nodes, and thus a lower average response time at high load.</p>
 <p>The exact improvement will depend on the actual API, so I definitely recommend you to do the benchmark with your own service too to be make a decision.</p>
 <p>(Earlier I mentioned that when using <code>LEAST_REQUEST</code>, Envoy will not look at every node in the cluster when selecting the one to send a certain request to, but rather just looks at <a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/load_balancers#weighted-least-request">2 randomly picked options</a>, and sends the request to the one that has the fewer pending requests.<br>

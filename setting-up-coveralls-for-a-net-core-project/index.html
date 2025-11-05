@@ -20,6 +20,9 @@
   <script defer src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
 
+  <link rel="stylesheet" href="/scripts/dimbox/dimbox.min.css" />
+  <script src="/scripts/dimbox/dimbox.min.js"></script>
+
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
@@ -202,10 +205,22 @@ It&rsquo;s important to explicitly specify the framework we&rsquo;re using, so w
 <p>You can look at the <a href="https://github.com/markvincze/Stubbery/blob/master/coverage.sh">full script</a> for coverage generation in the repository of <a href="https://markvincze.github.io/Stubbery/">Stubbery</a>, a library I&rsquo;ve been working on for stubbing api dependencies. The script installs the necessary CLI tools at the beginning, so we can execute it both on the developer machines and on the agents without pre-installing anything.</p>
 <p>And there is a <a href="https://github.com/markvincze/Stubbery/blob/master/coveralls.sh">separate script</a> for doing the coveralls report, but that&rsquo;s literally the single command I&rsquo;ve shown above.</p>
 <p>Currently I set up the <a href="https://github.com/markvincze/Stubbery/blob/master/appveyor.yml">AppVeyor config file</a> so that the build and the coverage generation is executed only on commits to the master branch. It&rsquo;s also possible to set up the agents in a way that the coverage report runs on every branch. This is particularly nice, because Coveralls can leave a comment on the PR telling how the coverage changed.</p>
-<p><img src="/images/2016/11/coveralls-pr.png" alt="Coveralls telling the coverage change on a PR."  style="display:block; margin: auto;" /></p>
+<p>
+<a href="/images/2016/11/coveralls-pr.png" data-dimbox="">
+  <img src="/images/2016/11/coveralls-pr.png" alt="Coveralls telling the coverage change on a PR." 
+  style="display:block; margin: auto;" />
+</a>
+
+</p>
 <p>When I&rsquo;ll have some more time, I want to look into how this can be set up with AppVeyor, and I&rsquo;ll update this post.</p>
 <p>The last thing to do is to grab the badge from our Coveralls page, and add it to our README.</p>
-<p><a href="https://github.com/markvincze/Stubbery"><img src="/images/2017/06/stubbery-badge-new.png" alt="Coverage badge on Stubbery"  style="display:block; margin: auto;" /></a></p>
+<p><a href="https://github.com/markvincze/Stubbery">
+<a href="/images/2017/06/stubbery-badge-new.png" data-dimbox="">
+  <img src="/images/2017/06/stubbery-badge-new.png" alt="Coverage badge on Stubbery" 
+  style="display:block; margin: auto;" />
+</a>
+
+</a></p>
 <p>With that we can either proudly demonstrate how well we&rsquo;re doing, or motivate us to increase the coverage even further. Happy testing! :)</p>
 
     </article>

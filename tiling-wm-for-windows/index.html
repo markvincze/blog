@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-72523215-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'UA-72523215-1');
+  </script>
+
+  <title>Switching to the GlazeWM tiling window manager on Windows</title>
+
+  <link rel="stylesheet" href="/styles/styles.css">
+  
+  <script src="https://kit.fontawesome.com/9b3bcefedf.js" crossorigin="anonymous"></script>
+  <script defer src="/scripts/scripts.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
+
+  <link rel="stylesheet" href="/scripts/dimbox/dimbox.min.css" />
+  <script src="/scripts/dimbox/dimbox.min.js"></script>
+
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="manifest" href="site.webmanifest">
+
+  <meta charset="utf-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="An interoduction to tiling window managers, including GlazeWM on Windows." />
+
+  <meta property="og:url" content="https://blog.markvincze.com/tiling-wm-for-windows/" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Switching to the GlazeWM tiling window manager on Windows" />
+  <meta property="og:description" content="An interoduction to tiling window managers, including GlazeWM on Windows." />
+  <meta property="og:site_name" content="Mark Vincze" />
+  <meta property="og:image" content="https://blog.markvincze.com/images/2025/10/featured-tilingwm.png">
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@mrkvincze" />
+  <meta name="twitter:title" content="Switching to the GlazeWM tiling window manager on Windows" />
+  <meta name="twitter:description" content="An interoduction to tiling window managers, including GlazeWM on Windows." />
+  <meta name="twitter:image" content="https://blog.markvincze.com/images/2025/10/featured-tilingwm.png">
+
+</head>
+
+<body>
+  <div class="navbar-container">
+    <nav class="navbar container is-max-desktop" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+
+        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+      <div id="navbarMenu" class="navbar-menu has-text-white-ter">
+
+        <div class="navbar-start">
+          
+          <a class="navbar-item" href="/">About</a>
+          
+          <a class="navbar-item" href="/posts">Blog</a>
+          
+          <a class="navbar-item" href="/projects">Projects</a>
+          
+          <a class="navbar-item" href="/cv.html">Resume</a>
+          
+        </div>
+
+        <div class="navbar-end pt-2 ml-2">
+          <a class="icon is-medium" href="mailto:hello@markvincze.com" target="_blank">
+            <i class="fa fa-lg fa-envelope"></i>
+          </a>
+          <a class="icon is-medium" href="https://bsky.app/profile/markvincze.com" target="_blank">
+            <i class="fab fa-lg fa-bluesky"></i>
+          </a>
+          <a class="icon is-medium" href="https://twitter.com/mrkvincze" target="_blank">
+            <i class="fab fa-lg fa-twitter"></i>
+          </a>
+          <a class="icon is-medium" href="https://www.github.com/markvincze" target="_blank">
+            <i class="fab fa-lg fa-github"></i>
+          </a>
+          <a class="icon is-medium" href="https://www.youtube.com/@markvincze8205" target="_blank">
+            <i class="fab fa-lg fa-youtube"></i>
+          </a>
+          <a class="icon is-medium" href="https://stackoverflow.com/users/974733/mark-vincze" target="_blank">
+            <i class="fab fa-lg fa-stack-overflow"></i>
+          </a>
+          <a class="icon is-medium" href="https://www.linkedin.com/in/markvincze" target="_blank">
+            <i class="fab fa-lg fa-linkedin"></i>
+          </a>
+          <a class="icon is-medium" href="/index.xml" target="_blank">
+            <i class="fas fa-lg fa-rss"></i>
+          </a>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <a href="/">
+        <h1 class="title is-2">
+          Mark Vincze
+        </h1>
+      </a>
+      <h2 class="subtitle is-5">
+        Software Developer
+      </h2>
+    </div>
+  </div>
+
+  
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h1 class="title is-1">Switching to the GlazeWM tiling window manager on Windows</h1>
+
+    
+      
+
+
+<p class="mb-3 is-vcentered">
+  <time class="has-text-grey" datetime="2025-11-05">Nov 5, 2025 &bull;</time>
+
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://blog.markvincze.com/tags/windows/">windows</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://blog.markvincze.com/tags/ricing/">ricing</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://blog.markvincze.com/tags/windowmanager/">windowmanager</a>
+  
+  
+  <a class="button is-link is-light is-primary is-small p-2 mr-1 is-uppercase has-text-weight-semibold" style="height: 2em; margin-top: 0.1em" href="https://blog.markvincze.com/tags/glazem/">glazem</a>
+  
+
+</p>
+    
+
+    <article class="content mt-6">
+      <p>Throughout most of my career I worked with Microsoft technologies, mainly with .NET and C#. This meant that my daily driver operating system has mostly been Windows, as even after the advent of .NET Core (which can be run on Linux), I had to maintain some classic .NET applications, which only ran on Windows, and could only be easily developed with Visual Studio.</p>
+<p>But I had a short period of time during which I mainly worked on some TypeScript and NodeJS applications, and did not need Windows for my day to day work. Thus I decided to try to use Linux on my development machine. Due to my lack of experience, setting everything up and took some effort, and I remember having some struggles with certain device drivers.</p>
+<p>One thing that made all of that worth it was to be able to use a <a href="https://en.wikipedia.org/wiki/Tiling_window_manager">tiling window manager</a>.
+If you—like me—are mostly a Windows user, might ask what a tiling window manager is in the first place. Let&rsquo;s start at the beginning.</p>
+<h1 id="the-windowing-system">The Windowing System</h1>
+<p>The windowing system is the part of the operating system responsible for drawing windows with their various UI components like icons, buttons, borders, etc.</p>
+<p>A central part of the windowing system is what&rsquo;s called the &ldquo;display server&rdquo; or &ldquo;window server&rdquo;, which provides an API for the various programs to render themselves on the screen, and it connects to the OS kernel to receive input from the different attached input devices, such as the keyboard and the mouse.</p>
+<p>And another thing is the &ldquo;display server communication protocol&rdquo;, which is the API contract provided by the display server to the various applications.</p>
+<p>
+<figure>
+  <a href="/images/2025/10/windowing-system-architecture.png" data-dimbox="">
+    <img src="/images/2025/10/windowing-system-architecture.png" alt="Architecture diagram showing how the windowing system interacts with the rest of the system."  title="Diagram from &lt;a href=&#34;https://commons.wikimedia.org/wiki/File:Schema_of_the_layers_of_the_graphical_user_interface.svg&#34; target=&#34;_blank&#34;&gt;Wikipedia&lt;/a&gt; showing the interaction between these components." 
+      style="display:block; margin: auto;" />
+  </a>
+  <figcaption>Diagram from <a href="https://commons.wikimedia.org/wiki/File:Schema_of_the_layers_of_the_graphical_user_interface.svg" target="_blank">Wikipedia</a> showing the interaction between these components.</figcaption>
+</figure>
+
+</p>
+<p><em>(The terminology around this is not perfectly clear. Even the <a href="https://en.wikipedia.org/wiki/Windowing_system">Wikipedia page</a> at some point says that the display server is &ldquo;the main component of the windowing system&rdquo;, but later it says &ldquo;The display server implements the windowing system&rdquo;. And based on my experience the distinction between the communication protocol and the windowing system as a whole is not strictly defined. So I think these terms are used somewhat interchangeably.)</em></p>
+<h2 id="examples">Examples</h2>
+<p>To find <a href="https://en.wikipedia.org/wiki/List_of_display_servers">concrete examples for windowing systems</a>, we mainly have to look at Linux.<br>
+On Windows, there is a dedicated windowing system since Windows Vista called <a href="https://en.wikipedia.org/wiki/Desktop_Window_Manager">Desktop Window Manager</a>, but to be honest I haven&rsquo;t heard anyone using this name before reading up on it for this post. And I could not find out if there was a specific windowing system in Windows before Vista, or this functionality was just considered an integral part of Windows.</p>
+<p>On the other hand, on Linux the display server is another modular component of the system that we can choose an install, so the distinction between it and the rest of the OS is much more often defined and discussed.</p>
+<p>Arguably the two most well-known windowing systems for Linux are X and Wayland.
+The <a href="https://en.wikipedia.org/wiki/X_Window_System">X Window System</a> (or simply X) is a long existing project, initially released in 1984, which served as the most common choice to implement GUI applications on Linux for a long time. It is also referred to as X11, because the X protocol has been at version 11 since 1987.
+If you have used any GUI application on a Linux desktop machine not very recently, it was almost certainly using X.</p>
+<p>A more recently introduced Linux windowing system is called <a href="https://en.wikipedia.org/wiki/Wayland_(protocol)">Wayland</a>, which is intended to be a successor of X, and <a href="https://en.wikipedia.org/wiki/Wayland_(protocol)#Desktop_Linux_distributions">it is now the default</a> for multiple popular Linux distributions, like Ubuntu, Fedora and Debian.</p>
+<p>There are other display server implementations out there, but their usage is less common, or they are mostly targeting scenarios other than desktop PCs, for example <a href="https://en.wikipedia.org/wiki/Mir_(software)">Mir</a>, which is mostly used for Internet of Things applications.</p>
+<h1 id="desktop-environment">Desktop Environment</h1>
+<p>In order to be able to use our desktop computer for everyday tasks involving GUI applications, we need a system running on top of the OS utilizing the display server to provide us a way to start applications and switch between them, and potentially provide other convenience features, like displaying a list of the running apps, providing a status bar, being able to resize application windows, etc.</p>
+<p>One such type of software, arguably the one which is most widely used, especially by non-technical users, is a <a href="https://en.wikipedia.org/wiki/Desktop_environment">desktop environment</a>. A desktop environment is a software and potentially a bundle of additional loosely connected programs, implementing features we are used to see on the GUI of a desktop PC, such as icons, windows, toolbars, wallpapers, and various additional desktop widgets, and it often also supports drag and drop interaction. As Wikipedia states:</p>
+<blockquote>
+<p>A desktop environment aims to be an intuitive way for the user to interact with the computer using concepts which are similar to those used when interacting with the physical world, such as buttons and windows.</p>
+</blockquote>
+<p>
+<figure>
+  <a href="/images/2025/10/maxx-desktop-environment.png" data-dimbox="">
+    <img src="/images/2025/10/maxx-desktop-environment.png" alt="Screenshot showing the MaXX desktop environment."  title="The MaXX desktop environment, showing various windows and icons." 
+      style="display:block; margin: auto;" />
+  </a>
+  <figcaption>The MaXX desktop environment, showing various windows and icons.</figcaption>
+</figure>
+
+</p>
+<p>Popular Linux desktop environments include <a href="https://en.wikipedia.org/wiki/GNOME">GNOME</a>, <a href="https://en.wikipedia.org/wiki/KDE_Plasma">KDE</a> and <a href="https://en.wikipedia.org/wiki/Xfce">Xfce</a>, each being the default for some distributions, like GNOME for Ubuntu, KDE for openSUSE, and Xfce for Manjaro.</p>
+<p>And on Windows the desktop environment is called the <a href="https://en.wikipedia.org/wiki/Windows_shell">Windows shell</a>, although I haven&rsquo;t heard this name being explicitly used much before, since on Windows the GUI is typically considered an intrinsic part of the OS and not a standalone component.</p>
+<h1 id="window-manager">Window Manager</h1>
+<p>Desktop environments provide a fully fledged GUI suitable to be used by everyday non-technical users. A <a href="https://en.wikipedia.org/wiki/Window_manager">Window manager</a> is a software controlling the placement of windows on the screen. A desktop environment typically includes a default window manager, for example GNOME uses <a href="https://mutter.gnome.org">Mutter</a>, and KDE uses <a href="https://en.wikipedia.org/wiki/KWin">KWin</a> by default.</p>
+<p>However, a window manager can also be used by itself in lieu of a desktop environment to be the main way to interact with the system. This approach is typically chosen by power users, as setting up a window manager is less streamlined, their feature set is more low level and lightweight, and controlling them often includes several hotkeys which need to be memorized.</p>
+<p>Window managers are typically categorized based on how they support positioning windows on the screen. For example stacking window managers typically support freely moving and resizing windows, which can cover each other.<br>
+Compositing window managers (or compositors) typically implement fancy effects such as 3D transformation, blending, fading, drop shadows, etc. A prominent example for this is the Desktop Window Manager in Windows introduced in Vista, which added 3D effects, or Compiz for Linux, which is known for its 3D transformations, for example rendering windows on the surface of a cube.</p>
+<p>
+<figure>
+  <a href="/images/2025/10/vista-aero-flip.png" data-dimbox="">
+    <img src="/images/2025/10/vista-aero-flip.png" alt="Screenshot showing the 3D Aero Flip capability introduced in Windows Vista."  title="The compositing Desktop Window Manager of Windows Vista introduced the capability to render windows in 3D." 
+      style="display:block; margin: auto;" />
+  </a>
+  <figcaption>The compositing Desktop Window Manager of Windows Vista introduced the capability to render windows in 3D.</figcaption>
+</figure>
+
+</p>
+<p>
+<figure>
+  <a href="/images/2025/10/compiz-cube.png" data-dimbox="">
+    <img src="/images/2025/10/compiz-cube.png" alt="Screenshot showing the 3D rendering capabilities of Compiz."  title="A typical example to showcase the 3D capabilities in Compiz was to render windows on faces of a cube." 
+      style="display:block; margin: auto;" />
+  </a>
+  <figcaption>A typical example to showcase the 3D capabilities in Compiz was to render windows on faces of a cube.</figcaption>
+</figure>
+
+</p>
+<h2 id="tiling-window-managers">Tiling window managers</h2>
+<p>The type of window manager most often used by power users and developers is the <a href="https://en.wikipedia.org/wiki/Tiling_window_manager">tiling window manager</a>. Instead of opening windows stacked on top of each other, and allowing for the windows to be freely movable and resizable with a mouse, a tiling window manager automatically positions and sizes windows so that they are evenly distributed on the available screen real estate. When your screen is empty, and you open a new window, that opens full screen. If you open a second window, then typically the screen will be split in half for the two windows, and so on—hence the name tiling.<br>
+Usually windows can be moved or resized with keyboard shortcuts, and their distribution can be switched between horizontal or vertical.</p>
+<p>
+<figure>
+  <a href="/images/2025/10/tiling-wm-i3-4.png" data-dimbox="">
+    <img src="/images/2025/10/tiling-wm-i3-4.png" alt="Screenshot showing a typical tiling window setup with i3."  title="i3 is a typical tiling window manager for the X window system." 
+      style="display:block; margin: auto;" />
+  </a>
+  <figcaption>i3 is a typical tiling window manager for the X window system.</figcaption>
+</figure>
+
+</p>
+<p>This setup can be very efficient for folks used to mainly using the keyboard and memorizing shortcuts, especially for development when working with terminals, where we often want to open multiple shells and/or code editors open at the same time, which fits the tiling layout really well. There are several such window managers, some still actively maintained ones for X are <a href="https://i3wm.org">i3</a>, <a href="https://awesomewm.org">awesomewm</a> and <a href="https://dwm.suckless.org">dwm</a>. As the basics of the tiling system can be implemented with relatively little amount of code, several other projects exist created in all sorts of programming languages. My favorite example is <a href="https://xmonad.org">xmonad</a>, which is a tiling window manager implemented in Haskell, as indicated by one of the photos on its website 🙂.
+
+<figure>
+  <a href="/images/2025/10/xmonad.jpg" data-dimbox="">
+    <img src="/images/2025/10/xmonad.jpg" alt="Photo showing the xmonad window manager running on 3 monitors."  title="As top tier nerdy things go, implementing a window manager in Haskell is certainly up there. " 
+      style="display:block; margin: auto;" />
+  </a>
+  <figcaption>As top tier nerdy things go, implementing a window manager in Haskell is certainly up there. </figcaption>
+</figure>
+
+</p>
+<p>As Wayland is a modern alternative to X, new and more modern window managers appeared targeting it. One example is <a href="https://swaywm.org">Sway</a>, which is a drop-in replacement for i3. And the one which seems to have the most buzz is <a href="https://hypr.land">Hyprland</a>. While some other window managers like <a href="https://www.nongnu.org/ratpoison/">ratpoison</a> intentionally don&rsquo;t want to support any fancy effects such as animations, custom border designs, etc. Hyprland has extensive support for eye candy to be able to create a really aesthetically pleasing yet functional UI.</p>
+<figure class="video">
+<video controls preload="metadata"   autoplay="true" >
+<source src="/images/2025/10/hyprland.mp4" >
+</video>
+<figcaption>Video from the Hyprland website illustrating some of the capabilities in a setup created by <a href="https://github.com/end-4/" target="blank">@end-4</a>.</figcaption>
+</figure>
+
+<p>I have always liked tinkering with things like shell prompt themes, coding fonts and color themes, so I find the customization capabilities of Hyprland really impressive, and it&rsquo;s something that makes me consider switching to Linux once I don&rsquo;t need Windows for my day to day work.</p>
+<h1 id="ricing">Ricing</h1>
+<p>There is a whole subculture of customizing the UI of desktop environments or window managers, including terminals, shell prompts, IDE color schemes, etc., as illustrated by such subreddits like <a href="https://www.reddit.com/r/desktops/">desktops</a>, <a href="https://www.reddit.com/r/unixporn/top/?t=year">unixporn</a> and <a href="https://www.reddit.com/r/terminal_porn/">terminal_porn</a>.<br>
+This can involve several things: selecting a window manager, a shell and a terminal emulator, various panels, bars and widgets. And it can also get really elaborate and involve sophisticated custom development, as illustrated by <a href="https://www.youtube.com/watch?v=DxEKF0cuEzc">this video</a> by <a href="https://zacoons.com">zacoons</a>, who won the last &ldquo;rice contest&rdquo; organized by Hyprland.</p>
+<p>
+<figure>
+  <a href="/images/2025/10/hyprland-fantasy.png" data-dimbox="">
+    <img src="/images/2025/10/hyprland-fantasy.png" alt="Screenshot showing the custom fantasy-themed UI design created by zacoons."  title="The fantasy-themed design created by zacoons included custom-built UI components." 
+      style="display:block; margin: auto;" />
+  </a>
+  <figcaption>The fantasy-themed design created by zacoons included custom-built UI components.</figcaption>
+</figure>
+
+</p>
+<p>If you want to spruce up your desktop, a useful resource is the <a href="https://github.com/fosslife/awesome-ricing">awesome-ricing</a> repository, which has an exhaustive list of various resources, including window managers, terminal emulators, shells, and all sorts of widgets and UI components.</p>
+<h1 id="tiling-on-windows-with-glazewm">Tiling on Windows with GlazeWM</h1>
+<p>Back when I temporarily switched from Windows to Linux more than 5 years ago, and really enjoyed using i3, I investigated a bit whether there is a mature tiling window manager available for Windows which would provide a similar experience, and at the time I could not find any.<br>
+But luckily things have changed since then, and now there are definitely viable options out there, see a list <a href="https://en.wikipedia.org/wiki/Tiling_window_manager#3rd-party_replacements">here</a>.
+The two most popular options seem to be <a href="https://github.com/glzr-io/glazewm">GlazeWM</a> and <a href="https://github.com/LGUG2Z/komorebi">Komorebi</a>, both implemented in Rust (Rust is definitely having a moment, huh?).<br>
+I started using GlazeWM both on my desktop PC and my laptop a couple of months ago, and didn&rsquo;t look back. Once a handful of the basic keywords are learnt, and some of the config is customized to our liking, it can make interacting with the UI really joyful and efficient.</p>
+<p>
+<figure>
+  <a href="/images/2025/10/glazewm-example.png" data-dimbox="">
+    <img src="/images/2025/10/glazewm-example.png" alt="Screenshot showing the window layout provided by GlazeWM."  title="My GlazeWM setup showing three windows aligned in a tiled layout with GlazeWM." 
+      style="display:block; margin: auto;" />
+  </a>
+  <figcaption>My GlazeWM setup showing three windows aligned in a tiled layout with GlazeWM.</figcaption>
+</figure>
+
+</p>
+<p>By default GlazeWM opens every window tiled, evenly distributed over the screen real estate, either vertically or horizontally. The windows can be moved around, temporarily minimized or switched to full screen mode. Multiple workspaces can be created and switched between, and moved across monitors, all while using only keyboard shortcuts.</p>
+<figure class="video">
+<video controls preload="metadata"   autoplay="true" >
+<source src="/images/2025/10/glazewm-window-control.mp4" >
+</video>
+<figcaption>Opening, moving, switching and resizing the windows are all done with keyboard shortcuts.</figcaption>
+</figure>
+
+<p>By the way, providing built-in support for animations is <a href="https://github.com/glzr-io/glazewm/pull/1199">also in the works</a>, which will make the experience even more fluid and aesthetically pleasing.</p>
+<h2 id="top-bar">Top bar</h2>
+<p>When using a tiling window manager, it is common practice to display a &ldquo;bar&rdquo; at the bottom or the top of the screen, showing the workspaces, the time and date, and various other status information of the system. On Windows we could also use the built-in taskbar for this, but there are some other, more customizable alternatives as well. By default, GlazeWM uses <a href="https://github.com/glzr-io/zebar/">Zebar</a>, which is an open source status bar implemented in—you wouldn&rsquo;t guess it—Rust 🙂. It&rsquo;s highly customizable, its UI can be completely replaced with HTML and JavaScript. The screenshot above shows a custom layout I implemented with React.</p>
+<p>Another popular option seems to be <a href="https://github.com/amnweb/yasb">YASB</a> implemented in Python, which also looks really cool, but I haven&rsquo;t tried it yet, since I&rsquo;ve been quite happy with Zebar.</p>
+<p>
+<figure>
+  <a href="/images/2025/10/yasb-bar.png" data-dimbox="">
+    <img src="/images/2025/10/yasb-bar.png" alt="Screenshot showing the YASB bar."  title="One of the example designs shown on the YASB GitHub page." 
+      style="display:block; margin: auto;" />
+  </a>
+  <figcaption>One of the example designs shown on the YASB GitHub page.</figcaption>
+</figure>
+
+</p>
+<h2 id="application-launcher">Application launcher</h2>
+<p>For Linux, several &ldquo;application launcher&rdquo; tools exist, with which programs can be quickly started, such as <a href="https://tools.suckless.org/dmenu/">dmenu</a> and <a href="https://github.com/davatorium/rofi">rofi</a>.<br>
+On Windows, the built in Start menu could serve this purpose, we can start an application by pressing the Win key on the keyboard, typing in the name of the app, and pressing Return.<br>
+But I don&rsquo;t think this is ideal, for two reasons: when using a window manager like GlazeWM or Komorebi, we typically want to hide the built-in Windows taskbar, and rather use another bar like Zebar. But when we press the Win key, that opens not just the Start menu, but it also temporarily shows the otherwise hidden Windows taskbar, which looks a bit clunky.<br>
+And also, I&rsquo;ve sometimes had a bad experience with the Windows Start menu, it tends to be randomly quite slow at times, show suggestions I&rsquo;m not interested in like Bing search results, and for me it occasionally even completely stopped working, which could only be fixed by restarting the explorer.exe process.</p>
+<p>Thus I tried looking for an alternative available for Windows. One tool I found that I&rsquo;ve been using and am happy with is <a href="https://learn.microsoft.com/en-us/windows/powertoys/command-palette/overview">Command Palette</a>, which is part of the <a href="https://learn.microsoft.com/en-us/windows/powertoys/">PowerToys</a> suite of power user utilities. Command Palette can be used to quickly start applications and execute systems commands. It can be configured to be started with a preferred hotkey, I configured it to use <code><i class="fa-brands fa-windows"></i></code> + <code>R</code>, thus it replaces the built-in system Run dialog (about which I&rsquo;m not yet 100% sure if it&rsquo;s the best idea, but I have not been missing it much since then).</p>
+<figure class="video">
+<video controls preload="metadata"   autoplay="true" >
+<source src="/images/2025/10/command-palette.mp4" >
+</video>
+<figcaption>Command Palette is an application launcher providing a simpler and cleaner experience than using the Windows Start menu.</figcaption>
+</figure>
+
+<h2 id="tips-and-caveats">Tips and caveats</h2>
+<p><strong>Learn the keyboard shortcuts piecemeal.</strong> You only need a handful of shortcuts to start being productive with GlazeWM. I find the ones used for switching between and moving windows and workspaces the most essential. A <a href="https://github.com/glzr-io/glazewm/blob/main/resources/assets/cheatsheet.png">useful cheatsheet</a> can be found in the GlazeWM GitHub which gives an overview to help learning.</p>
+<p><strong>Tinker with the configuration, including changing the keyboard shortcuts.</strong> The config file can be found at <code>~/.glzr/glazewm/config.yaml</code>, and a lot of config parameters can be customized to our liking, including all the hotkeys. Depending on your workflow, some default shortcuts might be clashing with other functionalities. The main ones for me were <code>Alt</code>+<code>D</code>, which I use to focus on the browser address bar, and the <code>Alt</code>+<code>arrow keys</code> which normally navigate in the history of the browser or Explorer windows.
+Some visual aspects, for example gaps between windows (which we can set to <code>0</code> if we want to fully utilize all the screen real estate), or the highlight border color can be adjusted, which I&rsquo;ve set to a more vibrant color to make it easier to identifier the active window.
+To be able to open the configuration easily from anywhere, I added this alias to my PowerShell profile:</p>
+<pre><code>function OpenGlazeConfig {
+  nvim C:\Users\markv\.glzr\glazewm\config.yaml
+}
+
+New-Alias glazec OpenGlazeConfig
+</code></pre><p>With this in place, I can open the config by simply typing <code>glazec</code>.</p>
+<p><strong>Some apps don&rsquo;t play nicely with GlazeWM.</strong> If you encounter issues with a specific application, you can add a window rule to the configuration to make GlazeWM ignore it, as <a href="https://github.com/glzr-io/glazewm?tab=readme-ov-file#config-window-rules">shown in the documentation</a>. To find the title, process and class attributes of certain window, various tools like <a href="https://github.com/strobejb/winspy">WinSpy</a> can be used.<br>
+For example the Command Palette shown before should be ignored, as we would like it to open as a floating modal instead of being tiled.<br>
+And another big one for me was Paint.NET, which for some reason had a dialog window which kept resizing itself in an infinite loop and eventually crashing, so I had to configure it to be ignored to make it operational.</p>
+<pre><code>window_rules:
+  - commands: ['ignore']
+    match:
+      ...
+      - window_title: { equals: 'Command Palette' }
+        window_class: { equals: 'WinUIDesktopWin32WindowClass' }
+      - window_process: { includes: 'paintdotnet' }
+</code></pre><h2 id="community">Community</h2>
+<p>GlazeWM also has an active and welcoming developer community on its <a href="https://discord.gg/ud6z3qjRvM">Discord</a>. All the folks I interacted with have been super nice, I got quick answers to all my questions, and useful feedback about some changes I suggested. I highly recommend anyone planning to use GlazeWM as their daily driver environment to join the Discord server.</p>
+<h1 id="summary">Summary</h1>
+<p>I hope this overview was interesting and useful for anyone who&rsquo;d like to use a tiling window manager on Windows. I cannot reliably quantify how my productivity is affected by using GlazeWM (and whatever time I&rsquo;m saving I might spend on tinkering with the various configuration options or hacking on the custom Zebar UI 🙂), but it certainly made me excited again about using Windows as an OS for development, and interacting with it a more joyful experience, and I strongly believe that it is already worth it.</p>
+
+    </article>
+
+    
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https:\/\/blog.markvincze.com\/tiling-wm-for-windows\/';
+        
+        this.page.identifier = 'switching-to-the-glazewm-tiling-window-manager-on-windows';
+        
+      };
+      (function () { 
+        var d = document, s = d.createElement('script');
+        s.src = 'https://markvinczeblog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+  
+
+</section>
+
+
+
+  <div style="flex: 1"></div>
+
+  <footer class="footer py-6">
+    <div class="content has-text-centered">
+      <p>
+        © 2025 <strong>Mark Vincze</strong>. All rights reserved.<br />
+        Built with <a href="https://gohugo.io/">Hugo</a> and <a href="https://bulma.io/">Bulma</a>. 💙
+      </p>
+    </div>
+  </footer>
+
+</body>
+
+</html>

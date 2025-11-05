@@ -20,6 +20,9 @@
   <script defer src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
 
+  <link rel="stylesheet" href="/scripts/dimbox/dimbox.min.css" />
+  <script src="/scripts/dimbox/dimbox.min.js"></script>
+
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
@@ -185,7 +188,13 @@ dotnet run
 I also uploaded a working example to <a href="https://github.com/markvincze/jumpstart-netcore-suave">this Github repository</a>.</p>
 <h1 id="different-ways-to-run-suave">Different ways to run Suave</h1>
 <p>In the above example we are running Suave directly on top of .NET Core using the web server built-in the library. However, since .NET Core is modular, that&rsquo;s not the only option. We can also run Suave on top of the web server created for ASP.NET Core called Kestrel, or we can even run it on top of ASP.NET Core using a special middleware.</p>
-<p><img src="/images/2017/03/suave-options.png" alt="Different options to run Suave on .NET Core"  style="display:block; margin: auto;" /></p>
+<p>
+<a href="/images/2017/03/suave-options.png" data-dimbox="">
+  <img src="/images/2017/03/suave-options.png" alt="Different options to run Suave on .NET Core" 
+  style="display:block; margin: auto;" />
+</a>
+
+</p>
 <p>We can do this with the following packages.</p>
 <ul>
 <li><a href="https://github.com/Krzysztof-Cieslak/Suave.Kestrel">Suave.Kestrel</a>: Run Suave on top of the Kestrel web server. (This is a early proof of concept implementation, and doesn&rsquo;t seem to be actively worked on any more.)</li>

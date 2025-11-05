@@ -20,6 +20,9 @@
   <script defer src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
 
+  <link rel="stylesheet" href="/scripts/dimbox/dimbox.min.css" />
+  <script src="/scripts/dimbox/dimbox.min.js"></script>
+
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
@@ -158,7 +161,13 @@ At the time, the best approach I could find was hosting it on an Amazon EC2 inst
 <p>After this, you have to initiate port-forwarding by executing the following command:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">rhc port-forward -a your-app-name
 </code></pre></div><p>In the output of the command you&rsquo;ll find the port on localhost to which you have to connect to reach your Postgre DB.</p>
-<p><img src="/images/2016/04/rhc-port-forward.png" alt="Use the rhc command to open a port to your Postgre DB."  style="display:block; margin: auto;" /></p>
+<p>
+<a href="/images/2016/04/rhc-port-forward.png" data-dimbox="">
+  <img src="/images/2016/04/rhc-port-forward.png" alt="Use the rhc command to open a port to your Postgre DB." 
+  style="display:block; margin: auto;" />
+</a>
+
+</p>
 <p>So I needed to connect to <code>localhost:62696</code>.<br>
 For actually connecting to the DB, I was using the official <a href="http://www.pgadmin.org/">pgAdmin</a> client, but probably you can do the same thing with the command-line Postgre client too.</p>
 <h2 id="clearing-the-db">Clearing the DB</h2>

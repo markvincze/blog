@@ -20,6 +20,9 @@
   <script defer src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
 
+  <link rel="stylesheet" href="/scripts/dimbox/dimbox.min.css" />
+  <script src="/scripts/dimbox/dimbox.min.js"></script>
+
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
@@ -142,7 +145,13 @@ This is mainly used to be able to test a service with real production traffic wi
 <p>And some of the general-purpose reverse proxies have this capability as well. In this post we&rsquo;ll go over how this can be implemented with <a href="https://www.envoyproxy.io/">Envoy</a>. First we&rsquo;ll see an introduction to what a basic proxy or load balancing setup with Envoy looks like, and then we&rsquo;ll focus on the request mirroring capabilities which allows us to implement shadowing.</p>
 <h1 id="a-simple-envoy-setup">A simple Envoy setup</h1>
 <p>The following diagram illustrates a very simple setup where we use an Envoy instance as a &ldquo;frontend&rdquo; or reverse proxy to route traffic to a single backend service. (Envoy can be used in much more complicated routing setups, but this is enough for illustrating request mirroring.)</p>
-<p><img src="/images/2019/04/envoy-simple-setup.png" alt="A basic Envoy setup."  style="display:block; margin: auto;" /></p>
+<p>
+<a href="/images/2019/04/envoy-simple-setup.png" data-dimbox="">
+  <img src="/images/2019/04/envoy-simple-setup.png" alt="A basic Envoy setup." 
+  style="display:block; margin: auto;" />
+</a>
+
+</p>
 <p>An Envoy instance can be controlled by providing a static YAML configuration on startup. (Which is just one of the ways of configuring Envoy, it also supports having a dynamic configuration provider, but we won&rsquo;t discuss that in this post.)<br>
 The above simple setup can be achieved with the following YAML config.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">admin</span>:
@@ -202,7 +211,13 @@ For example this value specifies 0.03% (0.0003): <code>runtime_fraction: { defau
 <p>And the way Envoy will behave is that it&rsquo;ll send back the response to the original client which comes from the main cluster, and the mirrored requests happens in a fire &amp; forget fashion, so the response is discarded. This is exactly what we want if we&rsquo;d like to test a different version of our service without affecting any end users.</p>
 <h1 id="the-full-setup">The full setup</h1>
 <p>Let&rsquo;s say we want to configure the following setup, in which 25% of the traffic is shadow mirrored to a different upstream, accessible at <code>myservice-test.mycompany.com</code>.</p>
-<p><img src="/images/2019/04/envoy-mirror-setup.png" alt="An Envoy setup with mirroring 25% of the traffic."  style="display:block; margin: auto;" /></p>
+<p>
+<a href="/images/2019/04/envoy-mirror-setup.png" data-dimbox="">
+  <img src="/images/2019/04/envoy-mirror-setup.png" alt="An Envoy setup with mirroring 25% of the traffic." 
+  style="display:block; margin: auto;" />
+</a>
+
+</p>
 <p>We can set this up with the following YAML configuration.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">admin</span>:
   <span style="color:#f92672">access_log_path</span>: <span style="color:#ae81ff">/tmp/admin_access.log</span>

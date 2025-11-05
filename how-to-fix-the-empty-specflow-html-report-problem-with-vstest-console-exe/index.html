@@ -20,6 +20,9 @@
   <script defer src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
 
+  <link rel="stylesheet" href="/scripts/dimbox/dimbox.min.css" />
+  <script src="/scripts/dimbox/dimbox.min.js"></script>
+
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
@@ -141,7 +144,13 @@ Other tools, including the SpecFlow HTML report generation build upon that TRX f
 <p>The newer, current way to execute the unit tests in a project is <code>vstest.console.exe</code>. This new tool has a pluggable logging system, it supports specifying different &ldquo;loggers&rdquo;, which can produce different outputs.<br>
 One of the built-in loggers is called <code>trx</code>, which is supposed to produce the output in the same format as mstest.exe did.</p>
 <p>The problem with this TRX logger is that it produces a slightly different output than mstest.exe, which beaks the SpecFlow report generation. If you try to generate an HTML report from the new TRX file, the report will be empty, all the test names and descriptions will be missing.</p>
-<p><img src="/images/2016/04/empty-specflow-report.png" alt="Empty SpecFlow HTML report."  style="display:block; margin: auto;" /></p>
+<p>
+<a href="/images/2016/04/empty-specflow-report.png" data-dimbox="">
+  <img src="/images/2016/04/empty-specflow-report.png" alt="Empty SpecFlow HTML report." 
+  style="display:block; margin: auto;" />
+</a>
+
+</p>
 <h2 id="the-problem">The problem</h2>
 <p>The issue was discussed in the a <a href="https://github.com/techtalk/SpecFlow/issues/278">GitHub issue</a> in the SpecFlow repository. Paul Rohorzka identified the differences between the two TRX outputs causing the problems with the report:</p>
 <blockquote>
