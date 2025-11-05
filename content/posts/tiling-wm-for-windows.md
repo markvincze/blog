@@ -50,6 +50,8 @@ One such type of software, arguably the one which is most widely used, especiall
 
 Popular Linux desktop environments include [GNOME](https://en.wikipedia.org/wiki/GNOME), [KDE](https://en.wikipedia.org/wiki/KDE_Plasma) and [Xfce](https://en.wikipedia.org/wiki/Xfce), each being the defalt for some distributions, like GNOME for Ubuntu, KDE for openSUSE, and Xfce for Manjaro.
 
+And on Windows the desktop environment is called the [Windows shell](https://en.wikipedia.org/wiki/Windows_shell), although I haven't heard this name being explicitly used much before, since on Windows the GUI is typically considered an intrinsic part of the OS and not a standalone component.
+
 # Window Manager
 
 Desktop environments provide a fully fledged GUI suitable to be used by everyday non-technical users. A [Window manager](https://en.wikipedia.org/wiki/Window_manager) is a software controlling the placement of windows on the screen. A desktop environment typically includes a default window manager, for example GNOME uses [Mutter](https://mutter.gnome.org), and KDE uses [KWin](https://en.wikipedia.org/wiki/KWin) by default.
@@ -68,14 +70,45 @@ Compositing window managers (or compositors) typically implement fancy effects s
 The type of window manager most often used by power users and developers is the [tiling window manager](https://en.wikipedia.org/wiki/Tiling_window_manager). Instead of opening windows stacked on top of each other, and allowing for the windows to be freely movable and resizable with a mouse, a tiling window manager automatically positions and sizes windows so that they are evenly distributed on the available screen real estate. When your screen is empty, and you open a new window, that opens full screen. If you open a second window, then typically the screen will be split in half for the two windows, and so on—hence the name tiling.  
 Usually windows can be moved or resized with keyboard shortcuts, and their distribution can be switched between horizontal or vertical.
 
-![Screenshot showing a typical tiling window setup with i3.](/images/2025/10/tiling-wm-i3.png "i3 is a typical tiling window manager for the X window system.")
+![Screenshot showing a typical tiling window setup with i3.](/images/2025/10/tiling-wm-i3-4.png "i3 is a typical tiling window manager for the X window system.")
 
-This setup can be very efficient for folks used to mainly using the keyboard and memorizing shortcuts, especially for development when working with terminals, where we often want to open multiple shells and/or code editors open at the same time, which fits the tiling layout really well.
-
-There are several such window managers, some still actively maintained ones for X are [i3](https://i3wm.org), [awesomewm](https://awesomewm.org) and [dwm](https://dwm.suckless.org). As the basics of the tiling system can be implemented with relatively little amount of code, several other projects exist created in all sorts of programming languages. My favorite example is [xmonad](https://xmonad.org), which is a tiling window manager implemented in Haskell, as indicated by one of the photos on its website 🙂.
-
+This setup can be very efficient for folks used to mainly using the keyboard and memorizing shortcuts, especially for development when working with terminals, where we often want to open multiple shells and/or code editors open at the same time, which fits the tiling layout really well. There are several such window managers, some still actively maintained ones for X are [i3](https://i3wm.org), [awesomewm](https://awesomewm.org) and [dwm](https://dwm.suckless.org). As the basics of the tiling system can be implemented with relatively little amount of code, several other projects exist created in all sorts of programming languages. My favorite example is [xmonad](https://xmonad.org), which is a tiling window manager implemented in Haskell, as indicated by one of the photos on its website 🙂.
 ![Photo showing the xmonad window manager running on 3 monitors.](/images/2025/10/xmonad.jpg "As top tier nerdy things go, implementing a window manager in Haskell is certainly up there. ")
 
 As Wayland is a modern alternative to X, new and more modern window managers appeared targeting it. One example is [Sway](https://swaywm.org), which is a drop-in replacement for i3. And the one which seems to have the most buzz is [Hyprland](https://hypr.land). While some other window managers like [ratpoison](https://www.nongnu.org/ratpoison/) intentionally don't want to support any fancy effects such as animations, custom border designs, etc. Hyprland has extensive support for eye candy to be able to create a really aestheticly pleasing yet functional UI.
+
+{{<video
+  src="/images/2025/10/hyprland.mp4"
+  caption="Video from the Hyprland website illustrating some of the capabilities in a setup created by <a href=\"https://github.com/end-4/\" target=\"blank\">@end-4</a>."
+  autoplay="true"
+>}}
+
+I have always liked tinkering with things like shell prompt themes, coding fonts and color themes, so I find the customization capabilities of Hyprland really impressive, and it's something that makes me consider switching to Linux once I don't need Windows for my day to day work.
+
+# Ricing
+
+There is a whole subculture of customizing the UI of desktop environments or window managers, including terminals, shell prompts, IDE color schemes, etc., as illustrated by such subreddits like [desktops](https://www.reddit.com/r/desktops/), [unixporn](https://www.reddit.com/r/unixporn/top/?t=year) and [terminal_porn](https://www.reddit.com/r/terminal_porn/).
+This can involve several things: selecting a window maanger, a shell and a terminal emulator, various panels, bars and widgets. And it can also get really elaborate and involve sophisticated custom development, as illustrated by [this video](https://www.youtube.com/watch?v=DxEKF0cuEzc) by [zacoons](https://zacoons.com), who won the last "rice contest" organized by Hyprland.
+
+![Screenshot showing the custom fantasy-themed UI design created by zacoons.](/images/2025/10/hyprland-fantasy.png "The fantasy-themed design created by zacoons included custom-built UI components.")
+
+If you want to spruce up your desktop, a useful resource is the [awesome-ricing](https://github.com/fosslife/awesome-ricing) repository, which has an exhaustive list of various resources, including window managers, terminall emulators, shells, and all sorts of widgets and UI components.
+
+
+# Tiling on Windows with GlazeWM
+
+Back when I temporarily switched from Windows to Linux more than 5 years ago, and really enjoyed using i3, I investigated a bit whether there is a mature tiling window manager available for Windows which would provide a similar experience, and at the time I could not find any.  
+But luckily things have changed since then, and now there are definitely viable options out there, see a list [here](https://en.wikipedia.org/wiki/Tiling_window_manager#3rd-party_replacements).
+The two most popular options seem to be [GlazeWM](https://github.com/glzr-io/glazewm) and [Komorebi](https://github.com/LGUG2Z/komorebi), both implemented in Rust (Rust is definitely having a moment, huh?).
+I started using GlazeWM both on my desktop PC and my laptop a couple of months ago, and didn't look back. Once a handful of the basic keywords are learnt, and some of the config is customized to our liking, it can make interacting with a UI really joyful and efficient.
+By default GlazeWM opens every window tiled, evenly distributed over the screen real estate, either vertically or horizontally. The windows can be moved around, temporarily minimized or switched to fullscreen mode. Multiple workspaces can be created and switched between, and moved across monitors.
+
+![Screenshot showing the window layout provided by GlazeWM.](/images/2025/10/glazewm-example.png "Three windows aligned in a tiled layout with GlazeWM.")
+
+## Top bar
+
+When using a tiling window manager, it is common practice to display a "bar" at the bottom or the top of the screen, showing the workspaces, the time and date, and various other status information of the system. On Windows we could also use the built-in taskbar for this, but there are some other, more customizable alternatives as well. By default, GlazeWM uses [Zebar](https://github.com/glzr-io/zebar/), which is an open source status bar implemented in—you wouldn't guess it—Rust 🙂. It's highly customizable, its UI can be completely replaced with HTML and JavaScript. The screenshot above shows a custom UI I implemented with React.
+
+
 
 
