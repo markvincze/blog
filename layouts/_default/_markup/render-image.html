@@ -1,10 +1,14 @@
 {{ if .Title }}
 <figure>
-  <img src="{{ .Destination | safeURL }}" alt="{{ .Text }}" {{ with .Title }} title="{{ . }}" {{ end }}
-    style="display:block; margin: auto;" />
-  <figcaption>{{ .Title }}</figcaption>
+  <a href="{{ .Destination | safeURL }}" data-dimbox="">
+    <img src="{{ .Destination | safeURL }}" alt="{{ .Text }}" {{ with .Title }} title="{{ . }}" {{ end }}
+      style="display:block; margin: auto;" />
+  </a>
+  <figcaption>{{ safeHTML .Title }}</figcaption>
 </figure>
 {{ else }}
-<img src="{{ .Destination | safeURL }}" alt="{{ .Text }}" {{ with .Title }} title="{{ . }}" {{ end }}
+<a href="{{ .Destination | safeURL }}" data-dimbox="">
+  <img src="{{ .Destination | safeURL }}" alt="{{ .Text }}" {{ with .Title }} title="{{ . }}" {{ end }}
   style="display:block; margin: auto;" />
+</a>
 {{ end }}
