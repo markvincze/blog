@@ -1,7 +1,7 @@
 +++
 title = "Switching to the GlazeWM tiling window manager on Windows"
 slug = "switching-to-the-glazewm-tiling-window-manager-on-windows"
-description = "An interoduction to tiling window managers, including GlazeWM on Windows."
+description = "An introduction to tiling window managers, including GlazeWM on Windows."
 date = "2025-11-05T10:00:00.0000000"
 tags = ["windows", "ricing", "windowmanager", "glazem"]
 featured_image = "/images/2025/10/featured-tilingwm.png"
@@ -91,6 +91,7 @@ I have always liked tinkering with things like shell prompt themes, coding fonts
 # Ricing
 
 There is a whole subculture of customizing the UI of desktop environments or window managers, including terminals, shell prompts, IDE color schemes, etc., as illustrated by such subreddits like [desktops](https://www.reddit.com/r/desktops/), [unixporn](https://www.reddit.com/r/unixporn/top/?t=year) and [terminal_porn](https://www.reddit.com/r/terminal_porn/).  
+(For whatever reason, this is called "ricing". I'm not sure about the exact etymology of this term, but apparently this phrase has already been used by race car enthusiast, referring to the process of customizing a car in a flashy way to make it look more sporty.)  
 This can involve several things: selecting a window manager, a shell and a terminal emulator, various panels, bars and widgets. And it can also get really elaborate and involve sophisticated custom development, as illustrated by [this video](https://www.youtube.com/watch?v=DxEKF0cuEzc) by [zacoons](https://zacoons.com), who won the last "rice contest" organized by Hyprland.
 
 ![Screenshot showing the custom fantasy-themed UI design created by zacoons.](/images/2025/10/hyprland-fantasy.png "The fantasy-themed design created by zacoons included custom-built UI components.")
