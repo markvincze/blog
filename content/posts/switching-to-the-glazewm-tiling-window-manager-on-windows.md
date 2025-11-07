@@ -172,6 +172,26 @@ window_rules:
       - window_process: { includes: 'paintdotnet' }
 ```
 
+**Be conscious regarding how to split windows.** Once we start using a tiling window manager, we'll get one more way to quickly split the available screen space in two. This can further complicate our workflow if we are already used to splitting either terminal or editor windows.  
+Here is a screenshot illustrating this.
+
+![Screenshot showing splitting the screen vertically with two separate terminal windows, then splitting one of the terminals ,and inside that run vim which further splits in two.](/images/2025/10/glazewm-splits.png "Splitting the available screen space in three different ways.")
+
+In this screenshot we split the screen in three different ways:
+
+ - First we have two separate terminal windows open, splitting the whole screen vertically.
+ - The right terminal is split in two horizontally, using the split functionality of Windows Terminal.
+ - The bottom split has vim open, which has two separate tabs, splitting the editor vertically.
+
+This setup can get quite confusing, it is easy to get lost and fail to keep track of where we are, and configuring and memorizing the hotkeys gets increasingly difficult, as managing and moving between these split components need different hotkeys for all three of these approaches.
+
+I made the rule for myself that I don't use the built-in split functionality of the Windows Terminal, but rather only use two approaches out of the three.
+
+ - Open new terminal windows with `Alt`+`Enter` either vertically or horizontally, and let GlazeWM tile them. These windows can be switched between and moved with `Shift`+`Alt`+`i`/`j`/`k`/`l` and `Alt`+`i`/`j`/`k`/`l`, respectively.
+ - Split vim into multiple tabs, and move between them with `Ctrl`+`i`/`j`/`k`/`l`.
+
+I found this approach providing a good balance of being flexible enough, and not requiring too many hotkeys kept in muscle memory.
+
 ## Community
 
 GlazeWM also has an active and welcoming developer community on its [Discord](https://discord.gg/ud6z3qjRvM). All the folks I interacted with have been super nice, I got quick answers to all my questions, and useful feedback about some changes I suggested. I highly recommend anyone planning to use GlazeWM as their daily driver environment to join the Discord server.
