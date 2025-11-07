@@ -339,7 +339,32 @@ And another big one for me was Paint.NET, which for some reason had a dialog win
       - window_title: { equals: 'Command Palette' }
         window_class: { equals: 'WinUIDesktopWin32WindowClass' }
       - window_process: { includes: 'paintdotnet' }
-</code></pre><h2 id="community">Community</h2>
+</code></pre><p><strong>Be conscious regarding how to split windows.</strong> Once we start using a tiling window manager, we&rsquo;ll get one more way to quickly split the available screen space in two. This can further complicate our workflow if we are already used to splitting either terminal or editor windows.<br>
+Here is a screenshot illustrating this.</p>
+<p>
+<figure>
+  <a href="/images/2025/10/glazewm-splits.png" data-dimbox="">
+    <img src="/images/2025/10/glazewm-splits.png" alt="Screenshot showing splitting the screen vertically with two separate terminal windows, then splitting one of the terminals ,and inside that run vim which further splits in two."  title="Splitting the available screen space in three different ways." 
+      style="display:block; margin: auto;" />
+  </a>
+  <figcaption>Splitting the available screen space in three different ways.</figcaption>
+</figure>
+
+</p>
+<p>In this screenshot we split the screen in three different ways:</p>
+<ul>
+<li>First we have two separate terminal windows open, splitting the whole screen vertically.</li>
+<li>The right terminal is split in two horizontally, using the split functionality of Windows Terminal.</li>
+<li>The bottom split has vim open, which has two separate tabs, splitting the editor vertically.</li>
+</ul>
+<p>This setup can get quite confusing, it is easy to get lost and fail to keep track of where we are, and configuring and memorizing the hotkeys gets increasingly difficult, as managing and moving between these split components need different hotkeys for all three of these approaches.</p>
+<p>I made the rule for myself that I don&rsquo;t use the built-in split functionality of the Windows Terminal, but rather only use two approaches out of the three.</p>
+<ul>
+<li>Open new terminal windows with <code>Alt</code>+<code>Enter</code> either vertically or horizontally, and let GlazeWM tile them. These windows can be switched between and moved with <code>Shift</code>+<code>Alt</code>+<code>i</code>/<code>j</code>/<code>k</code>/<code>l</code> and <code>Alt</code>+<code>i</code>/<code>j</code>/<code>k</code>/<code>l</code>, respectively.</li>
+<li>Split vim into multiple tabs, and move between them with <code>Ctrl</code>+<code>i</code>/<code>j</code>/<code>k</code>/<code>l</code>.</li>
+</ul>
+<p>I found this approach providing a good balance of being flexible enough, and not requiring too many hotkeys kept in muscle memory.</p>
+<h2 id="community">Community</h2>
 <p>GlazeWM also has an active and welcoming developer community on its <a href="https://discord.gg/ud6z3qjRvM">Discord</a>. All the folks I interacted with have been super nice, I got quick answers to all my questions, and useful feedback about some changes I suggested. I highly recommend anyone planning to use GlazeWM as their daily driver environment to join the Discord server.</p>
 <h1 id="summary">Summary</h1>
 <p>I hope this overview was interesting and useful for anyone who&rsquo;d like to use a tiling window manager on Windows. I cannot reliably quantify how my productivity is affected by using GlazeWM (and whatever time I&rsquo;m saving I might spend on tinkering with the various configuration options or hacking on the custom Zebar UI 🙂), but it certainly made me excited again about using Windows as an OS for development, and interacting with it a more joyful experience, and I strongly believe that it is already worth it.</p>
