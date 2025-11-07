@@ -94,7 +94,7 @@ Due to this, I decided to go with the Grid layout, which worked out nicely, it w
 
 ## A note on sizing
 
-If the decision between Flexbox and Grids can be confusing at times, then figuring out which size unit to use in CSS is even more challenging. CSS supports several different units for length, including absolute types like `pt`, `px`, `cm`, and relative units like `em`, `rem`, `vh`. (It turns out there are [several more](https://developer.mozilla.org/en-US/docs/Web/CSS/length#relative_length_units), that I have not used in before.)
+If the decision between Flexbox and Grids can be confusing at times, then figuring out which size unit to use in CSS is even more challenging. CSS supports several different units for length, including absolute types like `pt`, `px`, `cm`, and relative units like `em`, `rem`, `vh`. (It turns out there are [several more](https://developer.mozilla.org/en-US/docs/Web/CSS/length#relative_length_units), that I haven't even heard of before.)
 
 For this purpose I opted to use the `rem` unit for all the sizes. Dimensions specified with the `rem` unit are interpreted relative to the _root_ size of the page, which is the size of the `html` element, which—in most browsers—is `16px` by default, and can be overwritten by users in their browser settings (which means it's a good idea _not_ to manually specify the `font-size` of the `html` element, because that way we'd be ignoring this potential user configuration).  
 Using `rem` for everything seemed like the sensible choice, for multiple reasons.
